@@ -25,6 +25,8 @@
 .bento-siteheader{
   position: sticky;
   top: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
   z-index: 200;                    /* above doxygen's #top (which is 100-ish) */
   height: var(--bento-hdr-h);
   display: flex;
@@ -84,7 +86,16 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
   white-space: nowrap;
 }
 
-.bento-sh-nav{ display: flex; align-items: center; gap: 16px; margin-left: auto; }
+/* min-width:0 is the whole fix for the bar overflowing the viewport. A flex
+   item will not shrink below the width of its content, and every link here is
+   white-space:nowrap, so without it the nav refused to give ground and pushed
+   the controls past the right edge - measured at 60px of horizontal scroll on
+   a 1440 viewport. With it the nav yields first, which is correct: the links
+   are chrome and the controls are not. */
+.bento-sh-nav{
+  display: flex; align-items: center; gap: 16px; margin-left: auto;
+  min-width: 0; overflow: hidden;
+}
 .bento-sh-nav a{
   text-decoration: none;
   color: var(--page-secondary-foreground-color, #5f666d);
@@ -105,7 +116,7 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 /* The language pill and the variant selector are MOVED here from doxygen's
    search row, not rebuilt — those two controls already know how to find a
    page's counterpart, and reimplementing that is how it breaks. */
-.bento-sh-controls{ display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.bento-sh-controls{ display: flex; align-items: center; gap: 10px; flex: 0 0 auto; min-width: 0; }
 .bento-sh-controls .bento-lang-toggle,
 .bento-sh-controls bento-variant-switch{ margin: 0; position: static; }
 
@@ -119,7 +130,10 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
   .bento-sh-nav a[data-optional]{ display: none; }
   .bento-sh-nav{ gap: 12px; }
 }
-@media (max-width: 480px){
+/* 1100px, not 480px: the brand, six section links and two controls stop
+   fitting long before a phone. Measured - at 1024 the switch was still being
+   pushed off the right edge. */
+@media (max-width: 1100px){
   .bento-sh-nav{ display: none; }
   .bento-sh-controls{ margin-left: auto; }
 }
@@ -185,11 +199,23 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
    same note further up this file records the same surprise for the nav links.
    State it rather than keep guessing.
    ------------------------------------------------------------------------- */
+/* Colour comes from --page-foreground-color, which doxygen-awesome already
+   defines correctly for both themes. The ONLY thing that was ever wrong here
+   is that doxygen's a:link rule beat it, so the fix is !important and nothing
+   else.
+
+   An earlier attempt hardcoded #e8ecf2 with an `html:not(.dark-mode)` override
+   to #1d2430 for the light theme. That guard is wrong: this site follows the
+   system through prefers-color-scheme and sets no .dark-mode class, so
+   :not(.dark-mode) matched on the DARK theme too and painted both controls
+   near-black on near-black. Measured in a real render, not inferred. */
 .bento-sh-controls a.bento-variant-seg,
 .bento-sh-controls a.bento-variant-seg:link,
 .bento-sh-controls a.bento-variant-seg:visited{
-  color: #e8ecf2 !important; opacity: .72;
+  color: var(--page-foreground-color) !important; opacity: .72;
 }
+/* The selected half always sits on --primary-color, in either theme, so its
+   label is white in either theme. */
 .bento-sh-controls a.bento-variant-seg.bento-variant-seg-current,
 .bento-sh-controls a.bento-variant-seg.bento-variant-seg-current:link,
 .bento-sh-controls a.bento-variant-seg.bento-variant-seg-current:visited{
@@ -206,7 +232,7 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
   border-radius: var(--searchbar-border-radius, 999px);
   font-family: var(--font-family); font-size: 12px; font-weight: 600;
   letter-spacing: .04em; line-height: 1; text-decoration: none;
-  color: #e8ecf2 !important;
+  color: var(--page-foreground-color) !important;
 }
 .bento-sh-controls a.bento-lang-toggle > span{
   display: inline-flex; align-items: center;
@@ -215,12 +241,4 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 }
 .bento-sh-controls a.bento-lang-toggle > span.bento-lang-active{
   background: var(--primary-color); color: #fff; opacity: 1;
-}
-
-/* Light theme: the inactive halves must be dark, not near-white. */
-html:not(.dark-mode) .bento-sh-controls a.bento-variant-seg,
-html:not(.dark-mode) .bento-sh-controls a.bento-variant-seg:link,
-html:not(.dark-mode) .bento-sh-controls a.bento-lang-toggle,
-html:not(.dark-mode) .bento-sh-controls a.bento-lang-toggle:link{
-  color: #1d2430 !important;
 }

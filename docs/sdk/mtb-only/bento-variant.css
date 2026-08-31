@@ -120,7 +120,7 @@ a.bento-variant-seg {
        close enough to --primary-color that the label vanished into its own
        background - the switch looked like a blue blob with the label of the
        OTHER half beside it. */
-    color: #e8ecf2;
+    color: var(--page-foreground-color);
     opacity: .72;
     transition: background-color var(--animation-duration) ease-in-out,
                 color var(--animation-duration) ease-in-out,
@@ -140,13 +140,12 @@ a.bento-variant-seg.bento-variant-seg-current {
     opacity: 1;
 }
 
-/* The light theme needs the inactive half dark, not near-white. */
-html:not(.dark-mode) a.bento-variant-seg { color: #1d2430; opacity: .78; }
-@media (prefers-color-scheme: light) {
-    html:not(.dark-mode):not(.light-mode) a.bento-variant-seg {
-        color: #1d2430; opacity: .78;
-    }
-}
+/* No theme guard here. This site follows the system through
+   prefers-color-scheme and sets no .dark-mode class, so an
+   `html:not(.dark-mode)` rule matches on the DARK theme as well and paints the
+   label near-black on near-black. --page-foreground-color is already correct
+   in both themes; the colours are stated in bento-siteheader.css, where the
+   !important that beats doxygen's a:link rule also lives. */
 
 /* The page has no counterpart in the other package yet: the jump lands on
    that package's front page. Dotted underline adds no height. */
