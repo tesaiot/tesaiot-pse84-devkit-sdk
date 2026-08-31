@@ -1,0 +1,60 @@
+NotoSansThai.ttf — upstream provenance
+======================================
+
+Component      Noto Sans Thai
+Upstream       https://github.com/notofonts/thai
+Version        2.002  (name ID 5: "Version 2.002"; name ID 3:
+               "2.002;GOOG;NotoSansThai-Regular")
+Copyright      Copyright 2022 The Noto Project Authors
+               (https://github.com/notofonts/thai)
+Licence        SIL Open Font License, Version 1.1 — full text in OFL.txt
+               beside this file.
+File           NotoSansThai.ttf, 218652 bytes,
+               SHA-256 5a1c559bb539583c8a1fd99d1c5b9491e5e14478c9cd2bd0970d5c3096cc9ef8
+
+The four fields above are read from the font's own `name` table, not from a
+third-party summary: name ID 0 gives the copyright, ID 5 the version, ID 13
+the licence description ("This Font Software is licensed under the SIL Open
+Font License, Version 1.1..."), and ID 14 the licence URL
+(https://scripts.sil.org/OFL). The file is a variable font (it carries `fvar`,
+`gvar`, `avar`, `STAT` and `HVAR` tables); the shipped bitmap fonts are
+rasterised from its default instance.
+
+Licence: OFL 1.1, not Apache-2.0
+--------------------------------
+Earlier revisions of ../README.md described this font as "Apache 2.0 / OFL".
+That was wrong on the Apache half. The Noto project moved to OFL 1.1 and this
+file carries only the OFL notice, quoted above from name ID 13. There is no
+Apache-2.0 grant on it.
+
+Derivative works in this tree
+-----------------------------
+OFL 1.1 §2 requires that the licence and copyright notice accompany any
+redistribution of the Font Software, "either as stand-alone or as part of a
+larger package", and §1 extends the licence to derivative works. The following
+are OFL derivatives of this file and are therefore covered by OFL.txt:
+
+  ../src/fonts/lv_font_noto_thai_14.c
+  ../src/fonts/lv_font_noto_thai_16.c
+  ../src/fonts/lv_font_noto_thai_20.c
+  ../src/fonts/lv_font_noto_thai_24.c
+  ../src/fonts/lv_font_noto_thai_28.c
+
+They are produced by ../tools/regen.sh, which runs ../tools/gen_pua_font.py to
+build a Private-Use-Area-remapped copy of this font and then rasterises it with
+lv_font_conv. The exact command line for each size is recorded in the header
+comment of the generated .c file.
+
+Reserved Font Name
+------------------
+OFL 1.1 §3 forbids using a Reserved Font Name in a Modified Version. The Noto
+project does not declare a Reserved Font Name for this family (the OFL header
+in OFL.txt carries no "with Reserved Font Name" clause), so the PUA-remapped
+intermediate and the rasterised .c fonts may keep the Noto Sans Thai name. Had
+a Reserved Font Name been declared, the intermediate NotoSansThai-pua.ttf would
+have had to be renamed.
+
+Generator tooling (build-time only, not redistributed in the firmware)
+----------------------------------------------------------------------
+  fontTools   MIT
+  uharfbuzz   Apache-2.0

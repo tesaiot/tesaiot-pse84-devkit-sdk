@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['b1_20—_20cm33_5fns_20boot_20walk_20through_0',['B1 — CM33_NS boot walk-through',['../group__b1__cm33__boot.html',1,'']]],
+  ['b2_20—_20cm55_20boot_20to_20first_20frame_1',['B2 — CM55 boot to first frame',['../group__b2__cm55__boot.html',1,'']]],
+  ['b3_20—_20the_20ipc_20backbone_3a_20setup_20deferred_20binding_20snapshots_2',['B3 — The IPC backbone: setup, deferred binding, snapshots',['../group__b3__ipc__backbone.html',1,'']]],
+  ['backbone_3a_20setup_20deferred_20binding_20snapshots_3',['B3 — The IPC backbone: setup, deferred binding, snapshots',['../group__b3__ipc__backbone.html',1,'']]],
+  ['backed_20tls_20identity_4',['C4 — mTLS: the OPTIGA-backed TLS identity',['../group__c4__mtls__optiga.html',1,'']]],
+  ['base64_5',['Protocol, folder-push &amp;amp; base64',['../group__ble__nus__nus__protocol__fp__b64.html',1,'']]],
+  ['bento_20buddy_6',['BLE / Bento Buddy',['../group__feat__ble.html',1,'']]],
+  ['bento_20buddy_20libbento_5fsecure_20a_7',['BLE NUS / Bento Buddy (libbento_secure.a)',['../group__ble__nus__api.html',1,'']]],
+  ['bento_5fstorage_20and_20the_20c_20credential_20store_8',['G1 — bento_storage and the C credential store',['../group__g1__bento__storage.html',1,'']]],
+  ['binding_20snapshots_9',['B3 — The IPC backbone: setup, deferred binding, snapshots',['../group__b3__ipc__backbone.html',1,'']]],
+  ['ble_20bento_20buddy_10',['BLE / Bento Buddy',['../group__feat__ble.html',1,'']]],
+  ['ble_20bring_20up_20and_20the_20single_20rf_20rule_11',['I1 — BLE bring-up and the single-RF rule',['../group__tut__i1__ble__bringup__single__rf.html',1,'']]],
+  ['ble_20nus_20bento_20buddy_20libbento_5fsecure_20a_12',['BLE NUS / Bento Buddy (libbento_secure.a)',['../group__ble__nus__api.html',1,'']]],
+  ['boot_13',['Architecture &amp;amp; Boot',['../group__feat__architecture.html',1,'']]],
+  ['boot_20auto_20connect_14',['C1 — WiFi: the two credential stores and boot auto-connect',['../group__c1__wifi__two__stores.html',1,'']]],
+  ['boot_20to_20first_20frame_15',['B2 — CM55 boot to first frame',['../group__b2__cm55__boot.html',1,'']]],
+  ['boot_20walk_20through_16',['B1 — CM33_NS boot walk-through',['../group__b1__cm33__boot.html',1,'']]],
+  ['bring_20up_17',['Display bring-up',['../group__cm55__core__tesaiot__display.html',1,'']]],
+  ['bring_20up_20and_20the_20single_20rf_20rule_18',['I1 — BLE bring-up and the single-RF rule',['../group__tut__i1__ble__bringup__single__rf.html',1,'']]],
+  ['broker_19',['C3 — TESAIoT cloud: config file → MQTT task → broker',['../group__c3__cloud__mqtt.html',1,'']]],
+  ['buddy_20',['BLE / Bento Buddy',['../group__feat__ble.html',1,'']]],
+  ['buddy_20libbento_5fsecure_20a_21',['BLE NUS / Bento Buddy (libbento_secure.a)',['../group__ble__nus__api.html',1,'']]],
+  ['buddy_20lifecycle_22',['Buddy lifecycle',['../group__ble__nus__buddy__lifecycle.html',1,'']]],
+  ['build_20and_20where_20each_20piece_20lives_23',['A0 — What you can build, and where each piece lives',['../group__a0__orientation.html',1,'']]],
+  ['bus_20and_20its_20lock_24',['J1 — The sensor bus and its lock',['../group__j1__sensor__bus.html',1,'']]]
+];

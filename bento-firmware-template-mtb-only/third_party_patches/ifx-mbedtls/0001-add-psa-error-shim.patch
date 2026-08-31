@@ -1,0 +1,13 @@
+Two-line shim so psa/error.h resolves.
+
+Without this patch: Build stops: internal_trusted_storage.h includes it.
+
+Asset:    ifx-mbedtls release-v3.6.400
+File:     include/psa/error.h
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/ifx-mbedtls/release-v3.6.400/include/psa/error.h	2026-08-28 08:25:51.515631368 +0700
++++ b/ifx-mbedtls/release-v3.6.400/include/psa/error.h	2026-03-25 19:20:06.000000000 +0700
+@@ -0,0 +1,2 @@
++#pragma once
++#include "psa/crypto.h"

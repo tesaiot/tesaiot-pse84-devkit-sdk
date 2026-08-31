@@ -1,0 +1,8 @@
+# Intermediate artifacts from regen.sh — regenerable from data/ + tools/
+build/
+
+# Editor leftovers
+*.swp
+*.bak
+*~
+.DS_Store

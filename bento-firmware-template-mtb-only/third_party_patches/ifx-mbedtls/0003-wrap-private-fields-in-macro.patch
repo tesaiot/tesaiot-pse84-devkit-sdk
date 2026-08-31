@@ -1,0 +1,28 @@
+mbedtls 3.6 made priv_id and grp private; wraps both in MBEDTLS_PRIVATE().
+
+Without this patch: Build stops on priv_id / grp.
+
+Asset:    ifx-mbedtls release-v3.6.400
+File:     library/pk_internal.h
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/ifx-mbedtls/release-v3.6.400/library/pk_internal.h	2026-08-28 08:25:51.822748400 +0700
++++ b/ifx-mbedtls/release-v3.6.400/library/pk_internal.h	2026-03-25 19:20:06.000000000 +0700
+@@ -93,7 +93,7 @@
+         psa_key_type_t opaque_key_type;
+         psa_ecc_family_t curve;
+ 
+-        if (psa_get_key_attributes(pk->priv_id, &opaque_attrs) != PSA_SUCCESS) {
++        if (psa_get_key_attributes(pk->MBEDTLS_PRIVATE(priv_id), &opaque_attrs) != PSA_SUCCESS) {
+             return MBEDTLS_ECP_DP_NONE;
+         }
+         opaque_key_type = psa_get_key_type(&opaque_attrs);
+@@ -106,7 +106,7 @@
+ #if defined(MBEDTLS_PK_USE_PSA_EC_DATA)
+         id = mbedtls_ecc_group_from_psa(pk->ec_family, pk->ec_bits);
+ #else /* MBEDTLS_PK_USE_PSA_EC_DATA */
+-        id = mbedtls_pk_ec_ro(*pk)->grp.id;
++        id = mbedtls_pk_ec_ro(*pk)->MBEDTLS_PRIVATE(grp).id;
+ #endif /* MBEDTLS_PK_USE_PSA_EC_DATA */
+     }
+ 

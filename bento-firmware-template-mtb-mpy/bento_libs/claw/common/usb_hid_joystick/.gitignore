@@ -1,0 +1,9 @@
+# Build artifacts from running the host-side unit tests
+tests/build/
+/tmp/test_hid_f310
+
+# Editor leftovers
+*.swp
+*.bak
+*~
+.DS_Store

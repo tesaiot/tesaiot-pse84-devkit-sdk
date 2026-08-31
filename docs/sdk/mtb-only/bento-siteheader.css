@@ -1,0 +1,364 @@
+/* ===========================================================================
+   bento-siteheader.css — the landing page's top bar, carried into the docs
+   ---------------------------------------------------------------------------
+   The reader clicks "SDK docs" on the landing page and lands in doxygen. Until
+   now that was a one-way door: doxygen's chrome has no way back and no idea the
+   rest of the site exists. This bar keeps the site's own navigation present.
+
+   THEME. Every colour here is a doxygen-awesome custom property with a fallback,
+   never a literal. That is what makes the bar follow the docs rather than fight
+   them: if the theme moves to dark, or a future doxygen-awesome retunes its
+   palette, the bar moves with it and nothing here needs editing. The one brand
+   value is the accent, and even that defers to --primary-color when the theme
+   defines one.
+
+   LAYOUT. doxygen-awesome-sidebar-only makes #top sticky at top:0. Adding a
+   second sticky bar at the same offset would overlap it, so the bar publishes
+   its own height as --bento-hdr-h and #top is pushed down by exactly that.
+   ========================================================================= */
+
+:root{
+  --bento-hdr-h: 52px;
+  --bento-accent: var(--primary-color, #b84406);
+}
+
+.bento-siteheader{
+  position: sticky;
+  top: 0;
+  max-width: 100vw;
+  box-sizing: border-box;
+  z-index: 200;                    /* above doxygen's #top (which is 100-ish) */
+  height: var(--bento-hdr-h);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  background: var(--page-background-color, #f7f7f4);
+  border-bottom: 1px solid var(--separator-color, #d8d9d5);
+  font-family: var(--content-font-family, system-ui, sans-serif);
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* doxygen's own sticky header starts below ours instead of under it */
+#top{ top: var(--bento-hdr-h) !important; }
+
+/* The sidebar is position:fixed at top:0 in doxygen-awesome-sidebar-only, so
+   pushing #top down did nothing for it: the bar simply covered the first rows
+   of the tree, and the search box and the language pill that lives beside it
+   went under the bar entirely. Offset it by the same amount and take that
+   height back out of its own, or the last rows fall off the bottom instead. */
+/* doxygen-awesome-sidebar-only derives EVERY piece of its geometry from one
+   variable, --top-height (120px): where #top sits, where #side-nav starts, how
+   tall #nav-tree is, and the content padding. Overriding those selectors one
+   at a time is how five entries disappeared from the middle of the navigation
+   tree - #nav-tree kept a height computed from the ORIGINAL --top-height while
+   its parent had been shortened, so the tree overflowed a container that was
+   no longer the size it thought.
+
+   Add the bar to the variable instead, and both rules recompute together.
+   SCOPED to the two elements, not :root — at :root it would also grow #top
+   (which is height:var(--top-height)) and the content padding, painting the
+   header background 56px further down the page than it belongs. */
+#side-nav, #nav-tree{ --top-height: calc(120px + var(--bento-hdr-h)); }
+
+#nav-sync{ display: none !important; }
+/* and its anchor offsets have to clear both bars, or a #link lands under them */
+html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
+
+.bento-sh-brand{
+  display: flex; align-items: center; gap: 9px;
+  text-decoration: none; flex: 0 0 auto;
+  color: var(--page-foreground-color, #171a21);
+}
+.bento-sh-brand:hover{ text-decoration: none; }
+.bento-sh-mark{
+  width: 13px; height: 13px; border-radius: 3px; flex: 0 0 auto;
+  background: var(--bento-accent);
+}
+.bento-sh-name{ font-weight: 600; letter-spacing: .02em; }
+.bento-sh-name b{ font-weight: 600; color: var(--bento-accent); }
+.bento-sh-sub{
+  padding-left: 10px; margin-left: 2px;
+  border-left: 1px solid var(--separator-color, #d8d9d5);
+  color: var(--page-secondary-foreground-color, #5f666d);
+  white-space: nowrap;
+}
+
+/* min-width:0 is the whole fix for the bar overflowing the viewport. A flex
+   item will not shrink below the width of its content, and every link here is
+   white-space:nowrap, so without it the nav refused to give ground and pushed
+   the controls past the right edge - measured at 60px of horizontal scroll on
+   a 1440 viewport. With it the nav yields first, which is correct: the links
+   are chrome and the controls are not. */
+/* No auto margin. `margin-left: auto` on the nav absorbs the bar's free space,
+   and it resolves that space against the sizes the row had at the time — which
+   left the controls slot at 198px around 276px of content and put the variant
+   switch 60px past the right edge of the page, at every viewport width, no
+   matter what width the slot itself asked for. Measured, repeatedly.
+
+   The slack is given to the subtitle to grow into instead. Nothing then
+   depends on an auto margin resolving in the right order, the nav and the
+   subtitle can both give ground, and the controls keep their content size. */
+.bento-sh-nav{
+  display: flex; align-items: center; gap: 16px;
+  flex: 0 1 auto; min-width: 0; overflow: hidden;
+}
+.bento-sh-sub{ flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.bento-sh-nav a{
+  text-decoration: none;
+  color: var(--page-secondary-foreground-color, #5f666d);
+  white-space: nowrap;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+}
+.bento-sh-nav a:hover{
+  color: var(--page-foreground-color, #171a21);
+  border-bottom-color: var(--bento-accent);
+  text-decoration: none;
+}
+.bento-sh-nav a.bento-sh-here{
+  color: var(--page-foreground-color, #171a21);
+  border-bottom-color: var(--bento-accent);
+}
+
+/* The language pill and the variant selector are MOVED here from doxygen's
+   search row, not rebuilt — those two controls already know how to find a
+   page's counterpart, and reimplementing that is how it breaks. */
+/* NO min-width:0 here. It was added meaning "do not shrink" and does the
+   opposite: it lets a flex item go below its content width. Measured, the slot
+   came out 213px around 269px of controls, and the switch hung 60px past the
+   right edge of the page at every viewport width. min-width:0 belongs on the
+   nav, which is allowed to give ground, and nowhere else in this bar. */
+/* `flex: 0 0 auto` with `min-width: max-content` was not enough: measured, the
+   slot came out 198px wide around 276px of content (scrollWidth), and the
+   variant switch hung 60px past the right edge of the page at every viewport.
+   The bar hands its spare width to the nav's auto margin, and the slot was
+   left at a base size taken before both controls were in it. State the width
+   the content needs and take the slot out of the flexing entirely. */
+.bento-sh-controls{
+  display: flex; align-items: center; gap: 10px;
+  flex: 0 0 auto;            /* never the item that gives ground */
+}
+.bento-sh-controls .bento-lang-toggle,
+.bento-sh-controls bento-variant-switch{ margin: 0; position: static; }
+
+/* Below the sidebar breakpoint doxygen already stacks; drop the section links
+   and keep the way home plus the two controls, which is what a reader on a
+   phone actually needs from this bar. */
+@media (max-width: 767px){
+  :root{ --bento-hdr-h: 48px; }
+  .bento-siteheader{ gap: 10px; padding: 0 12px; }
+  .bento-sh-sub{ display: none; }
+  .bento-sh-nav a[data-optional]{ display: none; }
+  .bento-sh-nav{ gap: 12px; }
+}
+/* 1100px, not 480px: the brand, six section links and two controls stop
+   fitting long before a phone. Measured - at 1024 the switch was still being
+   pushed off the right edge. */
+@media (max-width: 1100px){
+  .bento-sh-nav{ display: none; }
+  .bento-sh-controls{ margin-left: auto; }
+}
+
+@media print{ .bento-siteheader{ display: none; } #top{ top: 0 !important; } }
+
+/* ---------------------------------------------------------------------------
+   Specificity, measured rather than assumed: doxygen-awesome colours links
+   through rules that beat a bare `.bento-sh-nav a`, so the bar's links came out
+   in the docs' link blue instead of a quiet neutral. Prefixing with the bar
+   itself wins without !important. The nav is chrome, not content — it should
+   recede and let the page's own links be the blue ones.
+   ------------------------------------------------------------------------- */
+.bento-siteheader .bento-sh-nav a,
+.bento-siteheader .bento-sh-nav a:visited{
+  color: var(--page-foreground-color, #171a21);
+  opacity: .62;
+  transition: opacity .16s ease, border-color .16s ease;
+}
+.bento-siteheader .bento-sh-nav a:hover,
+.bento-siteheader .bento-sh-nav a:focus-visible{ opacity: 1; }
+.bento-siteheader .bento-sh-brand,
+.bento-siteheader .bento-sh-brand:visited{ color: var(--page-foreground-color, #171a21); }
+
+/* The two adopted controls were sized for doxygen's search row, which is taller
+   and wider than this bar. Cap them so neither dominates it. */
+/* Sized down for real, not with a transform. A transform leaves the LAYOUT
+   box at full size while the paint shrinks, so the row reserved 213px for a
+   control that drew at 196px and the arithmetic never added up - the switch
+   hung past the right edge of the page at every viewport width. Height and
+   type size do the same job honestly. */
+.bento-sh-controls bento-variant-switch{ display: inline-flex; align-items: center; }
+.bento-sh-controls .bento-variant-pill{ height: 28px; }
+.bento-sh-controls a.bento-variant-seg{ font-size: 11px; padding: 0 8px; }
+.bento-sh-controls a.bento-lang-toggle{ height: 28px; font-size: 11px; }
+.bento-sh-controls a.bento-lang-toggle > span{ padding: 0 7px; }
+
+/* On a touch screen the same controls have to be hit with a finger. Measured
+   at a 390px viewport they came out 22px tall with 11px type, under the 24px
+   WCAG 2.5.8 minimum - they were shrunk to stop the bar overflowing on a
+   desktop, and that trade does not apply on a phone where the section links
+   are hidden and there is room. */
+@media (max-width: 1100px), (pointer: coarse){
+  :root{ --bento-hdr-h: 56px; }
+  .bento-sh-controls{ gap: 8px; }
+  .bento-sh-controls .bento-variant-pill{ height: 34px; }
+  .bento-sh-controls a.bento-variant-seg{
+    font-size: 12px; padding: 0 11px; min-height: 28px;
+  }
+  .bento-sh-controls a.bento-lang-toggle{ height: 34px; font-size: 12px; }
+  .bento-sh-controls a.bento-lang-toggle > span{ padding: 0 10px; min-height: 28px; }
+  /* The whole control is the target, and it is 34px; the segments inside it
+     reach 24px in their own right so either half can be hit accurately. */
+
+  /* The brand is a link and measured 77x13 — wide enough, but far too short
+     to hit. Padding gives it height without moving anything else, because the
+     bar centres its children. */
+  .bento-siteheader .bento-sh-brand{
+    display: inline-flex; align-items: center; min-height: 32px;
+  }
+
+  /* doxygen's content links measure 18px tall. Where they are list or table
+     entries — a table of contents, a member list — two neighbours are a coin
+     toss under a finger, so those get a real box: inline-block plus vertical
+     padding takes them to 26px. line-height alone does nothing here, because
+     an inline element's box is measured from the font, not from line-height.
+
+     Links inside a paragraph are deliberately left alone. WCAG 2.5.8 exempts
+     inline text in a sentence, and boxing them would break the line. */
+  #doc-content li > a,
+  #doc-content td a,
+  #doc-content dd > a,
+  #nav-tree a{
+    display: inline-block;
+    padding: 4px 0;
+  }
+}
+/* No max-width. Clamping the switch cut the label of whichever half was
+   longer, which is how a selected half ended up looking like an empty blue
+   pill with the other half's label beside it. */
+
+/* doxygen-awesome colours every anchor through
+   `a:link, a:visited, a:hover, a:focus, a:active { color: var(--primary-color) }`.
+   On paper a two-class descendant selector outranks that, and the measured
+   result says otherwise: the opacity from the block above applies while its
+   colour does not. Rather than keep guessing at the cascade, this states the
+   intent directly. It is scoped to the bar, which is site chrome — the page's
+   own links must stay the docs' link colour, and they do. */
+.bento-siteheader .bento-sh-nav a,
+.bento-siteheader .bento-sh-nav a:link,
+.bento-siteheader .bento-sh-nav a:visited,
+.bento-siteheader .bento-sh-brand,
+.bento-siteheader .bento-sh-brand:link,
+.bento-siteheader .bento-sh-brand:visited{
+  color: var(--page-foreground-color, #171a21) !important;
+}
+.bento-siteheader .bento-sh-name b{ color: var(--bento-accent) !important; }
+
+
+/* ---------------------------------------------------------------------------
+   The two controls, coloured from inside the bar and stated with !important.
+
+   doxygen-awesome paints EVERY anchor through
+   `a:link, a:visited, a:hover, a:focus, a:active { color: var(--primary-color) }`.
+   The variant switch and the language pill are anchors, so both came out in the
+   docs' link blue — the selected half of the switch had white text specified
+   and rendered blue anyway, and the language pill was blue on near-black.
+   Two classes ought to outrank one pseudo-class; measured, it does not, and the
+   same note further up this file records the same surprise for the nav links.
+   State it rather than keep guessing.
+   ------------------------------------------------------------------------- */
+/* Colour comes from --page-foreground-color, which doxygen-awesome already
+   defines correctly for both themes. The ONLY thing that was ever wrong here
+   is that doxygen's a:link rule beat it, so the fix is !important and nothing
+   else.
+
+   An earlier attempt hardcoded #e8ecf2 with an `html:not(.dark-mode)` override
+   to #1d2430 for the light theme. That guard is wrong: this site follows the
+   system through prefers-color-scheme and sets no .dark-mode class, so
+   :not(.dark-mode) matched on the DARK theme too and painted both controls
+   near-black on near-black. Measured in a real render, not inferred. */
+.bento-sh-controls a.bento-variant-seg,
+.bento-sh-controls a.bento-variant-seg:link,
+.bento-sh-controls a.bento-variant-seg:visited{
+  color: var(--page-foreground-color) !important; opacity: .72;
+}
+/* The selected half always sits on --primary-color, in either theme, so its
+   label is white in either theme. */
+.bento-sh-controls a.bento-variant-seg.bento-variant-seg-current,
+.bento-sh-controls a.bento-variant-seg.bento-variant-seg-current:link,
+.bento-sh-controls a.bento-variant-seg.bento-variant-seg-current:visited{
+  color: #fff !important; opacity: 1;
+}
+
+.bento-sh-controls a.bento-lang-toggle,
+.bento-sh-controls a.bento-lang-toggle:link,
+.bento-sh-controls a.bento-lang-toggle:visited{
+  display: inline-flex; align-items: center; gap: 2px;
+  height: var(--searchbar-height, 33px);
+  padding: 0 4px;
+  border: 1px solid var(--separator-color);
+  border-radius: var(--searchbar-border-radius, 999px);
+  font-family: var(--font-family); font-size: 12px; font-weight: 600;
+  letter-spacing: .04em; line-height: 1; text-decoration: none;
+  color: var(--page-foreground-color) !important;
+}
+.bento-sh-controls a.bento-lang-toggle > span{
+  display: inline-flex; align-items: center;
+  padding: 0 9px; height: calc(100% - 4px); border-radius: 999px;
+  opacity: .72;
+}
+.bento-sh-controls a.bento-lang-toggle > span.bento-lang-active{
+  background: var(--primary-color); color: #fff; opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Sidebar toggle.
+
+   doxygen's own way to hide the navigation is to DRAG a two-pixel splitter to
+   the left edge. Dragged all the way it looks gone, and bringing it back means
+   finding that two-pixel strip again — a target nobody should have to aim at,
+   and one that does not exist at all on a touch screen. This is the same
+   action, as a button.
+
+   The layout takes every measurement from --side-nav-fixed-width, so setting
+   that to zero is the whole mechanism: #side-nav, #nav-tree and the content
+   offset all follow it, and doxygen's splitter arithmetic is left alone.
+   ------------------------------------------------------------------------- */
+.bento-sh-sidebar{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; min-height: 30px; flex: 0 0 auto;
+  padding: 0; margin-right: -6px;
+  background: none; border: 1px solid transparent; border-radius: 7px;
+  color: var(--page-foreground-color, #171a21);
+  opacity: .62; cursor: pointer;
+  transition: opacity .16s ease, background-color .16s ease;
+}
+.bento-sh-sidebar:hover,
+.bento-sh-sidebar:focus-visible{
+  opacity: 1; background: var(--separator-color, #d8d9d5);
+}
+/* Pressed = the navigation is hidden. The filled block in the icon is the
+   sidebar, so it empties when the sidebar is away. */
+.bento-sh-sidebar[aria-pressed="true"] .bento-sh-sidebar-fill{ opacity: 0; }
+
+html.bento-sidebar-hidden{ --side-nav-fixed-width: 0px; }
+html.bento-sidebar-hidden #side-nav{
+  width: 0 !important; min-width: 0 !important; max-width: 0 !important;
+  overflow: hidden !important; border: 0 !important;
+}
+/* #splitbar is doxygen's drag handle. Hidden alone it still occupies its six
+   pixels, which measured as a sliver of sidebar left behind; take its width
+   too so the content really does start at zero. */
+html.bento-sidebar-hidden #splitbar{
+  display: none !important; width: 0 !important; min-width: 0 !important;
+}
+html.bento-sidebar-hidden #side-nav > *{ display: none !important; }
+html.bento-sidebar-hidden #doc-content{
+  margin-left: 0 !important; width: 100% !important;
+}
+
+/* On a phone doxygen already stacks and the sidebar is not beside anything, so
+   the button would toggle something the reader cannot see. */
+@media (max-width: 767px){ .bento-sh-sidebar{ display: none; } }

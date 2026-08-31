@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="th" data-lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-th="TESAIoT Dev Kit — PSoC™ Edge E84 · Firmware Stack &amp; SDK" data-en="TESAIoT Development Kit — PSoC™ Edge E84 · Firmware Stack &amp; SDK">TESAIoT Dev Kit — PSoC™ Edge E84 · Firmware Stack &amp; SDK</title>
+<meta name="description" content="บอร์ดพัฒนา Edge AI สามคอร์บน PSoC™ Edge E84 พร้อม Firmware Stack และ SDK ที่ใช้ได้จริง — ModusToolbox™ และ MicroPython, OPTIGA™ Trust M, และ Edge AI บน NPU" data-th-content="บอร์ดพัฒนา Edge AI สามคอร์บน PSoC™ Edge E84 พร้อม Firmware Stack และ SDK ที่ใช้ได้จริง — ModusToolbox™ และ MicroPython, OPTIGA™ Trust M, และ Edge AI บน NPU" data-en-content="A three-core Edge AI development board on PSoC™ Edge E84, shipped with a working firmware stack and SDK — ModusToolbox™ and MicroPython, OPTIGA™ Trust M, and Edge AI on the NPU.">
+<meta property="og:title" content="TESAIoT Dev Kit — PSoC™ Edge E84" data-th-content="TESAIoT Dev Kit — PSoC™ Edge E84" data-en-content="TESAIoT Development Kit — PSoC™ Edge E84">
+<meta property="og:description" content="สามคอร์ · NPU · Wi-Fi 6 · Edge AI ที่รันได้ในวันแรก พร้อม SDK และเอกสารสองภาษา" data-th-content="สามคอร์ · NPU · Wi-Fi 6 · Edge AI ที่รันได้ในวันแรก พร้อม SDK และเอกสารสองภาษา" data-en-content="Three cores · NPU · Wi-Fi 6 · Edge AI running on day one, with an SDK and documentation in two languages.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/tesaiot-dev-kit.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Sans+Thai:wght@400;500;600&amp;family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="800x800" href="assets/TESA.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-th="ข้ามไปยังเนื้อหา" data-en="Skip to content">ข้ามไปยังเนื้อหา</a>
+
+<header class="site" id="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">TESA<b>IoT</b></span><span class="brand-sub">Development Kit</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="เมนูหลัก" data-th-aria-label="เมนูหลัก" data-en-aria-label="Main menu">
+      <a href="#hardware" data-th="ฮาร์ดแวร์" data-en="Hardware">ฮาร์ดแวร์</a>
+      <a href="#software" data-th="ซอฟต์แวร์" data-en="Software">ซอฟต์แวร์</a>
+      <a href="#security" data-th="ความปลอดภัย" data-en="Security">ความปลอดภัย</a>
+      <a href="#edgeai">Edge AI</a>
+      <a href="#foundation">Foundation</a>
+      <a href="sdk/mtb-mpy/th/index.html" data-th="เอกสาร SDK" data-en="SDK docs" data-th-href="sdk/mtb-mpy/th/index.html" data-en-href="sdk/mtb-mpy/index.html">เอกสาร SDK</a>
+      <span class="nav-icons">
+        <a class="nav-icon" href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk" target="_blank" rel="noopener" aria-label="ซอร์สโค้ดบน GitHub" title="ซอร์สโค้ดบน GitHub" data-th-title="ซอร์สโค้ดบน GitHub" data-en-title="Source code on GitHub" data-th-aria-label="ซอร์สโค้ดบน GitHub" data-en-aria-label="Source code on GitHub"><svg viewbox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.8c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10 10 0 0 0 22 12c0-5.52-4.48-10-10-10z"></path></svg></a>
+        <a class="nav-icon" href="https://www.youtube.com/playlist?list=PLOuPSlsBpTYA" target="_blank" rel="noopener" aria-label="วิดีโอบน YouTube" title="วิดีโอบน YouTube" data-th-title="วิดีโอบน YouTube" data-en-title="Videos on YouTube" data-th-aria-label="วิดีโอบน YouTube" data-en-aria-label="Videos on YouTube"><svg viewbox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21.6 7.2a2.5 2.5 0 0 0-1.76-1.77C18.25 5 12 5 12 5s-6.25 0-7.84.43A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.76 1.77C5.75 19 12 19 12 19s6.25 0 7.84-.43a2.5 2.5 0 0 0 1.76-1.77C22 15.2 22 12 22 12s0-3.2-.4-4.8zM10 15V9l5.2 3L10 15z"></path></svg></a>
+      </span>
+
+      <a class="nav-cta" href="#contact" data-th="ติดต่อ" data-en="Contact">ติดต่อ</a>
+    </nav>
+
+    <a class="language-switch" href="index.en.html" hreflang="en" lang="en" aria-label="Switch to English" data-th="EN" data-en="TH">EN</a>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="เปิดเมนู" data-label-open="เปิดเมนู" data-label-close="ปิดเมนู" data-th-aria-label="เปิดเมนู" data-en-aria-label="Open menu" data-th-data-label-open="เปิดเมนู" data-en-data-label-open="Open menu" data-th-data-label-close="ปิดเมนู" data-en-data-label-close="Close menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ─────────────────────────── HERO ─────────────────────────── -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-th="TESAIoT Dev Kit · " data-en="TESAIoT Development Kit · ">TESAIoT Dev Kit · <span class="nb">PSoC™ Edge E84</span></p>
+      <h1 data-th="สามคอร์ หนึ่ง NPU" data-en="Three cores, one NPU,">สามคอร์ หนึ่ง NPU<br data-th-tail="และเฟิร์มแวร์ที่" data-en-tail="and firmware you can ">และเฟิร์มแวร์ที่<em data-th="เปิดให้อ่านจริง" data-en="actually read">เปิดให้อ่านจริง</em></h1>
+      <p class="lead" data-th="
+        บอร์ดพัฒนา Edge AI ที่มาพร้อม firmware stack ทั้งชุด — ไม่ใช่ตัวอย่างสาธิต
+        แต่เป็นโค้ดที่ใช้งานจริง เปิดให้อ่าน แก้ และต่อยอดได้ทันทีในวันแรก
+      " data-en="
+        An Edge AI development board that ships with the whole firmware stack — not a demo,
+        but the code that runs the product, open to read, change and build on from day one.
+      ">
+        บอร์ดพัฒนา Edge AI ที่มาพร้อม firmware stack ทั้งชุด — ไม่ใช่ตัวอย่างสาธิต
+        แต่เป็นโค้ดที่ใช้งานจริง เปิดให้อ่าน แก้ และต่อยอดได้ทันทีในวันแรก
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#get-started" data-th="เริ่มต้นใช้งาน SDK" data-en="Start with the SDK">เริ่มต้นใช้งาน SDK</a>
+        <a class="btn btn-ghost" href="#software" data-th="ดู Firmware Stack" data-en="See the firmware stack">ดู Firmware Stack</a>
+        <a class="btn btn-ghost" href="https://www.tesaiot.com/#firmware-stack" data-embed="https://www.tesaiot.com/#firmware-stack" target="_blank" rel="noopener" data-th="หลักคิดของ TESAIoT Foundation" data-en="The thinking behind TESAIoT">หลักคิดของ TESAIoT Foundation</a>
+      </div>
+
+      <dl class="hero-ledger">
+        <div><dt data-th="คอร์ประมวลผล" data-en="Processor cores">คอร์ประมวลผล</dt><dd>3<span class="u">×</span> Arm<span class="u">®</span></dd></div>
+        <div><dt data-th="ซอร์สที่เปิด" data-en="Source you receive">ซอร์สที่เปิด</dt><dd>237<span class="u">k</span><span class="u" data-th=" บรรทัด" data-en=" lines"> บรรทัด</span></dd></div>
+        <div><dt data-th="หน้าเอกสาร" data-en="Documentation">หน้าเอกสาร</dt><dd>838<span class="u" data-th=" EN+TH" data-en=" pages"> EN+TH</span></dd></div>
+        <div><dt data-th="โมเดล Edge AI" data-en="Edge AI models">โมเดล Edge AI</dt><dd>6<span class="u" data-th=" ช่อง" data-en=" slots"> ช่อง</span></dd></div>
+      </dl>
+    </div>
+
+    <figure class="hero-board">
+      <div class="board-wrap">
+        <img src="assets/tesaiot-dev-kit.webp" alt="บอร์ด TESAIoT Dev Kit มองจากด้านบน" width="1400" height="932" fetchpriority="high" decoding="async" data-th-alt="บอร์ด TESAIoT Dev Kit มองจากด้านบน" data-en-alt="The TESAIoT Development Kit seen from above">
+        <ul class="board-pins" aria-label="จุดสำคัญบนบอร์ด" data-th-aria-label="จุดสำคัญบนบอร์ด" data-en-aria-label="Points of interest on the board">
+          <li style="--x:52%;--y:22%"><b>1</b><span data-th="จอสัมผัส 4.3″" data-en="4.3″ touch display">จอสัมผัส 4.3″</span></li>
+          <li style="--x:22%;--y:47%"><b>2</b><span>SoM · PSoC™ Edge E84</span></li>
+          <li style="--x:30%;--y:47%"><b>3</b><span>Radar, IMU, Compass, Pressure, Temperature, Humidity, Mics, Speaker</span></li>
+          <li style="--x:31%;--y:79%"><b>4</b><span>mikroBUS™ ×3 · Arduino shield</span></li>
+          <li data-side="l" style="--x:76%;--y:64%"><b>5</b><span>CAN · RS-485</span></li>
+          <li data-side="l" style="--x:82%;--y:54%"><b>6</b><span>CAPSENSE, Poten × 4, Button × 2</span></li>
+          <li data-side="l" style="--x:76%;--y:36%"><b>7</b><span>RGB LED Matrix</span></li>
+          <li style="--x:25%;--y:32%"><b>8</b><span>HSM · OPTIGA™ Trust M</span></li>
+        </ul>
+      </div>
+    </figure>
+  </div>
+</section>
+
+
+
+<!-- ─────────────────────── ACT I · HARDWARE ─────────────────────── -->
+<section class="act" id="hardware">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">01</p>
+      <h2 data-th="ฮาร์ดแวร์ที่" data-en="Hardware with ">ฮาร์ดแวร์ที่<em data-th="ไม่ต้องต่อเพิ่ม" data-en="nothing left to add">ไม่ต้องต่อเพิ่ม</em></h2>
+      <p class="act-lead" data-th="
+        Dev Kit ประกอบจากสองส่วน — SoM ของ Infineon ที่ถือ SoC, NPU, หน่วยความจำและวิทยุ
+        และบอร์ดฐาน TESAIoT ที่ถือส่วนขยาย, ปุ่ม, CapSense และการเชื่อมต่อภาคสนาม
+      " data-en="
+        The kit is two boards — Infineon's SoM carrying the SoC, NPU, memory and radio,
+        and the TESAIoT base board carrying expansion, buttons, CapSense and field connectivity.
+      ">
+        Dev Kit ประกอบจากสองส่วน — SoM ของ Infineon ที่ถือ SoC, NPU, หน่วยความจำและวิทยุ
+        และบอร์ดฐาน TESAIoT ที่ถือส่วนขยาย, ปุ่ม, CapSense และการเชื่อมต่อภาคสนาม
+      </p>
+    </header>
+
+    <!-- ไดอะแกรมสถาปัตยกรรมสามโดเมน -->
+    <figure class="arch">
+      <svg viewbox="0 0 900 340" role="img" aria-labelledby="archT archD" class="arch-svg">
+        <title id="archT" data-th="สถาปัตยกรรมสามโดเมนของ PSoC Edge E84" data-en="The three-domain architecture of PSoC Edge E84">สถาปัตยกรรมสามโดเมนของ PSoC Edge E84</title>
+        <desc id="archD" data-th="ชิปแบ่งเป็นสามโดเมน — Cortex-M33 Secure ดูแล secure boot และ TrustZone,
+          Cortex-M33 Non-secure ดูแล Wi-Fi MQTT TLS และ OPTIGA Trust M,
+          Cortex-M55 400 MHz พร้อม Helium และ Ethos-U55 NPU ดูแลจอและ Edge AI
+          ทั้งสามใช้หน่วยความจำภายนอกร่วมกันคือ QSPI NOR flash 512 Mb และ HYPERRAM 128 Mb" data-en="The chip is divided into three domains — Cortex-M33 Secure handles secure boot
+          and TrustZone; Cortex-M33 Non-secure handles Wi-Fi, MQTT, TLS and OPTIGA Trust M;
+          Cortex-M55 at 400 MHz with Helium and the Ethos-U55 NPU handles the display and Edge AI.
+          All three share external memory: QSPI NOR flash 512 Mb and HYPERRAM 128 Mb.">ชิปแบ่งเป็นสามโดเมน — Cortex-M33 Secure ดูแล secure boot และ TrustZone,
+          Cortex-M33 Non-secure ดูแล Wi-Fi MQTT TLS และ OPTIGA Trust M,
+          Cortex-M55 400 MHz พร้อม Helium และ Ethos-U55 NPU ดูแลจอและ Edge AI
+          ทั้งสามใช้หน่วยความจำภายนอกร่วมกันคือ QSPI NOR flash 512 Mb และ HYPERRAM 128 Mb</desc>
+
+        <g class="a-dom">
+          <rect x="8" y="8" width="270" height="180" rx="12"></rect>
+          <text class="a-tag" x="28" y="42" data-th="โดเมนปลอดภัย" data-en="SECURE DOMAIN">โดเมนปลอดภัย</text>
+          <text class="a-core" x="28" y="76">Cortex®-M33</text>
+          <text class="a-sub" x="28" y="100">Secure · TrustZone®</text>
+          <line class="a-rule" x1="28" y1="118" x2="250" y2="118"></line>
+          <text class="a-item" x="28" y="144">secure boot</text>
+          <text class="a-item" x="28" y="166" data-th="แยกหน่วยความจำ" data-en="memory isolation">แยกหน่วยความจำ</text>
+        </g>
+
+        <g class="a-dom">
+          <rect x="296" y="8" width="270" height="180" rx="12"></rect>
+          <text class="a-tag" x="316" y="42" data-th="โดเมนเครือข่าย" data-en="NETWORK DOMAIN">โดเมนเครือข่าย</text>
+          <text class="a-core" x="316" y="76">Cortex®-M33</text>
+          <text class="a-sub" x="316" y="100">Non-secure · 200 MHz · NNLite</text>
+          <line class="a-rule" x1="316" y1="118" x2="538" y2="118"></line>
+          <text class="a-item" x="316" y="144">Wi-Fi · MQTT · TLS</text>
+          <text class="a-item" x="316" y="166">OPTIGA™ Trust M</text>
+        </g>
+
+        <g class="a-dom a-dom-hot">
+          <rect x="584" y="8" width="308" height="180" rx="12"></rect>
+          <text class="a-tag a-tag-hot" x="604" y="42" data-th="โดเมนสมรรถนะสูง" data-en="PERFORMANCE DOMAIN">โดเมนสมรรถนะสูง</text>
+          <text class="a-core" x="604" y="76">Cortex®-M55 + NPU</text>
+          <text class="a-sub" x="604" y="100">400 MHz · Helium · Ethos™-U55</text>
+          <line class="a-rule" x1="604" y1="118" x2="864" y2="118"></line>
+          <text class="a-item" x="604" y="144" data-th="จอ LVGL · กราฟิก" data-en="LVGL display · graphics">จอ LVGL · กราฟิก</text>
+          <text class="a-item" x="604" y="166" data-th="เอนจิน Edge AI" data-en="Edge AI engine">เอนจิน Edge AI</text>
+        </g>
+
+        <!-- เส้นเชื่อมลง bus -->
+        <path class="a-link" d="M143 188 v34 M431 188 v34 M738 188 v34"></path>
+        <rect class="a-bus" x="8" y="222" width="884" height="42" rx="10"></rect>
+        <text class="a-bus-t" x="450" y="249" text-anchor="middle" data-th="IPC — ช่องสื่อสารระหว่างคอร์" data-en="IPC — inter-core message channel">IPC — ช่องสื่อสารระหว่างคอร์</text>
+
+        <rect class="a-mem" x="8" y="284" width="884" height="48" rx="10"></rect>
+        <text class="a-mem-t" x="32" y="313">QSPI NOR flash 512 Mb</text>
+        <text class="a-mem-t" x="330" y="313">Octal HYPERRAM™ 128 Mb</text>
+        <text class="a-mem-t" x="680" y="313">LittleFS 52 MB</text>
+      </svg>
+      <figcaption data-th="
+        สามโดเมนแยกงานกันชัดเจน — งานหนักอยู่บน M55 คู่ NPU, งานเครือข่ายและกุญแจอยู่บน M33
+        ที่ตื่นตลอดเวลาด้วย NNLite, และ secure boot อยู่ในโดเมนที่แตะไม่ได้
+      " data-en="
+        Three domains, cleanly separated — heavy work on the M55 beside the NPU, networking and keys
+        on the M33 that stays awake with NNLite, and secure boot in a domain nothing else can touch.
+      ">
+        สามโดเมนแยกงานกันชัดเจน — งานหนักอยู่บน M55 คู่ NPU, งานเครือข่ายและกุญแจอยู่บน M33
+        ที่ตื่นตลอดเวลาด้วย NNLite, และ secure boot อยู่ในโดเมนที่แตะไม่ได้
+      </figcaption>
+    </figure>
+
+<!-- ─────────────────── 3D BOARD TOUR ─────────────────── -->
+<section class="b3d" id="board3d">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">3D</p>
+      <h2 data-th="สำรวจบอร์ดจริง — จุดเด่นทั้ง 8 " data-en="Explore the real board — all 8 highlights, ">สำรวจบอร์ดจริง — จุดเด่นทั้ง 8 <em data-th="พร้อมสเปกประกบ" data-en="specs alongside">พร้อมสเปกประกบ</em></h2>
+    </header>
+    <div class="b3d-split">
+      <div class="b3d-stage">
+        <div class="b3d-loadhint" data-th="กำลังโหลดโมเดล 3D…" data-en="Loading the 3D model…">กำลังโหลดโมเดล 3D…</div>
+        <div class="b3d-intro">
+          <h3 data-th="บอร์ดเดียว ครบทั้ง 8 จุดเด่น" data-en="One board, all eight highlights">บอร์ดเดียว ครบทั้ง 8 จุดเด่น</h3>
+          <p data-th="ลากเพื่อหมุน · สกรอลเพื่อซูม — หรือให้ทัวร์พาไล่ดูทีละจุด" data-en="Drag to rotate · scroll to zoom — or let the tour walk you through">ลากเพื่อหมุน · สกรอลเพื่อซูม — หรือให้ทัวร์พาไล่ดูทีละจุด</p>
+        </div>
+        <div class="b3d-cap" hidden>
+          <div class="b3d-capno"></div>
+          <h3 class="b3d-captitle"></h3>
+        </div>
+        <div class="b3d-deck">
+          <div class="b3d-dots"></div>
+          <button class="b3d-play" type="button" data-th="▶ เริ่มทัวร์ 8 จุดเด่น" data-en="▶ Start the 8-stop tour">▶ เริ่มทัวร์ 8 จุดเด่น</button>
+        </div>
+      </div>
+      <aside class="b3d-panel" aria-live="polite">
+        <div class="b3d-pbody"></div>
+        <p class="b3d-pfoot" data-th="โมเดล 3D © TESA · แตะแผงนี้เมื่อไรทัวร์จะหยุดให้อ่าน" data-en="3D model © TESA · touch this panel and the tour pauses for you">โมเดล 3D © TESA · แตะแผงนี้เมื่อไรทัวร์จะหยุดให้อ่าน</p>
+      </aside>
+    </div>
+    <div hidden>
+      <span class="b3d-str" data-k="pause" data-th="หยุดทัวร์ ⏸" data-en="Pause tour ⏸">หยุดทัวร์ ⏸</span>
+      <span class="b3d-str" data-k="resume" data-th="เล่นทัวร์ต่อ ▶" data-en="Resume tour ▶">เล่นทัวร์ต่อ ▶</span>
+      <span class="b3d-str" data-k="idx-title" data-th="สำรวจทั้ง 8 จุด" data-en="Explore all 8 stops">สำรวจทั้ง 8 จุด</span>
+    </div>
+  </div>
+</section>
+
+
+    <div class="specs">
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name" data-th="หน่วยประมวลผลและหน่วยความจำ" data-en="Processing and memory">หน่วยประมวลผลและหน่วยความจำ</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>SoC</dt><dd>Infineon <span class="nb">PSoC™ Edge E84</span> — <span class="nb">PSE846GPS2DBZC4A</span></dd></div>
+          <div><dt data-th="โดเมนสมรรถนะสูง" data-en="Performance domain">โดเมนสมรรถนะสูง</dt><dd>Arm® <span class="nb">Cortex®-M55</span> <b>400 MHz</b> + Helium DSP + <span class="nb">Ethos™-U55</span> NPU</dd></div>
+          <div><dt data-th="โดเมนประหยัดพลังงาน" data-en="Low-power domain">โดเมนประหยัดพลังงาน</dt><dd>Arm® <span class="nb">Cortex®-M33</span> <b>200 MHz</b> + <span class="nb" data-th-tail=" ตัวเร่ง AI ของ Infineon สำหรับงาน always-on" data-en-tail=", Infineon's accelerator for always-on AI">NNLite</span> ตัวเร่ง AI ของ Infineon สำหรับงาน always-on</dd></div>
+          <div><dt data-th="ความปลอดภัยระดับสถาปัตยกรรม" data-en="Architectural security">ความปลอดภัยระดับสถาปัตยกรรม</dt><dd>Arm® <span class="nb" data-th-tail=" — แยก Secure / Non-secure" data-en-tail=" — Secure / Non-secure separation">TrustZone®</span> — แยก Secure / Non-secure</dd></div>
+          <div><dt data-th="หน่วยความจำภายนอก" data-en="External memory">หน่วยความจำภายนอก</dt><dd>QSPI NOR flash <b>512 Mb</b> · Octal <span class="nb">HYPERRAM™</span> <b>128 Mb</b></dd></div>
+          <div><dt data-th="ระบบไฟล์" data-en="File system">ระบบไฟล์</dt><dd>LittleFS <b>52 MB</b></dd></div>
+          <div><dt data-th="การแบ่งงาน" data-en="Work split">การแบ่งงาน</dt><dd data-th="M33-NS ถือเครือข่ายและ HSM · M55 ถือจอและ Edge AI · M33-S ถือ secure boot" data-en="M33-NS owns networking and the HSM · M55 owns the display and Edge AI · M33-S owns secure boot">M33-NS ถือเครือข่ายและ HSM · M55 ถือจอและ Edge AI · M33-S ถือ secure boot</dd></div>
+        </dl>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name" data-th="เซนเซอร์" data-en="Sensors">เซนเซอร์</span><span class="spec-hint" data-th="SoM · เฟิร์มแวร์ขับได้แล้ว" data-en="SoM · driven by the firmware today">SoM · เฟิร์มแวร์ขับได้แล้ว</span></h3>
+        <dl class="spec-rows">
+          <div><dt>IMU</dt><dd>Bosch <span class="nb" data-th-tail=" — accel + gyro" data-en-tail=" — accelerometer + gyroscope">BMI270</span> — accel + gyro</dd></div>
+          <div><dt data-th="เข็มทิศ" data-en="Magnetometer">เข็มทิศ</dt><dd>Bosch <span class="nb">BMM350</span></dd></div>
+          <div><dt data-th="ความกดอากาศ" data-en="Pressure">ความกดอากาศ</dt><dd>Infineon <span class="nb">DPS368</span></dd></div>
+          <div><dt data-th="อุณหภูมิ · ความชื้น" data-en="Temperature · humidity">อุณหภูมิ · ความชื้น</dt><dd>Sensirion <span class="nb">SHT40</span></dd></div>
+          <div><dt data-th="เรดาร์" data-en="Radar">เรดาร์</dt><dd>Infineon XENSIV™ <span class="nb" data-th-tail=" 60 GHz — ตรวจ gesture (push / swipe), การมีอยู่ และการเคลื่อนไหว" data-en-tail=" 60 GHz — gesture (push / swipe), presence and motion">BGT60TR13C</span> 60 GHz — ตรวจ gesture (push / swipe), การมีอยู่ และการเคลื่อนไหว</dd></div>
+          <div><dt data-th="กล้อง" data-en="Camera">กล้อง</dt><dd><span class="nb" data-th-tail=" ผ่าน DVP — สำหรับงาน Vision AI" data-en-tail=" over DVP — for vision AI">OV7675</span> ผ่าน DVP — สำหรับงาน Vision AI</dd></div>
+          <div><dt data-th="ไมโครโฟน" data-en="Microphones">ไมโครโฟน</dt><dd data-th="analog และ PDM — ป้อนเข้าเอนจิน Edge AI โดยตรง" data-en="analog and PDM — fed straight into the Edge AI engine">analog และ PDM — ป้อนเข้าเอนจิน Edge AI โดยตรง</dd></div>
+          <div><dt data-th="เสียงออก" data-en="Audio out">เสียงออก</dt><dd data-th="Audio codec ผ่าน I²C" data-en="Audio codec over I²C">Audio codec ผ่าน I²C</dd></div>
+        </dl>
+        <p class="spec-note" data-th="CapSense และ potentiometer อยู่บนบอร์ดฐาน ไม่ได้อยู่บน SoM" data-en="CapSense and the potentiometers are on the base board, not on the SoM.">CapSense และ potentiometer อยู่บนบอร์ดฐาน ไม่ได้อยู่บน SoM</p>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name" data-th="จอแสดงผลและการสัมผัส" data-en="Display and touch">จอแสดงผลและการสัมผัส</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt data-th="จอ" data-en="Display">จอ</dt><dd data-th="4.3 นิ้ว · MIPI DSI — ขับด้วย GFX subsystem บน M55" data-en="4.3 inch · MIPI DSI — driven by the GFX subsystem on the M55">4.3 นิ้ว · MIPI DSI — ขับด้วย GFX subsystem บน M55</dd></div>
+          <div><dt data-th="กราฟิก" data-en="Graphics">กราฟิก</dt><dd data-th="LVGL 9 พร้อม VGLite acceleration · ฟอนต์ไทยในตัว" data-en="LVGL 9 with VGLite acceleration · Thai fonts built in">LVGL 9 พร้อม VGLite acceleration · ฟอนต์ไทยในตัว</dd></div>
+          <div><dt data-th="สัมผัส" data-en="Touch">สัมผัส</dt><dd data-th="Capacitive touch controller บนบัสจอ" data-en="Capacitive touch controller on the display bus">Capacitive touch controller บนบัสจอ</dd></div>
+        </dl>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name" data-th="การเชื่อมต่อไร้สาย" data-en="Wireless">การเชื่อมต่อไร้สาย</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt data-th="ชิปวิทยุ" data-en="Radio">ชิปวิทยุ</dt><dd>Infineon <span class="nb" data-th-tail=" ในโมดูล Murata " data-en-tail=" in a Murata ">CYW55513</span> ในโมดูล Murata <span class="nb" data-th-tail="" data-en-tail=" module">LBEE5HY2FY</span></dd></div>
+          <div><dt>Wi-Fi</dt><dd>Wi-Fi 6 · dual-band 2.4 / 5 GHz</dd></div>
+          <div><dt>Bluetooth</dt><dd data-th="Bluetooth LE — ปิดไว้โดยค่าเริ่มต้น เปิดด้วย build flag" data-en="Bluetooth LE — off by default, enabled with a build flag">Bluetooth LE — ปิดไว้โดยค่าเริ่มต้น เปิดด้วย build flag</dd></div>
+          <div><dt>Regulatory domain</dt><dd data-th="คอมไพล์มาเป็น " data-en="compiled as ">คอมไพล์มาเป็น <b data-th-tail=" — ตรวจช่อง 5 GHz ก่อนใช้ในไทย" data-en-tail=" — check your 5 GHz channels before deploying elsewhere">US</b> — ตรวจช่อง 5 GHz ก่อนใช้ในไทย</dd></div>
+        </dl>
+        <p class="spec-note" data-th="
+          ตัวชิปมี COEX arbiter และรองรับ Wi-Fi กับ BLE พร้อมกันได้ — ข้อจำกัดที่พบใน
+          firmware บาง variant เป็นนโยบายของซอฟต์แวร์ ไม่ใช่ของฮาร์ดแวร์
+        " data-en="
+          The silicon carries a COEX arbiter and supports Wi-Fi and BLE together. Where a firmware
+          variant restricts that, the restriction is a software policy, not a hardware limit.
+        ">
+          ตัวชิปมี COEX arbiter และรองรับ Wi-Fi กับ BLE พร้อมกันได้ — ข้อจำกัดที่พบใน
+          firmware บาง variant เป็นนโยบายของซอฟต์แวร์ ไม่ใช่ของฮาร์ดแวร์
+        </p>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name" data-th="ส่วนขยายและ I/O" data-en="Expansion and I/O">ส่วนขยายและ I/O</span><span class="spec-hint" data-th="บอร์ดฐาน TESAIoT" data-en="TESAIoT base board">บอร์ดฐาน TESAIoT</span></h3>
+        <dl class="spec-rows">
+          <div><dt>mikroBUS™</dt><dd data-th="3 ช่อง — I²C, UART, SPI" data-en="3 sockets — I²C, UART, SPI">3 ช่อง — I²C, UART, SPI</dd></div>
+          <div><dt>Arduino header</dt><dd data-th="D0–D13 ต่อครบ" data-en="D0–D13 wired">D0–D13 ต่อครบ</dd></div>
+          <div><dt data-th="ฟิลด์บัส" data-en="Fieldbus">ฟิลด์บัส</dt><dd data-th="CAN และ RS-485 — เลือกด้วยสวิตช์เลื่อน" data-en="CAN and RS-485 — selected by a slide switch">CAN และ RS-485 — เลือกด้วยสวิตช์เลื่อน</dd></div>
+          <div><dt data-th="อินพุตผู้ใช้" data-en="User input">อินพุตผู้ใช้</dt><dd data-th="ปุ่มกด · potentiometer 2 ตัว · CapSense co-processor" data-en="push buttons · 2 potentiometers · CapSense co-processor">ปุ่มกด · potentiometer 2 ตัว · CapSense co-processor</dd></div>
+          <div><dt data-th="เอาต์พุต" data-en="Output">เอาต์พุต</dt><dd>RGB LED matrix</dd></div>
+          <div><dt>USB</dt><dd data-th="Device และ Host" data-en="Device and Host">Device และ Host</dd></div>
+        </dl>
+        <div class="warn">
+          <p><b data-th="สองเรื่องที่ควรรู้ก่อนออกแบบวงจรต่อ" data-en="Two things to know before you design a daughterboard">สองเรื่องที่ควรรู้ก่อนออกแบบวงจรต่อ</b></p>
+          <ul>
+            <li><b data-th-tail=" — A0–A3 ไม่ได้ต่อ มีเพียง A4/A5 ซึ่งเป็นขา I²C" data-en-tail=" A0–A3 are not connected; only A4/A5 are, and those are the I²C pins." data-th="Arduino header ไม่มีขาอนาล็อก" data-en="The Arduino header has no analog inputs.">Arduino header ไม่มีขาอนาล็อก</b> — A0–A3 ไม่ได้ต่อ มีเพียง A4/A5 ซึ่งเป็นขา I²C</li>
+            <li><b data-th-tail=" — ส่งข้อมูลได้อย่างเดียว หากต้องการรับต้องเดินสายเพิ่ม" data-en-tail=" It transmits only — receiving needs a hand-wired link." data-th="mikroBUS ช่องที่ 3 ขา MISO ไม่ได้ต่อ" data-en="mikroBUS socket 3 has MISO unconnected.">mikroBUS ช่องที่ 3 ขา MISO ไม่ได้ต่อ</b> — ส่งข้อมูลได้อย่างเดียว หากต้องการรับต้องเดินสายเพิ่ม</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name" data-th="โมดูลความปลอดภัย" data-en="Security module">โมดูลความปลอดภัย</span><span class="spec-hint" data-th="โมดูลเสียบ · แยกจำหน่าย" data-en="plug-in module · sold separately">โมดูลเสียบ · แยกจำหน่าย</span></h3>
+        <dl class="spec-rows">
+          <div><dt data-th="ชิ้นส่วน" data-en="Part">ชิ้นส่วน</dt><dd>Infineon <span class="nb">OPTIGA™ Trust M</span></dd></div>
+          <div><dt data-th="รูปแบบ" data-en="Form">รูปแบบ</dt><dd><b data-th-tail=" — ที่อยู่ I²C " data-en-tail=" — I²C address " data-th="โมดูลเสียบ ไม่ได้บัดกรีบนบอร์ด" data-en="A plug-in module, not soldered to the board">โมดูลเสียบ ไม่ได้บัดกรีบนบอร์ด</b> — ที่อยู่ I²C <code>0x30</code></dd></div>
+        </dl>
+      </section>
+
+    </div>
+
+    <p class="act-foot" data-th="
+      ตัวเลขทั้งหมดข้างต้นอ้างอิงจากผังวงจรรุ่นผลิตจริงและจากเฟิร์มแวร์ที่ขับฮาร์ดแวร์นั้นอยู่ —
+      ขนาดบอร์ด อัตราการใช้ไฟ และช่วงอุณหภูมิ อยู่ระหว่างการวัด และจะประกาศเมื่อมีผลจริง
+    " data-en="
+      Every figure above comes from the production schematic and from the firmware that drives that
+      hardware. Board dimensions, current draw and operating temperature are being measured and will
+      be published when there are real results.
+    ">
+      ตัวเลขทั้งหมดข้างต้นอ้างอิงจากผังวงจรรุ่นผลิตจริงและจากเฟิร์มแวร์ที่ขับฮาร์ดแวร์นั้นอยู่ —
+      ขนาดบอร์ด อัตราการใช้ไฟ และช่วงอุณหภูมิ อยู่ระหว่างการวัด และจะประกาศเมื่อมีผลจริง
+    </p>
+  </div>
+
+    <aside class="vids">
+      <div class="vids-head">
+        <p class="vids-kicker" data-th="วิดีโอ" data-en="VIDEO">วิดีโอ</p>
+        <h3 data-th="บอร์ดตัวนี้ ในโลกจริงและในโมเดลสามมิติ" data-en="This board, in the world and in 3D">บอร์ดตัวนี้ ในโลกจริงและในโมเดลสามมิติ</h3>
+        <p data-th="ทวินไม่ใช่ภาพประกอบ — ค่าที่ขับโมเดลมาจากเซนเซอร์บนบอร์ดจริง สามคลิปนี้ไล่จากผลลัพธ์ ไปที่เครื่องมือที่ใช้ประกอบ แล้วจบที่การขึ้นรูปโมเดลของบอร์ดเอง" data-en="The twin is not an illustration — the values that move it come from the sensors on the board. These three go from the result, to the tool that assembles it, to modelling the board yourself.">ทวินไม่ใช่ภาพประกอบ — ค่าที่ขับโมเดลมาจากเซนเซอร์บนบอร์ดจริง สามคลิปนี้ไล่จากผลลัพธ์ ไปที่เครื่องมือที่ใช้ประกอบ แล้วจบที่การขึ้นรูปโมเดลของบอร์ดเอง</p>
+      </div>
+      <div class="vid-row">
+        <a class="vid-card" href="https://youtu.be/OUz9zDYL47g" data-video="OUz9zDYL47g" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: TESAIoT Digital Twin · 0:59" data-th-aria-label="เล่นวิดีโอ: TESAIoT Digital Twin · 0:59" data-en-aria-label="Play video: TESAIoT Digital Twin · 0:59">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/OUz9zDYL47g/mqdefault.jpg" srcset="https://i.ytimg.com/vi/OUz9zDYL47g/mqdefault.jpg 320w, https://i.ytimg.com/vi/OUz9zDYL47g/hqdefault.jpg 480w, https://i.ytimg.com/vi/OUz9zDYL47g/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">0:59</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="TESAIoT Digital Twin" data-en="TESAIoT Digital Twin">TESAIoT Digital Twin</span>
+            <span class="vid-note" data-th="หนึ่งนาที: ทวินคืออะไร และฮาร์ดแวร์ขับมันอย่างไร" data-en="One minute on what the twin is, and how the hardware drives it.">หนึ่งนาที: ทวินคืออะไร และฮาร์ดแวร์ขับมันอย่างไร</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/PkHg7dsvUEg" data-video="PkHg7dsvUEg" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: TESAIoT Digital Twin Studio · 6:37" data-th-aria-label="เล่นวิดีโอ: TESAIoT Digital Twin Studio · 6:37" data-en-aria-label="Play video: TESAIoT Digital Twin Studio · 6:37">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/PkHg7dsvUEg/mqdefault.jpg" srcset="https://i.ytimg.com/vi/PkHg7dsvUEg/mqdefault.jpg 320w, https://i.ytimg.com/vi/PkHg7dsvUEg/hqdefault.jpg 480w, https://i.ytimg.com/vi/PkHg7dsvUEg/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">6:37</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="TESAIoT Digital Twin Studio" data-en="TESAIoT Digital Twin Studio">TESAIoT Digital Twin Studio</span>
+            <span class="vid-note" data-th="เครื่องมือที่ใช้ประกอบทวิน แล้วต่อสายเข้ากับข้อมูลจริง" data-en="The authoring environment where a twin is assembled and wired.">เครื่องมือที่ใช้ประกอบทวิน แล้วต่อสายเข้ากับข้อมูลจริง</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/Z9ks-GoD9Hg" data-video="Z9ks-GoD9Hg" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: ตอนที่ 1 · สร้างโมเดล 3 มิติด้วย Onshape · 6:33" data-th-aria-label="เล่นวิดีโอ: ตอนที่ 1 · สร้างโมเดล 3 มิติด้วย Onshape · 6:33" data-en-aria-label="Play video: Part 1 · Building the 3D model in Onshape · 6:33">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/Z9ks-GoD9Hg/mqdefault.jpg" srcset="https://i.ytimg.com/vi/Z9ks-GoD9Hg/mqdefault.jpg 320w, https://i.ytimg.com/vi/Z9ks-GoD9Hg/hqdefault.jpg 480w, https://i.ytimg.com/vi/Z9ks-GoD9Hg/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">6:33</span>
+            <span class="vid-flag">TH</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="ตอนที่ 1 · สร้างโมเดล 3 มิติด้วย Onshape" data-en="Part 1 · Building the 3D model in Onshape">ตอนที่ 1 · สร้างโมเดล 3 มิติด้วย Onshape</span>
+            <span class="vid-note" data-th="ขึ้นรูปโมเดลของบอร์ดตั้งแต่ศูนย์ เพื่อนำไปใช้เป็นทวิน (บรรยายภาษาไทย)" data-en="Modelling the board from scratch, for use as a twin (spoken in Thai).">ขึ้นรูปโมเดลของบอร์ดตั้งแต่ศูนย์ เพื่อนำไปใช้เป็นทวิน (บรรยายภาษาไทย)</span>
+          </span>
+        </a>
+      </div>
+    </aside>
+
+
+</section>
+
+<!-- ─────────────────────── ACT II · SOFTWARE ─────────────────────── -->
+<section class="act act-alt" id="software">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">02</p>
+      <h2 data-th="สองเส้นทาง " data-en="Two paths, ">สองเส้นทาง <em data-th="คุณภาพเท่ากัน" data-en="equal in quality">คุณภาพเท่ากัน</em></h2>
+      <p class="act-lead" data-th="
+        TESAIoT Firmware Stack ส่งมอบเป็น project template สองแบบ เลือกตามวิธีทำงานของคุณ
+        ไม่ใช่ตามระดับความสามารถ — ทั้งสองแบบใช้ไลบรารีชุดเดียวกัน ฮาร์ดแวร์ชุดเดียวกัน
+        และเอกสารชุดเดียวกัน
+      " data-en="
+        The TESAIoT Firmware Stack ships as two project templates. Choose by how you work,
+        not by how advanced you are — both use the same libraries, the same hardware
+        and the same documentation.
+      ">
+        TESAIoT Firmware Stack ส่งมอบเป็น project template สองแบบ เลือกตามวิธีทำงานของคุณ
+        ไม่ใช่ตามระดับความสามารถ — ทั้งสองแบบใช้ไลบรารีชุดเดียวกัน ฮาร์ดแวร์ชุดเดียวกัน
+        และเอกสารชุดเดียวกัน
+      </p>
+    </header>
+
+    <div class="paths">
+      <article class="path">
+        <header>
+          <p class="path-tag">ModusToolbox™</p>
+          <h3 data-th="คอมไพล์เป็นเฟิร์มแวร์ ควบคุมได้ทุกไบต์" data-en="Compiled firmware, every byte under your control">คอมไพล์เป็นเฟิร์มแวร์ ควบคุมได้ทุกไบต์</h3>
+        </header>
+        <p data-th="
+          ModusToolbox™ คือชุดเครื่องมือพัฒนาอย่างเป็นทางการของ Infineon สำหรับ PSoC™
+          ประกอบด้วย BSP ของบอร์ด, ไลบรารีฮาร์ดแวร์, ตัวตั้งค่าอุปกรณ์แบบกราฟิก
+          และคอมไพเลอร์ Arm GCC — โปรเจกต์ที่ได้เป็นภาษา C ล้วน คอมไพล์ลงทั้งสามคอร์
+        " data-en="
+          ModusToolbox™ is Infineon's official development toolchain for PSoC™. It brings the board
+          BSP, the hardware libraries, a graphical device configurator and the Arm GCC compiler.
+          The project you get is plain C, compiled onto all three cores.
+        ">
+          ModusToolbox™ คือชุดเครื่องมือพัฒนาอย่างเป็นทางการของ Infineon สำหรับ PSoC™
+          ประกอบด้วย BSP ของบอร์ด, ไลบรารีฮาร์ดแวร์, ตัวตั้งค่าอุปกรณ์แบบกราฟิก
+          และคอมไพเลอร์ Arm GCC — โปรเจกต์ที่ได้เป็นภาษา C ล้วน คอมไพล์ลงทั้งสามคอร์
+        </p>
+        <ul class="path-points">
+          <li><b data-th-tail=" — ไม่มีชั้นแปลภาษาคั่นระหว่างโค้ดกับฮาร์ดแวร์" data-en-tail=" — no interpreter between your code and the hardware" data-th="คุมเวลาได้ระดับไมโครวินาที" data-en="Microsecond-level timing control">คุมเวลาได้ระดับไมโครวินาที</b> — ไม่มีชั้นแปลภาษาคั่นระหว่างโค้ดกับฮาร์ดแวร์</li>
+          <li><b data-th-tail=" — นาฬิกา ขา GPIO และ peripheral ตั้งผ่าน Device Configurator" data-en-tail=" — clocks, pins and peripherals through the Device Configurator" data-th="แก้ค่าอุปกรณ์ด้วยเครื่องมือกราฟิก" data-en="Configure the device graphically">แก้ค่าอุปกรณ์ด้วยเครื่องมือกราฟิก</b> — นาฬิกา ขา GPIO และ peripheral ตั้งผ่าน Device Configurator</li>
+          <li><b data-th-tail=" — breakpoint, ดูรีจิสเตอร์, ไล่ทีละบรรทัดผ่าน KitProg" data-en-tail=" — breakpoints, registers and single-stepping over KitProg" data-th="ดีบักระดับคำสั่ง" data-en="Instruction-level debugging">ดีบักระดับคำสั่ง</b> — breakpoint, ดูรีจิสเตอร์, ไล่ทีละบรรทัดผ่าน KitProg</li>
+          <li><b data-th-tail=" — เหลือที่ให้โมเดล Edge AI มากที่สุด" data-en-tail=" — which leaves the most room for Edge AI models" data-th="ใช้ RAM และแฟลชน้อยที่สุด" data-en="Smallest RAM and flash footprint">ใช้ RAM และแฟลชน้อยที่สุด</b> — เหลือที่ให้โมเดล Edge AI มากที่สุด</li>
+        </ul>
+        <p class="path-when" data-th="เหมาะกับ: สินค้าที่ต้องผลิตจริง งานที่คุม latency งานที่แบตเตอรี่เป็นข้อจำกัด" data-en="Suits: products going to manufacture, latency-critical work, battery-constrained designs.">เหมาะกับ: สินค้าที่ต้องผลิตจริง งานที่คุม latency งานที่แบตเตอรี่เป็นข้อจำกัด</p>
+        <dl class="path-rows">
+          <div><dt data-th="ขนาดแพ็กเกจ" data-en="Package size">ขนาดแพ็กเกจ</dt><dd data-th="8.6 MB · 2,353 ไฟล์" data-en="8.6 MB · 2,353 files">8.6 MB · 2,353 ไฟล์</dd></div>
+          <div><dt data-th="ภาษา" data-en="Language">ภาษา</dt><dd data-th="C — สามคอร์" data-en="C — three cores">C — สามคอร์</dd></div>
+          <div><dt data-th="เอกสาร" data-en="Documentation">เอกสาร</dt><dd data-th="732 หน้า (EN + TH)" data-en="732 pages (EN + TH)">732 หน้า (EN + TH)</dd></div>
+        </dl>
+      </article>
+
+      <article class="path path-featured">
+        <header>
+          <p class="path-tag">ModusToolbox™ + MicroPython</p>
+          <h3 data-th="เขียน Python บนบอร์ด เห็นผลทันทีที่กด Enter" data-en="Write Python on the board, see it the moment you press Enter">เขียน Python บนบอร์ด เห็นผลทันทีที่กด Enter</h3>
+        </header>
+        <p data-th="
+          ได้ทุกอย่างของเส้นทางแรก บวก MicroPython ที่ฝังอยู่ในเฟิร์มแวร์ตั้งแต่ต้น
+          พร้อมโมดูลที่เราเขียนขึ้นเองสำหรับเซนเซอร์ จอ Wi-Fi, MQTT, HSM และ Edge AI
+          — เชื่อมสาย USB แล้วพิมพ์คำสั่งคุยกับฮาร์ดแวร์ได้เลย
+        " data-en="
+          Everything in the first path, plus MicroPython embedded in the firmware from the start,
+          with modules we wrote ourselves for the sensors, the display, Wi-Fi, MQTT, the HSM and
+          Edge AI — plug in USB and start talking to the hardware.
+        ">
+          ได้ทุกอย่างของเส้นทางแรก บวก MicroPython ที่ฝังอยู่ในเฟิร์มแวร์ตั้งแต่ต้น
+          พร้อมโมดูลที่เราเขียนขึ้นเองสำหรับเซนเซอร์ จอ Wi-Fi, MQTT, HSM และ Edge AI
+          — เชื่อมสาย USB แล้วพิมพ์คำสั่งคุยกับฮาร์ดแวร์ได้เลย
+        </p>
+        <ul class="path-points">
+          <li><b data-th-tail=" — แก้แล้วรันทันที รอบการทดลองจากนาทีเหลือวินาที" data-en-tail=" — edit and run; the experiment loop drops from minutes to seconds" data-th="ไม่ต้องคอมไพล์ ไม่ต้อง flash" data-en="No compile, no flash">ไม่ต้องคอมไพล์ ไม่ต้อง flash</b> — แก้แล้วรันทันที รอบการทดลองจากนาทีเหลือวินาที</li>
+          <li><b data-th-tail=" — อ่านเซนเซอร์ทีละบรรทัดเพื่อหาสาเหตุปัญหา" data-en-tail=" — read a sensor line by line while you are chasing a problem" data-th="REPL คุยกับบอร์ดสด ๆ" data-en="A live REPL to the board">REPL คุยกับบอร์ดสด ๆ</b> — อ่านเซนเซอร์ทีละบรรทัดเพื่อหาสาเหตุปัญหา</li>
+          <li><b data-th-tail=" — ระบบไฟล์ 52 MB โค้ดอยู่กับอุปกรณ์ ไม่หายเมื่อถอดไฟ" data-en-tail=" — a 52 MB file system, so the code stays with the device" data-th="ไฟล์ Python เก็บบนบอร์ด" data-en="Python files live on the board">ไฟล์ Python เก็บบนบอร์ด</b> — ระบบไฟล์ 52 MB โค้ดอยู่กับอุปกรณ์ ไม่หายเมื่อถอดไฟ</li>
+          <li><b data-th-tail=" — ส่วนที่ต้องเร็วเขียน C ส่วนที่ต้องแก้บ่อยเขียน Python" data-en-tail=" — C where it must be fast, Python where it changes often" data-th="ผสม C กับ Python ได้" data-en="Mix C and Python">ผสม C กับ Python ได้</b> — ส่วนที่ต้องเร็วเขียน C ส่วนที่ต้องแก้บ่อยเขียน Python</li>
+        </ul>
+        <p class="path-when" data-th="เหมาะกับ: การเรียนการสอน งานต้นแบบ การทดลองเซนเซอร์ และงานที่โจทย์ยังเปลี่ยนบ่อย" data-en="Suits: teaching, prototyping, sensor experiments, and work whose requirements are still moving.">เหมาะกับ: การเรียนการสอน งานต้นแบบ การทดลองเซนเซอร์ และงานที่โจทย์ยังเปลี่ยนบ่อย</p>
+        <dl class="path-rows">
+          <div><dt data-th="ขนาดแพ็กเกจ" data-en="Package size">ขนาดแพ็กเกจ</dt><dd data-th="9.4 MB · 2,552 ไฟล์" data-en="9.4 MB · 2,552 files">9.4 MB · 2,552 ไฟล์</dd></div>
+          <div><dt data-th="ภาษา" data-en="Language">ภาษา</dt><dd>C + MicroPython</dd></div>
+          <div><dt>GC heap</dt><dd>64 KB</dd></div>
+          <div><dt data-th="เอกสาร" data-en="Documentation">เอกสาร</dt><dd data-th="838 หน้า (EN + TH)" data-en="838 pages (EN + TH)">838 หน้า (EN + TH)</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="sdk">
+      <div class="sdk-copy">
+        <h3 data-th="SDK ที่ให้ทั้งซอร์สและไลบรารีที่เซ็นแล้ว" data-en="An SDK that gives you both source and signed libraries">SDK ที่ให้ทั้งซอร์สและไลบรารีที่เซ็นแล้ว</h3>
+        <p data-th="
+          สิ่งที่คุณได้รับไม่ใช่ไฟล์ไบนารีก้อนเดียว — เป็นโค้ดที่อ่านได้เกือบทั้งหมด
+          บวกไลบรารีสำเร็จรูปหกตัวที่เซ็นลายเซ็นดิจิทัลไว้ พร้อมสคริปต์ให้คุณตรวจสอบเองได้
+          ตั้งแต่นาทีแรกที่แตกไฟล์
+        " data-en="
+          What you receive is not one opaque binary. It is code you can read, nearly all of it,
+          beside six prebuilt libraries carrying a digital signature — and a script that lets you
+          verify them yourself, from the first minute after you unzip.
+        ">
+          สิ่งที่คุณได้รับไม่ใช่ไฟล์ไบนารีก้อนเดียว — เป็นโค้ดที่อ่านได้เกือบทั้งหมด
+          บวกไลบรารีสำเร็จรูปหกตัวที่เซ็นลายเซ็นดิจิทัลไว้ พร้อมสคริปต์ให้คุณตรวจสอบเองได้
+          ตั้งแต่นาทีแรกที่แตกไฟล์
+        </p>
+        <ul class="ticks">
+          <li><b data-th-tail=" ของ C ที่เปิดให้อ่าน — ทุกหน้าจอ ทุกไดรเวอร์ ทั้ง BSP" data-en-tail=" of C open to read — every screen, every driver, the whole BSP" data-th="~237,000 บรรทัด" data-en="~237,000 lines">~237,000 บรรทัด</b> ของ C ที่เปิดให้อ่าน — ทุกหน้าจอ ทุกไดรเวอร์ ทั้ง BSP</li>
+          <li><b data-th-tail=" เปิดเผย API สาธารณะ 284 รายการ พร้อม " data-en-tail=" exporting 284 public API entries, with an " data-th="6 ไลบรารีสำเร็จรูป" data-en="6 prebuilt libraries">6 ไลบรารีสำเร็จรูป</b> เปิดเผย API สาธารณะ 284 รายการ พร้อม <code data-th-tail=" ที่ตรงกับความจริง" data-en-tail=" that tells the truth">api.txt</code> ที่ตรงกับความจริง</li>
+          <li><b data-th-tail=" ที่คอมไพล์ผ่านจริง ไม่ใช่ตัวอย่างในเอกสารที่ใช้ไม่ได้" data-en-tail=" that genuinely compile — not documentation code that does not build" data-th="40 ตัวอย่างโค้ด" data-en="40 worked examples">40 ตัวอย่างโค้ด</b> ที่คอมไพล์ผ่านจริง ไม่ใช่ตัวอย่างในเอกสารที่ใช้ไม่ได้</li>
+          <li><b data-th-tail=" เรียงตามลำดับการใช้งานจริง สองภาษา" data-en-tail=" in the order you actually meet the work, in both languages" data-th="35 บทเรียน" data-en="35 tutorial chapters">35 บทเรียน</b> เรียงตามลำดับการใช้งานจริง สองภาษา</li>
+          <li><b data-th="ตรวจลายเซ็นได้เอง" data-en="Verify the signature yourself">ตรวจลายเซ็นได้เอง</b> — <code data-th-tail=" ตรวจทุกไฟล์เทียบ manifest ที่เซ็นไว้" data-en-tail=" checks every file against a signed manifest">./verify.sh</code> ตรวจทุกไฟล์เทียบ manifest ที่เซ็นไว้</li>
+        </ul>
+      </div>
+      <div class="sdk-code">
+        <div class="code-head"><span data-th="เริ่มต้นใช้งาน" data-en="Getting started">เริ่มต้นใช้งาน</span></div>
+<pre><code>$ unzip bento-firmware-template-mtb-mpy.zip
+$ cd bento-firmware-template-mtb-mpy
+
+$ cd lib &amp;&amp; ./verify.sh
+OK: signature valid and every file
+    matches its digest
+
+$ ./bento.sh doctor
+</code></pre>
+      </div>
+    </div>
+
+    <section class="getting-started" id="get-started" aria-labelledby="get-started-title">
+      <div>
+        <p class="act-no" data-th="เริ่มต้น" data-en="GET STARTED">เริ่มต้น</p>
+        <h3 id="get-started-title" data-th="เลือกเส้นทาง แล้วเข้าเอกสารที่ตรงกับงานของคุณ" data-en="Pick a path, then open the documentation that matches your work">เลือกเส้นทาง แล้วเข้าเอกสารที่ตรงกับงานของคุณ</h3>
+        <p data-th="เอกสาร API สร้างจาก Doxygen โดยตรงจาก header ที่มากับ SDK — landing page นี้จึงพาไปยังเอกสารชุดเดียวกับที่อยู่ในแพ็กเกจ ไม่ทำสำเนาเนื้อหาซ้ำ" data-en="The API reference is generated with Doxygen straight from the headers that ship in the SDK,
+          so this page sends you to the same documentation that is inside the package rather than
+          keeping a second copy of it.">เอกสาร API สร้างจาก Doxygen โดยตรงจาก header ที่มากับ SDK — landing page นี้จึงพาไปยังเอกสารชุดเดียวกับที่อยู่ในแพ็กเกจ ไม่ทำสำเนาเนื้อหาซ้ำ</p>
+      </div>
+      <div class="start-actions">
+        <a class="start-card" href="sdk/mtb-only/th/index.html" data-th-href="sdk/mtb-only/th/index.html" data-en-href="sdk/mtb-only/index.html">
+          <span class="start-kicker">MTB-only · C / FreeRTOS</span>
+          <strong data-th="เปิดเอกสารภาษาไทย" data-en="Open the English documentation">เปิดเอกสารภาษาไทย</strong>
+          <small data-th="API, tutorials และตัวอย่างสำหรับเฟิร์มแวร์ C ล้วน" data-en="API, tutorials and examples for the pure-C firmware">API, tutorials และตัวอย่างสำหรับเฟิร์มแวร์ C ล้วน</small>
+        </a>
+        <a class="start-card" href="sdk/mtb-mpy/th/index.html" data-th-href="sdk/mtb-mpy/th/index.html" data-en-href="sdk/mtb-mpy/index.html">
+          <span class="start-kicker">MTB-MPY · C + MicroPython</span>
+          <strong data-th="เปิดเอกสารภาษาไทย" data-en="Open the English documentation">เปิดเอกสารภาษาไทย</strong>
+          <small data-th="API, tutorials และโมดูล MicroPython ของ Dev Kit" data-en="API, tutorials and the Dev Kit's MicroPython modules">API, tutorials และโมดูล MicroPython ของ Dev Kit</small>
+        </a>
+        <a class="start-card start-card-plain" href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk">
+          <span class="start-kicker">GitHub</span>
+          <strong data-th="ดู source และ releases" data-en="Browse the source and releases">ดู source และ releases</strong>
+          <small data-th="ดาวน์โหลด template, ตรวจลายเซ็น และดูสถานะ release ล่าสุด" data-en="Download a template, verify its signature, and see the latest release">ดาวน์โหลด template, ตรวจลายเซ็น และดูสถานะ release ล่าสุด</small>
+        </a>
+      </div>
+    </section>
+  </div>
+
+    <aside class="vids">
+      <div class="vids-head">
+        <p class="vids-kicker" data-th="วิดีโอ" data-en="VIDEO">วิดีโอ</p>
+        <h3 data-th="จากไฟล์ที่ดาวน์โหลด ถึงบอร์ดที่รันอยู่" data-en="From the download to a board that is running">จากไฟล์ที่ดาวน์โหลด ถึงบอร์ดที่รันอยู่</h3>
+        <p data-th="สองเส้นทางขึ้นฮาร์ดแวร์: สร้างเองด้วย ModusToolbox™ หรือแฟลชผ่านเบราว์เซอร์เมื่อยังไม่ได้ติดตั้ง toolchain ในเครื่อง" data-en="Two routes onto the hardware: build it yourself with ModusToolbox™, or flash from the browser when you have no toolchain installed yet.">สองเส้นทางขึ้นฮาร์ดแวร์: สร้างเองด้วย ModusToolbox™ หรือแฟลชผ่านเบราว์เซอร์เมื่อยังไม่ได้ติดตั้ง toolchain ในเครื่อง</p>
+      </div>
+      <div class="vid-row">
+        <a class="vid-card" href="https://youtu.be/JfFfSXouFMQ" data-video="JfFfSXouFMQ" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: ดาวน์โหลด สร้าง แล้วโปรแกรมด้วย ModusToolbox™ · 4:35" data-th-aria-label="เล่นวิดีโอ: ดาวน์โหลด สร้าง แล้วโปรแกรมด้วย ModusToolbox™ · 4:35" data-en-aria-label="Play video: Download, build and program with ModusToolbox™ · 4:35">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/JfFfSXouFMQ/mqdefault.jpg" srcset="https://i.ytimg.com/vi/JfFfSXouFMQ/mqdefault.jpg 320w, https://i.ytimg.com/vi/JfFfSXouFMQ/hqdefault.jpg 480w, https://i.ytimg.com/vi/JfFfSXouFMQ/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">4:35</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="ดาวน์โหลด สร้าง แล้วโปรแกรมด้วย ModusToolbox™" data-en="Download, build and program with ModusToolbox™">ดาวน์โหลด สร้าง แล้วโปรแกรมด้วย ModusToolbox™</span>
+            <span class="vid-note" data-th="ดึงเฟิร์มแวร์จาก Developer Hub สร้าง แล้วโปรแกรมลง TESAIoT Dev Kit" data-en="Pull the firmware from the Developer Hub, build it, and program the TESAIoT Dev Kit.">ดึงเฟิร์มแวร์จาก Developer Hub สร้าง แล้วโปรแกรมลง TESAIoT Dev Kit</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/TZEsLwwyBzw" data-video="TZEsLwwyBzw" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: แฟลชระยะไกล · TESAIoT Dev Kit · 13:02" data-th-aria-label="เล่นวิดีโอ: แฟลชระยะไกล · TESAIoT Dev Kit · 13:02" data-en-aria-label="Play video: Remote flashing · TESAIoT Dev Kit · 13:02">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/TZEsLwwyBzw/mqdefault.jpg" srcset="https://i.ytimg.com/vi/TZEsLwwyBzw/mqdefault.jpg 320w, https://i.ytimg.com/vi/TZEsLwwyBzw/hqdefault.jpg 480w, https://i.ytimg.com/vi/TZEsLwwyBzw/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">13:02</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="แฟลชระยะไกล · TESAIoT Dev Kit" data-en="Remote flashing · TESAIoT Dev Kit">แฟลชระยะไกล · TESAIoT Dev Kit</span>
+            <span class="vid-note" data-th="แฟลชผ่าน Developer Hub โดยไม่ต้องมี toolchain ในเครื่อง" data-en="Flash through the Developer Hub — no local toolchain required.">แฟลชผ่าน Developer Hub โดยไม่ต้องมี toolchain ในเครื่อง</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/Wc_nXiLS864" data-video="Wc_nXiLS864" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: แฟลชระยะไกล · PSoC™ Edge AI Kit · 6:49" data-th-aria-label="เล่นวิดีโอ: แฟลชระยะไกล · PSoC™ Edge AI Kit · 6:49" data-en-aria-label="Play video: Remote flashing · PSoC™ Edge AI Kit · 6:49">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/Wc_nXiLS864/mqdefault.jpg" srcset="https://i.ytimg.com/vi/Wc_nXiLS864/mqdefault.jpg 320w, https://i.ytimg.com/vi/Wc_nXiLS864/hqdefault.jpg 480w, https://i.ytimg.com/vi/Wc_nXiLS864/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">6:49</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="แฟลชระยะไกล · PSoC™ Edge AI Kit" data-en="Remote flashing · PSoC™ Edge AI Kit">แฟลชระยะไกล · PSoC™ Edge AI Kit</span>
+            <span class="vid-note" data-th="ขั้นตอนเดียวกัน ทำกับบอร์ด PSoC™ Edge AI Kit" data-en="The same flow, driven against the PSoC™ Edge AI Kit.">ขั้นตอนเดียวกัน ทำกับบอร์ด PSoC™ Edge AI Kit</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/5WPN6KiNpGQ" data-video="5WPN6KiNpGQ" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: TESAIoT Developer Hub · 1:25" data-th-aria-label="เล่นวิดีโอ: TESAIoT Developer Hub · 1:25" data-en-aria-label="Play video: TESAIoT Developer Hub · 1:25">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/5WPN6KiNpGQ/mqdefault.jpg" srcset="https://i.ytimg.com/vi/5WPN6KiNpGQ/mqdefault.jpg 320w, https://i.ytimg.com/vi/5WPN6KiNpGQ/hqdefault.jpg 480w, https://i.ytimg.com/vi/5WPN6KiNpGQ/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">1:25</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="TESAIoT Developer Hub" data-en="TESAIoT Developer Hub">TESAIoT Developer Hub</span>
+            <span class="vid-note" data-th="ที่เดียวสำหรับนักพัฒนาเฟิร์มแวร์ มิดเดิลแวร์ และแอปพลิเคชัน" data-en="One hub for firmware, middleware and application developers.">ที่เดียวสำหรับนักพัฒนาเฟิร์มแวร์ มิดเดิลแวร์ และแอปพลิเคชัน</span>
+          </span>
+        </a>
+      </div>
+    </aside>
+
+
+</section>
+
+<!-- ─────────────────── ACT III · SECURITY + EDGE AI ─────────────────── -->
+<section class="act act-dark" id="security">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">03</p>
+      <h2 data-th="ความปลอดภัยที่" data-en="Security stated at ">ความปลอดภัยที่<em data-th="พูดเท่าที่ทำได้จริง" data-en="the strength we can prove">พูดเท่าที่ทำได้จริง</em></h2>
+      <p class="act-lead" data-th="
+        เราพิสูจน์บนบอร์ดจริง และเขียนเฉพาะสิ่งที่พิสูจน์แล้ว
+        ส่วนที่ยังไม่บังคับใช้ เราบอกว่ายังไม่บังคับใช้
+      " data-en="
+        We prove it on real hardware and write down only what we proved.
+        Where something is not enforced, we say it is not enforced.
+      ">
+        เราพิสูจน์บนบอร์ดจริง และเขียนเฉพาะสิ่งที่พิสูจน์แล้ว
+        ส่วนที่ยังไม่บังคับใช้ เราบอกว่ายังไม่บังคับใช้
+      </p>
+    </header>
+
+    <div class="sec-grid">
+      <article class="sec-card sec-proven">
+        <p class="sec-state" data-th="พิสูจน์บนฮาร์ดแวร์แล้ว" data-en="Proven on hardware">พิสูจน์บนฮาร์ดแวร์แล้ว</p>
+        <h3>OPTIGA™ Trust M</h3>
+        <ul>
+          <li data-th="สร้างคู่กุญแจภายในชิป — " data-en="Key pair generated inside the chip — ">สร้างคู่กุญแจภายในชิป — <b data-th="กุญแจส่วนตัวไม่เคยออกมานอกชิป" data-en="the private key never leaves it">กุญแจส่วนตัวไม่เคยออกมานอกชิป</b></li>
+          <li data-th="ขอใบรับรองผ่าน CSR และรับกลับมาทาง MQTT over TLS" data-en="Certificate requested by CSR and returned over MQTT with TLS">ขอใบรับรองผ่าน CSR และรับกลับมาทาง MQTT over TLS</li>
+          <li data-th="Protected Update พร้อมการตรวจ manifest ในซิลิกอน ซึ่ง" data-en="Protected Update with manifest verification in silicon, which ">Protected Update พร้อมการตรวจ manifest ในซิลิกอน ซึ่ง<b data-th="ล้มเหลวแบบปิด" data-en="fails closed">ล้มเหลวแบบปิด</b></li>
+          <li data-th="Mutual TLS โดยกุญแจอยู่ในชิปตลอดการทำงาน" data-en="Mutual TLS with the key staying inside the chip throughout">Mutual TLS โดยกุญแจอยู่ในชิปตลอดการทำงาน</li>
+        </ul>
+        <p class="sec-note" data-th="
+          OPTIGA เป็น" data-en="
+          OPTIGA is a ">
+          OPTIGA เป็น<b data-th-tail=" ไม่ได้บัดกรีบนบอร์ด — สั่งแยกและเสียบที่ที่อยู่ " data-en-tail=", not soldered to the board — ordered separately and fitted at address " data-th="โมดูลเสียบ" data-en="plug-in module">โมดูลเสียบ</b> ไม่ได้บัดกรีบนบอร์ด — สั่งแยกและเสียบที่ที่อยู่ <code data-th-tail="
+        " data-en-tail=".
+        ">0x30</code>
+        </p>
+      </article>
+
+      <article class="sec-card">
+        <p class="sec-state sec-state-open" data-th="ยังไม่บังคับใช้ — และเราเขียนไว้ตรง ๆ" data-en="Not enforced — and we say so plainly">ยังไม่บังคับใช้ — และเราเขียนไว้ตรง ๆ</p>
+        <h3 data-th="สิ่งที่ยังเป็นข้อตกลง ไม่ใช่กลไก" data-en="What is contractual rather than mechanical">สิ่งที่ยังเป็นข้อตกลง ไม่ใช่กลไก</h3>
+        <ul>
+          <li data-th="การตรวจสิทธิ์การใช้งาน — " data-en="The licence check is ">การตรวจสิทธิ์การใช้งาน — <b data-th-tail=" ข้อจำกัดเชิงพาณิชย์เป็นสัญญา ไม่ใช่เทคนิค" data-en-tail=". The commercial restriction is a contract, not a technical boundary." data-th="ไม่ได้คอมไพล์เข้าอิมเมจใด" data-en="compiled into no image">ไม่ได้คอมไพล์เข้าอิมเมจใด</b> ข้อจำกัดเชิงพาณิชย์เป็นสัญญา ไม่ใช่เทคนิค</li>
+          <li data-th="ลายเซ็นโมเดล Edge AI — " data-en="The Edge AI model signature is ">ลายเซ็นโมเดล Edge AI — <b data-th-tail=" โมเดลที่ลายเซ็นไม่ผ่านยังโหลดได้" data-en-tail=" — a model that fails verification still loads." data-th="ตรวจจริง แต่ไม่บล็อก" data-en="verified but not enforced">ตรวจจริง แต่ไม่บล็อก</b> โมเดลที่ลายเซ็นไม่ผ่านยังโหลดได้</li>
+          <li data-th="การจับคู่ BLE — ปัจจุบันเป็น Just Works ไม่บังคับการยืนยันตัวตน (BLE ปิดโดยค่าเริ่มต้น)" data-en="BLE pairing is currently Just Works, with no authentication required (BLE is off by default).">การจับคู่ BLE — ปัจจุบันเป็น Just Works ไม่บังคับการยืนยันตัวตน (BLE ปิดโดยค่าเริ่มต้น)</li>
+          <li data-th="ใบรับรองจากโรงงานระบุตัว" data-en="The factory certificate identifies a ">ใบรับรองจากโรงงานระบุตัว<b data-th-tail=" ไม่ใช่ตัว" data-en-tail=", not a " data-th="ชิป" data-en="chip">ชิป</b> ไม่ใช่ตัว<b data-th-tail=" — การผูกตัวตนต้องทำที่ฝั่ง broker" data-en-tail=" — binding identity has to happen at the broker." data-th="อุปกรณ์" data-en="device">อุปกรณ์</b> — การผูกตัวตนต้องทำที่ฝั่ง broker</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+
+    <aside class="vids">
+      <div class="vids-head">
+        <p class="vids-kicker" data-th="วิดีโอ" data-en="VIDEO">วิดีโอ</p>
+        <h3 data-th="โมเดลความปลอดภัย ฉบับเต็มและฉบับย่อ" data-en="The security model, long form and short">โมเดลความปลอดภัย ฉบับเต็มและฉบับย่อ</h3>
+        <p data-th="คลิปยาวคือเซสชันเต็มว่าด้วยตัวตน กุญแจ และราคาที่ต้องจ่ายจริงของคำว่า secure by default ส่วนคลิปสั้นวางบอร์ดนี้ลงในแพลตฟอร์มที่ล้อมมันอยู่" data-en="The long one is the full session on identity, keys and what “secure by default” actually costs. The short one places this board inside the platform around it.">คลิปยาวคือเซสชันเต็มว่าด้วยตัวตน กุญแจ และราคาที่ต้องจ่ายจริงของคำว่า secure by default ส่วนคลิปสั้นวางบอร์ดนี้ลงในแพลตฟอร์มที่ล้อมมันอยู่</p>
+      </div>
+      <div class="vid-row vid-row-2">
+        <a class="vid-card" href="https://youtu.be/xoyZBh20dYA" data-video="xoyZBh20dYA" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: TESAIoT Security Essentials · 26:20" data-th-aria-label="เล่นวิดีโอ: TESAIoT Security Essentials · 26:20" data-en-aria-label="Play video: TESAIoT Security Essentials · 26:20">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/xoyZBh20dYA/mqdefault.jpg" srcset="https://i.ytimg.com/vi/xoyZBh20dYA/mqdefault.jpg 320w, https://i.ytimg.com/vi/xoyZBh20dYA/hqdefault.jpg 480w, https://i.ytimg.com/vi/xoyZBh20dYA/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">26:20</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="TESAIoT Security Essentials" data-en="TESAIoT Security Essentials">TESAIoT Security Essentials</span>
+            <span class="vid-note" data-th="ตัวตน กุญแจ และสิ่งที่ต้องแลกเพื่อให้ปลอดภัยตั้งแต่ค่าเริ่มต้น" data-en="Identity, keys, and what secure-by-default costs you.">ตัวตน กุญแจ และสิ่งที่ต้องแลกเพื่อให้ปลอดภัยตั้งแต่ค่าเริ่มต้น</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/Ot10XIlznnY" data-video="Ot10XIlznnY" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: Overall TESAIoT Secure Platform · 1:50" data-th-aria-label="เล่นวิดีโอ: Overall TESAIoT Secure Platform · 1:50" data-en-aria-label="Play video: Overall TESAIoT Secure Platform · 1:50">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/Ot10XIlznnY/mqdefault.jpg" srcset="https://i.ytimg.com/vi/Ot10XIlznnY/mqdefault.jpg 320w, https://i.ytimg.com/vi/Ot10XIlznnY/hqdefault.jpg 480w, https://i.ytimg.com/vi/Ot10XIlznnY/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">1:50</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="Overall TESAIoT Secure Platform" data-en="Overall TESAIoT Secure Platform">Overall TESAIoT Secure Platform</span>
+            <span class="vid-note" data-th="ภาพรวมทั้งระบบ: อุปกรณ์ ขอบ คลาวด์ และวิธีที่ทั้งสามเชื่อถือกัน" data-en="The whole platform in one pass — device, edge, cloud, and how they trust each other.">ภาพรวมทั้งระบบ: อุปกรณ์ ขอบ คลาวด์ และวิธีที่ทั้งสามเชื่อถือกัน</span>
+          </span>
+        </a>
+      </div>
+    </aside>
+
+</section>
+
+<section class="act act-dark act-dark-cont" id="edgeai">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">04</p>
+      <h2 data-th="Edge AI ที่" data-en="Edge AI that ">Edge AI ที่<em data-th="รันได้ในวันแรก" data-en="runs on day one">รันได้ในวันแรก</em></h2>
+      <p class="act-lead" data-th="
+        เอนจินอยู่บน Cortex®-M55 คู่กับ Ethos™-U55 NPU
+        มาพร้อมโมเดล DEEPCRAFT™ ที่ทำงานได้จริงตั้งแต่แกะกล่อง และช่องว่างให้คุณใส่ของตัวเอง
+      " data-en="
+        The engine sits on the Cortex®-M55 beside the Ethos™-U55 NPU. It arrives with DEEPCRAFT™
+        models that work out of the box, and empty slots for models of your own.
+      ">
+        เอนจินอยู่บน Cortex®-M55 คู่กับ Ethos™-U55 NPU
+        มาพร้อมโมเดล DEEPCRAFT™ ที่ทำงานได้จริงตั้งแต่แกะกล่อง และช่องว่างให้คุณใส่ของตัวเอง
+      </p>
+    </header>
+
+    <div class="ai-grid">
+      <div class="ai-slots">
+        <p class="ai-label" data-th="ช่องโมเดล 6 ช่อง" data-en="SIX MODEL SLOTS">ช่องโมเดล 6 ช่อง</p>
+        <ul class="slots">
+          <li class="slot-on"><b>motion</b><span data-th="ทำงาน" data-en="running">ทำงาน</span></li>
+          <li class="slot-on"><b>audio</b><span data-th="ทำงาน" data-en="running">ทำงาน</span></li>
+          <li class="slot-on"><b>radar</b><span data-th="ทำงาน" data-en="running">ทำงาน</span></li>
+          <li class="slot-off"><b>cough</b><span data-th="ว่าง" data-en="empty">ว่าง</span></li>
+          <li class="slot-off"><b>alarm</b><span data-th="ว่าง" data-en="empty">ว่าง</span></li>
+          <li class="slot-off"><b>siren</b><span data-th="ว่าง" data-en="empty">ว่าง</span></li>
+        </ul>
+        <p class="ai-note" data-th="
+          สามช่องแรกมีโมเดลที่ส่งมาด้วย อีกสามช่องเว้นไว้โดยตั้งใจ —
+          โมเดลสำเร็จรูปของ Imagimob อยู่ภายใต้สัญญาอนุญาตของเขา เราจึงไม่แจกจ่ายต่อ
+          แต่เปิดช่องไว้ให้คุณนำมาใส่เองได้
+        " data-en="
+          The first three carry models that ship with the kit. The other three are deliberately empty —
+          Imagimob's Ready Models are governed by their own licence, so we do not redistribute them,
+          but the slots are open for you to fit your own.
+        ">
+          สามช่องแรกมีโมเดลที่ส่งมาด้วย อีกสามช่องเว้นไว้โดยตั้งใจ —
+          โมเดลสำเร็จรูปของ Imagimob อยู่ภายใต้สัญญาอนุญาตของเขา เราจึงไม่แจกจ่ายต่อ
+          แต่เปิดช่องไว้ให้คุณนำมาใส่เองได้
+        </p>
+      </div>
+
+      <div class="ai-routes">
+        <p class="ai-label" data-th="สี่วิธีใส่โมเดลของคุณเอง" data-en="FOUR WAYS TO ADD YOUR OWN MODEL">สี่วิธีใส่โมเดลของคุณเอง</p>
+        <ol class="routes">
+          <li>
+            <b data-th="ลงทะเบียนตอนรันไทม์" data-en="Register at run time">ลงทะเบียนตอนรันไทม์</b>
+            <span data-th="เรียก " data-en="Call ">เรียก <code data-th-tail=" — ไม่ต้องใช้ช่องที่มีอยู่ ไม่ต้องคอมไพล์เอนจินใหม่" data-en-tail=" — no slot needed, and no rebuild of our engine.">ai_engine_register()</code> — ไม่ต้องใช้ช่องที่มีอยู่ ไม่ต้องคอมไพล์เอนจินใหม่</span>
+          </li>
+          <li>
+            <b data-th="Export จาก DEEPCRAFT™ Studio" data-en="Export from DEEPCRAFT™ Studio">Export จาก DEEPCRAFT™ Studio</b>
+            <span data-th="เขียนทับไฟล์โมเดลเดิม เปลี่ยนชื่อจุดเข้าใช้งานสี่จุด" data-en="Overwrite the generated model source and rename the four entry points.">เขียนทับไฟล์โมเดลเดิม เปลี่ยนชื่อจุดเข้าใช้งานสี่จุด</span>
+          </li>
+          <li>
+            <b data-th="วางไลบรารีของคุณลงไป" data-en="Drop in your own library">วางไลบรารีของคุณลงไป</b>
+            <span data-th="ตั้งชื่อตามรูปแบบ แล้ว Makefile จัดการลิงก์ให้เอง" data-en="Name it to the pattern and the Makefile links it for you.">ตั้งชื่อตามรูปแบบ แล้ว Makefile จัดการลิงก์ให้เอง</span>
+          </li>
+          <li>
+            <b data-th="เขียน runtime เอง" data-en="Write your own runtime">เขียน runtime เอง</b>
+            <span data-th="อะไรก็ได้ที่อยู่หลังฟังก์ชันสี่ตัวนั้น — TFLite หรือของคุณเอง" data-en="Anything behind those four functions — TFLite, or something of your own.">อะไรก็ได้ที่อยู่หลังฟังก์ชันสี่ตัวนั้น — TFLite หรือของคุณเอง</span>
+          </li>
+        </ol>
+        <p class="ai-note" data-th="
+          ทุกวิธีทำได้โดย" data-en="
+          Every route works ">
+          ทุกวิธีทำได้โดย<b data-th-tail=" และไม่ต้องรอไลบรารีชุดใหม่จากเรา
+        " data-en-tail=", and without waiting for a new library from us.
+        " data-th="ไม่ต้องแตะโค้ดที่เราปิด" data-en="without touching the code we keep closed">ไม่ต้องแตะโค้ดที่เราปิด</b> และไม่ต้องรอไลบรารีชุดใหม่จากเรา
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── ACT V · FOUNDATION ─────────────────────── -->
+<section class="act" id="foundation">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">05</p>
+      <h2 data-th="สิ่งที่นักพัฒนาไทย" data-en="What developers ">สิ่งที่นักพัฒนาไทย<em data-th="ได้รับจริง" data-en="actually get">ได้รับจริง</em></h2>
+      <p class="act-lead" data-th="
+        TESAIoT AIoT Foundation ไม่ได้ตั้งขึ้นเพื่อขายบอร์ด
+        แต่เพื่อลดระยะทางระหว่างวิศวกรไทยคนหนึ่ง กับผลิตภัณฑ์ที่ขายได้จริง
+      " data-en="
+        The TESAIoT AIoT Foundation does not exist to sell boards. It exists to shorten the distance
+        between one engineer and a product that can be sold.
+      ">
+        TESAIoT AIoT Foundation ไม่ได้ตั้งขึ้นเพื่อขายบอร์ด
+        แต่เพื่อลดระยะทางระหว่างวิศวกรไทยคนหนึ่ง กับผลิตภัณฑ์ที่ขายได้จริง
+      </p>
+    </header>
+
+    <div class="benefits">
+      <article>
+        <h3 data-th="ไม่ต้องเริ่มจากศูนย์" data-en="You do not start from zero">ไม่ต้องเริ่มจากศูนย์</h3>
+        <p data-th="
+          สามคอร์ IPC จอ LVGL พร้อมฟอนต์ไทย เครือข่าย TLS ระบบไฟล์ และ Edge AI
+          ทำงานร่วมกันได้แล้วตั้งแต่ไฟล์แรก งานที่ปกติกินเวลาหลายเดือนก่อนจะได้เห็นผลลัพธ์แรก
+        " data-en="
+          Three cores, IPC, an LVGL display with Thai fonts, TLS networking, a file system and Edge AI
+          already work together in the first file you open — the months that usually pass before the
+          first result appears.
+        ">
+          สามคอร์ IPC จอ LVGL พร้อมฟอนต์ไทย เครือข่าย TLS ระบบไฟล์ และ Edge AI
+          ทำงานร่วมกันได้แล้วตั้งแต่ไฟล์แรก งานที่ปกติกินเวลาหลายเดือนก่อนจะได้เห็นผลลัพธ์แรก
+        </p>
+      </article>
+      <article>
+        <h3 data-th="เอกสารภาษาไทยที่เขียนสำหรับวิศวกร" data-en="Documentation written for engineers">เอกสารภาษาไทยที่เขียนสำหรับวิศวกร</h3>
+        <p data-th="
+          838 หน้าสองภาษา ศัพท์เทคนิคคงไว้เป็นภาษาอังกฤษตามที่ใช้จริงในวงการ
+          พร้อมตัวอย่างที่คอมไพล์ผ่าน ไม่ใช่โค้ดในเอกสารที่ลอกไปแล้วใช้ไม่ได้
+        " data-en="
+          838 pages in two languages, with technical terms kept in English as the field actually uses
+          them, and examples that compile — not code that looks right in a document and fails when copied.
+        ">
+          838 หน้าสองภาษา ศัพท์เทคนิคคงไว้เป็นภาษาอังกฤษตามที่ใช้จริงในวงการ
+          พร้อมตัวอย่างที่คอมไพล์ผ่าน ไม่ใช่โค้ดในเอกสารที่ลอกไปแล้วใช้ไม่ได้
+        </p>
+      </article>
+      <article>
+        <h3 data-th="เส้นทางสู่สินค้าจริง" data-en="A path to a real product">เส้นทางสู่สินค้าจริง</h3>
+        <p data-th="
+          โครงสร้างเดียวกันนี้รองรับตั้งแต่งานเรียน งานต้นแบบ ไปจนถึงการผลิต
+          พร้อม HSM สำหรับตัวตนอุปกรณ์ และ Protected Update สำหรับการอัปเดตภาคสนาม
+        " data-en="
+          The same structure carries coursework, prototypes and production, with an HSM for device
+          identity and Protected Update for changing firmware in the field.
+        ">
+          โครงสร้างเดียวกันนี้รองรับตั้งแต่งานเรียน งานต้นแบบ ไปจนถึงการผลิต
+          พร้อม HSM สำหรับตัวตนอุปกรณ์ และ Protected Update สำหรับการอัปเดตภาคสนาม
+        </p>
+      </article>
+      <article>
+        <h3 data-th="ความรู้ที่อยู่กับคนไทย" data-en="Knowledge that stays local">ความรู้ที่อยู่กับคนไทย</h3>
+        <p data-th="
+          หลักสูตร ห้องปฏิบัติการ และการอบรมที่ใช้บอร์ดและ stack ชุดเดียวกันกับที่ใช้ทำสินค้า
+          สิ่งที่ผู้เรียนฝึกในห้อง คือสิ่งเดียวกับที่ใช้ทำงานจริง
+        " data-en="
+          Curriculum, labs and training built on the same board and the same stack used to make products,
+          so what a learner practises is what the work requires.
+        ">
+          หลักสูตร ห้องปฏิบัติการ และการอบรมที่ใช้บอร์ดและ stack ชุดเดียวกันกับที่ใช้ทำสินค้า
+          สิ่งที่ผู้เรียนฝึกในห้อง คือสิ่งเดียวกับที่ใช้ทำงานจริง
+        </p>
+      </article>
+    </div>
+  </div>
+
+    <aside class="vids">
+      <div class="vids-head">
+        <p class="vids-kicker" data-th="วิดีโอ · ภาษาไทย" data-en="VIDEO · IN THAI">วิดีโอ · ภาษาไทย</p>
+        <h3 data-th="กระบวนการพัฒนาซอฟต์แวร์ สี่ตอน" data-en="The software development process, in four parts">กระบวนการพัฒนาซอฟต์แวร์ สี่ตอน</h3>
+        <p data-th="ชุดบรรยายที่ใช้ในหลักสูตร ตั้งแต่ภาพรวมของกระบวนการ ไปจนถึงความต้องการของผู้ใช้ ข้อกำหนดระดับระบบ และระดับซอฟต์แวร์ — ส่วนที่พางานเอมเบดเดดเดินไปถึงผลิตภัณฑ์จริง" data-en="The lecture series used in the curriculum: the process end to end, then user needs, system requirements and software requirements — the part that carries embedded work all the way to a product.">ชุดบรรยายที่ใช้ในหลักสูตร ตั้งแต่ภาพรวมของกระบวนการ ไปจนถึงความต้องการของผู้ใช้ ข้อกำหนดระดับระบบ และระดับซอฟต์แวร์ — ส่วนที่พางานเอมเบดเดดเดินไปถึงผลิตภัณฑ์จริง</p>
+        <a class="vids-all" href="https://www.youtube.com/playlist?list=PLOuPSlsBpTYA" target="_blank" rel="noopener" data-th="เพลย์ลิสต์ทั้งหมดบน YouTube ↗" data-en="The full playlist on YouTube ↗">เพลย์ลิสต์ทั้งหมดบน YouTube ↗</a>
+      </div>
+      <div class="vid-row">
+        <a class="vid-card" href="https://youtu.be/INwC7GHCTsk" data-video="INwC7GHCTsk" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: ภาพรวมกระบวนการพัฒนาซอฟต์แวร์ · 16:53" data-th-aria-label="เล่นวิดีโอ: ภาพรวมกระบวนการพัฒนาซอฟต์แวร์ · 16:53" data-en-aria-label="Play video: Overall software development process · 16:53">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/INwC7GHCTsk/mqdefault.jpg" srcset="https://i.ytimg.com/vi/INwC7GHCTsk/mqdefault.jpg 320w, https://i.ytimg.com/vi/INwC7GHCTsk/hqdefault.jpg 480w, https://i.ytimg.com/vi/INwC7GHCTsk/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">16:53</span>
+            <span class="vid-ep">EP01</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="ภาพรวมกระบวนการพัฒนาซอฟต์แวร์" data-en="Overall software development process">ภาพรวมกระบวนการพัฒนาซอฟต์แวร์</span>
+            <span class="vid-note" data-th="ทั้งกระบวนการในตอนเดียว ก่อนลงรายละเอียดแต่ละขั้น" data-en="The whole process in one sitting, before the detail of each stage.">ทั้งกระบวนการในตอนเดียว ก่อนลงรายละเอียดแต่ละขั้น</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/Kog2ArYdL2o" data-video="Kog2ArYdL2o" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: ความต้องการของผู้ใช้ · 5:43" data-th-aria-label="เล่นวิดีโอ: ความต้องการของผู้ใช้ · 5:43" data-en-aria-label="Play video: User needs · 5:43">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/Kog2ArYdL2o/mqdefault.jpg" srcset="https://i.ytimg.com/vi/Kog2ArYdL2o/mqdefault.jpg 320w, https://i.ytimg.com/vi/Kog2ArYdL2o/hqdefault.jpg 480w, https://i.ytimg.com/vi/Kog2ArYdL2o/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">5:43</span>
+            <span class="vid-ep">EP02</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="ความต้องการของผู้ใช้" data-en="User needs">ความต้องการของผู้ใช้</span>
+            <span class="vid-note" data-th="จุดตั้งต้นของทุกข้อกำหนดที่ตามมา" data-en="Where every requirement that follows begins.">จุดตั้งต้นของทุกข้อกำหนดที่ตามมา</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/5E_qHu-flmg" data-video="5E_qHu-flmg" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: ข้อกำหนดระดับระบบ · 15:14" data-th-aria-label="เล่นวิดีโอ: ข้อกำหนดระดับระบบ · 15:14" data-en-aria-label="Play video: System requirements · 15:14">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/5E_qHu-flmg/mqdefault.jpg" srcset="https://i.ytimg.com/vi/5E_qHu-flmg/mqdefault.jpg 320w, https://i.ytimg.com/vi/5E_qHu-flmg/hqdefault.jpg 480w, https://i.ytimg.com/vi/5E_qHu-flmg/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">15:14</span>
+            <span class="vid-ep">EP03</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="ข้อกำหนดระดับระบบ" data-en="System requirements">ข้อกำหนดระดับระบบ</span>
+            <span class="vid-note" data-th="แปลงความต้องการของผู้ใช้เป็นข้อกำหนดที่ตรวจสอบได้" data-en="Turning user needs into requirements you can verify.">แปลงความต้องการของผู้ใช้เป็นข้อกำหนดที่ตรวจสอบได้</span>
+          </span>
+        </a>
+        <a class="vid-card" href="https://youtu.be/Db25SiMf6PM" data-video="Db25SiMf6PM" target="_blank" rel="noopener" aria-label="เล่นวิดีโอ: ข้อกำหนดระดับซอฟต์แวร์ (ต่อ) · 12:22" data-th-aria-label="เล่นวิดีโอ: ข้อกำหนดระดับซอฟต์แวร์ (ต่อ) · 12:22" data-en-aria-label="Play video: Software requirements (continued) · 12:22">
+          <span class="vid-thumb">
+            <img src="https://i.ytimg.com/vi/Db25SiMf6PM/mqdefault.jpg" srcset="https://i.ytimg.com/vi/Db25SiMf6PM/mqdefault.jpg 320w, https://i.ytimg.com/vi/Db25SiMf6PM/hqdefault.jpg 480w, https://i.ytimg.com/vi/Db25SiMf6PM/sddefault.jpg 640w" sizes="(max-width:560px) 92vw, 380px" alt="" width="320" height="180" loading="lazy" decoding="async">
+            <span class="vid-play" aria-hidden="true"></span>
+            <span class="vid-len">12:22</span>
+            <span class="vid-ep">EP04</span>
+          </span>
+          <span class="vid-body">
+            <span class="vid-title" data-th="ข้อกำหนดระดับซอฟต์แวร์ (ต่อ)" data-en="Software requirements (continued)">ข้อกำหนดระดับซอฟต์แวร์ (ต่อ)</span>
+            <span class="vid-note" data-th="ลงถึงระดับซอฟต์แวร์ ที่เฟิร์มแวร์จริงต้องทำตาม" data-en="Down to the software level that the firmware must actually meet.">ลงถึงระดับซอฟต์แวร์ ที่เฟิร์มแวร์จริงต้องทำตาม</span>
+          </span>
+        </a>
+      </div>
+    </aside>
+
+</section>
+
+<!-- ─────────────────────────── CONTACT ─────────────────────────── -->
+<section class="act act-dark act-contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <h2 data-th="เริ่มต้นกับ " data-en="Start with the ">เริ่มต้นกับ <em data-th="TESAIoT Dev Kit" data-en="TESAIoT Development Kit">TESAIoT Dev Kit</em></h2>
+      <p class="act-lead" data-th="
+        สำหรับสถาบันการศึกษา ทีมพัฒนาผลิตภัณฑ์ และงานอบรม —
+        ติดต่อเพื่อขอรายละเอียด แพ็กเกจเฟิร์มแวร์ และเงื่อนไขการนำไปใช้
+      " data-en="
+        For universities, product teams and training programmes — get in touch for details,
+        the firmware packages, and terms of use.
+      ">
+        สำหรับสถาบันการศึกษา ทีมพัฒนาผลิตภัณฑ์ และงานอบรม —
+        ติดต่อเพื่อขอรายละเอียด แพ็กเกจเฟิร์มแวร์ และเงื่อนไขการนำไปใช้
+      </p>
+      <a class="btn btn-primary" href="mailto:contact@tesa.or.th" data-th="ติดต่อทีมงาน" data-en="Contact the team">ติดต่อทีมงาน</a>
+      <p class="contact-alt" data-th="ซอร์ส เอกสาร และแพ็กเกจทั้งหมดอยู่ที่ " data-en="Source, documentation and every package live at ">ซอร์ส เอกสาร และแพ็กเกจทั้งหมดอยู่ที่ <a href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk">github.com/tesaiot/tesaiot-pse84-devkit-sdk</a></p>
+    </div>
+    <dl class="contact-facts">
+      <div><dt data-th="บอร์ด" data-en="Board">บอร์ด</dt><dd data-th="บอร์ดฐาน TESAIoT + KIT_PSE84_AI" data-en="TESAIoT base board + KIT_PSE84_AI">บอร์ดฐาน TESAIoT + KIT_PSE84_AI</dd></div>
+      <div><dt>Toolchain</dt><dd>ModusToolbox™ · Arm GCC</dd></div>
+      <div><dt data-th="สัญญาอนุญาตซอร์ส" data-en="Source licence">สัญญาอนุญาตซอร์ส</dt><dd>Apache-2.0</dd></div>
+      <div><dt data-th="เอกสาร" data-en="Documentation">เอกสาร</dt><dd data-th="ไทย · อังกฤษ" data-en="Thai · English">ไทย · อังกฤษ</dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <p class="foot-brand">TESA<b>IoT</b></p>
+    <p class="foot-note" data-th="
+      Thai Embedded Systems Association · ซอร์สเผยแพร่ภายใต้ Apache-2.0
+    " data-en="
+      Thai Embedded Systems Association · source published under Apache-2.0
+    ">
+      Thai Embedded Systems Association · ซอร์สเผยแพร่ภายใต้ Apache-2.0
+    </p>
+    <p class="foot-note" data-th="
+      PSoC™, OPTIGA™, DEEPCRAFT™ และ ModusToolbox™ เป็นเครื่องหมายการค้าของ
+      Infineon Technologies AG · โมเดล Edge AI ที่อ้างถึงเป็นผลงานของ Imagimob AB
+      บริษัทในเครือ Infineon และใช้ที่นี่เพื่อการวิจัยและการเรียนการสอนเท่านั้น
+    " data-en="
+      PSoC™, OPTIGA™, DEEPCRAFT™ and ModusToolbox™ are trademarks of Infineon Technologies AG.
+      The Edge AI models referred to here are the work of Imagimob AB, an Infineon Technologies
+      company, and are used for research and teaching only.
+    ">
+      PSoC™, OPTIGA™, DEEPCRAFT™ และ ModusToolbox™ เป็นเครื่องหมายการค้าของ
+      Infineon Technologies AG · โมเดล Edge AI ที่อ้างถึงเป็นผลงานของ Imagimob AB
+      บริษัทในเครือ Infineon และใช้ที่นี่เพื่อการวิจัยและการเรียนการสอนเท่านั้น
+    </p>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" hidden aria-label="กลับขึ้นด้านบน" title="กลับขึ้นด้านบน" data-th-title="กลับขึ้นด้านบน" data-en-title="Back to top" data-th-aria-label="กลับขึ้นด้านบน" data-en-aria-label="Back to top"><svg viewbox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V6M6 12l6-6 6 6"></path></svg></button>
+
+<script type="importmap">{"imports":{"three":"./assets/three.module.min.js","three/addons/":"./assets/three-addons/"}}</script>
+<script type="module" src="assets/board3d.js"></script>
+<script src="script.js" defer></script>
+<script src="bento-video.js" defer></script>
+<script src="bento-scrollmemory.js" defer></script>
+<script src="bento-i18n.js" defer></script></body>
+</html>

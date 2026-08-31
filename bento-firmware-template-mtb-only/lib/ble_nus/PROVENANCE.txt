@@ -1,0 +1,3 @@
+module:     ble_nus
+core:       cm33
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw

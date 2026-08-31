@@ -1,0 +1,1 @@
+optiga_verify_staged_model

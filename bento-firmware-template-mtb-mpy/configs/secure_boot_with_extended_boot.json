@@ -1,0 +1,124 @@
+// Signed variant of boot_with_extended_boot.json — selected by SECURE_BOOT=1 in common.mk.
+//
+// Identical to boot_with_extended_boot.json except the CM33_S sign stage additionally
+// carries "signing-key" + "security-counter", which turn the MCUboot metadata into a real
+// OEM signature that Extended Boot verifies once the device is provisioned secure_boot=true.
+//
+// Geometry (header-size / fill-value / slot-size / hex-address) is intentionally IDENTICAL to
+// the unsigned config — it is this project's real flashmap. Do NOT replace it with the values
+// from mtb-example-psoc-edge-basic-secure-app (slot-size 0x80000, hardcoded 0x70100000).
+//
+// {{OEM_SIGNING_KEY}} is supplied by common.mk via:
+//     MTB_COMBINE_SIGN_ARGS += -s OEM_SIGNING_KEY "$(SECURE_BOOT_KEY)"
+// Override the key with:  make SECURE_BOOT=1 SECURE_BOOT_KEY=/abs/path/to/key.pem
+// If you invoke run-config by hand you MUST pass -s OEM_SIGNING_KEY <path>; an unset
+// variable is a hard error ("Unknown variable: OEM_SIGNING_KEY"), never a silent unsigned build.
+{
+    "schema-version": 1.0,
+    "content":
+    [
+        {
+            "name": "metadata_proj_cm33_s",
+            "description": "sign the hex with the OEM RoT key and add MCUboot metadata",
+            "enabled" : true,
+            "commands" :
+            [
+                {
+                    "command" : "sign",
+                    "inputs" :
+                    [
+                        {
+                            "file" : "../build/project_hex/proj_cm33_s.hex",
+                            "header-size": "0x400",
+                            "fill-value" : "0xff",
+                            "slot-size" : "0x240000",
+                            "hex-address" : "{{CYMEM_CM33_0_S_m33s_nvm_S_START}}",
+                            "signing-key" : "{{OEM_SIGNING_KEY}}",
+                            "security-counter": "1"
+                        }
+                    ],
+                    "outputs":
+                    [
+                        {
+                            "file" : "../build/project_hex/proj_cm33_s_signed.hex",
+                            "format": "ihex"
+                        }
+                    ],
+                    "extra_config":
+                    [
+                        {
+                            "project": "proj_cm33_s",
+                            "debug_config_name" : "proj_cm33_s",
+                            "default":false,
+                            "build_dependency" : "project"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "relocate_proj_cm33_ns",
+            "description": "relocate the hex to a programmable (S-BUS) address",
+            "enabled" : true,
+            "commands" :
+            [
+                {
+                    "command" : "hex-relocate",
+                    "inputs" :
+                    [
+                        {
+                            "file" : "../build/project_hex/proj_cm33_ns.hex",
+                            "regions" : "{{RelocationTable}}"
+                        }
+                    ],
+                    "outputs":
+                    [
+                        {
+                            "file" : "../build/project_hex/proj_cm33_ns_shifted.hex"
+                        }
+                    ],
+                    "extra_config":
+                    [
+                        {
+                            "project": "proj_cm33_ns",
+                            "debug_config_name" : "proj_cm33_ns",
+                            "default":false,
+                            "build_dependency" : "project"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "merge",
+            "description": "combine individual project hex files into a single hex",
+            "enabled": true,
+            "commands" :
+            [
+                {
+                    "command" : "merge",
+                    "inputs" :
+                    [
+                        {
+                            "file" : "../build/project_hex/proj_cm33_s_signed.hex"
+                        },
+                        {
+                            "file" : "../build/project_hex/proj_cm33_ns_shifted.hex"
+                        },
+                        {
+                            "file" : "../build/project_hex/proj_cm55.hex"
+                        }
+                    ],
+                    "outputs" :
+                    [
+                        {
+                            "file" : "../build/app_combined.hex",
+                            "format" : "ihex",
+                            "overlap" : "ignore"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
