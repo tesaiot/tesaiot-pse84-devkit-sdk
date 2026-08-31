@@ -1,0 +1,38 @@
+The ITS interface MBEDTLS_PSA_CRYPTO_SE_C requires; our RAM implementation is psa_its_ram_stubs.c.
+
+Without this patch: Build stops: PSA secure-element support will not compile.
+
+Asset:    ifx-mbedtls release-v3.6.400
+File:     include/psa/internal_trusted_storage.h
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/ifx-mbedtls/release-v3.6.400/include/psa/internal_trusted_storage.h	2026-08-28 08:25:51.663624581 +0700
++++ b/ifx-mbedtls/release-v3.6.400/include/psa/internal_trusted_storage.h	2026-03-25 19:20:06.000000000 +0700
+@@ -0,0 +1,27 @@
++#pragma once
++#include <stddef.h>
++#include <stdint.h>
++#include "psa/error.h"
++
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++typedef uint64_t psa_storage_uid_t;
++typedef uint32_t psa_storage_create_flags_t;
++
++#define PSA_STORAGE_FLAG_NONE		(0u)
++#define PSA_STORAGE_FLAG_WRITE_ONCE	(1u)
++typedef struct psa_storage_info_t {
++	size_t size;
++	psa_storage_create_flags_t flags;
++}psa_storage_info_t;
++
++//typedef struct psa_storage_info_t data_identifier_info_t;
++psa_status_t psa_its_set(psa_storage_uid_t uid, size_t len, const void *data, psa_storage_create_flags_t flags);
++psa_status_t psa_its_get(psa_storage_uid_t uid, size_t off, size_t size, void *out, size_t *out_len);
++psa_status_t psa_its_get_info(psa_storage_uid_t uid, psa_storage_info_t *info);
++psa_status_t psa_its_remove(psa_storage_uid_t uid);
++#ifdef __cplusplus
++}
++#endif

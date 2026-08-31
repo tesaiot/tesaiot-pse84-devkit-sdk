@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['4_20—_20add_20a_20device_20without_20breaking_20the_20four_20already_20there_0',['Step 4 — Add a device without breaking the four already there',['../group__j1__sensor__bus.html#j1_step4',1,'']]],
+  ['4_20—_20all_20three_1',['State 4 — all three',['../group__tut__f1__adding__a__screen.html#f1_s4',1,'']]],
+  ['4_20—_20apply_20the_20third_20party_20patch_20series_20and_20prove_20it_20landed_2',['Step 4 — Apply the third-party patch series and prove it landed',['../group__a1__first__build.html#a1_step4',1,'']]],
+  ['4_20—_20confirm_20nothing_20on_20the_20uart_20is_20edge_20ai_3',['Step 4 — Confirm nothing on the UART is Edge AI',['../group__tut__e4__diagnostics.html#e4_step4',1,'']]],
+  ['4_20—_20confirm_20the_20rest_20of_20the_20hsm_20surface_20still_20works_20with_20clm_20off_4',['Step 4 — Confirm the rest of the HSM surface still works with CLM off',['../group__d3__weak__symbols__clm.html#d3_step4',1,'']]],
+  ['4_20—_20contrast_20panel_3a_20what_20mtb_20mpy_20does_20instead_5',['Step 4 — Contrast panel: what mtb-mpy does instead',['../group__g1__bento__storage.html#g1_step4',1,'']]],
+  ['4_20—_20define_20your_20own_20membership_6',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
+  ['4_20—_20erase_20the_20second_20entry_20in_20the_20list_7',['Step 4 — Erase the second entry in the list',['../group__c2__wifi__ui__ipc.html#c2_step4',1,'']]],
+  ['4_20—_20prove_20a_20publish_20end_20to_20end_8',['Step 4 — Prove a publish end to end',['../group__c3__cloud__mqtt.html#c3_step4',1,'']]],
+  ['4_20—_20prove_20ipc_20survives_20a_20display_20failure_9',['Step 4 — Prove IPC survives a display failure',['../group__b2__cm55__boot.html#b2_step4',1,'']]],
+  ['4_20—_20prove_20which_20store_20you_20read_10',['Step 4 — Prove which store you read',['../group__c1__wifi__two__stores.html#c1_step4',1,'']]],
+  ['4_20—_20read_20the_20chip_20again_11',['Step 4 — Read the chip again',['../group__d2__enrolment__protected__update.html#d2_step4',1,'']]],
+  ['4_20—_20read_20the_20negative_20case_20do_20not_20perform_20it_12',['Step 4 — Read the negative case; do not perform it',['../group__b3__ipc__backbone.html#b3_step4',1,'']]],
+  ['4_20—_20recognise_20an_20unbalanced_20release_13',['Step 4 — Recognise an unbalanced release',['../group__d1__chip__access__discipline.html#d1_step4',1,'']]],
+  ['4_20—_20reconnect_20after_20a_20teardown_14',['Step 4 — Reconnect after a teardown',['../group__c4__mtls__optiga.html#c4_step4',1,'']]],
+  ['4_20—_20restart_20a_20script_20cleanly_15',['Step 4 — Restart a script cleanly',['../group__tut__f2__widgets__over__ipc.html#f2_step4',1,'']]],
+  ['4_20—_20say_20what_20moves_20and_20what_20breaks_16',['Step 4 — Say what moves and what breaks',['../group__b1__cm33__boot.html#b1_step4',1,'']]],
+  ['4_20—_20stage_20a_20model_20and_20confirm_20by_20observation_17',['Step 4 — Stage a model and confirm by observation',['../group__tut__e3__stop__unload__staged.html#e3_step4',1,'']]],
+  ['4_20—_20stop_20and_20start_20the_20whole_20task_18',['Step 4 — Stop and start the whole task',['../group__j3__sensor__auto.html#j3_step4',1,'']]],
+  ['4_20—_20stream_20and_20ack_19',['Step 4 — Stream and ack',['../group__tut__i2__nus__protocol__surface.html#i2_step4',1,'']]],
+  ['4_20—_20the_20documented_20promise_3a_20select_2013_20reports_20253_20',['Step 4 — The documented promise: select(13) reports 253',['../group__tut__e1__select__confirm__start.html#e1_step4',1,'']]],
+  ['4_20—_20when_20the_20numbers_20freeze_20both_20variants_21',['Step 4 — When the numbers freeze (both variants)',['../group__j6__radar.html#j6_step4',1,'']]],
+  ['4_20never_20ai_5fengine_5fresume_5fsensor_20right_20after_20set_5fsensor_5frate_22',['4. Never ai_engine_resume_sensor() right after set_sensor_rate()',['../group__tut__x__traps__antipatterns.html#x4',1,'']]],
+  ['4_20the_20open_20close_20envelope_20and_20the_20disarm_23',['4. The open/close envelope and the disarm',['../group__d2__enrolment__protected__update.html#d2_seq_envelope',1,'']]]
+];

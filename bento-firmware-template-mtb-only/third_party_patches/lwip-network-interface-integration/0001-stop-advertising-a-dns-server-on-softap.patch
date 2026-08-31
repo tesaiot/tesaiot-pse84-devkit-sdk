@@ -1,0 +1,45 @@
+Removes DHCP option 6. SoftAP has no DNS server.
+
+Without this patch: SILENT. Clients flood UDP 53; the ICMP replies exhaust SDPCM TX credits and all outgoing TCP stalls.
+
+Asset:    lwip-network-interface-integration release-v1.7.1
+File:     source/cy_lwip_dhcp_server.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/lwip-network-interface-integration/release-v1.7.1/source/cy_lwip_dhcp_server.c	2026-08-28 08:25:52.513044070 +0700
++++ b/lwip-network-interface-integration/release-v1.7.1/source/cy_lwip_dhcp_server.c	2026-02-16 08:18:16.000000000 +0700
+@@ -439,13 +439,14 @@
+                 option_ptr     = MEMCAT( option_ptr, lease_time_option_buff, 6 );                                   /* Lease time                   */
+                 option_ptr     = MEMCAT( option_ptr, subnet_mask_option_buff, 6 );                                  /* Subnet mask                  */
+                 option_ptr     = (char*)MEMCAT( option_ptr, wpad_option_buff, sizeof(wpad_option_buff) );           /* Web proxy auto-discovery URL */
+-                /* Copy the local IP address into the router & DNS server options */
++                /* Copy the local IP address into the router option */
+                 memcpy( option_ptr, server_ip_addr_option_buff, 6 );                                                /* Router (gateway)             */
+                 option_ptr[0]  = 3;                                                                                 /* Router ID                    */
+                 option_ptr    += 6;
+-                memcpy( option_ptr, server_ip_addr_option_buff, 6 );                                                /* DNS server                   */
+-                option_ptr[0]  = 6;                                                                                 /* DNS server ID                */
+-                option_ptr    += 6;
++                /* DNS Option 6 intentionally omitted — SoftAP has no DNS server.
++                 * Advertising one causes clients to flood UDP port 53, generating
++                 * ICMP unreachable replies that exhaust SDPCM TX credits and block
++                 * all other outgoing TCP traffic (including RTSP responses). */
+                 option_ptr     = MEMCAT( option_ptr, mtu_option_buff, 4 );                                          /* Interface MTU                */
+                 option_ptr[0]  = (char) DHCP_END_OPTION_CODE;                                                       /* End options                  */
+                 option_ptr++;
+@@ -545,13 +546,11 @@
+                     option_ptr     = (char*)MEMCAT( option_ptr, lease_time_option_buff, 6 );                            /* Lease time                   */
+                     option_ptr     = (char*)MEMCAT( option_ptr, subnet_mask_option_buff, 6 );                           /* Subnet mask                  */
+                     option_ptr     = (char*)MEMCAT( option_ptr, wpad_option_buff, sizeof(wpad_option_buff) );           /* Web proxy auto-discovery URL */
+-                    /* Copy the local IP address into the router & DNS server options */
++                    /* Copy the local IP address into the router option */
+                     memcpy( option_ptr, server_ip_addr_option_buff, 6 );                                                /* Router (gateway)             */
+                     option_ptr[0]  = 3;                                                                                 /* Router ID                    */
+                     option_ptr    += 6;
+-                    memcpy( option_ptr, server_ip_addr_option_buff, 6 );                                                /* DNS server                   */
+-                    option_ptr[0]  = 6;                                                                                 /* DNS server ID                */
+-                    option_ptr    += 6;
++                    /* DNS Option 6 intentionally omitted — see DHCPOFFER comment above. */
+                     option_ptr     = (char*)MEMCAT( option_ptr, mtu_option_buff, 4 );                                   /* Interface MTU                */
+ 
+                     /* Create the IP address for the Offer */

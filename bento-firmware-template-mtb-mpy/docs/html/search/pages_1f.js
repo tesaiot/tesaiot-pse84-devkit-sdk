@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['uart_20is_20edge_20ai_0',['Step 4 — Confirm nothing on the UART is Edge AI',['../group__tut__e4__diagnostics.html#e4_step4',1,'']]],
+  ['ui_20list_20index_20is_20not_20the_20optiga_20slot_20index_1',['10. UI list index is not the OPTIGA slot index',['../group__tut__x__traps__antipatterns.html#x10',1,'']]],
+  ['un_20hide_20on_20connect_2',['Step 1 — Watch the topbar WiFi glyph un-hide on connect',['../group__b3__ipc__backbone.html#b3_step1',1,'']]],
+  ['unbalanced_20release_3',['Step 4 — Recognise an unbalanced release',['../group__d1__chip__access__discipline.html#d1_step4',1,'']]],
+  ['unbounded_20i2c_20timeouts_20on_20the_20shared_20display_20bus_20starve_20cm55_4',['13. Unbounded I2C timeouts on the shared display bus starve CM55',['../group__tut__x__traps__antipatterns.html#x13',1,'']]],
+  ['under_20a_20looping_20main_20py_5',['11. The mtb-mpy credential flush never runs under a looping /main.py',['../group__tut__x__traps__antipatterns.html#x11',1,'']]],
+  ['unload_20after_20stop_3a_20watch_20the_20completion_6',['Step 3 — Unload after stop: watch the completion',['../group__tut__e3__stop__unload__staged.html#e3_step3',1,'']]],
+  ['unload_20while_20running_3a_20watch_20the_20refusal_7',['Step 2 — Unload while running: watch the refusal',['../group__tut__e3__stop__unload__staged.html#e3_step2',1,'']]],
+  ['unlock_8',['Lock → touch-hold → work → release → unlock',['../group__d1__chip__access__discipline.html#d1_seq_lock',1,'']]],
+  ['unlocked_20credential_20writers_20can_20race_20the_20lfs_20file_9',['18. Two unlocked credential writers can race the LFS file',['../group__tut__x__traps__antipatterns.html#x18',1,'']]],
+  ['unpack_20and_20verify_20what_20you_20were_20given_10',['Step 1 — Unpack and verify what you were given',['../group__a1__first__build.html#a1_step1',1,'']]],
+  ['unread_20badge_20on_20the_20playground_20page_11',['Step 3 — Exercise the unread badge on the Playground page',['../group__b3__ipc__backbone.html#b3_step3',1,'']]],
+  ['unused_12',['15. cfg.port is stored but unused',['../group__tut__x__traps__antipatterns.html#x15',1,'']]],
+  ['up_13',['Step 1 — Watch LED2 through bring-up',['../group__b2__cm55__boot.html#b2_step1',1,'']]],
+  ['up_20and_20ask_20who_20is_20there_20c_20both_20variants_14',['Step 1 — Bring the bus up and ask who is there (C, both variants)',['../group__j1__sensor__bus.html#j1_step1',1,'']]],
+  ['up_20and_20read_20the_20console_15',['Step 1 — Bring the sensors up and read the console',['../group__j2__sensors__api.html#j2_step1',1,'']]],
+  ['up_20on_20the_20console_16',['Step 1 — Watch the two-layer bring-up on the console',['../group__tut__i1__ble__bringup__single__rf.html#i1_step1',1,'']]],
+  ['update_20bundle_20ingest_17',['9b. Return path B — Protected Update bundle ingest',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
+  ['update_20bundles_20replay_18',['12. Retained Protected Update bundles replay',['../group__tut__x__traps__antipatterns.html#x12',1,'']]],
+  ['usb_20power_19',['Two buttons, one of which is also USB power',['../group__j5__qwa309.html#j5_buttons',1,'']]],
+  ['use_20after_20free_20',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
+  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_21',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]]
+];

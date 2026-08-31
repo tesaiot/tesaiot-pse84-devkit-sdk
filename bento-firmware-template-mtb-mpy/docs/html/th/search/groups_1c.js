@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['กับความจริงเรื่อง_20makefile_0',['F1 — การเพิ่มหน้าจอ: 3 ไฟล์ กับความจริงเรื่อง Makefile',['../group__tut__f1__adding__a__screen.html',1,'']]],
+  ['กับดักและ_20anti_20pattern_1',['ภาคผนวก X — กับดักและ anti-pattern',['../group__tut__x__traps__antipatterns.html',1,'']]],
+  ['กับที่เก็บข้อมูลรับรองฝั่ง_20c_2',['G1 — bento_storage กับที่เก็บข้อมูลรับรองฝั่ง C',['../group__g1__bento__storage.html',1,'']]],
+  ['กับ_20variant_3',['ที่มาของ snippet กับ variant',['../group__ble__nus__snippet__variants.html',1,'']]],
+  ['การขับ_20widget_20จาก_20micropython_20ผ่าน_20ipc_4',['F2 — การขับ widget จาก MicroPython ผ่าน IPC',['../group__tut__f2__widgets__over__ipc.html',1,'']]],
+  ['การจัดเตรียม_20hsm_5',['UI การจัดเตรียม HSM',['../group__cm55__core__hsm__provision__ui.html',1,'']]],
+  ['การจับ_20touch_20ไว้_6',['การจับ touch ไว้',['../group__tesaiot__hsm__touch.html',1,'']]],
+  ['การตรวจสอบด้วย_20optiga_7',['การตรวจสอบด้วย OPTIGA',['../group__mpy__secure__optiga__verify.html',1,'']]],
+  ['การตั้งค่า_20deferred_20binding_20และ_20snapshot_8',['B3 — แกนหลักของ IPC: การตั้งค่า deferred binding และ snapshot',['../group__b3__ipc__backbone.html',1,'']]],
+  ['การทดสอบแบบแยกส่วน_9',['การทดสอบแบบแยกส่วน',['../group__tesaiot__hsm__isolated.html',1,'']]],
+  ['การบูต_20cm55_20จนถึงเฟรมแรก_10',['B2 — การบูต CM55 จนถึงเฟรมแรก',['../group__b2__cm55__boot.html',1,'']]],
+  ['การลงทะเบียนและการ_20publish_20ของ_20protected_20update_11',['การลงทะเบียนและการ publish ของ Protected Update',['../group__tesaiot__hsm__publish.html',1,'']]],
+  ['การลงทะเบียนและ_20protected_20update_20ตั้งแต่ต้นจนจบ_12',['D2 — การลงทะเบียนและ Protected Update ตั้งแต่ต้นจนจบ',['../group__d2__enrolment__protected__update.html',1,'']]],
+  ['การลงทะเบียนโมดูล_13',['การลงทะเบียนโมดูล',['../group__mpy__secure__modules.html',1,'']]],
+  ['การอยู่ได้โดยไม่มี_20repl_14',['G2 — สัญญาณชีพ: การอยู่ได้โดยไม่มี REPL',['../group__g2__heartbeat.html',1,'']]],
+  ['การอัปเดตเฟิร์มแวร์_15',['การอัปเดตเฟิร์มแวร์',['../group__ble__nus__fw__update.html',1,'']]],
+  ['การอ่านข้อมูลวินิจฉัยของ_20edge_20ai_16',['E4 — การอ่านข้อมูลวินิจฉัยของ Edge AI',['../group__tut__e4__diagnostics.html',1,'']]],
+  ['การอ่านเซนเซอร์ทั้ง_206_20ตัว_17',['J2 — การอ่านเซนเซอร์ทั้ง 6 ตัว',['../group__j2__sensors__api.html',1,'']]],
+  ['การเข้าถึง_202_20ชั้น_20—_20ใครเรียกอะไรได้บ้าง_18',['การเข้าถึง 2 ชั้น — ใครเรียกอะไรได้บ้าง',['../group__edge__ai__callers.html',1,'']]],
+  ['การเชื่อมต่อ_3a_20wifi_20และคลาวด์_19',['การเชื่อมต่อ: WiFi และคลาวด์',['../group__feat__connectivity.html',1,'']]],
+  ['การเปิดใช้งานจอแสดงผล_20',['การเปิดใช้งานจอแสดงผล',['../group__cm55__core__tesaiot__display.html',1,'']]],
+  ['การเพิ่มหน้าจอ_3a_203_20ไฟล์_20กับความจริงเรื่อง_20makefile_21',['F1 — การเพิ่มหน้าจอ: 3 ไฟล์ กับความจริงเรื่อง Makefile',['../group__tut__f1__adding__a__screen.html',1,'']]],
+  ['การ_20bring_20up_20ble_20และกฎวิทยุเดียว_22',['I1 — การ bring-up BLE และกฎวิทยุเดียว',['../group__tut__i1__ble__bringup__single__rf.html',1,'']]],
+  ['การ_20init_20และลำดับการเรียก_23',['การ init และลำดับการเรียก',['../group__ipc__core__index__order.html',1,'']]],
+  ['การ_20unload_20และโมเดลแบบ_20staged_24',['การ unload และโมเดลแบบ staged',['../group__edge__ai__unload__staged.html',1,'']]]
+];

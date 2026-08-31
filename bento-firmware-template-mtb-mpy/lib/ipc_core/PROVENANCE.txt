@@ -1,0 +1,15 @@
+module:     ipc_core
+core:       cm55
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
+sources:
+  BENTO-TESAIoT-libraries/claw/common/modules/ipc_service/ipc_service.c
+  BENTO-TESAIoT-libraries/claw/common/modules/ipc_lcd/ipc_lcd.c
+  BENTO-TESAIoT-libraries/claw/common/modules/ipc_ui/ipc_ui.c
+  BENTO-TESAIoT-libraries/claw/common/modules/ipc_ui/ui_widget_mgr.c
+  BENTO-TESAIoT-libraries/claw/common/modules/ipc_sensorhub/ipc_sensorhub.c
+
+PAGE_ID_PLAYGROUND ordinal compiled into this archive: 7 
+Valid ONLY for a project whose page_id_t gives that value.
+Linking it into a project with a different page order
+succeeds with no diagnostic and compares the wrong page.
+Check yours: grep -n PAGE_ID_PLAYGROUND proj_cm55/modules/*/page_manager.h

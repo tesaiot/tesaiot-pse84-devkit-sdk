@@ -1,0 +1,7 @@
+module:     tesaiot_hsm
+core:       cm33
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
+sources:
+  BENTO-TESAIoT-libraries/claw/kit-pse84-ai/modules/tesaiot/tesaiot_optiga_trust_m.c
+  BENTO-TESAIoT-libraries/claw/kit-pse84-ai/modules/tesaiot/tesaiot_protected_update_isolated.c
+  BENTO-TESAIoT-libraries/claw/kit-pse84-ai/modules/tesaiot/tesaiot_optiga_manager.c

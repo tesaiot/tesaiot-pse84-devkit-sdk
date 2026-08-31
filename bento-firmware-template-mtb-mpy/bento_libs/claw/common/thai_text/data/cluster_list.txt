@@ -1,0 +1,244 @@
+# Thai clusters used by the BentoClaw CORE firmware UI (Phase A scan).
+# One cluster per line, UTF-8. Order does not matter; PUA codepoints are
+# assigned by gen_pua_font.py in file order (longest-first sorting happens
+# in the runtime table).
+#
+# === 2-tier critical clusters (above-vowel + tone mark) ===
+# 2-tier with U+0E35 (ี sara ii)
+ที่
+นี้
+ลี่
+ญี่
+# 2-tier with U+0E36 (ึ sara ue)
+ขึ้
+รึ่
+# 2-tier with U+0E37 (ื sara uee)
+ชื่
+ชื้
+พื่
+พื้
+รื่
+# 2-tier with U+0E34 (ิ sara i)
+ริ่
+สิ่
+สิ้
+# 2-tier with U+0E31 (ั mai-han-akat) — flagged by user 2026-05-29
+# Common consonants × four tones each. Add more as field strings appear.
+นั่
+นั้
+ตั้
+ตั้
+รั่
+รั้
+สั่
+สั้
+ทั่
+ทั้
+ลั่
+ลั้
+พั่
+พั้
+ฟั่
+ฟั้
+มั่
+มั้
+ชั่
+ชั้
+ขั้
+ขั้
+จั่
+จั้
+บั่
+บั้
+ปั่
+ปั้
+กั่
+กั้
+ดั่
+ดั้
+หั่
+หั้
+อั้
+อั่
+ยั่
+ยั้
+วั่
+วั้
+# 2-tier with U+0E47 (็ mai-tai-khu) is rarely combined with tone but include
+# the canonical examples that DO appear:
+เก็บ
+ก็
+#
+# === tone 3 (๊ mai tri) — uncommon but real (loan words, exclamations) ===
+# ี + ๊
+ตี๊
+นี๊
+ปี๊
+มี๊
+ที๊
+# ิ + ๊
+มิ๊
+สิ๊
+# ึ + ๊
+ขึ๊
+# ื + ๊
+ชื๊
+# ั + ๊
+นั๊
+ตั๊
+มั๊
+ปั๊
+รั๊
+สั๊
+#
+# === tone 4 (๋ mai chattawa) — uncommon: ก๋วยเตี๋ยว, ตี๋, จ๋า, etc. ===
+# ี + ๋
+ตี๋
+นี๋
+จ๋
+จ๋า
+ที๋
+# ิ + ๋
+สิ๋
+# ึ + ๋
+# ื + ๋
+ชื๋
+# ั + ๋
+ก๋
+ตั๋
+นั๋
+รั๋
+จั๋
+ฉั๋
+#
+# === U+0E4C thanthakhat ์ (การันต์ / silent marker) ===
+# Above-vowel + ์: like ทิ์, ตี์ — used in: สิทธิ์, กิตติ์, อาทิตย์,
+# เกียรติ์, ทิพย์, รัสมี์. ์ is shaped above the vowel (2-tier stack), same
+# rendering issue as tone marks → same PUA fix.
+# ิ + ์
+ทิ์
+ติ์
+นิ์
+ดิ์
+ริ์
+สิ์
+มิ์
+ลิ์
+พิ์
+กิ์
+บิ์
+จิ์
+ปิ์
+ฐิ์
+ธิ์
+ภิ์
+วิ์
+ศิ์
+ษิ์
+หิ์
+อิ์
+# ี + ์
+รี์
+มี์
+ลี์
+ดี์
+ตี์
+นี์
+ที์
+สี์
+# ึ + ์ (rare)
+รึ์
+ลึ์
+# ื + ์ (rare)
+ลื์
+ขื์
+ชื์
+พื์
+รื์
+# ั + ์
+รั์
+ตั์
+มั์
+จั์
+ฉั์
+ทั์
+นั์
+สั์
+ลั์
+พั์
+#
+# === U+0E4D nikhahit ํ + tone (rare; Sanskrit/Pali loans, อ้ํา-style words) ===
+# Skipped for now — when needed, add e.g. "คํ่า", "คํ้า" combinations.
+# The generator silently skips clusters the TTF can't shape, so listing them
+# here is safe.
+#
+# === single-tier vowels (common cases — render fine today, but inclusion
+#     ensures consistent typography within a string) ===
+กิ
+กุ
+บั
+มิ
+ภู
+ยุ
+ยู่
+รั
+ริ
+รี
+รุ
+วั
+วิ
+อุ
+
+# ===== GENERIC 2-char clusters (above-vowel + mark) =====
+# Replaces the prior per-consonant explosion. Key insight (อาจารย์'s):
+# Thai combining marks in NotoSansThai have heavily-negative LSB
+# (uni0E35 lsb=-514, uni0E48 lsb=-178 etc.) so their bitmap pixels naturally
+# draw to the LEFT of the glyph origin. HarfBuzz also shapes orphan
+# "<above-vowel><mark>" sequences correctly WITHOUT inserting a dotted
+# circle — emitting just the two marks with the proper y_offset
+# (236 for ี/ื, 179 for ั, 177 for ิ — 2nd-tier stacking).
+#
+# So we make ONE generic PUA composite per (above-vowel, mark) pair, with
+# total_advance = 0 (combining behavior). When the runtime substitutes
+# "<consonant>ี่" -> "<consonant>" + PUA(ี่), LVGL renders the consonant at
+# its normal width then draws PUA(ี่) with negative LSB → marks overlay the
+# consonant. Works for ALL 44 Thai consonants automatically.
+#
+# Longest-first matching means 3-char specifics above (ที่, นี้ etc.) still
+# take precedence for the few words where we want HarfBuzz's exact per-
+# consonant positioning. Falls through to generic for everything else.
+# ี + 4 tones + thanthakhat + mai-tai-khu (some may be skipped if TTF can't)
+ี่
+ี้
+ี๊
+ี๋
+ี์
+ี็
+# ื + same
+ื่
+ื้
+ื๊
+ื๋
+ื์
+ื็
+# ิ + same
+ิ่
+ิ้
+ิ๊
+ิ๋
+ิ์
+ิ็
+# ึ + same
+ึ่
+ึ้
+ึ๊
+ึ๋
+ึ์
+ึ็
+# ั + same
+ั่
+ั้
+ั๊
+ั๋
+ั์
+ั็

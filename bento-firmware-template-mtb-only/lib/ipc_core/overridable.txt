@@ -1,0 +1,7 @@
+cm55_controls_snapshot
+game_sprite_create
+game_sprite_lookup
+game_sprite_set
+ipc_ui_ext_clear_all
+ipc_ui_ext_dispatch
+ipc_ui_platform_diag

@@ -1,0 +1,403 @@
+/* ---------------------------------------------------------------------------
+ * bento-lang.css — styling for the TH|EN language toggle.
+ *
+ * Loaded via HTML_EXTRA_STYLESHEET, AFTER doxygen-awesome.css and
+ * doxygen-awesome-sidebar-only.css, so every value below can (and does) read
+ * the theme's own custom properties. tools/doxygen-awesome/* is vendored and
+ * READ-ONLY — nothing here edits it.
+ *
+ * THE PILL IS AN <a class="bento-lang-toggle">, not a custom element. It was a
+ * custom element navigated by a click handler until that was found to be
+ * inert whenever the handler threw; see bento-lang.js for why the anchor is
+ * the fix. Everything below is unchanged geometry — only the selectors moved
+ * from the element name to the class.
+ *
+ * PLACEMENT — one pill, inside the search box's own container.
+ * ------------------------------------------------------------------------
+ * doxygen-awesome's optional dark-mode toggle appends itself to
+ * `#MSearchBox.parentNode`; bento-lang.js does exactly the same, and the
+ * geometry below mirrors that button (doxygen-awesome.css, "Optional Dark mode
+ * toggle button"): the same --searchbar-height box, the same --spacing-small
+ * gap, the same --searchbar-border-radius pill, the same hover wash.
+ *
+ * Two things about the surrounding markup make that the ONLY safe anchor, and
+ * both were found by measuring the rendered page, not by reading the markup:
+ *
+ * 1. Doxygen 1.18 emits TWO menu bars — `#main-nav-mobile` (holding the
+ *    hamburger label and `#searchBoxPos1`) and `#main-nav` (holding
+ *    `#main-menu > li#searchBoxPos2`). The vendored doxygen-awesome predates
+ *    that markup and carries no rule for `#main-nav-mobile` at all, so the
+ *    container is NOT hidden on desktop — it merely collapses to height 0
+ *    because everything inside it is empty or hidden there. Putting anything
+ *    visible in it re-inflates it to ~33px, which pushes `#main-nav` past the
+ *    bottom of `#top` (sidebar-only pins `#top` to height 120px with
+ *    `overflow: hidden`) and clips the search row. Nothing of ours goes there.
+ *
+ * 2. Sidebar-only sets `--menu-display: none`, and doxygen-awesome hides every
+ *    `.sm-dox li` with it at >= 768px. The search box survives only because it
+ *    is `#main-menu`'s LAST child. Inserting a sibling `<li>` after it silently
+ *    transfers that exemption to the new element and the search box disappears.
+ *    The pill therefore goes INSIDE `li#searchBoxPos2`, never beside it.
+ *
+ * `html.bento-lang-sidebar` is set by bento-lang.js when the sidebar-only
+ * layout is actually active (it tests the computed `--menu-display`). The
+ * width arithmetic below is only correct in that layout, so it is scoped to
+ * that class rather than assumed.
+ * ------------------------------------------------------------------------ */
+
+html {
+    /* The pill's exact footprint. Every reservation below is derived from this
+       one number, so the search box and the pill can never disagree. */
+    --bento-lang-pill-width: 68px;
+    --bento-lang-reserve: calc(var(--bento-lang-pill-width) + var(--spacing-small));
+}
+
+a.bento-lang-toggle {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+    box-sizing: border-box;
+    width: var(--bento-lang-pill-width);
+    height: var(--searchbar-height);
+    margin: 0 0 0 var(--spacing-small);
+    padding: 2px;
+    background: none;
+    border: 1px solid var(--separator-color);
+    border-radius: var(--searchbar-border-radius);
+    vertical-align: middle;
+    user-select: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+    overflow: hidden;
+    /* It IS a link now (see bento-lang.js: the browser has to be able to
+       follow it with no script of ours on the click path), so the theme's
+       anchor colour and underline have to be taken back off. */
+    text-decoration: none;
+    color: inherit;
+}
+
+a.bento-lang-toggle:hover {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+html.dark-mode a.bento-lang-toggle:hover {
+    background-color: rgba(0, 0, 0, .18);
+}
+
+a.bento-lang-toggle > span {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    border-radius: var(--searchbar-border-radius);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--page-foreground-color);
+    opacity: .55;
+    transition: background-color var(--animation-duration) ease-in-out,
+                color var(--animation-duration) ease-in-out,
+                opacity var(--animation-duration) ease-in-out;
+}
+
+/* The language you are reading right now. */
+a.bento-lang-toggle > span.bento-lang-active {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    opacity: 1;
+}
+
+/* The counterpart exists but is not the current page's language. */
+a.bento-lang-toggle:hover > span:not(.bento-lang-active) {
+    opacity: .9;
+}
+
+/* Rollout state: the counterpart tree has no translation of THIS page yet, so
+   the toggle lands on that language's front page instead. Say so rather than
+   pretending the jump is page-for-page. */
+a.bento-lang-toggle.bento-lang-fallback > span:not(.bento-lang-active) {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Desktop (>= 768px), sidebar-only layout.
+ *
+ * The header column is exactly --side-nav-fixed-width wide and `#top` clips
+ * anything past it, so the pill cannot be additive: the search box gives back
+ * precisely --bento-lang-reserve. These two declarations are the theme's own
+ * (doxygen-awesome-sidebar-only.css lines 83-89) minus that reserve, so the
+ * row still ends where the theme intended it to end.
+ * ------------------------------------------------------------------------ */
+
+@media screen and (min-width: 768px) {
+    html.bento-lang-sidebar #main-menu > li#searchBoxPos2 {
+        align-items: center;
+    }
+
+    html.bento-lang-sidebar #MSearchBox {
+        width: calc(var(--side-nav-fixed-width)
+                    - calc(2 * var(--spacing-medium))
+                    - var(--bento-lang-reserve));
+    }
+
+    html.bento-lang-sidebar #MSearchField {
+        width: calc(var(--side-nav-fixed-width)
+                    - calc(2 * var(--spacing-medium))
+                    - var(--bento-lang-reserve)
+                    - 65px);
+    }
+
+    /* Defensive: an older bento-lang.js cached in a reader's browser used to
+       append a second copy here. It must never be visible at desktop width —
+       see note 1 above for what it does to the search row. */
+    #main-nav-mobile bento-lang-toggle,
+    #main-nav-mobile a.bento-lang-toggle {
+        display: none;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+ * Mobile (<= 767px).
+ *
+ * doxygen 1.18's menu.js moves the search box markup — and with it our pill —
+ * from `li#searchBoxPos2` into `#searchBoxPos1`, by copying innerHTML, and
+ * hides whichever of the two is not in use. Exactly one pill is therefore
+ * rendered; the copy has no event listeners, which is why bento-lang.js binds
+ * by delegation on `document` and puts ?lang= in the href.
+ *
+ * The theme does NOT size the mobile search box to the full viewport, which is
+ * what the arithmetic here used to assume — see the block comment below for
+ * what that cost. The pill's footprint comes out of the row, never adds to it.
+ * ------------------------------------------------------------------------ */
+
+@media screen and (max-width: 767px) {
+    #searchBoxPos1 {
+        align-items: center;
+        /* doxygen.css:2172 pins this absolutely-positioned span to 36px — one
+           row. It now holds two (see bento-variant.css, mobile header). Let it
+           report its real height so the measurement is honest; the row never
+           sizes anything itself, #main-nav-mobile does. */
+        height: auto;
+    }
+
+    /* THE 100vw ARITHMETIC BELOW WAS WRONG, AND IT IS WHAT PAINTED THE HEADER
+       OVER THE ARTICLE.
+       -----------------------------------------------------------------
+       doxygen-awesome.css:794 insets the mobile search row by 45px on the left
+       (the hamburger) and 6px on the right, so the row is (100vw - 51px) wide,
+       NOT 100vw. Sizing #MSearchBox at 100vw-30-reserve therefore asked for
+       ~51px more than the row has: measured at 390px the box wanted 287px and
+       the pill 73px against a 339px row, so the pill wrapped to a line of its
+       own. With the variant selector already claiming a full line
+       (bento-variant.css) the row became THREE rows deep inside a 36px header,
+       and rows two and three were drawn over the page <h1> at every width
+       <= 767px, on every page, both languages, both themes, both trees.
+
+       Everything here is measured off the row's real width, with 4px of slack
+       so a sub-pixel viewport cannot re-trigger the wrap. `flex` is pinned
+       because doxygen-awesome.css:801 gives #MSearchBox `flex-grow: 2`, which
+       would otherwise eat the pill's reserve straight back — the same selector
+       shape is used here so the later sheet simply wins the cascade. The
+       search box has to stay usable: at 390px this leaves the field 197px (it
+       was 207px), still a real input. Losing the pill and shrinking the field
+       to nothing were both previous bugs; neither may come back. */
+    label.main-menu-btn ~ #searchBoxPos1 > #MSearchBox {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+
+    #searchBoxPos1 > #MSearchBox {
+        min-width: 0;
+    }
+
+    #MSearchBox {
+        width: calc(100vw - 55px - var(--bento-lang-reserve));
+    }
+
+    #MSearchField {
+        /* the box, minus the theme's own 65px of magnifier + close furniture */
+        width: calc(100vw - 120px - var(--bento-lang-reserve));
+    }
+}
+
+/* ---------------------------------------------------------------------------
+ * THAI TYPOGRAPHY — the `/th/` tree, and nothing else.
+ *
+ * Until now there was not one [lang] rule in any stylesheet on this site: the
+ * Thai tree inherited the English theme's metrics verbatim. Thai stacks up to
+ * four levels on one base glyph (base + upper vowel + tone mark + lower vowel),
+ * and the two stylesheets underneath disagree about leading in a way that only
+ * shows up once those stacks are there:
+ *
+ *   doxygen.css:8   `body, table, div, p, dl { line-height: 22px }`  = 1.41
+ *   doxygen-awesome.css:1072  `div.contents p, div.contents li`      = 1.73
+ *
+ * So Thai PROSE was already tolerable, and everything doxygen renders as a
+ * table cell, a definition list or a heading — the quick-reference tables, the
+ * Warning/Note callouts, every \par block, the sidebar, the outline rail — was
+ * at 1.41, where the upper stack of one line sits within a few pixels of the
+ * previous line's descenders (measured on the mtb-only Thai landing page).
+ * Conventional Thai body leading is 1.7–1.8; headings, being one or two lines,
+ * take less.
+ *
+ * `<html lang="th">` is set by the generated header on the Thai tree only, so
+ * every rule below is inert on the English tree by construction. The prefix
+ * match (`^="th"`) also covers a future `th-TH`.
+ * ------------------------------------------------------------------------ */
+
+html[lang^="th"] {
+    /* The theme's own leading token, used by div.contents p/li and the search
+       select window. Raising it here moves the prose with everything else
+       instead of leaving two different Thai leadings on one page. */
+    --content-line-height: 1.85;
+    /* #nav-tree .item is BOTH height and line-height of this token
+       (doxygen-awesome.css:845/853), so a Thai tone mark in the sidebar has
+       exactly as much room as this gives it. 30px at 14.4px is 2.08; the extra
+       4px keeps the marks clear of the row above without re-wrapping any
+       label. */
+    --tree-item-height: 34px;
+}
+
+/* Body text, and every place doxygen.css's flat 22px was the only rule. */
+html[lang^="th"] body,
+html[lang^="th"] div.contents,
+html[lang^="th"] div.contents p,
+html[lang^="th"] div.contents li,
+html[lang^="th"] div.contents dd,
+html[lang^="th"] div.contents dt,
+html[lang^="th"] div.contents dl,
+html[lang^="th"] div.textblock,
+html[lang^="th"] p.reference,
+html[lang^="th"] p.definition {
+    line-height: 1.85;
+}
+
+/* Table cells — the quick-reference tables are the worst case on the site:
+   narrow columns, many lines, and the Thai notes column is the one that wraps
+   most. */
+html[lang^="th"] div.contents table td,
+html[lang^="th"] div.contents table th,
+html[lang^="th"] table.markdownTable td,
+html[lang^="th"] table.markdownTable th,
+html[lang^="th"] table.doxtable td,
+html[lang^="th"] table.doxtable th,
+html[lang^="th"] table.fieldtable td,
+html[lang^="th"] table.memberdecls td {
+    line-height: 1.8;
+}
+
+/* Headings: enough for a tone mark, not so much that a two-line title floats
+   apart. */
+html[lang^="th"] h1,
+html[lang^="th"] h2,
+html[lang^="th"] h3,
+html[lang^="th"] h4,
+html[lang^="th"] div.title,
+html[lang^="th"] .memtitle,
+html[lang^="th"] #projectname,
+html[lang^="th"] #projectbrief {
+    line-height: 1.5;
+}
+
+/* The right-hand outline rail. Its entries wrap (see bento-variant.css,
+   P1-1), so this is leading between the wrapped lines of ONE heading — not
+   row pitch, and not body-prose leading. The rail is a dense navigation list
+   whose value is that a reader can take in the whole shape of a chapter at a
+   glance; 2.15 was prose leading applied to a list and it pushed the entries
+   so far apart that the outline stopped reading as one structure. 1.55 clears
+   Thai upper vowels and tone marks over a 13px face while keeping the list
+   compact; the pitch BETWEEN entries stays with the padding in
+   bento-variant.css. */
+html[lang^="th"] #page-nav ul.page-outline li a {
+    line-height: 1.55;
+}
+
+/* Code keeps the theme's leading. A monospace listing has no Thai stacks in
+   it, and inflating it would only make every fragment on a Thai page taller
+   than the same fragment on the English one. */
+html[lang^="th"] div.fragment,
+html[lang^="th"] pre.fragment,
+html[lang^="th"] div.line {
+    line-height: 1.2;
+}
+
+/* ---------------------------------------------------------------------------
+ * A Thai face to prefer.
+ *
+ * The theme's stack (-apple-system, system-ui, "Segoe UI", Roboto, …) names no
+ * Thai family at all, so Thai is whatever the reader's OS substitutes. It
+ * happens to be good on macOS. This puts the three faces that are actually
+ * installed on macOS, Windows and a typical Linux desktop in front of the
+ * existing stack, in that order; Latin in a Thai page still falls through to
+ * the system UI face, because none of the three carries a competing Latin
+ * design at these sizes. No @font-face and no webfont: the site must render
+ * identically offline, and nothing here may add a network dependency.
+ *
+ * It is done by redefining the theme's own --font-family token rather than by
+ * listing elements: --font-family-monospace is a SEPARATE token, so code,
+ * fragments and .tt spans keep their monospace face untouched. An element list
+ * would have had to out-specify doxygen-awesome.css:1497, and being the later
+ * sheet it would have won — putting Thai UI faces on the code listings.
+ * ------------------------------------------------------------------------ */
+html[lang^="th"] {
+    --font-family: "Noto Sans Thai", "IBM Plex Sans Thai", "Leelawadee UI",
+                   Thonburi, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+                   Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+                   Helvetica Neue, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+ * Thai labels for the chrome doxygen will not translate.
+ *
+ * doxygen has no Thai OUTPUT_LANGUAGE, so on a fully Thai page the callouts
+ * still say "Warning" and "Note" and the section headings still say "Detailed
+ * Description". Only the labels with a stable hook are done here — a class or
+ * a doxygen-assigned id. The rest ("Generated by", "Search", "Here is a list
+ * of all…", the Functions declaration heading) carry no hook and belong to a
+ * post-processing pass in the docs build, not to a stylesheet.
+ *
+ * IF doxygen ever gains a Thai OUTPUT_LANGUAGE, DELETE THIS BLOCK — otherwise
+ * it will hide a correct Thai label and print a second one after it.
+ * ------------------------------------------------------------------------ */
+html[lang^="th"] dl.section.warning > dt,
+html[lang^="th"] dl.section.note > dt,
+html[lang^="th"] dl.section.attention > dt,
+html[lang^="th"] dl.section.return > dt,
+html[lang^="th"] h2.groupheader#header-details,
+html[lang^="th"] h2.groupheader#header-doc-func-members,
+html[lang^="th"] h2.groupheader#header-doc-var-members {
+    /* visibility, NOT font-size:0. The obvious trick — collapse the label to
+       zero and print the Thai from ::after — also collapses everything the
+       theme derives from that font size: `h1..h5 { margin-top: 1em }` becomes
+       0, and h2.groupheader's separator rule is a stack of box-shadows whose
+       geometry follows the line box (doxygen-awesome.css:1112). Hiding the
+       glyphs and painting the replacement in an absolutely positioned ::after
+       leaves every one of those metrics exactly as it is on the English page,
+       which is the point: this substitutes a WORD, not a layout. */
+    visibility: hidden;
+    position: relative;
+}
+
+html[lang^="th"] dl.section.warning > dt::after,
+html[lang^="th"] dl.section.note > dt::after,
+html[lang^="th"] dl.section.attention > dt::after,
+html[lang^="th"] dl.section.return > dt::after,
+html[lang^="th"] h2.groupheader#header-details::after,
+html[lang^="th"] h2.groupheader#header-doc-func-members::after,
+html[lang^="th"] h2.groupheader#header-doc-var-members::after {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+}
+
+html[lang^="th"] dl.section.warning > dt::after      { content: "คำเตือน"; }
+html[lang^="th"] dl.section.note > dt::after         { content: "หมายเหตุ"; }
+html[lang^="th"] dl.section.attention > dt::after    { content: "ข้อควรระวัง"; }
+html[lang^="th"] dl.section.return > dt::after       { content: "คืนค่า"; }
+html[lang^="th"] h2#header-details::after            { content: "รายละเอียด"; }
+html[lang^="th"] h2#header-doc-func-members::after   { content: "เอกสารฟังก์ชัน"; }
+html[lang^="th"] h2#header-doc-var-members::after    { content: "เอกสารตัวแปร"; }

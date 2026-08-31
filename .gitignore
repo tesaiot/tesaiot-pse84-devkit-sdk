@@ -1,0 +1,7 @@
+# Build output. Every one of these is reproducible from what is committed.
+build/
+build-*/
+mtb_shared/
+*.o
+*.a
+.DS_Store

@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['hdlc_5fgap_5fappearance_0',['HDLC_GAP_APPEARANCE',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a04c04b45adea96c2302e8a1ab656ab44',1,'nus_gatt_db.h']]],
+  ['hdlc_5fgap_5fappearance_5fvalue_1',['HDLC_GAP_APPEARANCE_VALUE',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a11321f5f57288ac39dd42a54623bcd80',1,'nus_gatt_db.h']]],
+  ['hdlc_5fgap_5fdevice_5fname_2',['HDLC_GAP_DEVICE_NAME',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a26d1bb3ad7f15e18fa5585dad7bb15ea',1,'nus_gatt_db.h']]],
+  ['hdlc_5fgap_5fdevice_5fname_5fvalue_3',['HDLC_GAP_DEVICE_NAME_VALUE',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8acffdb5e2200899cbc852f3df09f6cb5e',1,'nus_gatt_db.h']]],
+  ['hdlc_5fgatt_5fservice_5fchanged_4',['HDLC_GATT_SERVICE_CHANGED',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a4c96edd7c7a684d57b4229fd852b7c97',1,'nus_gatt_db.h']]],
+  ['hdlc_5fgatt_5fservice_5fchanged_5fvalue_5',['HDLC_GATT_SERVICE_CHANGED_VALUE',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8aee26f359649bd888d2361d26828df9ec',1,'nus_gatt_db.h']]],
+  ['hdlc_5fnus_5frx_6',['HDLC_NUS_RX',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a7c1a5b4a48da2cb1f18cc4e27cc7d32d',1,'nus_gatt_db.h']]],
+  ['hdlc_5fnus_5frx_5fvalue_7',['HDLC_NUS_RX_VALUE',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8aa3a0db662d3b397ec3d82c86a6921cce',1,'nus_gatt_db.h']]],
+  ['hdlc_5fnus_5ftx_8',['HDLC_NUS_TX',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a3838cf5d14cb93688849138a2c962d40',1,'nus_gatt_db.h']]],
+  ['hdlc_5fnus_5ftx_5fvalue_9',['HDLC_NUS_TX_VALUE',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a4a9a53ae18cb5114c18b9540073888eb',1,'nus_gatt_db.h']]],
+  ['hdld_5fgatt_5fservice_5fchanged_5fcccd_10',['HDLD_GATT_SERVICE_CHANGED_CCCD',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a08f3ba4c5b647065ac12d80e8b426f78',1,'nus_gatt_db.h']]],
+  ['hdld_5fnus_5ftx_5fcccd_11',['HDLD_NUS_TX_CCCD',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8af964a132bfb4c6532c959ef853fb64cd',1,'nus_gatt_db.h']]],
+  ['hdls_5fgap_12',['HDLS_GAP',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8accd322b39ee94f50ead4ff0ce1caa86a',1,'nus_gatt_db.h']]],
+  ['hdls_5fgatt_13',['HDLS_GATT',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a1f8d0f41378b6c1e68936677e918cd10',1,'nus_gatt_db.h']]],
+  ['hdls_5fnus_14',['HDLS_NUS',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a92ed9eb0d8024307c5970111cbb763a1',1,'nus_gatt_db.h']]],
+  ['hdls_5fnus_5fend_15',['HDLS_NUS_END',['../nus__gatt__db_8h.html#a5f82023161f0406cc6164f661dfbfee8a53b393d20133b111c9fa5fd5a97e061c',1,'nus_gatt_db.h']]]
+];

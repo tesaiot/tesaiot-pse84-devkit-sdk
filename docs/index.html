@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TESAIoT Dev Kit — PSoC™ Edge E84 · Firmware Stack &amp; SDK</title>
+<meta name="description" content="บอร์ดพัฒนา Edge AI สามคอร์บน PSoC™ Edge E84 พร้อม Firmware Stack และ SDK ที่ใช้ได้จริง — ModusToolbox™ และ MicroPython, OPTIGA™ Trust M, และ Edge AI บน NPU">
+<meta property="og:title" content="TESAIoT Dev Kit — PSoC™ Edge E84">
+<meta property="og:description" content="สามคอร์ · NPU · Wi-Fi 6 · Edge AI ที่รันได้ในวันแรก พร้อม SDK และเอกสารสองภาษา">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/tesaiot-dev-kit.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="800x800" href="assets/TESA.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">ข้ามไปยังเนื้อหา</a>
+
+<header class="site" id="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">TESA<b>IoT</b></span><span class="brand-sub">Development Kit</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="เมนูหลัก">
+      <a href="#hardware">ฮาร์ดแวร์</a>
+      <a href="#software">ซอฟต์แวร์</a>
+      <a href="#security">ความปลอดภัย</a>
+      <a href="#edgeai">Edge AI</a>
+      <a href="#foundation">Foundation</a>
+      <a href="sdk/mtb-mpy/th/index.html">เอกสาร SDK</a>
+      <a class="nav-cta" href="#contact">ติดต่อ</a>
+    </nav>
+
+    <a class="language-switch" href="index.en.html" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="เปิดเมนู" data-label-open="เปิดเมนู" data-label-close="ปิดเมนู">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ─────────────────────────── HERO ─────────────────────────── -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">TESAIoT Dev Kit · <span class="nb">PSoC™ Edge E84</span></p>
+      <h1>สามคอร์ หนึ่ง NPU<br>และเฟิร์มแวร์ที่<em>เปิดให้อ่านจริง</em></h1>
+      <p class="lead">
+        บอร์ดพัฒนา Edge AI ที่มาพร้อม firmware stack ทั้งชุด — ไม่ใช่ตัวอย่างสาธิต
+        แต่เป็นโค้ดที่ใช้งานจริง เปิดให้อ่าน แก้ และต่อยอดได้ทันทีในวันแรก
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#get-started">เริ่มต้นใช้งาน SDK</a>
+        <a class="btn btn-ghost" href="#software">ดู Firmware Stack</a>
+      </div>
+
+      <dl class="hero-ledger">
+        <div><dt>คอร์ประมวลผล</dt><dd>3<span class="u">×</span> Arm<span class="u">®</span></dd></div>
+        <div><dt>ซอร์สที่เปิด</dt><dd>237<span class="u">k</span><span class="u"> บรรทัด</span></dd></div>
+        <div><dt>หน้าเอกสาร</dt><dd>838<span class="u"> EN+TH</span></dd></div>
+        <div><dt>โมเดล Edge AI</dt><dd>6<span class="u"> ช่อง</span></dd></div>
+      </dl>
+    </div>
+
+    <figure class="hero-board">
+      <div class="board-wrap">
+        <img src="assets/tesaiot-dev-kit.webp" alt="บอร์ด TESAIoT Dev Kit มองจากด้านบน"
+             width="1400" height="932" fetchpriority="high" decoding="async">
+        <ul class="board-pins" aria-label="จุดสำคัญบนบอร์ด">
+          <li style="--x:52%;--y:22%"><b>1</b><span>จอสัมผัส 4.3″</span></li>
+          <li style="--x:22%;--y:47%"><b>2</b><span>SoM · PSoC™ Edge E84</span></li>
+          <li style="--x:30%;--y:47%"><b>3</b><span>Radar, IMU, Compass, Pressure, Temperature, Humidity, Mics, Speaker</span></li>
+          <li style="--x:31%;--y:79%"><b>4</b><span>mikroBUS™ ×3 · Arduino shield</span></li>
+          <li data-side="l" style="--x:76%;--y:64%"><b>5</b><span>CAN · RS-485</span></li>
+          <li data-side="l" style="--x:82%;--y:54%"><b>6</b><span>CAPSENSE, Poten × 4, Button × 2</span></li>
+          <li data-side="l" style="--x:76%;--y:36%"><b>7</b><span>RGB LED Matrix</span></li>
+          <li style="--x:25%;--y:32%"><b>8</b><span>HSM · OPTIGA™ Trust M</span></li>
+        </ul>
+      </div>
+      <figcaption>TESAIoT Dev Kit — บอร์ดฐาน TESAIoT + Infineon <span class="nb">KIT_PSE84_AI</span> SoM</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ─────────────────────── ACT I · HARDWARE ─────────────────────── -->
+<section class="act" id="hardware">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">01</p>
+      <h2>ฮาร์ดแวร์ที่<em>ไม่ต้องต่อเพิ่ม</em></h2>
+      <p class="act-lead">
+        Dev Kit ประกอบจากสองส่วน — SoM ของ Infineon ที่ถือ SoC, NPU, หน่วยความจำและวิทยุ
+        และบอร์ดฐาน TESAIoT ที่ถือส่วนขยาย, ปุ่ม, CapSense และการเชื่อมต่อภาคสนาม
+      </p>
+    </header>
+
+    <!-- ไดอะแกรมสถาปัตยกรรมสามโดเมน -->
+    <figure class="arch">
+      <svg viewBox="0 0 900 340" role="img" aria-labelledby="archT archD" class="arch-svg">
+        <title id="archT">สถาปัตยกรรมสามโดเมนของ PSoC Edge E84</title>
+        <desc id="archD">ชิปแบ่งเป็นสามโดเมน — Cortex-M33 Secure ดูแล secure boot และ TrustZone,
+          Cortex-M33 Non-secure ดูแล Wi-Fi MQTT TLS และ OPTIGA Trust M,
+          Cortex-M55 400 MHz พร้อม Helium และ Ethos-U55 NPU ดูแลจอและ Edge AI
+          ทั้งสามใช้หน่วยความจำภายนอกร่วมกันคือ QSPI NOR flash 512 Mb และ HYPERRAM 128 Mb</desc>
+
+        <g class="a-dom">
+          <rect x="8" y="8" width="270" height="180" rx="12"/>
+          <text class="a-tag" x="28" y="42">โดเมนปลอดภัย</text>
+          <text class="a-core" x="28" y="76">Cortex®-M33</text>
+          <text class="a-sub" x="28" y="100">Secure · TrustZone®</text>
+          <line class="a-rule" x1="28" y1="118" x2="250" y2="118"/>
+          <text class="a-item" x="28" y="144">secure boot</text>
+          <text class="a-item" x="28" y="166">แยกหน่วยความจำ</text>
+        </g>
+
+        <g class="a-dom">
+          <rect x="296" y="8" width="270" height="180" rx="12"/>
+          <text class="a-tag" x="316" y="42">โดเมนเครือข่าย</text>
+          <text class="a-core" x="316" y="76">Cortex®-M33</text>
+          <text class="a-sub" x="316" y="100">Non-secure · 200 MHz · NNLite</text>
+          <line class="a-rule" x1="316" y1="118" x2="538" y2="118"/>
+          <text class="a-item" x="316" y="144">Wi-Fi · MQTT · TLS</text>
+          <text class="a-item" x="316" y="166">OPTIGA™ Trust M</text>
+        </g>
+
+        <g class="a-dom a-dom-hot">
+          <rect x="584" y="8" width="308" height="180" rx="12"/>
+          <text class="a-tag a-tag-hot" x="604" y="42">โดเมนสมรรถนะสูง</text>
+          <text class="a-core" x="604" y="76">Cortex®-M55 + NPU</text>
+          <text class="a-sub" x="604" y="100">400 MHz · Helium · Ethos™-U55</text>
+          <line class="a-rule" x1="604" y1="118" x2="864" y2="118"/>
+          <text class="a-item" x="604" y="144">จอ LVGL · กราฟิก</text>
+          <text class="a-item" x="604" y="166">เอนจิน Edge AI</text>
+        </g>
+
+        <!-- เส้นเชื่อมลง bus -->
+        <path class="a-link" d="M143 188 v34 M431 188 v34 M738 188 v34"/>
+        <rect class="a-bus" x="8" y="222" width="884" height="42" rx="10"/>
+        <text class="a-bus-t" x="450" y="249" text-anchor="middle">IPC — ช่องสื่อสารระหว่างคอร์</text>
+
+        <rect class="a-mem" x="8" y="284" width="884" height="48" rx="10"/>
+        <text class="a-mem-t" x="32" y="313">QSPI NOR flash 512 Mb</text>
+        <text class="a-mem-t" x="330" y="313">Octal HYPERRAM™ 128 Mb</text>
+        <text class="a-mem-t" x="680" y="313">LittleFS 52 MB</text>
+      </svg>
+      <figcaption>
+        สามโดเมนแยกงานกันชัดเจน — งานหนักอยู่บน M55 คู่ NPU, งานเครือข่ายและกุญแจอยู่บน M33
+        ที่ตื่นตลอดเวลาด้วย NNLite, และ secure boot อยู่ในโดเมนที่แตะไม่ได้
+      </figcaption>
+    </figure>
+
+    <div class="specs">
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">หน่วยประมวลผลและหน่วยความจำ</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>SoC</dt><dd>Infineon <span class="nb">PSoC™ Edge E84</span> — <span class="nb">PSE846GPS2DBZC4A</span></dd></div>
+          <div><dt>โดเมนสมรรถนะสูง</dt><dd>Arm® <span class="nb">Cortex®-M55</span> <b>400 MHz</b> + Helium DSP + <span class="nb">Ethos™-U55</span> NPU</dd></div>
+          <div><dt>โดเมนประหยัดพลังงาน</dt><dd>Arm® <span class="nb">Cortex®-M33</span> <b>200 MHz</b> + <span class="nb">NNLite</span> ตัวเร่ง AI ของ Infineon สำหรับงาน always-on</dd></div>
+          <div><dt>ความปลอดภัยระดับสถาปัตยกรรม</dt><dd>Arm® <span class="nb">TrustZone®</span> — แยก Secure / Non-secure</dd></div>
+          <div><dt>หน่วยความจำภายนอก</dt><dd>QSPI NOR flash <b>512 Mb</b> · Octal <span class="nb">HYPERRAM™</span> <b>128 Mb</b></dd></div>
+          <div><dt>ระบบไฟล์</dt><dd>LittleFS <b>52 MB</b></dd></div>
+          <div><dt>การแบ่งงาน</dt><dd>M33-NS ถือเครือข่ายและ HSM · M55 ถือจอและ Edge AI · M33-S ถือ secure boot</dd></div>
+        </dl>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">เซนเซอร์</span><span class="spec-hint">SoM · เฟิร์มแวร์ขับได้แล้ว</span></h3>
+        <dl class="spec-rows">
+          <div><dt>IMU</dt><dd>Bosch <span class="nb">BMI270</span> — accel + gyro</dd></div>
+          <div><dt>เข็มทิศ</dt><dd>Bosch <span class="nb">BMM350</span></dd></div>
+          <div><dt>ความกดอากาศ</dt><dd>Infineon <span class="nb">DPS368</span></dd></div>
+          <div><dt>อุณหภูมิ · ความชื้น</dt><dd>Sensirion <span class="nb">SHT40</span></dd></div>
+          <div><dt>เรดาร์</dt><dd>Infineon XENSIV™ <span class="nb">BGT60TR13C</span> 60 GHz — ตรวจ gesture (push / swipe), การมีอยู่ และการเคลื่อนไหว</dd></div>
+          <div><dt>กล้อง</dt><dd><span class="nb">OV7675</span> ผ่าน DVP — สำหรับงาน Vision AI</dd></div>
+          <div><dt>ไมโครโฟน</dt><dd>analog และ PDM — ป้อนเข้าเอนจิน Edge AI โดยตรง</dd></div>
+          <div><dt>เสียงออก</dt><dd>Audio codec ผ่าน I²C</dd></div>
+        </dl>
+        <p class="spec-note">CapSense และ potentiometer อยู่บนบอร์ดฐาน ไม่ได้อยู่บน SoM</p>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">จอแสดงผลและการสัมผัส</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>จอ</dt><dd>4.3 นิ้ว · MIPI DSI — ขับด้วย GFX subsystem บน M55</dd></div>
+          <div><dt>กราฟิก</dt><dd>LVGL 9 พร้อม VGLite acceleration · ฟอนต์ไทยในตัว</dd></div>
+          <div><dt>สัมผัส</dt><dd>Capacitive touch controller บนบัสจอ</dd></div>
+        </dl>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">การเชื่อมต่อไร้สาย</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>ชิปวิทยุ</dt><dd>Infineon <span class="nb">CYW55513</span> ในโมดูล Murata <span class="nb">LBEE5HY2FY</span></dd></div>
+          <div><dt>Wi-Fi</dt><dd>Wi-Fi 6 · dual-band 2.4 / 5 GHz</dd></div>
+          <div><dt>Bluetooth</dt><dd>Bluetooth LE — ปิดไว้โดยค่าเริ่มต้น เปิดด้วย build flag</dd></div>
+          <div><dt>Regulatory domain</dt><dd>คอมไพล์มาเป็น <b>US</b> — ตรวจช่อง 5 GHz ก่อนใช้ในไทย</dd></div>
+        </dl>
+        <p class="spec-note">
+          ตัวชิปมี COEX arbiter และรองรับ Wi-Fi กับ BLE พร้อมกันได้ — ข้อจำกัดที่พบใน
+          firmware บาง variant เป็นนโยบายของซอฟต์แวร์ ไม่ใช่ของฮาร์ดแวร์
+        </p>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">ส่วนขยายและ I/O</span><span class="spec-hint">บอร์ดฐาน TESAIoT</span></h3>
+        <dl class="spec-rows">
+          <div><dt>mikroBUS™</dt><dd>3 ช่อง — I²C, UART, SPI</dd></div>
+          <div><dt>Arduino header</dt><dd>D0–D13 ต่อครบ</dd></div>
+          <div><dt>ฟิลด์บัส</dt><dd>CAN และ RS-485 — เลือกด้วยสวิตช์เลื่อน</dd></div>
+          <div><dt>อินพุตผู้ใช้</dt><dd>ปุ่มกด · potentiometer 2 ตัว · CapSense co-processor</dd></div>
+          <div><dt>เอาต์พุต</dt><dd>RGB LED matrix</dd></div>
+          <div><dt>USB</dt><dd>Device และ Host</dd></div>
+        </dl>
+        <div class="warn">
+          <p><b>สองเรื่องที่ควรรู้ก่อนออกแบบวงจรต่อ</b></p>
+          <ul>
+            <li><b>Arduino header ไม่มีขาอนาล็อก</b> — A0–A3 ไม่ได้ต่อ มีเพียง A4/A5 ซึ่งเป็นขา I²C</li>
+            <li><b>mikroBUS ช่องที่ 3 ขา MISO ไม่ได้ต่อ</b> — ส่งข้อมูลได้อย่างเดียว หากต้องการรับต้องเดินสายเพิ่ม</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">โมดูลความปลอดภัย</span><span class="spec-hint">โมดูลเสียบ · แยกจำหน่าย</span></h3>
+        <dl class="spec-rows">
+          <div><dt>ชิ้นส่วน</dt><dd>Infineon <span class="nb">OPTIGA™ Trust M</span></dd></div>
+          <div><dt>รูปแบบ</dt><dd><b>โมดูลเสียบ ไม่ได้บัดกรีบนบอร์ด</b> — ที่อยู่ I²C <code>0x30</code></dd></div>
+        </dl>
+      </section>
+
+    </div>
+
+    <p class="act-foot">
+      ตัวเลขทั้งหมดข้างต้นอ้างอิงจากผังวงจรรุ่นผลิตจริงและจากเฟิร์มแวร์ที่ขับฮาร์ดแวร์นั้นอยู่ —
+      ขนาดบอร์ด อัตราการใช้ไฟ และช่วงอุณหภูมิ อยู่ระหว่างการวัด และจะประกาศเมื่อมีผลจริง
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────────── ACT II · SOFTWARE ─────────────────────── -->
+<section class="act act-alt" id="software">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">02</p>
+      <h2>สองเส้นทาง <em>คุณภาพเท่ากัน</em></h2>
+      <p class="act-lead">
+        TESAIoT Firmware Stack ส่งมอบเป็น project template สองแบบ เลือกตามวิธีทำงานของคุณ
+        ไม่ใช่ตามระดับความสามารถ — ทั้งสองแบบใช้ไลบรารีชุดเดียวกัน ฮาร์ดแวร์ชุดเดียวกัน
+        และเอกสารชุดเดียวกัน
+      </p>
+    </header>
+
+    <div class="paths">
+      <article class="path">
+        <header>
+          <p class="path-tag">ModusToolbox™</p>
+          <h3>คอมไพล์เป็นเฟิร์มแวร์ ควบคุมได้ทุกไบต์</h3>
+        </header>
+        <p>
+          ModusToolbox™ คือชุดเครื่องมือพัฒนาอย่างเป็นทางการของ Infineon สำหรับ PSoC™
+          ประกอบด้วย BSP ของบอร์ด, ไลบรารีฮาร์ดแวร์, ตัวตั้งค่าอุปกรณ์แบบกราฟิก
+          และคอมไพเลอร์ Arm GCC — โปรเจกต์ที่ได้เป็นภาษา C ล้วน คอมไพล์ลงทั้งสามคอร์
+        </p>
+        <ul class="path-points">
+          <li><b>คุมเวลาได้ระดับไมโครวินาที</b> — ไม่มีชั้นแปลภาษาคั่นระหว่างโค้ดกับฮาร์ดแวร์</li>
+          <li><b>แก้ค่าอุปกรณ์ด้วยเครื่องมือกราฟิก</b> — นาฬิกา ขา GPIO และ peripheral ตั้งผ่าน Device Configurator</li>
+          <li><b>ดีบักระดับคำสั่ง</b> — breakpoint, ดูรีจิสเตอร์, ไล่ทีละบรรทัดผ่าน KitProg</li>
+          <li><b>ใช้ RAM และแฟลชน้อยที่สุด</b> — เหลือที่ให้โมเดล Edge AI มากที่สุด</li>
+        </ul>
+        <p class="path-when">เหมาะกับ: สินค้าที่ต้องผลิตจริง งานที่คุม latency งานที่แบตเตอรี่เป็นข้อจำกัด</p>
+        <dl class="path-rows">
+          <div><dt>ขนาดแพ็กเกจ</dt><dd>8.6 MB · 2,353 ไฟล์</dd></div>
+          <div><dt>ภาษา</dt><dd>C — สามคอร์</dd></div>
+          <div><dt>เอกสาร</dt><dd>732 หน้า (EN + TH)</dd></div>
+        </dl>
+      </article>
+
+      <article class="path path-featured">
+        <header>
+          <p class="path-tag">ModusToolbox™ + MicroPython</p>
+          <h3>เขียน Python บนบอร์ด เห็นผลทันทีที่กด Enter</h3>
+        </header>
+        <p>
+          ได้ทุกอย่างของเส้นทางแรก บวก MicroPython ที่ฝังอยู่ในเฟิร์มแวร์ตั้งแต่ต้น
+          พร้อมโมดูลที่เราเขียนขึ้นเองสำหรับเซนเซอร์ จอ Wi-Fi, MQTT, HSM และ Edge AI
+          — เชื่อมสาย USB แล้วพิมพ์คำสั่งคุยกับฮาร์ดแวร์ได้เลย
+        </p>
+        <ul class="path-points">
+          <li><b>ไม่ต้องคอมไพล์ ไม่ต้อง flash</b> — แก้แล้วรันทันที รอบการทดลองจากนาทีเหลือวินาที</li>
+          <li><b>REPL คุยกับบอร์ดสด ๆ</b> — อ่านเซนเซอร์ทีละบรรทัดเพื่อหาสาเหตุปัญหา</li>
+          <li><b>ไฟล์ Python เก็บบนบอร์ด</b> — ระบบไฟล์ 52 MB โค้ดอยู่กับอุปกรณ์ ไม่หายเมื่อถอดไฟ</li>
+          <li><b>ผสม C กับ Python ได้</b> — ส่วนที่ต้องเร็วเขียน C ส่วนที่ต้องแก้บ่อยเขียน Python</li>
+        </ul>
+        <p class="path-when">เหมาะกับ: การเรียนการสอน งานต้นแบบ การทดลองเซนเซอร์ และงานที่โจทย์ยังเปลี่ยนบ่อย</p>
+        <dl class="path-rows">
+          <div><dt>ขนาดแพ็กเกจ</dt><dd>9.4 MB · 2,552 ไฟล์</dd></div>
+          <div><dt>ภาษา</dt><dd>C + MicroPython</dd></div>
+          <div><dt>GC heap</dt><dd>64 KB</dd></div>
+          <div><dt>เอกสาร</dt><dd>838 หน้า (EN + TH)</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="sdk">
+      <div class="sdk-copy">
+        <h3>SDK ที่ให้ทั้งซอร์สและไลบรารีที่เซ็นแล้ว</h3>
+        <p>
+          สิ่งที่คุณได้รับไม่ใช่ไฟล์ไบนารีก้อนเดียว — เป็นโค้ดที่อ่านได้เกือบทั้งหมด
+          บวกไลบรารีสำเร็จรูปหกตัวที่เซ็นลายเซ็นดิจิทัลไว้ พร้อมสคริปต์ให้คุณตรวจสอบเองได้
+          ตั้งแต่นาทีแรกที่แตกไฟล์
+        </p>
+        <ul class="ticks">
+          <li><b>~237,000 บรรทัด</b> ของ C ที่เปิดให้อ่าน — ทุกหน้าจอ ทุกไดรเวอร์ ทั้ง BSP</li>
+          <li><b>6 ไลบรารีสำเร็จรูป</b> เปิดเผย API สาธารณะ 284 รายการ พร้อม <code>api.txt</code> ที่ตรงกับความจริง</li>
+          <li><b>40 ตัวอย่างโค้ด</b> ที่คอมไพล์ผ่านจริง ไม่ใช่ตัวอย่างในเอกสารที่ใช้ไม่ได้</li>
+          <li><b>35 บทเรียน</b> เรียงตามลำดับการใช้งานจริง สองภาษา</li>
+          <li><b>ตรวจลายเซ็นได้เอง</b> — <code>./verify.sh</code> ตรวจทุกไฟล์เทียบ manifest ที่เซ็นไว้</li>
+        </ul>
+      </div>
+      <div class="sdk-code">
+        <div class="code-head"><span>เริ่มต้นใช้งาน</span></div>
+<pre><code>$ unzip bento-firmware-template-mtb-mpy.zip
+$ cd bento-firmware-template-mtb-mpy
+
+$ cd lib &amp;&amp; ./verify.sh
+OK: signature valid and every file
+    matches its digest
+
+$ ./bento.sh doctor
+</code></pre>
+      </div>
+    </div>
+
+    <section class="getting-started" id="get-started" aria-labelledby="get-started-title">
+      <div>
+        <p class="act-no">เริ่มต้น</p>
+        <h3 id="get-started-title">เลือกเส้นทาง แล้วเข้าเอกสารที่ตรงกับงานของคุณ</h3>
+        <p>เอกสาร API สร้างจาก Doxygen โดยตรงจาก header ที่มากับ SDK — landing page นี้จึงพาไปยังเอกสารชุดเดียวกับที่อยู่ในแพ็กเกจ ไม่ทำสำเนาเนื้อหาซ้ำ</p>
+      </div>
+      <div class="start-actions">
+        <a class="start-card" href="sdk/mtb-only/th/index.html">
+          <span class="start-kicker">MTB-only · C / FreeRTOS</span>
+          <strong>เปิดเอกสารภาษาไทย</strong>
+          <small>API, tutorials และตัวอย่างสำหรับเฟิร์มแวร์ C ล้วน</small>
+        </a>
+        <a class="start-card" href="sdk/mtb-mpy/th/index.html">
+          <span class="start-kicker">MTB-MPY · C + MicroPython</span>
+          <strong>เปิดเอกสารภาษาไทย</strong>
+          <small>API, tutorials และโมดูล MicroPython ของ Dev Kit</small>
+        </a>
+        <a class="start-card start-card-plain" href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk">
+          <span class="start-kicker">GitHub</span>
+          <strong>ดู source และ releases</strong>
+          <small>ดาวน์โหลด template, ตรวจลายเซ็น และดูสถานะ release ล่าสุด</small>
+        </a>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ─────────────────── ACT III · SECURITY + EDGE AI ─────────────────── -->
+<section class="act act-dark" id="security">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">03</p>
+      <h2>ความปลอดภัยที่<em>พูดเท่าที่ทำได้จริง</em></h2>
+      <p class="act-lead">
+        เราพิสูจน์บนบอร์ดจริง และเขียนเฉพาะสิ่งที่พิสูจน์แล้ว
+        ส่วนที่ยังไม่บังคับใช้ เราบอกว่ายังไม่บังคับใช้
+      </p>
+    </header>
+
+    <div class="sec-grid">
+      <article class="sec-card sec-proven">
+        <p class="sec-state">พิสูจน์บนฮาร์ดแวร์แล้ว</p>
+        <h3>OPTIGA™ Trust M</h3>
+        <ul>
+          <li>สร้างคู่กุญแจภายในชิป — <b>กุญแจส่วนตัวไม่เคยออกมานอกชิป</b></li>
+          <li>ขอใบรับรองผ่าน CSR และรับกลับมาทาง MQTT over TLS</li>
+          <li>Protected Update พร้อมการตรวจ manifest ในซิลิกอน ซึ่ง<b>ล้มเหลวแบบปิด</b></li>
+          <li>Mutual TLS โดยกุญแจอยู่ในชิปตลอดการทำงาน</li>
+        </ul>
+        <p class="sec-note">
+          OPTIGA เป็น<b>โมดูลเสียบ</b> ไม่ได้บัดกรีบนบอร์ด — สั่งแยกและเสียบที่ที่อยู่ <code>0x30</code>
+        </p>
+      </article>
+
+      <article class="sec-card">
+        <p class="sec-state sec-state-open">ยังไม่บังคับใช้ — และเราเขียนไว้ตรง ๆ</p>
+        <h3>สิ่งที่ยังเป็นข้อตกลง ไม่ใช่กลไก</h3>
+        <ul>
+          <li>การตรวจสิทธิ์การใช้งาน — <b>ไม่ได้คอมไพล์เข้าอิมเมจใด</b> ข้อจำกัดเชิงพาณิชย์เป็นสัญญา ไม่ใช่เทคนิค</li>
+          <li>ลายเซ็นโมเดล Edge AI — <b>ตรวจจริง แต่ไม่บล็อก</b> โมเดลที่ลายเซ็นไม่ผ่านยังโหลดได้</li>
+          <li>การจับคู่ BLE — ปัจจุบันเป็น Just Works ไม่บังคับการยืนยันตัวตน (BLE ปิดโดยค่าเริ่มต้น)</li>
+          <li>ใบรับรองจากโรงงานระบุตัว<b>ชิป</b> ไม่ใช่ตัว<b>อุปกรณ์</b> — การผูกตัวตนต้องทำที่ฝั่ง broker</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="act act-dark act-dark-cont" id="edgeai">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">04</p>
+      <h2>Edge AI ที่<em>รันได้ในวันแรก</em></h2>
+      <p class="act-lead">
+        เอนจินอยู่บน Cortex®-M55 คู่กับ Ethos™-U55 NPU
+        มาพร้อมโมเดล DEEPCRAFT™ ที่ทำงานได้จริงตั้งแต่แกะกล่อง และช่องว่างให้คุณใส่ของตัวเอง
+      </p>
+    </header>
+
+    <div class="ai-grid">
+      <div class="ai-slots">
+        <p class="ai-label">ช่องโมเดล 6 ช่อง</p>
+        <ul class="slots">
+          <li class="slot-on"><b>motion</b><span>ทำงาน</span></li>
+          <li class="slot-on"><b>audio</b><span>ทำงาน</span></li>
+          <li class="slot-on"><b>radar</b><span>ทำงาน</span></li>
+          <li class="slot-off"><b>cough</b><span>ว่าง</span></li>
+          <li class="slot-off"><b>alarm</b><span>ว่าง</span></li>
+          <li class="slot-off"><b>siren</b><span>ว่าง</span></li>
+        </ul>
+        <p class="ai-note">
+          สามช่องแรกมีโมเดลที่ส่งมาด้วย อีกสามช่องเว้นไว้โดยตั้งใจ —
+          โมเดลสำเร็จรูปของ Imagimob อยู่ภายใต้สัญญาอนุญาตของเขา เราจึงไม่แจกจ่ายต่อ
+          แต่เปิดช่องไว้ให้คุณนำมาใส่เองได้
+        </p>
+      </div>
+
+      <div class="ai-routes">
+        <p class="ai-label">สี่วิธีใส่โมเดลของคุณเอง</p>
+        <ol class="routes">
+          <li>
+            <b>ลงทะเบียนตอนรันไทม์</b>
+            <span>เรียก <code>ai_engine_register()</code> — ไม่ต้องใช้ช่องที่มีอยู่ ไม่ต้องคอมไพล์เอนจินใหม่</span>
+          </li>
+          <li>
+            <b>Export จาก DEEPCRAFT™ Studio</b>
+            <span>เขียนทับไฟล์โมเดลเดิม เปลี่ยนชื่อจุดเข้าใช้งานสี่จุด</span>
+          </li>
+          <li>
+            <b>วางไลบรารีของคุณลงไป</b>
+            <span>ตั้งชื่อตามรูปแบบ แล้ว Makefile จัดการลิงก์ให้เอง</span>
+          </li>
+          <li>
+            <b>เขียน runtime เอง</b>
+            <span>อะไรก็ได้ที่อยู่หลังฟังก์ชันสี่ตัวนั้น — TFLite หรือของคุณเอง</span>
+          </li>
+        </ol>
+        <p class="ai-note">
+          ทุกวิธีทำได้โดย<b>ไม่ต้องแตะโค้ดที่เราปิด</b> และไม่ต้องรอไลบรารีชุดใหม่จากเรา
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── ACT V · FOUNDATION ─────────────────────── -->
+<section class="act" id="foundation">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">05</p>
+      <h2>สิ่งที่นักพัฒนาไทย<em>ได้รับจริง</em></h2>
+      <p class="act-lead">
+        TESAIoT AIoT Foundation ไม่ได้ตั้งขึ้นเพื่อขายบอร์ด
+        แต่เพื่อลดระยะทางระหว่างวิศวกรไทยคนหนึ่ง กับผลิตภัณฑ์ที่ขายได้จริง
+      </p>
+    </header>
+
+    <div class="benefits">
+      <article>
+        <h3>ไม่ต้องเริ่มจากศูนย์</h3>
+        <p>
+          สามคอร์ IPC จอ LVGL พร้อมฟอนต์ไทย เครือข่าย TLS ระบบไฟล์ และ Edge AI
+          ทำงานร่วมกันได้แล้วตั้งแต่ไฟล์แรก งานที่ปกติกินเวลาหลายเดือนก่อนจะได้เห็นผลลัพธ์แรก
+        </p>
+      </article>
+      <article>
+        <h3>เอกสารภาษาไทยที่เขียนสำหรับวิศวกร</h3>
+        <p>
+          838 หน้าสองภาษา ศัพท์เทคนิคคงไว้เป็นภาษาอังกฤษตามที่ใช้จริงในวงการ
+          พร้อมตัวอย่างที่คอมไพล์ผ่าน ไม่ใช่โค้ดในเอกสารที่ลอกไปแล้วใช้ไม่ได้
+        </p>
+      </article>
+      <article>
+        <h3>เส้นทางสู่สินค้าจริง</h3>
+        <p>
+          โครงสร้างเดียวกันนี้รองรับตั้งแต่งานเรียน งานต้นแบบ ไปจนถึงการผลิต
+          พร้อม HSM สำหรับตัวตนอุปกรณ์ และ Protected Update สำหรับการอัปเดตภาคสนาม
+        </p>
+      </article>
+      <article>
+        <h3>ความรู้ที่อยู่กับคนไทย</h3>
+        <p>
+          หลักสูตร ห้องปฏิบัติการ และการอบรมที่ใช้บอร์ดและ stack ชุดเดียวกันกับที่ใช้ทำสินค้า
+          สิ่งที่ผู้เรียนฝึกในห้อง คือสิ่งเดียวกับที่ใช้ทำงานจริง
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── CONTACT ─────────────────────────── -->
+<section class="act act-dark act-contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>เริ่มต้นกับ <em>TESAIoT Dev Kit</em></h2>
+      <p class="act-lead">
+        สำหรับสถาบันการศึกษา ทีมพัฒนาผลิตภัณฑ์ และงานอบรม —
+        ติดต่อเพื่อขอรายละเอียด แพ็กเกจเฟิร์มแวร์ และเงื่อนไขการนำไปใช้
+      </p>
+      <a class="btn btn-primary" href="mailto:contact@tesaiot.com">ติดต่อทีมงาน</a>
+      <p class="contact-alt">ซอร์ส เอกสาร และแพ็กเกจทั้งหมดอยู่ที่ <a href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk">github.com/tesaiot/tesaiot-pse84-devkit-sdk</a></p>
+    </div>
+    <dl class="contact-facts">
+      <div><dt>บอร์ด</dt><dd>บอร์ดฐาน TESAIoT + KIT_PSE84_AI</dd></div>
+      <div><dt>Toolchain</dt><dd>ModusToolbox™ · Arm GCC</dd></div>
+      <div><dt>สัญญาอนุญาตซอร์ส</dt><dd>Apache-2.0</dd></div>
+      <div><dt>เอกสาร</dt><dd>ไทย · อังกฤษ</dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <p class="foot-brand">TESA<b>IoT</b></p>
+    <p class="foot-note">
+      Thai Embedded Systems Association · ซอร์สเผยแพร่ภายใต้ Apache-2.0
+    </p>
+    <p class="foot-note">
+      PSoC™, OPTIGA™, DEEPCRAFT™ และ ModusToolbox™ เป็นเครื่องหมายการค้าของ
+      Infineon Technologies AG · โมเดล Edge AI ที่อ้างถึงเป็นผลงานของ Imagimob AB
+      บริษัทในเครือ Infineon และใช้ที่นี่เพื่อการวิจัยและการเรียนการสอนเท่านั้น
+    </p>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" hidden aria-label="กลับขึ้นด้านบน" title="กลับขึ้นด้านบน"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>
+
+<script src="script.js" defer></script>
+</body>
+</html>

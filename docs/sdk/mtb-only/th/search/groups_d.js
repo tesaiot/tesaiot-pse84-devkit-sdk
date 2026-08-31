@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['makefile_0',['F1 — การเพิ่มหน้าจอ: 3 ไฟล์ กับความจริงเรื่อง Makefile',['../group__tut__f1__adding__a__screen.html',1,'']]],
+  ['manager_1',['chip gate และ manager',['../group__tesaiot__hsm__chip__manager.html',1,'']]],
+  ['manager_20ipc_20dispatch_2',['Widget manager (IPC dispatch)',['../group__ipc__core__ui__widget__mgr.html',1,'']]],
+  ['micropython_20ผ่าน_20ipc_3',['F2 — การขับ widget จาก MicroPython ผ่าน IPC',['../group__tut__f2__widgets__over__ipc.html',1,'']]],
+  ['mqtt_20task_20→_20broker_4',['C3 — TESAIoT cloud: ไฟล์ config → MQTT task → broker',['../group__c3__cloud__mqtt.html',1,'']]],
+  ['mtls_3a_20ตัวตนของ_20tls_20ที่ยึดกับ_20optiga_5',['C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA',['../group__c4__mtls__optiga.html',1,'']]]
+];

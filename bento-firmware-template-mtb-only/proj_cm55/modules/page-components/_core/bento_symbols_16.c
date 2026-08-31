@@ -1,0 +1,96 @@
+/*******************************************************************************
+ * File Name: bento_symbols_16.c
+ *
+ * Description: Tiny LVGL font containing only U+25C9 (◉) and U+29BF (⦿)
+ *              for the BENTO brand text on the Home screen (20px).
+ *
+ *              Generated with lv_font_conv 1.5.3:
+ *              npx lv_font_conv --font "Apple Symbols.ttf" \
+ *                  --range 0x25C9,0x29BF --size 20 --bpp 4 --no-compress
+ *
+ *              Used as fallback font: Montserrat 16 → bento_symbols_20
+ *              so ◉⦿ render correctly while all other glyphs use Montserrat.
+ *
+ *******************************************************************************/
+
+#include "lvgl.h"
+
+/*-----------------
+ *    BITMAPS
+ *----------------*/
+
+static LV_ATTRIBUTE_LARGE_CONST const uint8_t glyph_bitmap[] = {
+    /* U+25C9 "◉" */
+    0x0, 0x0, 0x28, 0xbc, 0xa6, 0x0, 0x0, 0x0,
+    0x8, 0xc5, 0x10, 0x28, 0xc2, 0x0, 0x0, 0x88,
+    0x0, 0x44, 0x20, 0x2c, 0x20, 0x3, 0xb0, 0x4e,
+    0xff, 0xfa, 0x3, 0xb0, 0xb, 0x32, 0xff, 0xff,
+    0xff, 0xa0, 0xa2, 0xd, 0xa, 0xff, 0xff, 0xff,
+    0xf1, 0x57, 0xc, 0xd, 0xff, 0xff, 0xff, 0xf4,
+    0x48, 0xc, 0xc, 0xff, 0xff, 0xff, 0xf3, 0x57,
+    0xb, 0x17, 0xff, 0xff, 0xff, 0xe0, 0x94, 0x5,
+    0x90, 0xbf, 0xff, 0xff, 0x41, 0xc0, 0x0, 0xa6,
+    0x7, 0xcd, 0xa3, 0x1c, 0x30, 0x0, 0xa, 0x92,
+    0x0, 0x5, 0xd4, 0x0, 0x0, 0x0, 0x5b, 0xcd,
+    0xc8, 0x10, 0x0,
+    /* U+29BF "⦿" */
+    0x0, 0x2, 0x8b, 0xb8, 0x20, 0x0, 0x0, 0x7e,
+    0x84, 0x48, 0xe7, 0x0, 0x7, 0xc1, 0x0, 0x0,
+    0x1c, 0x70, 0x2e, 0x10, 0x2, 0x10, 0x1, 0xe2,
+    0x88, 0x1, 0xcf, 0xf7, 0x0, 0x88, 0xb4, 0x9,
+    0xff, 0xff, 0x20, 0x4b, 0xb4, 0xb, 0xff, 0xff,
+    0x40, 0x4b, 0x97, 0x6, 0xff, 0xfe, 0x10, 0x69,
+    0x4d, 0x0, 0x7c, 0xb3, 0x0, 0xd4, 0xb, 0x90,
+    0x0, 0x0, 0x9, 0xb0, 0x0, 0xcb, 0x40, 0x3,
+    0xbc, 0x0, 0x0, 0x6, 0xcf, 0xfc, 0x60, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+};
+
+/*---------------------
+ *  GLYPH DESCRIPTION
+ *--------------------*/
+
+static const lv_font_fmt_txt_glyph_dsc_t glyph_dsc[] = {
+    {.bitmap_index = 0,  .adv_w = 0,   .box_w = 0,  .box_h = 0,  .ofs_x = 0, .ofs_y = 0},
+    {.bitmap_index = 0,  .adv_w = 224, .box_w = 14, .box_h = 13, .ofs_x = 1, .ofs_y = 0},
+    {.bitmap_index = 91, .adv_w = 208, .box_w = 12, .box_h = 13, .ofs_x = 1, .ofs_y = -1},
+};
+
+/*---------------------
+ *  CHARACTER MAPPING
+ *--------------------*/
+
+static const uint16_t unicode_list_0[] = { 0x0, 0x3f6 };
+
+static const lv_font_fmt_txt_cmap_t cmaps[] = {
+    {
+        .range_start = 9673, .range_length = 1015, .glyph_id_start = 1,
+        .unicode_list = unicode_list_0, .glyph_id_ofs_list = NULL,
+        .list_length = 2, .type = LV_FONT_FMT_TXT_CMAP_SPARSE_TINY
+    }
+};
+
+/*--------------------
+ *  ALL CUSTOM DATA
+ *--------------------*/
+
+static const lv_font_fmt_txt_dsc_t font_dsc = {
+    .glyph_bitmap = glyph_bitmap,
+    .glyph_dsc = glyph_dsc,
+    .cmaps = cmaps,
+    .kern_dsc = NULL, .kern_scale = 0,
+    .cmap_num = 1, .bpp = 4, .kern_classes = 0, .bitmap_format = 0,
+};
+
+/*-----------------
+ *  PUBLIC FONT
+ *----------------*/
+
+const lv_font_t bento_symbols_20 = {
+    .get_glyph_dsc = lv_font_get_glyph_dsc_fmt_txt,
+    .get_glyph_bitmap = lv_font_get_bitmap_fmt_txt,
+    .line_height = 14, .base_line = 1,
+    .subpx = LV_FONT_SUBPX_NONE,
+    .underline_position = -1, .underline_thickness = 1,
+    .dsc = &font_dsc, .fallback = NULL, .user_data = NULL,
+};

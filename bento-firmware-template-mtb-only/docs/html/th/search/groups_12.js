@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['scheduler_0',['Radio scheduler',['../group__ble__nus__radio__scheduler.html',1,'']]],
+  ['select_20confirm_20start_3a_20requested_20เทียบกับ_20active_1',['E1 — Select, confirm, start: REQUESTED เทียบกับ ACTIVE',['../group__tut__e1__select__confirm__start.html',1,'']]],
+  ['sensor_20hub_2',['Sensor hub',['../group__ipc__core__ipc__sensorhub.html',1,'']]],
+  ['sensor_20hub_3',['J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub',['../group__j3__sensor__auto.html',1,'']]],
+  ['service_4',['Service',['../group__ipc__core__ipc__service.html',1,'']]],
+  ['set_20และการวนถามผลลัพธ์_5',['E2 — Parallel set และการวนถามผลลัพธ์',['../group__tut__e2__parallel__sets.html',1,'']]],
+  ['set_20และการแปลงค่ารูปเดิม_6',['ดัชนีเทียมของ set และการแปลงค่ารูปเดิม',['../group__edge__ai__set__indices.html',1,'']]],
+  ['sets_7',['Parallel sets',['../group__edge__ai__sets.html',1,'']]],
+  ['settle_8',['ผลลัพธ์ registry และการ settle',['../group__edge__ai__results.html',1,'']]],
+  ['site_20จากภายนอกในของที่ส่งมอบจริง_9',['symbol ที่ไม่มี call site จากภายนอกในของที่ส่งมอบจริง',['../group__cm55__core__index__authored.html',1,'']]],
+  ['site_20ในของที่ส่งมอบจริง_10',['ฟังก์ชันที่ไม่มี call site ในของที่ส่งมอบจริง',['../group__ipc__core__index__authored.html',1,'']]],
+  ['snapshot_11',['B3 — แกนหลักของ IPC: การตั้งค่า deferred binding และ snapshot',['../group__b3__ipc__backbone.html',1,'']]],
+  ['snippet_20กับ_20variant_12',['ที่มาของ snippet กับ variant',['../group__ble__nus__snippet__variants.html',1,'']]],
+  ['staged_13',['staged',['../group__edge__ai__unload__staged.html',1,'การ unload และโมเดลแบบ staged'],['../group__tut__e3__stop__unload__staged.html',1,'E3 — Stop, unload และโมเดล staged']]],
+  ['start_3a_20requested_20เทียบกับ_20active_14',['E1 — Select, confirm, start: REQUESTED เทียบกับ ACTIVE',['../group__tut__e1__select__confirm__start.html',1,'']]],
+  ['state_20และ_20correlation_15',['state และ correlation',['../group__tesaiot__hsm__state.html',1,'']]],
+  ['stop_20unload_20และโมเดล_20staged_16',['E3 — Stop, unload และโมเดล staged',['../group__tut__e3__stop__unload__staged.html',1,'']]],
+  ['stream_20ของเซนเซอร์และเสียง_17',['Stream ของเซนเซอร์และเสียง',['../group__ble__nus__sensor__voice__stream.html',1,'']]],
+  ['symbol_20ที่ผู้ใช้ไลบรารีต้องจัดหา_20และ_20symbol_20ที่เขียนทับได้_18',['ภาคผนวก Y — symbol ที่ผู้ใช้ไลบรารีต้องจัดหา และ symbol ที่เขียนทับได้',['../group__tut__y__consumer__contracts.html',1,'']]],
+  ['symbol_20ที่เขียนทับได้_19',['ภาคผนวก Y — symbol ที่ผู้ใช้ไลบรารีต้องจัดหา และ symbol ที่เขียนทับได้',['../group__tut__y__consumer__contracts.html',1,'']]],
+  ['symbol_20ที่ไม่มีการประกาศ_20',['ข้อมูลวินิจฉัยและ symbol ที่ไม่มีการประกาศ',['../group__cm55__core__diag.html',1,'']]],
+  ['symbol_20ที่ไม่มี_20call_20site_20จากภายนอกในของที่ส่งมอบจริง_21',['symbol ที่ไม่มี call site จากภายนอกในของที่ส่งมอบจริง',['../group__cm55__core__index__authored.html',1,'']]],
+  ['symbol_20enable_5foptiga_5fclm_20และข้อผูกพันของผู้ใช้ไลบรารี_22',['D3 — Weak symbol, &lt;span class=&quot;tt&quot;&gt;ENABLE_OPTIGA_CLM&lt;/span&gt; และข้อผูกพันของผู้ใช้ไลบรารี',['../group__d3__weak__symbols__clm.html',1,'']]]
+];
