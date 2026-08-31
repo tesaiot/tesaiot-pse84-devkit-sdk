@@ -277,7 +277,15 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .hero-ledger dd{font-family:var(--font-display);font-size:26px;font-weight:600;line-height:1.2}
 .hero-ledger .u{font-size:var(--t-sm);font-weight:400;color:var(--ink-3)}
 
-.hero-board{margin:0;position:relative}
+/* The figure is a grid item in a centre-aligned row, but the caption used to
+   hang below the image and pulled the picture upward to compensate. With the
+   caption gone the figure is just the image, and centring it against the
+   headline is what the eye expects. */
+.hero-board{
+  margin:0;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  height:100%;
+}
 @media (min-width:1280px){
   .hero-board{ margin-right:calc(var(--s-7) * -1); }
 }
@@ -288,10 +296,7 @@ html[lang="en"] .hero h1{ max-width:24ch; }
      under the board itself is enough to lift it off the paper. */
   filter:drop-shadow(0 26px 34px rgba(16,18,24,.22));
 }
-.hero-board figcaption{
-  margin-top:var(--s-4);font-size:var(--t-xs);color:var(--ink-3);
-  max-width:46ch;
-}
+
 
 /* ── ACT SHELL ──────────────────────────────────────────────────────────── */
 .act{padding:var(--s-10) 0;position:relative}

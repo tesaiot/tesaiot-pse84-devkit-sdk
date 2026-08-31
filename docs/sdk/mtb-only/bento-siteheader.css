@@ -92,10 +92,20 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
    the controls past the right edge - measured at 60px of horizontal scroll on
    a 1440 viewport. With it the nav yields first, which is correct: the links
    are chrome and the controls are not. */
+/* No auto margin. `margin-left: auto` on the nav absorbs the bar's free space,
+   and it resolves that space against the sizes the row had at the time — which
+   left the controls slot at 198px around 276px of content and put the variant
+   switch 60px past the right edge of the page, at every viewport width, no
+   matter what width the slot itself asked for. Measured, repeatedly.
+
+   The slack is given to the subtitle to grow into instead. Nothing then
+   depends on an auto margin resolving in the right order, the nav and the
+   subtitle can both give ground, and the controls keep their content size. */
 .bento-sh-nav{
-  display: flex; align-items: center; gap: 16px; margin-left: auto;
-  min-width: 0; overflow: hidden;
+  display: flex; align-items: center; gap: 16px;
+  flex: 0 1 auto; min-width: 0; overflow: hidden;
 }
+.bento-sh-sub{ flex: 1 1 auto; min-width: 0; overflow: hidden; }
 .bento-sh-nav a{
   text-decoration: none;
   color: var(--page-secondary-foreground-color, #5f666d);
@@ -121,9 +131,15 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
    came out 213px around 269px of controls, and the switch hung 60px past the
    right edge of the page at every viewport width. min-width:0 belongs on the
    nav, which is allowed to give ground, and nowhere else in this bar. */
+/* `flex: 0 0 auto` with `min-width: max-content` was not enough: measured, the
+   slot came out 198px wide around 276px of content (scrollWidth), and the
+   variant switch hung 60px past the right edge of the page at every viewport.
+   The bar hands its spare width to the nav's auto margin, and the slot was
+   left at a base size taken before both controls were in it. State the width
+   the content needs and take the slot out of the flexing entirely. */
 .bento-sh-controls{
   display: flex; align-items: center; gap: 10px;
-  flex: 0 0 auto; min-width: max-content;
+  flex: 0 0 auto;            /* never the item that gives ground */
 }
 .bento-sh-controls .bento-lang-toggle,
 .bento-sh-controls bento-variant-switch{ margin: 0; position: static; }
