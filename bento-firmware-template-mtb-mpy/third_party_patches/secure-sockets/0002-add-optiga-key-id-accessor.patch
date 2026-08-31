@@ -1,0 +1,24 @@
+Stores the PSA key id the OPTIGA driver produced, for cy_tls.c to read back.
+
+Without this patch: Build stops: proj_cm33_ns/Makefile compiles this file by path.
+
+Asset:    secure-sockets release-v3.12.1
+File:     source/COMPONENT_MBEDTLS/cy_tls_optiga_key.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/secure-sockets/release-v3.12.1/source/COMPONENT_MBEDTLS/cy_tls_optiga_key.c	2026-08-28 08:25:51.211510532 +0700
++++ b/secure-sockets/release-v3.12.1/source/COMPONENT_MBEDTLS/cy_tls_optiga_key.c	2026-03-25 19:20:05.000000000 +0700
+@@ -0,0 +1,13 @@
++#include "cy_tls_optiga_key.h"
++
++static psa_key_id_t g_tls_optiga_key = 0;
++
++void cy_tls_set_optiga_key_id(psa_key_id_t key_id)
++{
++	g_tls_optiga_key = key_id;
++}
++
++psa_key_id_t cy_tls_get_optiga_key_id(void)
++{
++	return g_tls_optiga_key;
++}

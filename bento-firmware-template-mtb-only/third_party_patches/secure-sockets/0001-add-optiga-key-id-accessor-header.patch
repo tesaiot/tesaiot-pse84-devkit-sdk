@@ -1,0 +1,18 @@
+Declares the two accessors that carry the OPTIGA-backed PSA key id into the TLS layer.
+
+Without this patch: Build stops: cy_tls.c cannot find the declarations.
+
+Asset:    secure-sockets release-v3.12.1
+File:     source/COMPONENT_MBEDTLS/include/cy_tls_optiga_key.h
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/secure-sockets/release-v3.12.1/source/COMPONENT_MBEDTLS/include/cy_tls_optiga_key.h	2026-08-28 08:25:50.662218091 +0700
++++ b/secure-sockets/release-v3.12.1/source/COMPONENT_MBEDTLS/include/cy_tls_optiga_key.h	2026-03-25 19:20:05.000000000 +0700
+@@ -0,0 +1,7 @@
++#include "psa/crypto.h"
++
++/* App calls this once after psa_generate_key() to tell TLS which PSA key to use */
++void cy_tls_set_optiga_key_id(psa_key_id_t key_id);
++
++/* TLS backend reads this during config to bind the opaque key */
++psa_key_id_t cy_tls_get_optiga_key_id(void);

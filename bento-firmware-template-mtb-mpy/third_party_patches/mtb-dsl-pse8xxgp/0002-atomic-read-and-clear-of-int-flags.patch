@@ -1,0 +1,45 @@
+Reads and clears int_flags inside a critical section so the ISR cannot modify it in between.
+
+Without this patch: SILENT. GPU events are lost to a race with the ISR.
+
+Asset:    mtb-dsl-pse8xxgp release-v1.2.0
+File:     pdl/drivers/third_party/COMPONENT_GFXSS/vsi/gcnano/VGLiteKernel/rtos/vg_lite_hal.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/drivers/third_party/COMPONENT_GFXSS/vsi/gcnano/VGLiteKernel/rtos/vg_lite_hal.c	2026-08-28 08:25:52.350692719 +0700
++++ b/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/drivers/third_party/COMPONENT_GFXSS/vsi/gcnano/VGLiteKernel/rtos/vg_lite_hal.c	2026-08-20 08:59:44.000000000 +0700
+@@ -594,12 +594,18 @@
+ #else /*for rt500*/
+     if(device->int_queue) {
+         if (xSemaphoreTake(device->int_queue, timeout / portTICK_PERIOD_MS) == pdTRUE) {
++            /* Atomic read-and-clear: prevent ISR from modifying int_flags
++             * between read and clear (race causes lost GPU events). */
++            taskENTER_CRITICAL();
++            uint32_t saved_flags = device->int_flags;
++            device->int_flags = 0;
++            taskEXIT_CRITICAL();
++
+             if (value != NULL) {
+-               *value = device->int_flags & mask;
++               *value = saved_flags & mask;
+             }
+-            device->int_flags = 0;
+ 
+-            if (IS_AXI_BUS_ERR(*value))
++            if (IS_AXI_BUS_ERR(saved_flags))
+             {
+                 vg_lite_bus_error_handler();
+             }
+@@ -731,7 +737,11 @@
+     }
+ 
+ #if !_BAREMETAL /*for rt500*/
+-    device->int_queue = xSemaphoreCreateBinary();
++    /* Use counting semaphore to prevent GPU completion interrupt loss.
++     * Binary semaphore silently drops IRQs when GPU completes two frames
++     * before the waiting task takes the semaphore — causing permanent
++     * deadlock after hundreds of complex renders. */
++    device->int_queue = xSemaphoreCreateCounting(10, 0);
+     device->int_flags = 0;
+ #endif
+     /* Success. */

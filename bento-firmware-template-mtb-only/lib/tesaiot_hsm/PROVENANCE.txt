@@ -1,0 +1,3 @@
+module:     tesaiot_hsm
+core:       cm33
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
