@@ -18,7 +18,7 @@
 #include "ipc_communication.h"
 #include "bsp_feature_flags.h"
 
-#define PM_MAX_PAGES       (24U)  /* == PAGE_ID_COUNT — ids are now explicit and
+#define PM_MAX_PAGES       (25U)  /* == PAGE_ID_COUNT — ids are now explicit and
                                   * never re-numbered, so the table is sized
                                   * for every page the enum names, compiled in
                                   * or not. A slot is a pointer; absence costs
@@ -76,7 +76,12 @@ typedef enum {
     PAGE_ID_GAME_PONG           = 22,
     PAGE_ID_GAME_SHOOTER        = 23,
 
-    PAGE_ID_COUNT               = 24
+    /* SDK Examples — added 2026-08-31 at the next free number, per the rule
+     * above: never renumber, never re-guard. ENABLE_PAGE_EXAMPLES gates whether
+     * the page is COMPILED, never whether this id exists. */
+    PAGE_ID_EXAMPLES            = 24,
+
+    PAGE_ID_COUNT               = 25
 } page_id_t;
 
 /* Fail the build instead of silently dropping a page, which would ship a card

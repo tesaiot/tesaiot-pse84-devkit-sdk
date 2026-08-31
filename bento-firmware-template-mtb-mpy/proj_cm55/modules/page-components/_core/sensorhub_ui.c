@@ -93,6 +93,9 @@
 #if ENABLE_PAGE_TESAIOT_CONNECT
 #include "page_tesaiot_connect.h"
 #endif
+#if ENABLE_PAGE_EXAMPLES
+#include "page_examples.h"
+#endif
 #if defined(BENTO_HAS_EDGE_AI) && (BENTO_HAS_EDGE_AI == 1)
 #include "page_edge_ai.h"
 #endif
@@ -501,6 +504,24 @@ bool sensorhub_ui_init(void *parent)
             .cacheable    = false,
         };
         pm_register(&s_pm, PAGE_ID_TESAIOT_CONNECT, &def);
+    }
+#endif
+
+#if ENABLE_PAGE_EXAMPLES
+    /* SDK Examples — every public API in the SDK, one row each. The rows and
+     * their function pointers are generated from the example files themselves
+     * (examples/sdk_examples_table.c), so this registration is the only
+     * hand-written half and there is no per-example sync to get wrong. */
+    {
+        page_def_t def = {
+            .name         = "SDK Examples",
+            .subtitle     = "Every public API, with runnable code",
+            .accent_color = UI_COLOR_ACCENT_CYAN,
+            .create_cb    = page_examples_create,
+            .render_cb    = page_examples_render,
+            .destroy_cb   = page_examples_destroy,
+        };
+        pm_register(&s_pm, PAGE_ID_EXAMPLES, &def);
     }
 #endif
 
