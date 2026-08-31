@@ -125,9 +125,50 @@
       if (want.length && ++tries < 120) {
         window.requestAnimationFrame(collect);
       } else {
+        /* Adoption failed. Rather than leave the bar a control short — which
+           is what a reader sees as "there is no way to change language" —
+           build one here from what the page already declares about itself. */
+        if (want.indexOf('.bento-lang-toggle') !== -1) { slot.appendChild(langPill()); }
         hold(slot);
       }
     })();
+  }
+
+  /* A language link built from window.BENTO_DOC, which every page declares:
+     {lang, variant, relpath}. Used only when bento-lang.js did not put a pill
+     anywhere this script could find. The href arithmetic is the whole of it —
+     a Thai page is the English path with "th/" inserted before the filename,
+     and an English page is the Thai path with that segment taken out. */
+  function langPill() {
+    var doc = window.BENTO_DOC || {};
+    var lang = doc.lang === 'th' ? 'th' : 'en';
+    var other = lang === 'th' ? 'en' : 'th';
+
+    var path = window.location.pathname;
+    var slash = path.lastIndexOf('/');
+    var dir = path.slice(0, slash + 1);
+    var file = path.slice(slash + 1) || 'index.html';
+    var href = (lang === 'th')
+      ? dir.replace(/\/th\/$/, '/') + file
+      : dir + 'th/' + file;
+
+    var a = document.createElement('a');
+    a.className = 'bento-lang-toggle';
+    a.setAttribute('href', href);
+    a.setAttribute('data-lang', lang);
+    a.setAttribute('data-other', other);
+    a.setAttribute('rel', 'alternate');
+    a.setAttribute('hreflang', other);
+    a.title = other === 'th' ? 'อ่านหน้านี้เป็นภาษาไทย'
+                             : 'Read this page in English';
+
+    ['en', 'th'].forEach(function (code) {
+      var sp = document.createElement('span');
+      sp.textContent = code === 'th' ? 'ไทย' : 'EN';
+      if (code === lang) { sp.className = 'bento-lang-active'; }
+      a.appendChild(sp);
+    });
+    return a;
   }
 
   /* Adoption alone is not enough. doxygen's menu.js runs its own layout pass

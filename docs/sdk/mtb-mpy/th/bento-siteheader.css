@@ -47,18 +47,20 @@
    of the tree, and the search box and the language pill that lives beside it
    went under the bar entirely. Offset it by the same amount and take that
    height back out of its own, or the last rows fall off the bottom instead. */
-#side-nav{
-  top: var(--bento-hdr-h) !important;
-  height: calc(100vh - var(--bento-hdr-h)) !important;
-  max-height: calc(100vh - var(--bento-hdr-h)) !important;
-}
-#nav-tree{ max-height: calc(100vh - var(--bento-hdr-h) - 
-                            var(--searchbar-height, 33px) - 20px); }
+/* doxygen-awesome-sidebar-only derives EVERY piece of its geometry from one
+   variable, --top-height (120px): where #top sits, where #side-nav starts, how
+   tall #nav-tree is, and the content padding. Overriding those selectors one
+   at a time is how five entries disappeared from the middle of the navigation
+   tree - #nav-tree kept a height computed from the ORIGINAL --top-height while
+   its parent had been shortened, so the tree overflowed a container that was
+   no longer the size it thought.
 
-/* doxygen's nav-tree sync button. It toggles whether the tree follows the
-   page, which on a generated site changes nothing a reader can see - so it
-   reads as a broken control. Hide it rather than leave a button that does
-   nothing when pressed. */
+   Add the bar to the variable instead, and both rules recompute together.
+   SCOPED to the two elements, not :root — at :root it would also grow #top
+   (which is height:var(--top-height)) and the content padding, painting the
+   header background 56px further down the page than it belongs. */
+#side-nav, #nav-tree{ --top-height: calc(120px + var(--bento-hdr-h)); }
+
 #nav-sync{ display: none !important; }
 /* and its anchor offsets have to clear both bars, or a #link lands under them */
 html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
