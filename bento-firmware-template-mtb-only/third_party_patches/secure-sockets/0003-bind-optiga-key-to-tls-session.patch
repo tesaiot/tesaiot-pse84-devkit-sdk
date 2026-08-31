@@ -1,0 +1,250 @@
+Holds the client certificate and opaque PK context for the session and binds the OPTIGA key into the handshake.
+
+Without this patch: SILENT. Builds and runs; mTLS falls back to a software key and the broker rejects the device.
+
+Asset:    secure-sockets release-v3.12.1
+File:     source/COMPONENT_MBEDTLS/cy_tls.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/secure-sockets/release-v3.12.1/source/COMPONENT_MBEDTLS/cy_tls.c	2026-08-28 08:25:51.366326268 +0700
++++ b/secure-sockets/release-v3.12.1/source/COMPONENT_MBEDTLS/cy_tls.c	2026-08-05 12:41:34.000000000 +0700
+@@ -36,6 +36,8 @@
+  *
+  */
+ 
++#include "mbedtls/ecp.h"
++#include "mbedtls/oid.h"
+ #include "cy_tls.h"
+ #if defined (COMPONENT_MTB_HAL)
+ #include "mtb_hal.h"
+@@ -63,6 +65,7 @@
+ #if (defined (CY_DEVICE_SECURE) && !defined (CY_SECURE_SOCKETS_PKCS_SUPPORT)) || defined(CYBSP_ETHERNET_CAPABLE)
+ #include "cy_network_mw_core.h"
+ #endif
++#include "cy_tls_optiga_key.h"
+ 
+ #ifdef COMPONENT_4390X
+ extern cy_rslt_t cy_prng_get_random( void* buffer, uint32_t buffer_length );
+@@ -162,6 +165,51 @@
+ 
+ static mbedtls_x509_crt_profile *custom_cert_profile = NULL;
+ 
++/* Diagnostics for the OPTIGA-backed mTLS path. Off by default; set to 1 to trace
++ * the opaque-key binding, the pre-handshake heap, and handshake failures. They
++ * are kept rather than deleted because every one of them earned its place
++ * pinning down a real defect on 2026-08-04. */
++#define TLS_DIAG 1
++#if TLS_DIAG
++#define TLS_DIAG_PRINTF(...) printf(__VA_ARGS__)
++#else
++#define TLS_DIAG_PRINTF(...) ((void)0)
++#endif
++
++static mbedtls_x509_crt			g_client_cert;
++static mbedtls_pk_context		g_client_pk;
++static int						g_client_cert_ready = 0;
++static int						g_client_key_ready = 0;
++
++static void tls_mod_init_once(void)
++{
++	static int init = 0;
++	if (!init)
++	{
++		mbedtls_x509_crt_init(&g_client_cert);
++		mbedtls_pk_init(&g_client_pk);
++		init = 1;
++	}
++}
++
++int cy_tls_set_client_cert(const uint8_t *buf, size_t len, int is_pem)
++{
++	tls_mod_init_once();
++	mbedtls_x509_crt_free(&g_client_cert);
++	mbedtls_x509_crt_init(&g_client_cert);
++
++	int ret = mbedtls_x509_crt_parse(&g_client_cert, buf, is_pem ? (len) : (len));
++	if (ret == 0)
++	{
++		g_client_cert_ready = 1;
++	}
++	else
++	{
++		printf("Failed mbedtls_parse_cert\n");
++	}
++	return ret;
++}
++
+ #ifdef CY_SECURE_SOCKETS_PKCS_SUPPORT
+ static CK_RV cy_tls_initialize_client_credentials(cy_tls_context_mbedtls_t* context);
+ #endif
+@@ -831,7 +879,6 @@
+         *root_ca_certs = NULL;
+         return CY_RSLT_MODULE_TLS_PARSE_CERTIFICATE;
+     }
+-
+     return CY_RSLT_SUCCESS;
+ }
+ /*-----------------------------------------------------------*/
+@@ -851,6 +898,7 @@
+ cy_rslt_t cy_tls_load_global_root_ca_certificates(const char *trusted_ca_certificates, const uint32_t cert_length)
+ {
+     cy_tls_mbedtls_memory_buffer_allocator_init();
++
+     return cy_tls_internal_load_root_ca_certificates(&root_ca_certificates, trusted_ca_certificates, cert_length);
+ }
+ 
+@@ -1517,15 +1565,19 @@
+     mbedtls_ctr_drbg_init(&ctx->ctr_drbg);
+     mbedtls_entropy_init(&ctx->entropy);
+ 
++    /* TLS_DIAG_PRINTF("[TLS-DIAG] cy_tls_connect ENTERED\r\n"); */
++
+     if((ret = mbedtls_ctr_drbg_seed(&ctx->ctr_drbg, mbedtls_entropy_func,
+             &ctx->entropy, (const unsigned char *) pers, strlen(pers))) != 0)
+     {
++        /* TLS_DIAG_PRINTF("[TLS-DIAG] drbg_seed FAILED: -0x%04X\r\n", (unsigned)-ret); */
+         tls_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "mbedtls_ctr_drbg_seed failed 0x%x\r\n", -ret);
+         return CY_RSLT_MODULE_TLS_ERROR;
+     }
+ 
+     if((ret = mbedtls_ssl_config_defaults(&ctx->ssl_config, (int)endpoint, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0)
+     {
++        /* TLS_DIAG_PRINTF("[TLS-DIAG] ssl_config_defaults FAILED: -0x%04X\r\n", (unsigned)-ret); */
+         tls_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "mbedtls_ssl_config_defaults failed 0x%x\r\n", -ret);
+         return CY_RSLT_MODULE_TLS_ERROR;
+     }
+@@ -1628,7 +1680,13 @@
+         {
+             mbedtls_ssl_conf_ca_chain(&ctx->ssl_config, root_ca_certificates, NULL);
+         }
++        else
++        {
++        }
+     }
++    /* TLS_DIAG_PRINTF("[TLS-DIAG] CA-chain: per_conn=%p global=%p conf_ca=%p auth=%d\r\n",
++           (void*)ctx->rootca_certificate, (void*)root_ca_certificates,
++           (void*)ctx->ssl_config.MBEDTLS_PRIVATE(ca_chain), ctx->auth_mode); */
+ 
+ /* When CY_SECURE_SOCKETS_PKCS_SUPPORT is enabled, the device certificate and key are loaded from secure storage 
+    else when TFM-PSA APIs are used, set the opaque private key id where the keys are stored in secure storage */
+@@ -1692,8 +1750,80 @@
+         }
+     }
+ 
++    tls_mod_init_once();
++
++#if defined(MBEDTLS_USE_PSA_CRYPTO)
++    psa_key_id_t optiga_key = cy_tls_get_optiga_key_id();
++    /* TEMP-DIAG 2026-08-04: both returns below are silent, and they sit between
++     * a completed TCP connect and mbedtls_ssl_handshake(). A server-side capture
++     * showed TCP established and then closed by us within 4.7 ms with no
++     * ClientHello ever sent — i.e. we bail out here. Report which step. */
++    TLS_DIAG_PRINTF("[TLS-DIAG] optiga_key=%lu cert_ready=%d\r\n",
++           (unsigned long)optiga_key, (int)g_client_cert_ready);
++    if (optiga_key != 0 && g_client_cert_ready)
++    {
++        /* Reset the PK context — init only, never free.
++         *
++         * mbedtls_pk_free() on an opaque context calls psa_destroy_key() on the
++         * wrapped key id: mbedTLS treats ownership of the key material as
++         * transferred into the PK context. For an OPTIGA-backed key that is
++         * wrong twice over — the private key lives in the secure element and
++         * cannot be destroyed anyway, and destroying the PSA handle poisons
++         * every later connection.
++         *
++         * Observed 2026-08-04 on the TESAIoT Dev Kit: the first cy_tls_connect()
++         * after a power cycle succeeded here (g_client_pk still zeroed from
++         * .bss, so the free was a no-op) and the handshake ran; every attempt
++         * after it returned MBEDTLS_ERR_PK_BAD_INPUT_DATA (-0x3E80) from
++         * mbedtls_pk_setup_opaque, because psa_get_key_attributes() no longer
++         * recognised the id. That closed the socket before ClientHello, which a
++         * server-side capture saw as TCP established then FIN within 4.7 ms.
++         *
++         * mbedtls_pk_setup_opaque() allocates nothing — it stores the key id in
++         * ctx->priv_id and points pk_info at the opaque vtable — so init alone
++         * releases everything a previous setup held. */
++        mbedtls_pk_init(&g_client_pk);
++
++        /* Build a service key-id for Mbed-TLS */
++        mbedtls_svc_key_id_t svc = mbedtls_svc_key_id_make(0, optiga_key);
++
++        int ret_pk = mbedtls_pk_setup_opaque(&g_client_pk, svc);
++        TLS_DIAG_PRINTF("[TLS-DIAG] mbedtls_pk_setup_opaque = %d (-0x%04X)\r\n",
++               ret_pk, (unsigned)(-ret_pk));
++        if (ret_pk != 0)
++        {
++            return CY_RSLT_MODULE_TLS_ERROR;
++        }
++        g_client_key_ready = 1;
++        mbedtls_ssl_conf_rng(&ctx->ssl_config, mbedtls_psa_get_random, NULL);
++        ret_pk = mbedtls_ssl_conf_own_cert(&ctx->ssl_config, &g_client_cert, &g_client_pk);
++        TLS_DIAG_PRINTF("[TLS-DIAG] mbedtls_ssl_conf_own_cert = %d (-0x%04X)\r\n",
++               ret_pk, (unsigned)(-ret_pk));
++
++        if (ret_pk != 0)
++        {
++            return CY_RSLT_MODULE_TLS_ERROR;
++        }
++    }
++    TLS_DIAG_PRINTF("[TLS-DIAG] OPTIGA block done, proceeding to ssl_setup\r\n");
++#endif /* MBEDTLS_USE_PSA_CRYPTO */
++
++#if TLS_DIAG
++    { /* Heap probe before ssl_setup */
++      extern char __HeapLimit[];
++      extern void *_sbrk(int);
++      char *brk = (char *)_sbrk(0);
++      void *probe = malloc(32768);
++      TLS_DIAG_PRINTF("[TLS-DIAG] heap: sbrk=%p limit=%p free=%d probe32K=%s\r\n",
++             brk, __HeapLimit, (int)(__HeapLimit - brk),
++             probe ? "OK" : "FAIL");
++      free(probe);
++    }
++#endif
++
+     if((ret = mbedtls_ssl_setup(&ctx->ssl_ctx, &ctx->ssl_config)) != 0)
+     {
++        TLS_DIAG_PRINTF("[TLS-DIAG] ssl_setup FAILED: -0x%04X\r\n", (unsigned)-ret);
+         tls_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "mbedtls_ssl_config_defaults failed 0x%x\r\n", ret);
+         result = CY_RSLT_MODULE_TLS_ERROR;
+         goto cleanup;
+@@ -1721,12 +1851,28 @@
+                                                              "Please check the provisioned device certificate and keys \r\n");
+             }
+ #endif
+-
++            { /* Diagnostic: exact TLS error + verify + alert details */
++              uint32_t vf = mbedtls_ssl_get_verify_result(&ctx->ssl_ctx);
++              /* mbedtls_ssl_get_ciphersuite() returns NULL when the handshake
++               * died before a ciphersuite was agreed, and newlib-nano faults on
++               * printf("%s", NULL) rather than printing "(null)". */
++              const char *cs_name = mbedtls_ssl_get_ciphersuite(&ctx->ssl_ctx);
++              TLS_DIAG_PRINTF("[TLS-DIAG] err=-0x%04X vf=0x%08X auth=%d proto=0x%04X cs=%s\r\n",
++                     (unsigned)-ret, (unsigned)vf, ctx->auth_mode,
++                     (unsigned)ctx->ssl_ctx.MBEDTLS_PRIVATE(tls_version),
++                     cs_name ? cs_name : "(unnegotiated)");
++              /* If fatal alert, print alert level + description code */
++              if (ret == MBEDTLS_ERR_SSL_FATAL_ALERT_MESSAGE) {
++                  unsigned char *msg = ctx->ssl_ctx.MBEDTLS_PRIVATE(in_msg);
++                  if (msg) {
++                      /* TLS_DIAG_PRINTF("[TLS-DIAG] FATAL ALERT: level=%d desc=%d\r\n", msg[0], msg[1]); */
++                  }
++              }
++            }
+             mbedtls_ssl_free(&ctx->ssl_ctx);
+             mbedtls_ssl_config_free(&ctx->ssl_config);
+             mbedtls_ctr_drbg_free(&ctx->ctr_drbg);
+             mbedtls_entropy_free(&ctx->entropy);
+-
+             tls_cy_log_msg(CYLF_MIDDLEWARE, CY_LOG_ERR, "mbedtls_ssl_handshake failed 0x%x\r\n", -ret);
+             result = CY_RSLT_MODULE_TLS_ERROR;
+             goto cleanup;
+@@ -1742,6 +1888,8 @@
+     return CY_RSLT_SUCCESS;
+ 
+ cleanup:
++    /* TLS_DIAG_PRINTF("[TLS-DIAG] cleanup: result=0x%08X mbedtls_ret=-0x%04X\r\n",
++           (unsigned)result, (unsigned)-ret); */
+ #ifdef CY_SECURE_SOCKETS_PKCS_SUPPORT
+     if(ctx->cert_x509ca != NULL)
+     {

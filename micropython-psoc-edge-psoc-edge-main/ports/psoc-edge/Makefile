@@ -1,0 +1,242 @@
+MTB_LIBS_DIR = ../../lib/mtb-psoc-edge-libs
+include mpconfigport.mk
+-include $(MTB_LIBS_DIR)/mtb-bsp-setup.mk
+
+# The only target allowed to run without BOARD defined is 'submodules' or 'help'
+ifeq ($(BOARD),)
+	ifneq ($(filter $(MAKECMDGOALS),submodules help),$(MAKECMDGOALS))
+    	$(error No active board is set. Run "make BOARD=<target-board>" to initialize the ModusToolbox libraries and set the active board. )
+	endif
+endif
+
+#TODO: Generate properly the project QSTR files
+# Files that are generated and needed before the QSTR build.
+# QSTR_GENERATED_HEADERS = build/pins_qstr.h
+# qstr definitions (must come before including py.mk)
+QSTR_DEFS = qstrdefsport.h #$(QSTR_GENERATED_HEADERS)
+QSTR_GLOBAL_DEPENDENCIES += $(BOARD_DIR)/mpconfigboard.h #$(QSTR_GENERATED_HEADERS)
+
+
+# Frozen manifest for VFS support
+MICROPY_FROZEN_MANIFEST = $(BOARD_DIR)/manifest.py
+FROZEN_MANIFEST         = $(MICROPY_FROZEN_MANIFEST)
+
+ifneq ($(FROZEN_MANIFEST),)
+  CFLAGS += -DMICROPY_QSTR_EXTRA_POOL=mp_qstr_frozen_const_pool
+  CFLAGS += -DMICROPY_MODULE_FROZEN_MPY=1
+  CFLAGS += -DMICROPY_MODULE_FROZEN_STR=1
+endif
+
+BUILD ?= build-$(BOARD)
+
+CROSS_COMPILE ?= arm-none-eabi-
+
+include ../../py/mkenv.mk
+-include $(BOARD_DIR)/mpconfigboard.mk
+include $(TOP)/py/py.mk
+include $(TOP)/extmod/extmod.mk
+
+GIT_SUBMODULES += lib/mtb-psoc-edge-libs lib/mpy-test-ext
+
+INC += -I.
+INC += -I$(TOP)
+INC += -I$(BUILD)
+INC += -I$(BOARD_DIR)
+
+# TODO: Review this flags. Are they all needed?
+CFLAGS_CORTEX_M33 = -mthumb -mcpu=cortex-m33 -msoft-float -fsingle-precision-constant -Wdouble-promotion -Wfloat-conversion -Wno-error=float-conversion
+
+# TODO: These flags are copied form the mpy-psoc6 project. Do we need them all?
+# std=c11 instead of std=c99 : provides "static_assert" (not available in c99) 
+# -D_XOPEN_SOURCE=700 : makes sure the setenv/unsetenv headers are included
+CFLAGS  += $(INC) -Wall -Werror -std=c11 $(CFLAGS_CORTEX_M33) $(COPT) -D_XOPEN_SOURCE=700
+CFLAGS  += -Wno-error=double-promotion -Wno-error=overflow -Wno-error=analyzer-null-dereference -Wno-error=unused-local-typedefs -Wno-error=unused-function -Wno-error=maybe-uninitialized
+
+# TODO: Check required additional LDFFLAGS by micropython
+LD = arm-none-eabi-gcc
+# LDFLAGS += -Wl,--cref -Wl,--gc-sections
+# LDFLAGS += -Wl,-Map,$(BUILD)/firmware.map  -Wl,--start-group -Wl,--end-group -Wl,--print-memory-usage
+
+
+# Pin generation
+HEADER_BUILD := $(BUILD)/genhdr
+MAKE_PINS = boards/make-pins.py
+BOARD_PINS = $(BOARD_DIR)/pins.csv
+AF_FILE = boards/pse8x_af.csv
+PREFIX_FILE = boards/pse84_prefix.c
+GEN_PINS_SRC = $(BUILD)/pins_$(BOARD).c
+GEN_PINS_HDR = $(HEADER_BUILD)/pins.h
+
+# Making OBJ use an order-only dependency on the generated pins.h file
+# has the side effect of making the pins.h file before we actually compile
+# any of the objects. The normal dependency generation will deal with the
+# case when pins.h is modified. But when it doesn't exist, we don't know
+# which source files might need it.
+$(OBJ): | $(GEN_PINS_HDR)
+
+# With conditional pins, we may need to regenerate qstrdefs.h when config
+# options change.
+$(HEADER_BUILD)/qstrdefs.generated.h: $(BOARD_DIR)/mpconfigboard.h
+
+# Use a pattern rule here so that make will only call make-pins.py once to make
+# both pins_$(BOARD).c and pins.h
+$(BUILD)/%_$(BOARD).c $(HEADER_BUILD)/%.h : $(BOARD_DIR)/%.csv $(MAKE_PINS) $(AF_FILE) $(PREFIX_FILE) | $(HEADER_BUILD)
+	$(ECHO) "GEN $@"
+	$(Q)$(PYTHON) $(MAKE_PINS) --board-csv $(BOARD_PINS) --af-csv $(AF_FILE) --prefix $(PREFIX_FILE) \
+	    --output-source $(GEN_PINS_SRC) --output-header $(GEN_PINS_HDR)
+
+# TODO: Check required C++ additional flags.
+# Flags for optional C++ source code
+# CXXFLAGS += $(filter-out -std=c99,$(CFLAGS))
+# CXXFLAGS += $(CXXFLAGS_MOD)
+
+LDFLAGS += $(LDFLAGS_MOD)
+
+AFLAGS = -mthumb -mcpu=cortex-m33 -c
+
+LIBS += 
+
+SRC_O += \
+	shared/runtime/gchelper_thumb2.o
+
+# TODO: All these shared sources are copied from
+# PSOC6 files. Do we need all of them?
+SHARED_SRC_C += $(addprefix shared/,\
+	readline/readline.c \
+	\
+	runtime/gchelper_native.c \
+	runtime/interrupt_char.c \
+	runtime/mpirq.c \
+	runtime/pyexec.c \
+	runtime/stdout_helpers.c \
+	runtime/sys_stdio_mphal.c \
+	\
+	timeutils/timeutils.c \
+	)
+
+
+DRIVERS_SRC_C += 
+
+MOD_SRC_C += \
+	machine_pin.c \
+	machine_pin_af.c \
+	machine_pin_irq.c \
+	machine_pdm_pcm.c\
+	machine_audio_tdm.c\
+	machine_i2c.c\
+	modpsocedge.c
+
+ifeq ($(MICROPY_PY_EXT_FLASH),1)
+	CFLAGS += -DMICROPY_ENABLE_EXT_QSPI_FLASH=1
+	MOD_SRC_C += psoc_edge_qspi_flash.c 
+endif
+
+SRC_C = help.c \
+		main.c \
+		mphalport.c 
+
+SRC_ASM += 
+
+SRC_QSTR += $(SHARED_SRC_C) $(MOD_SRC_C) $(GEN_PINS_SRC)
+
+OBJ += $(PY_O) 
+OBJ += $(addprefix $(BUILD)/, $(SRC_O))
+OBJ += $(addprefix $(BUILD)/, $(SHARED_SRC_C:.c=.o)) 
+OBJ += $(addprefix $(BUILD)/, $(DRIVERS_SRC_C:.c=.o)) 
+OBJ += $(addprefix $(BUILD)/, $(MOD_SRC_C:.c=.o)) 
+OBJ += $(addprefix $(BUILD)/, $(SRC_C:.c=.o)) 
+OBJ += $(addprefix $(BUILD)/, $(SRC_ASM:.s=.o))
+OBJ += $(addprefix $(BUILD)/, $(SRC_CXX:.cpp=.o))
+OBJ += $(GEN_PINS_SRC:.c=.o)
+
+# PSoC Edge uses Cortex-M33 and Cortex-M55 (ARMv8-M architecture)
+# However, since ARMv8-M is not directly supported by mpy-cross,
+# we use armv7emsp as the closest compatible architecture
+MPY_CROSS_FLAGS += -march=armv7emsp 
+
+MPY_APP_NAME = mpy_edge_app_ns
+
+-include $(TOP)/lib/mtb-psoc-edge-libs/mtb-makefile.mk
+
+LDFLAGS += -Wl,-Map,$(BUILD)/$(MPY_APP_NAME).map
+
+MP_LOGGER_DEBUG ?= 0
+
+ifeq ($(MP_LOGGER_DEBUG), 1)
+   CFLAGS += -DMICROPY_LOGGER_DEBUG=1
+endif
+
+$(BUILD)/$(MPY_APP_NAME).elf: mtb_build_ns_info $(OBJ)
+	$(info )
+	$(info Linking $@ ...)
+	$(Q) $(LD) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
+	$(info Linking $@ done.)
+	$(Q) $(SIZE) $@ -A
+	$(info )
+
+$(BUILD)/$(MPY_APP_NAME).hex: $(BUILD)/$(MPY_APP_NAME).elf
+	$(Q) $(OBJCOPY) -O ihex $^ $@
+
+mpy_build: $(BUILD)/$(MPY_APP_NAME).hex
+
+all: mtb_init mpy_build mtb_build_s 
+
+rebuild: clean all
+
+clean: mtb_clean
+
+qdeploy: mtb_program
+deploy: all mtb_program
+
+# When multiple types of boards are connected, a devs file needs to be provided.
+# When working locally, if a "local-devs.yml" file is placed in "tools/psoc-edge"
+# it will be used
+ifneq ($(DEVS_FILE),)
+MULTI_BOARD_DEVS_OPTS = -f name=$(BOARD) --devs-yml $(DEVS_FILE)
+else 
+DFLT_LOCAL_DEVS_FILE_NAME = local-devs.yml
+LOCAL_DEVS_FILE=$(TOP)/tools/psoc-edge/$(DFLT_LOCAL_DEVS_FILE_NAME)
+ifneq (,$(wildcard $(LOCAL_DEVS_FILE)))
+MULTI_BOARD_DEVS_OPTS = -f name=$(BOARD) --devs-yml $(LOCAL_DEVS_FILE)
+endif
+endif
+
+attached_devs:
+	@:
+	$(eval ATTACHED_TARGET_LIST = $(shell etdevs-query serial_number $(MULTI_BOARD_DEVS_OPTS)))
+	$(eval ATTACHED_TARGETS_NUMBER = $(words $(ATTACHED_TARGET_LIST)))
+	$(info Number of attached targets : $(ATTACHED_TARGETS_NUMBER))
+	$(info List of attached targets : $(ATTACHED_TARGET_LIST))
+
+qdeploy_multi: attached_devs
+	$(foreach ATTACHED_TARGET, $(ATTACHED_TARGET_LIST), $(MAKE) qdeploy DEV_SERIAL_NUMBER=$(ATTACHED_TARGET);)
+
+deploy_multi: all qdeploy_multi
+
+port_help:
+	@:
+	$(info )
+	$(info Available commands:)
+	$(info ) 
+	$(info   make submodules                    Initialize port required submodules.)
+	$(info   make BOARD=<board_name>            Build the project for the specified board.)
+	$(info   ..                                 The board name needs to be specified only the first time.)
+	$(info   ..                                 Then simply run "make" to build for the same board.)
+	$(info   make rebuild                       Build the project after cleaning previous build.)
+	$(info   make deploy                        Build and deploy the project to the specified board.)
+	$(info   make qdeploy                       Deploy the project to the specified board without rebuilding.)
+	$(info   make deploy_multi                  Deploy the project to multiple boards.)
+	$(info   make qdeploy_multi                 Deploy the project to multiple boards without rebuilding.)
+	$(info   make clean                         Clean the build files.)
+	$(info   make help                          Show this help.)
+	$(info )
+	$(info Options: )
+	$(info   EXT_HEX_FILE                       An external .hex file can be provided to the deploy targets, instead of building from the sources.) 
+	$(info )
+
+help: port_help mtb_bsp_help mtb_build_help
+.DEFAULT_GOAL := all
+
+.PHONY: all clean rebuild deploy qdeploy deploy_multi qdeploy_multi help
+
+include $(TOP)/py/mkrules.mk

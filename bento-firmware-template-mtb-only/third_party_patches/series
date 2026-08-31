@@ -1,0 +1,11 @@
+secure-sockets/0001-add-optiga-key-id-accessor-header.patch
+secure-sockets/0002-add-optiga-key-id-accessor.patch
+secure-sockets/0003-bind-optiga-key-to-tls-session.patch
+ifx-mbedtls/0001-add-psa-error-shim.patch
+ifx-mbedtls/0002-add-psa-its-interface.patch
+ifx-mbedtls/0003-wrap-private-fields-in-macro.patch
+ifx-mbedtls/0004-add-ecdsa-diagnostics.patch
+mtb-dsl-pse8xxgp/0001-bound-the-gpu-wait.patch
+mtb-dsl-pse8xxgp/0002-atomic-read-and-clear-of-int-flags.patch
+lwip-network-interface-integration/0001-stop-advertising-a-dns-server-on-softap.patch
+aws-iot-device-sdk-port/0001-keep-root-certs-for-the-connection.patch

@@ -1,0 +1,39 @@
+Default wait becomes 5000 ms instead of VG_LITE_INFINITE, and a timeout is handled rather than waited on.
+
+Without this patch: SILENT. A missed GPU interrupt deadlocks the display for ~49.7 days instead of timing out.
+
+Asset:    mtb-dsl-pse8xxgp release-v1.2.0
+File:     pdl/drivers/third_party/COMPONENT_GFXSS/vsi/gcnano/VGLite/vg_lite.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/drivers/third_party/COMPONENT_GFXSS/vsi/gcnano/VGLite/vg_lite.c	2026-08-28 08:25:52.142336594 +0700
++++ b/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/drivers/third_party/COMPONENT_GFXSS/vsi/gcnano/VGLite/vg_lite.c	2026-08-20 08:59:44.000000000 +0700
+@@ -2909,14 +2909,26 @@
+ 
+     /* Wait until GPU is ready. */
+     wait.context = &context->context;
+-    wait.timeout_ms = time_ms > 0 ? time_ms : VG_LITE_INFINITE;
++    /* Bounded default timeout: VG_LITE_INFINITE (~49.7 days) causes
++     * permanent deadlock if GPU misses an interrupt. 5000 ms matches
++     * the platform timeout already used by vg_lite_finish(). */
++    wait.timeout_ms = time_ms > 0 ? time_ms : 5000;
+     wait.event_mask = mask;
+     wait.reset_type = RESTORE_ALL_COMMAND;
+ #if defined(_WINDLL)
+     vg_lite_kernel(VG_LITE_WAIT, &wait);
+ #else
+ #if !DUMP_LAST_CAPTURE
+-    VG_LITE_RETURN_ERROR(vg_lite_kernel(VG_LITE_WAIT, &wait));
++    error = vg_lite_kernel(VG_LITE_WAIT, &wait);
++    if (error == VG_LITE_TIMEOUT) {
++        /* Timeout recovery: clear submit_flag so the GPU pipeline is not
++         * permanently blocked.  The next submit() will proceed without
++         * waiting for a completion that was likely already processed
++         * (missed interrupt) or is unrecoverable (true GPU hang). */
++        submit_flag = 0;
++        return VG_LITE_SUCCESS;
++    }
++    VG_LITE_RETURN_ERROR(error);
+ #else
+     error = vg_lite_kernel(VG_LITE_WAIT, &wait);
+ #endif

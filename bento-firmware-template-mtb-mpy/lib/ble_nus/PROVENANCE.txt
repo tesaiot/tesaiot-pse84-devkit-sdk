@@ -1,0 +1,20 @@
+module:     ble_nus
+core:       cm33
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
+sources:
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/ble_nus.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_gatt_db.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_protocol.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_commands.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_events.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_agent.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/sensor_stream.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/bento_devmode.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/ipc_bento_buddy_bridge.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_base64.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/nus_folder_push.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/ble_nus_lazy.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/fw_hash.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/bento_fw.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/voice_capture.c
+  BENTO-TESAIoT-libraries/claw/common/ble_nus/radio_scheduler.c

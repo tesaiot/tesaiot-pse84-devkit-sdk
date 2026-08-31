@@ -1,0 +1,13 @@
+module:     mpy_secure
+core:       cm33
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
+sources:
+  BENTO-TESAIoT-libraries/claw/common/mpy/tacp.c
+  BENTO-TESAIoT-libraries/claw/common/mpy/lfs_wifi_creds.c
+  BENTO-TESAIoT-libraries/claw/common/mpy/claw_session.c
+  BENTO-TESAIoT-libraries/claw/common/mpy/claw_safety.c
+  BENTO-TESAIoT-libraries/claw/common/mpy/claw_transport.c
+  BENTO-TESAIoT-libraries/claw/common/mpy/modoptiga.c
+  BENTO-TESAIoT-libraries/claw/common/mpy/modedgeai.c
+  BENTO-TESAIoT-libraries/claw/common/bento_link/bento_link.c
+  BENTO-TESAIoT-libraries/claw/common/bento_link/bento_link_ipc.c

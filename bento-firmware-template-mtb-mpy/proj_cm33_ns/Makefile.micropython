@@ -1,0 +1,688 @@
+################################################################################
+# Makefile.micropython — AI Kit BentoClaw (KIT_PSE84_AI)
+#
+# @brief  Builds libmicropython.a for the CM33 Non-Secure core.
+#         Uses MicroPython's own build system (py.mk, extmod.mk, mkrules.mk)
+#         with BSP include paths from our ModusToolbox project.
+#
+# @usage
+#   make -f Makefile.micropython          # Build libmicropython.a
+#   make -f Makefile.micropython clean    # Clean build artifacts
+#   This is invoked automatically by the MTB Makefile via PREBUILD.
+#   TARGET is inherited from the parent make (set in common.mk).
+#
+# @howto  Add a new MicroPython C module
+#   1. Create mpy/mod<name>.c in BENTO-TESAIoT-Claw-libraries/common/mpy/
+#      (shared across all boards).
+#   2. Add  MOD_SRC_C += mpy/mod<name>.c  in the "Source Files" section below.
+#      Use ifeq guards for BSP-conditional modules (e.g. BSP_HAS_RADAR).
+#   3. If the module needs new headers, add  INC += -I<path>  to "Include Paths".
+#   4. If the module needs new -D defines, add  CFLAGS += -D<define>  to
+#      "BSP Defines" or "Compiler Flags" section.
+#   5. Rebuild: delete build-micropython/ then  make build -j  from project root.
+#
+# @howto  Add a new sensor driver
+#   1. Create mpy/sensor_<name>.c (driver) + mpy/modsensors_<name>.c (binding)
+#      in the shared BENTO library.
+#   2. Add both to MOD_SRC_C with  ifeq ($(BSP_HAS_<NAME>),1)  guard.
+#   3. Add  BSP_HAS_<NAME>=1  to bsps/TARGET_<board>/bsp_features.mk.
+#   4. Add  CFLAGS += -DBSP_HAS_<NAME>=1  in the BSP Feature Flag Defines block.
+#
+# @diff   AI Kit vs Eva Kit Makefile.micropython
+#   - TARGET: KIT_PSE84_AI (AI) vs APP_KIT_PSE84_EVAL_EPC2 (Eva)
+#   - WiFi/BT FW: CYW55513 (AI) vs CYW55500A1 (Eva)
+#   - AI Kit has: DPS368 + SHT40 sensor drivers (environment sensors)
+#   - Eva Kit adds: -DUSE_KIT_PSE84_EVAL_EPC2, -DCM55_OWNS_POT
+#   - Eva Kit adds: eva_controls_auto.c (3 LEDs + 2 buttons + pot IPC)
+#   - Eva Kit adds: CapSense + Potentiometer drivers
+#   - Eva Kit adds: BENTO_BOARD_EVA includes/vpath, GFXSS headers
+#   - Both share: WiFi, MQTT, OPTIGA, BentoClaw, DSP, UI, Joystick, LCD modules
+#
+################################################################################
+
+# Target board (inherited from parent make via MAKEFLAGS, or default)
+TARGET ?= KIT_PSE84_AI
+
+################################################################################
+# BSP Feature Flags (conditional compilation per TARGET)
+################################################################################
+-include ../bsps/TARGET_$(TARGET)/bsp_features.mk
+
+# BENTO-TESAIoT shared libraries (common mpy/ modules live here)
+# Same probe as common.mk, and it has to be duplicated rather than included:
+# this makefile is driven by MicroPython's build system, not MTB's, and
+# including common.mk here would drag in COMPONENTS, SOURCES and the MTB
+# recipe. Keep the two definitions identical — a divergence here is invisible
+# until the customer's first build, because the parent passes BENTO_WORKSPACE
+# on the PREBUILD line only when it was set explicitly.
+#
+# Wrong value symptom: MPY_DIR below resolves to nothing, $(TOP) is empty, and
+# the build stops on "No rule to make target '/py/mkrules.mk'" — a message that
+# never mentions MicroPython or the workspace. Measured 2026-08-28 on a freshly
+# unpacked package.
+BENTO_WORKSPACE ?= $(strip $(if $(wildcard ../../bento-release.sh),../../..,../..))
+BENTO_LIBS_DIR = ../bento_libs/claw
+BENTO_COMMON   = $(BENTO_LIBS_DIR)/common
+
+# MicroPython source tree (the Infineon PSoC Edge port)
+MPY_DIR = $(BENTO_WORKSPACE)/micropython-psoc-edge-psoc-edge-main
+PORT_DIR = $(MPY_DIR)/ports/psoc-edge
+
+# MicroPython board configuration (KIT_PSE84_AI).
+# BSP-specific peripherals are handled by bsp_feature_flags.h and bsp_features.mk.
+BOARD = KIT_PSE84_AI
+BOARD_DIR = $(PORT_DIR)/boards/$(BOARD)
+
+# Build output directory (separate from MTB's build/)
+BUILD = build-micropython
+
+# Cross compiler
+CROSS_COMPILE = arm-none-eabi-
+
+################################################################################
+# QSTR Configuration (must be set BEFORE including py.mk)
+################################################################################
+
+QSTR_DEFS = $(PORT_DIR)/qstrdefsport.h
+QSTR_GLOBAL_DEPENDENCIES += $(BOARD_DIR)/mpconfigboard.h
+
+################################################################################
+# Frozen Modules
+#
+# $(BOARD_DIR)/manifest.py freezes ports/psoc-edge/freeze/bentogame.py.
+#
+# This board ships the BENTO Playground page, whose whole purpose is running
+# MicroPython the user typed — so `import bentogame` has to work here. It is the
+# framework the entire Game Console curriculum is written against: every file in
+# Game_Console_Curriculum/.../full_games/ opens with `import bentogame as game`.
+# Without the freeze that import raises ImportError on this firmware, and a
+# student who pastes a course example into the Playground sees their own code
+# blamed for a firmware gap.
+#
+# It was commented out with the note "disabled to avoid mpy-cross and
+# micropython-lib dependencies". mpy-cross is built and in the tree
+# (mpy-cross/build/mpy-cross), so that reason has expired.
+#
+# ENABLE_GAME_SPRITES: ON, matching the firmware this template mirrors.
+# The flag exposes ui.Sprite and the SPR_* ids, and the sprite pixels come from
+# the registry + assets now carried at proj_cm55/modules/game_sprites_mpy/
+# (compiled by proj_cm55/Makefile). bentogame probes hasattr(ui, "Sprite") to
+# choose between pixel art and plain boxes; with the registry present that probe
+# correctly selects real pixel art.
+#
+# This flag was OFF here until 2026-08-24, when the template had no registry —
+# the old note said not to pair the two, and that reason has now expired. It
+# must stay paired: the flag WITHOUT the registry picks the sprite path and
+# fails, which is the failure the old note was protecting against.
+################################################################################
+
+CFLAGS += -DENABLE_GAME_SPRITES=1
+
+FROZEN_MANIFEST = $(BOARD_DIR)/manifest.py
+
+################################################################################
+# MicroPython Build System Includes
+################################################################################
+
+# mkenv.mk sets TOP, CC, AR, etc. based on the path to py/mkenv.mk
+include $(MPY_DIR)/py/mkenv.mk
+
+# Board-specific Makefile fragment (sets MICROPY_PY_EXT_FLASH, etc.)
+-include $(BOARD_DIR)/mpconfigboard.mk
+
+# Port-level Makefile fragment (sets MICROPY_VFS_LFS2, etc.)
+include $(PORT_DIR)/mpconfigport.mk
+
+# Allow make to find mpconfigport.h and mpconfigboard.h as prerequisites.
+# py.mk adds bare "mpconfigport.h" to QSTR_GLOBAL_DEPENDENCIES.
+# Since we run from proj_cm33_ns/ (not the port dir), make can't find it
+# without vpath for .h files.
+vpath %.h $(PORT_DIR) $(BOARD_DIR)
+vpath %.c $(BENTO_COMMON)/shared/source/COMPONENT_CM33
+vpath %.c $(BENTO_COMMON)
+vpath %.c $(BENTO_COMMON)/modules/tesaiot_config
+vpath %.c $(BENTO_COMMON)/modules/tesaiot_mqtt
+# QWA309 base-board persona overlay (CAN + buttons glue lives here, not common/)
+vpath %.c $(BENTO_LIBS_DIR)/kit-tesaiot-pse84-ai
+
+# MicroPython core build rules (~130 core .o files + QSTR pipeline)
+include $(TOP)/py/py.mk
+
+# Extended modules (VFS, LFS2, etc.)
+include $(TOP)/extmod/extmod.mk
+
+################################################################################
+# Architecture Flags (Cortex-M33, ARMv8-M)
+################################################################################
+
+CFLAGS_CORTEX_M33 = -mthumb -mcpu=cortex-m33 -msoft-float \
+    -fsingle-precision-constant \
+    -Wdouble-promotion -Wfloat-conversion -Wno-error=float-conversion
+
+################################################################################
+# Include Paths
+################################################################################
+
+# MicroPython internal paths
+INC += -I$(PORT_DIR)
+INC += -I$(TOP)
+INC += -I$(BUILD)
+INC += -I$(BOARD_DIR)
+
+# Our retarget_io_init.h lives here
+INC += -Idriver
+
+# Per-project firmware version header (bentoclaw_version_project.h) — makes the
+# CM33 boot banner "fw" field (modbentoclaw.c) match the on-screen/.fw_identity
+# version instead of the shared-library fallback.
+INC += -I../proj_cm55/tesaiot_version
+
+# BSP and ModusToolbox library paths (dynamic per TARGET)
+INC += -I../bsps/TARGET_$(TARGET)
+INC += -I../bsps/TARGET_$(TARGET)/config/GeneratedSource
+INC += -I../bsps/TARGET_$(TARGET)/config
+INC += -I../bsps
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/retarget-io/release-v1.8.1/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/retarget-io/release-v1.8.1
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/async-transfer/release-v1.1.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/async-transfer/release-v1.1.0
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/cmsis/release-v6.1.0/Core/Include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/cmsis/release-v6.1.0/Core/Include/m-profile
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/core-lib/release-v1.6.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/devices/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/devices/include/ip
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/pdl/drivers/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/hal/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/hal
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/device-utils/syspm/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/device-utils/syspm/hobto
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/device-utils/syspm/hobto/pdm_pcm
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/device-utils/syspm/hobto/pdm_pcm/audioss_pdm
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/device-utils/syspm/hobto/pdm_pcm/mxpdm
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-dsl-pse8xxgp/release-v1.2.0/nnkernel/COMPONENT_CM33/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/serial-memory/release-v3.1.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-ipc/release-v1.2.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-srf/release-v1.1.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-srf/release-v1.1.0/include/COMPONENT_NON_SECURE_DEVICE
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mtb-srf/release-v1.1.0/include/COMPONENT_NON_SECURE_DEVICE/COMPONENT_MW_MTB_IPC
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/se-rt-services-utils/release-v1.2.0
+
+# Shared IPC communication header — from BENTO shared library
+INC += -I$(BENTO_COMMON)/shared/include
+
+# Shared MicroPython module headers (wm8960.h under BSP_HAS_AUDIO_CODEC, etc.)
+INC += -I$(BENTO_COMMON)/mpy
+
+# TESAIoT config store headers (tesaiot_config_store.h, tesaiot_config_defaults.h)
+INC += -I$(BENTO_COMMON)/modules/tesaiot_config
+
+# TESAIoT MQTT headers (mqtt_task.h, mqtt_client_config.h, tesaiot_mqtt.h, etc.)
+INC += -I$(BENTO_COMMON)/modules/tesaiot_mqtt
+INC += -I$(BENTO_COMMON)/modules/ipc_ui
+
+################################################################################
+# FreeRTOS + WiFi Headers (for modwifi.c direct WCM calls, mphalport.c RTOS)
+################################################################################
+INC += -I.
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/freertos/release-v10.6.202/Source/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/freertos/release-v10.6.202/Source/portable/COMPONENT_CM33/TOOLCHAIN_GCC_ARM/COMPONENT_FREERTOS_NTZ
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/abstraction-rtos/release-v1.12.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/abstraction-rtos/release-v1.12.0/include/COMPONENT_FREERTOS
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/wifi-connection-manager/release-v4.1.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/wifi-host-driver/release-v5.0.8/WHD/COMPONENT_WIFI6/inc
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/wifi-host-driver/release-v5.0.8/WHD/COMPONENT_WIFI6/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/lwip/STABLE-2_1_2_RELEASE/src/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/lwip-network-interface-integration/release-v1.7.1/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/secure-sockets/release-v3.12.1/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/connectivity-utilities/release-v4.5.2
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/connectivity-utilities/release-v4.5.2/network
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/connectivity-utilities/release-v4.5.2/cy_log/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/connectivity-utilities/release-v4.5.2/cy_log
+
+################################################################################
+# HTTP Client Headers (for claw_transport.c HTTPS transport)
+################################################################################
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/http-client/release-v1.8.1/include
+
+################################################################################
+# OPTIGA Trust M + TESAIoT Headers (for modoptiga.c direct CM33_NS calls)
+################################################################################
+OPTIGA_LIB_PATH = $(BENTO_WORKSPACE)/mtb_shared/optiga-trust-m/release-v5.3.0
+
+INC += -I$(OPTIGA_LIB_PATH)
+INC += -I$(OPTIGA_LIB_PATH)/include
+INC += -I$(OPTIGA_LIB_PATH)/include/common
+INC += -I$(OPTIGA_LIB_PATH)/include/pal
+INC += -I$(OPTIGA_LIB_PATH)/include/cmd
+INC += -I$(OPTIGA_LIB_PATH)/include/comms
+INC += -I$(OPTIGA_LIB_PATH)/include/ifx_i2c
+# OPTIGA lib config header (optiga_lib_config_mtb.h)
+INC += -I$(BENTO_LIBS_DIR)/kit-pse84-ai/modules/tesaiot
+
+################################################################################
+# MQTT Headers (for modmqtt.c direct cy_mqtt calls)
+################################################################################
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/mqtt/release-v4.7.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/aws-iot-device-sdk-embedded-C/202103.00/libraries/standard/coreMQTT/source/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/aws-iot-device-sdk-embedded-C/202103.00/libraries/standard/coreMQTT/source/interface
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/aws-iot-device-sdk-embedded-C/202103.00/platform/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/aws-iot-device-sdk-port/release-v2.7.0/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/aws-iot-device-sdk-port/release-v2.7.0/source/include
+INC += -I$(BENTO_WORKSPACE)/mtb_shared/aws-iot-device-sdk-embedded-C/202103.00/libraries/standard/backoffAlgorithm/source/include
+
+################################################################################
+# BSP Defines (matching what MTB provides for CM33_NS)
+# TARGET-dependent defines are set conditionally below.
+################################################################################
+
+# Common defines (all targets)
+CFLAGS += -DCOMPONENT_CM33 -DCOMPONENT_CM33_0 -DCOMPONENT_NON_SECURE_DEVICE
+CFLAGS += -DCOMPONENT_PSE84
+CFLAGS += -DCOMPONENT_GCC_ARM -DCOMPONENT_SOFTFP -DCOMPONENT_Debug
+CFLAGS += -DCOMPONENT_MTB_HAL -DCOMPONENT_MTB_DEVICE_SUPPORT
+CFLAGS += -DCOMPONENT_MW_CMSIS -DCOMPONENT_MW_CORE_LIB -DCOMPONENT_MW_CORE_MAKE
+CFLAGS += -DCOMPONENT_MW_MTB_DSL_PSE8XXGP -DCOMPONENT_MW_MTB_IPC -DCOMPONENT_MW_MTB_SRF
+CFLAGS += -DCOMPONENT_MW_RETARGET_IO -DCOMPONENT_MW_SE_RT_SERVICES_UTILS
+CFLAGS += -DCOMPONENT_MW_ASYNC_TRANSFER
+CFLAGS += -DCOMPONENT_WIFI_INTERFACE_SDIO -DCOMPONENT_SM
+CFLAGS += -DCORE_NAME_CM33_0=1
+CFLAGS += -DCYBSP_MCUBOOT_HEADER_SIZE=0x400
+CFLAGS += -DCY_RETARGET_IO_CONVERT_LF_TO_CRLF
+CFLAGS += -DCY_SUPPORTS_DEVICE_VALIDATION
+CFLAGS += -DCY_WIFI_COUNTRY=WHD_COUNTRY_UNITED_STATES
+CFLAGS += -DPSE846GPS2DBZC4A -DTRXV5
+CFLAGS += -DFLASH_BOOT -DCY_PDL_FLASH_BOOT
+CFLAGS += -DDEBUG
+CFLAGS += -DBLHS_SUPPORT
+CFLAGS += -DCYBSP_WIFI_WL_HOSTWAKE_DRIVE_MODE=MTB_HAL_GPIO_DRIVE_OPENDRAINDRIVESLOW
+CFLAGS += -DCYBSP_WIFI_WL_HOSTWAKE_INIT_STATE=WHD_TRUE
+
+# TARGET-specific board and WiFi defines
+CFLAGS += -DCOMPONENT_$(TARGET) -DCY_TARGET_BOARD=$(TARGET) -DTARGET_$(TARGET)
+
+# KIT_PSE84_AI WiFi/BT component defines
+CFLAGS += -DCOMPONENT_55500 -DCOMPONENT_55500A1
+CFLAGS += -DCOMPONENT_HCI_UART -DCOMPONENT_MURATA_2FY
+CFLAGS += -DCOMPONENT_MW_BT_FW_MUR_CYW55513
+# MicroPython GC heap.
+# Default: 64 KB — required for LFS2 file I/O. Every open() on LFS2/QSPI
+# allocates ~16 KB cache from GC heap. Boot sequence does: VFS mount →
+# config load → WiFi creds read (3x open). At 48 KB, WiFi credential
+# read fails (MemoryError after config load). At 64 KB, m33_data = 98.4%
+# used — tight but functional (WiFi + TLS verified).
+#
+# Bento Desktop Buddy variant: shrink to 85 KB — wait, smaller than
+# default? No: Buddy variant disables WiFi (no WHD buffers) so we can
+# give MPY more heap, but also need ~27 KB for AIROC BLE host stack.
+# Actual Buddy heap stays at 64 KB — the "112 KB default" in the plan
+# doc refers to a post-refactor state that has not landed yet.
+CFLAGS += -DMPY_GC_HEAP_SIZE='(64 * 1024)'
+
+################################################################################
+# Bento Desktop Buddy variant propagation
+#
+# proj_cm33_ns/Makefile passes these as DEFINES+= at its own level, but
+# mpy_main.c is compiled here (libmicropython.a build) so the flags have
+# to be added to our CFLAGS too. Guards in mpy_main.c + modwifi.c key off
+# BENTO_HAS_BLE_NUS.
+################################################################################
+ifeq ($(ENABLE_PAGE_BENTO_BUDDY),1)
+CFLAGS += -DENABLE_PAGE_BENTO_BUDDY=1
+CFLAGS += -DBENTO_HAS_BLE_NUS=1
+MOD_SRC_C += mpy/modbentobuddy.c
+CFLAGS += -I$(BENTO_COMMON)/ble_nus
+endif
+
+# OPTIGA certificate lifecycle (CSR + Protected Update). modoptiga.c is compiled
+# here, so it needs the flag too — proj_cm33_ns/Makefile's DEFINES+= only reaches
+# MTB-compiled sources. Off by default; optiga.clm_menu() does not exist then.
+ifeq ($(ENABLE_OPTIGA_CLM),1)
+CFLAGS += -DENABLE_OPTIGA_CLM=1
+endif
+
+################################################################################
+# MPY_GC_HEAP_IN_SOCMEM — where the MicroPython GC heap lives.  DEFAULT: 0
+#
+#   0  m33_data (SRAM).  Fastest.  Use this unless you have a reason not to.
+#   1  the shared SOCMEM window.  Hands ~64-112 KB back to the C heap, and
+#      makes every Python allocation and GC sweep slower.
+#
+# READ THIS BEFORE TURNING IT ON.  It is a speed trade, not a free win.  SOCMEM
+# is further from the CM33 than m33_data, so the cost lands on ordinary Python
+# execution — not on some corner case.  If you inherit a build with this set and
+# wonder why MicroPython feels sluggish, this is why.  The boot log prints
+# "[MPY] GC heap NN KB @ ADDR in SOCMEM (slower ...)" on every reset so the
+# setting can never be silently in effect.
+#
+# It exists because .heap in the CM33_NS linker script is a fill-to-end section:
+# m33_data is fully committed, so every byte of .bss costs a byte of C heap one
+# for one, and the GC heap is the largest .bss object there is.  The mTLS
+# handshake on this project could not complete without the memory back — the C
+# heap had 6,308 bytes free against a reference design with 180 KB.
+#
+# The heap SIZE is unchanged either way.  This moves it; it never shrinks it.
+#
+# Guidance by project: the Game builds should leave this at 0 — they need the
+# speed and do not run the HSM/TLS stack.  The MicroPython builds that use HSM
+# Security and mTLS are the ones that need it at 1.
+################################################################################
+ifeq ($(MPY_GC_HEAP_IN_SOCMEM),1)
+CFLAGS += -DMPY_GC_HEAP_IN_SOCMEM=1
+endif
+
+################################################################################
+# BSP Feature Flag Defines (passed to C code as -DBSP_HAS_XXX=1)
+################################################################################
+ifeq ($(BSP_HAS_BMI270),1)
+CFLAGS += -DBSP_HAS_BMI270=1
+endif
+ifeq ($(BENTO_HAS_MODEL_LINK),1)
+CFLAGS += -DBENTO_HAS_MODEL_LINK=1
+INC += -I$(BENTO_COMMON)/bento_link
+INC += -I$(BENTO_COMMON)/deepcraft
+endif
+ifeq ($(BSP_HAS_BMM350),1)
+CFLAGS += -DBSP_HAS_BMM350=1
+endif
+ifeq ($(BSP_HAS_DPS368),1)
+CFLAGS += -DBSP_HAS_DPS368=1
+endif
+ifeq ($(BSP_HAS_SHT40),1)
+CFLAGS += -DBSP_HAS_SHT40=1
+endif
+ifeq ($(BSP_HAS_RADAR),1)
+CFLAGS += -DBSP_HAS_RADAR=1
+endif
+ifeq ($(BSP_HAS_CAPSENSE),1)
+CFLAGS += -DBSP_HAS_CAPSENSE=1
+endif
+ifeq ($(BSP_HAS_POTENTIOMETER),1)
+CFLAGS += -DBSP_HAS_POTENTIOMETER=1
+endif
+ifeq ($(BSP_HAS_AUDIO_CODEC),1)
+CFLAGS += -DBSP_HAS_AUDIO_CODEC=1
+# This board's speaker (J8) is driven by the CM55 TLV320DAC3100 SFX path
+# (ui.sfx/ui.tone), NOT the CM33 machine.AudioTDM WM8960 binding. Disable that
+# binding so the two codecs don't both grab TDM0 (WM8960 is absent on this HW).
+CFLAGS += -DMICROPY_PY_MACHINE_AUDIO_TDM=0
+endif
+ifeq ($(BSP_HAS_PDM_MIC),1)
+CFLAGS += -DBSP_HAS_PDM_MIC=1
+endif
+ifeq ($(BSP_HAS_QWA309_BASEBOARD),1)
+CFLAGS += -DBSP_HAS_QWA309_BASEBOARD=1
+endif
+
+################################################################################
+# Compiler Flags
+################################################################################
+
+CFLAGS += $(INC) -Wall -Werror -std=c11 $(CFLAGS_CORTEX_M33) $(COPT)
+CFLAGS += -D_XOPEN_SOURCE=700
+CFLAGS += -DCY_RTOS_AWARE -DCYBSP_WIFI_CAPABLE
+# OPTIGA Trust M library config (uses external config file instead of built-in)
+CFLAGS += -DOPTIGA_LIB_EXTERNAL='"optiga_lib_config_mtb.h"'
+CFLAGS += -DCYBSP_TRUSTM_I2C_SCL=P8_0 -DCYBSP_TRUSTM_I2C_SDA=P8_1
+CFLAGS += -DHAS_IPC_HSM=1
+CFLAGS += -Wno-error=double-promotion -Wno-error=overflow
+CFLAGS += -Wno-error=analyzer-null-dereference -Wno-error=unused-local-typedefs
+CFLAGS += -Wno-error=unused-function -Wno-error=maybe-uninitialized
+
+# Assembler flags
+AFLAGS = -mthumb -mcpu=cortex-m33 -c
+
+# LD (needed for some MicroPython build checks)
+LD = arm-none-eabi-gcc
+
+# mpy-cross flags (ARMv7-EM is closest to ARMv8-M for mpy-cross)
+MPY_CROSS_FLAGS += -march=armv7emsp
+
+################################################################################
+# Pin Generation
+################################################################################
+
+HEADER_BUILD := $(BUILD)/genhdr
+MAKE_PINS = $(PORT_DIR)/boards/make-pins.py
+BOARD_PINS = $(BOARD_DIR)/pins.csv
+AF_FILE = $(PORT_DIR)/boards/pse8x_af.csv
+PREFIX_FILE = $(PORT_DIR)/boards/pse84_prefix.c
+GEN_PINS_SRC = $(BUILD)/pins_$(BOARD).c
+GEN_PINS_HDR = $(HEADER_BUILD)/pins.h
+
+################################################################################
+# Source Files
+################################################################################
+
+# Assembly helpers (Thumb2 GC helper for stack scanning)
+SRC_O += \
+	shared/runtime/gchelper_thumb2.o
+
+# Shared runtime sources (found via vpath in $(TOP))
+SHARED_SRC_C += $(addprefix shared/,\
+	readline/readline.c \
+	runtime/gchelper_native.c \
+	runtime/interrupt_char.c \
+	runtime/mpirq.c \
+	runtime/pyexec.c \
+	runtime/stdout_helpers.c \
+	runtime/sys_stdio_mphal.c \
+	timeutils/timeutils.c \
+	)
+
+# Port-specific module sources (found via vpath in $(TOP))
+MOD_SRC_C += $(addprefix ports/psoc-edge/,\
+	machine_pin.c \
+	machine_pin_af.c \
+	machine_pin_irq.c \
+	machine_pdm_pcm.c \
+	machine_audio_tdm.c \
+	machine_i2c.c \
+	machine_rtc.c \
+	modpsocedge.c \
+	)
+
+# GPIO module (BSP-aware LEDs + Buttons, IPC LED state to CM55)
+MOD_SRC_C += mpy/modgpio.c
+
+# LCD IPC module (sends text to CM55 LVGL via IPC Pipe)
+MOD_SRC_C += mpy/modlcd.c
+
+# Sensor module (I2C sensors on P8[0]/P8[1] bus)
+# Core: modsensors.c (shared), sensor_i2c.c, sensor_bmi270.c (both boards)
+MOD_SRC_C += mpy/modsensors.c
+MOD_SRC_C += mpy/sensor_i2c.c
+MOD_SRC_C += mpy/sensor_bmi270.c
+
+# DEEPCraft model link: transport layer + vendored engine + 'deepcraft' module
+ifeq ($(BENTO_HAS_MODEL_LINK),1)
+# bento_link.c, bento_link_ipc.c: in libbento_mpy.a
+MOD_SRC_C += deepcraft/deepcraft_engine.c
+MOD_SRC_C += mpy/moddeepcraft.c
+# Edge AI registry menu + run-time model staging ('edge_ai' module) — reuses
+# the same model link.
+# modedgeai.c: in libbento_mpy.a
+endif
+MOD_SRC_C += mpy/sensor_auto_task.c
+
+# WiFi credential storage (LittleFS on QSPI, Python I/O mode)
+# lfs_wifi_creds.c: in libbento_mpy.a
+
+# BSP-conditional sensor drivers and MicroPython bindings
+ifeq ($(BSP_HAS_DPS368),1)
+MOD_SRC_C += mpy/modsensors_dps368.c
+MOD_SRC_C += mpy/sensor_dps368.c
+endif
+
+ifeq ($(BSP_HAS_SHT40),1)
+MOD_SRC_C += mpy/modsensors_sht40.c
+MOD_SRC_C += mpy/sensor_sht40.c
+endif
+
+# BMM350 magnetometer (I3C bus P3[0]/P3[1], both boards)
+ifeq ($(BSP_HAS_BMM350),1)
+MOD_SRC_C += mpy/modsensors_bmm350.c
+MOD_SRC_C += mpy/sensor_bmm350.c
+endif
+
+# QWA309 training/base board: CAN bus (CANFD0 ch1, P16.2/3, SN65HVD230)
+# + 2 tactile buttons SW9/SW10 (P17.5/P17.7). Overlay glue, not shared common.
+# NOTE: keep the flag value bare (1/0) with no trailing whitespace, or ifeq breaks.
+ifeq ($(BSP_HAS_QWA309_BASEBOARD),1)
+MOD_SRC_C += mpy/modcan.c
+MOD_SRC_C += mpy/mod_qwa309_buttons.c
+# Header expansion I/O: GPIO P13.x, PWM (TCPWM0 ch5 P13.3/4), UART SCB9 P15.0/1
+MOD_SRC_C += mpy/mod_qwa309_header.c
+# DFR0522 16x8 RGB matrix (I2C 0x10, display bus) — CM33 shim over IPC to CM55
+MOD_SRC_C += mpy/mod_rgbmatrix.c
+# shield.motor_v2 — Adafruit Motor Shield v2 over IPC to CM55, which owns the
+# header I2C. Self-gated by BSP_HAS_QWA309_BASEBOARD, so a non-QWA309 build
+# compiles it to nothing rather than needing a Makefile condition here.
+MOD_SRC_C += mpy/mod_shield_motor_v2.c
+endif
+
+# CapSense (I2C slave at 0x08 on sensor bus, requires base board)
+include $(BENTO_COMMON)/mpy/capsense.mk
+
+# Potentiometer ADC (SAR ADC, requires base board)
+ifeq ($(BSP_HAS_POTENTIOMETER),1)
+MOD_SRC_C += mpy/modsensors_potentiometer.c
+MOD_SRC_C += mpy/sensor_potentiometer.c
+endif
+
+# Audio codec driver (WM8960 on sensor I2C bus, Eva Kit only)
+ifeq ($(BSP_HAS_AUDIO_CODEC),1)
+MOD_SRC_C += mpy/wm8960.c
+endif
+
+# WiFi module (direct cy_wcm_* calls on CM33_NS, lazy SDIO init)
+MOD_SRC_C += mpy/modwifi.c
+
+# MQTT module (direct cy_mqtt calls on CM33_NS, lazy init)
+MOD_SRC_C += mpy/modmqtt.c
+
+# TESAIoT credential proxy (CM33 → CM55 OPTIGA Trust M via IPC)
+MOD_SRC_C += mpy/modtesaiot.c
+
+# TESAIoT config store (persistent key=value on LittleFS, mutex-protected)
+MOD_SRC_C += modules/tesaiot_config/tesaiot_config_store.c
+
+# TESAIoT MQTT wrapper (thin API around mqtt_task.c — only needs FreeRTOS)
+# NOTE: mqtt_task.c, mqtt_client_config.c, publisher_task.c, subscriber_task.c
+# are compiled by the MTB Makefile (SOURCES+=) because they need lwIP arch/cc.h
+# which is only available in the full MTB include tree.
+MOD_SRC_C += modules/tesaiot_mqtt/tesaiot_mqtt.c
+
+# Joystick module (USB HID Logitech F310 via IPC from CM55)
+MOD_SRC_C += mpy/modjoystick.c
+
+# DSP signal processing module (filters, IMU, environment)
+MOD_SRC_C += mpy/moddsp.c
+MOD_SRC_C += mpy/moddsp_filters.c
+MOD_SRC_C += mpy/moddsp_imu.c
+
+# UI module (MicroPython → LVGL widgets on CM55 via IPC)
+MOD_SRC_C += mpy/modui.c
+
+# pots — VR1-4 raw reads from the AutAnalog SAR result registers.
+# Self-gated by BSP_HAS_QWA309_BASEBOARD; SAR is started by main.c at boot.
+MOD_SRC_C += mpy/mod_qwa309_pots.c
+
+# OPTIGA Trust M module (direct CM33_NS calls, no IPC)
+# modoptiga.c: in libbento_mpy.a
+#   Its qstrs and its MP_REGISTER_MODULE line are carried by
+#   bento_archived_qstrs.c above. It is the first archived source with a module
+#   registration, so `./bento-release.sh verify-qstrs` is what proves the
+#   registration survived the move: if it had not, moduledefs.h would differ,
+#   mp_builtin_module_table[] would lose the entry, nothing would reference the
+#   archive member, and `import optiga` would fail at run time after a
+#   warning-free build.
+
+# BentoClaw embedded AI assistant module (tool registry + IPC + status)
+MOD_SRC_C += mpy/modbentoclaw.c
+
+# BentoClaw Phase 2-5: transport, safety guardrails, session memory
+# claw_transport.c: in libbento_mpy.a
+# claw_safety.c: in libbento_mpy.a
+#   Neither contains a single MP_QSTR_, so removing them from the scan cannot
+#   move the qstr pool and they need no entry in bento_archived_qstrs.c. Both
+#   are pulled out of the archive by modbentoclaw.c, which references
+#   claw_rate_check/claw_cb_allow/claw_trust_allows and claw_https_post and
+#   stays in the tree — an archive member with no referencing symbol would
+#   silently not be extracted, and LDLIBS here is not --whole-archive.
+# claw_session.c: in libbento_mpy.a
+
+# External flash support (from board config)
+ifeq ($(MICROPY_PY_EXT_FLASH),1)
+	CFLAGS += -DMICROPY_ENABLE_EXT_QSPI_FLASH=1
+	MOD_SRC_C += ports/psoc-edge/psoc_edge_qspi_flash.c
+endif
+
+# Port main sources (found via vpath in $(TOP) for port files, . for our files)
+SRC_C = ports/psoc-edge/help.c \
+		ports/psoc-edge/mphalport.c \
+		mpy/mpy_main.c \
+		cm33_ipc_communication.c
+
+# Stand-in for the sources that ship as lib/mpy_secure/.../libbento_mpy.a.
+# GENERATED — ./bento-release.sh gen-qstr-shim
+#
+# MOD_SRC_C, not SRC_QSTR alone. SRC_QSTR is only preprocessed (py/mkrules.mk
+# :135), so the _Static_assert lines in a scan-only file are never evaluated —
+# which is what they were until 2026-08-10: the file had no .o at all and its
+# assertions were dead text. MOD_SRC_C gets it compiled here and scanned by the
+# line below, so the same table both holds the pool open and proves it did not
+# move.
+MOD_SRC_C += mpy/bento_archived_qstrs.c
+
+# QSTR sources (files that contain Q() macros)
+SRC_QSTR += $(SHARED_SRC_C) $(MOD_SRC_C) $(GEN_PINS_SRC)
+# Still scanned for Q() even though they are linked from libbento_mpy.a. The
+# qstr pool is built from whatever MicroPython scans; dropping these would shift
+# every index and leave the prebuilt archive storing globals under the wrong
+# names, with no diagnostic at build time.
+# bento_archived_qstrs.c is added above, to MOD_SRC_C, and reaches SRC_QSTR
+# through the line above this comment.
+
+################################################################################
+# Object Files
+################################################################################
+
+OBJ += $(PY_O)
+OBJ += $(addprefix $(BUILD)/, $(SRC_O))
+OBJ += $(addprefix $(BUILD)/, $(SHARED_SRC_C:.c=.o))
+OBJ += $(addprefix $(BUILD)/, $(MOD_SRC_C:.c=.o))
+OBJ += $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
+OBJ += $(addprefix $(BUILD)/, $(SRC_ASM:.s=.o))
+OBJ += $(GEN_PINS_SRC:.c=.o)
+
+################################################################################
+# Build Dependencies
+################################################################################
+
+# All objects need pins.h generated first
+$(OBJ): | $(GEN_PINS_HDR)
+
+# Regenerate qstrdefs when board config changes
+$(HEADER_BUILD)/qstrdefs.generated.h: $(BOARD_DIR)/mpconfigboard.h
+
+# Pin generation rule
+$(BUILD)/%_$(BOARD).c $(HEADER_BUILD)/%.h : $(BOARD_DIR)/%.csv $(MAKE_PINS) $(AF_FILE) $(PREFIX_FILE) | $(HEADER_BUILD)
+	$(ECHO) "GEN $@"
+	$(Q)$(PYTHON) $(MAKE_PINS) --board-csv $(BOARD_PINS) --af-csv $(AF_FILE) --prefix $(PREFIX_FILE) \
+	    --output-source $(GEN_PINS_SRC) --output-header $(GEN_PINS_HDR)
+
+################################################################################
+# Targets
+################################################################################
+
+# Use mkrules.mk's built-in "lib" target which builds $(BUILD)/libmicropython.a
+# (LIBMICROPYTHON = libmicropython.a is defined in mkrules.mk)
+# We just set the default goal to "lib" instead of "all".
+.DEFAULT_GOAL := lib
+
+################################################################################
+# MicroPython Generic Build Rules (QSTR pipeline, compilation rules, etc.)
+# This MUST be last - it defines vpath, pattern rules, and dependencies.
+################################################################################
+
+include $(TOP)/py/mkrules.mk

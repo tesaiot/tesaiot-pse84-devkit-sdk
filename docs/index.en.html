@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TESAIoT Development Kit — PSoC™ Edge E84 · Firmware Stack &amp; SDK</title>
+<meta name="description" content="A three-core Edge AI development board on PSoC™ Edge E84, shipped with a working firmware stack and SDK — ModusToolbox™ and MicroPython, OPTIGA™ Trust M, and Edge AI on the NPU.">
+<meta property="og:title" content="TESAIoT Development Kit — PSoC™ Edge E84">
+<meta property="og:description" content="Three cores · NPU · Wi-Fi 6 · Edge AI running on day one, with an SDK and documentation in two languages.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/tesaiot-dev-kit.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="th" href="index.html">
+<link rel="alternate" hreflang="en" href="index.en.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="800x800" href="assets/TESA.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site" id="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">TESA<b>IoT</b></span><span class="brand-sub">Development Kit</span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main menu">
+      <a href="#hardware">Hardware</a>
+      <a href="#software">Software</a>
+      <a href="#security">Security</a>
+      <a href="#edgeai">Edge AI</a>
+      <a href="#foundation">Foundation</a>
+      <a href="sdk/mtb-mpy/index.html">SDK docs</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+
+    <a class="language-switch" href="index.html" hreflang="th" lang="th" aria-label="เปลี่ยนเป็นภาษาไทย">TH</a>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav"
+            data-label-open="Open menu" data-label-close="Close menu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">TESAIoT Development Kit · <span class="nb">PSoC™ Edge E84</span></p>
+      <h1>Three cores, one NPU,<br>and firmware you can <em>actually read</em></h1>
+      <p class="lead">
+        An Edge AI development board that ships with the whole firmware stack — not a demo,
+        but the code that runs the product, open to read, change and build on from day one.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#get-started">Start with the SDK</a>
+        <a class="btn btn-ghost" href="#software">See the firmware stack</a>
+      </div>
+
+      <dl class="hero-ledger">
+        <div><dt>Processor cores</dt><dd>3<span class="u">×</span> Arm<span class="u">®</span></dd></div>
+        <div><dt>Source you receive</dt><dd>237<span class="u">k</span><span class="u"> lines</span></dd></div>
+        <div><dt>Documentation</dt><dd>838<span class="u"> pages</span></dd></div>
+        <div><dt>Edge AI models</dt><dd>6<span class="u"> slots</span></dd></div>
+      </dl>
+    </div>
+
+    <figure class="hero-board">
+      <div class="board-wrap">
+        <img src="assets/tesaiot-dev-kit.webp" alt="The TESAIoT Development Kit seen from above"
+             width="1400" height="932" fetchpriority="high" decoding="async">
+        <ul class="board-pins" aria-label="Points of interest on the board">
+          <li style="--x:52%;--y:22%"><b>1</b><span>4.3″ touch display</span></li>
+          <li style="--x:22%;--y:47%"><b>2</b><span>SoM · PSoC™ Edge E84</span></li>
+          <li style="--x:30%;--y:47%"><b>3</b><span>Radar, IMU, Compass, Pressure, Temperature, Humidity, Mics, Speaker</span></li>
+          <li style="--x:31%;--y:79%"><b>4</b><span>mikroBUS™ ×3 · Arduino shield</span></li>
+          <li data-side="l" style="--x:76%;--y:64%"><b>5</b><span>CAN · RS-485</span></li>
+          <li data-side="l" style="--x:82%;--y:54%"><b>6</b><span>CAPSENSE, Poten × 4, Button × 2</span></li>
+          <li data-side="l" style="--x:76%;--y:36%"><b>7</b><span>RGB LED Matrix</span></li>
+          <li style="--x:25%;--y:32%"><b>8</b><span>HSM · OPTIGA™ Trust M</span></li>
+        </ul>
+      </div>
+      <figcaption>TESAIoT Development Kit — TESAIoT base board + Infineon <span class="nb">KIT_PSE84_AI</span> SoM</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="act" id="hardware">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">01</p>
+      <h2>Hardware with <em>nothing left to add</em></h2>
+      <p class="act-lead">
+        The kit is two boards — Infineon's SoM carrying the SoC, NPU, memory and radio,
+        and the TESAIoT base board carrying expansion, buttons, CapSense and field connectivity.
+      </p>
+    </header>
+
+    <figure class="arch">
+      <svg viewBox="0 0 900 340" role="img" aria-labelledby="archT archD" class="arch-svg">
+        <title id="archT">The three-domain architecture of PSoC Edge E84</title>
+        <desc id="archD">The chip is divided into three domains — Cortex-M33 Secure handles secure boot
+          and TrustZone; Cortex-M33 Non-secure handles Wi-Fi, MQTT, TLS and OPTIGA Trust M;
+          Cortex-M55 at 400 MHz with Helium and the Ethos-U55 NPU handles the display and Edge AI.
+          All three share external memory: QSPI NOR flash 512 Mb and HYPERRAM 128 Mb.</desc>
+
+        <g class="a-dom">
+          <rect x="8" y="8" width="270" height="180" rx="12"/>
+          <text class="a-tag" x="28" y="42">SECURE DOMAIN</text>
+          <text class="a-core" x="28" y="76">Cortex®-M33</text>
+          <text class="a-sub" x="28" y="100">Secure · TrustZone®</text>
+          <line class="a-rule" x1="28" y1="118" x2="250" y2="118"/>
+          <text class="a-item" x="28" y="144">secure boot</text>
+          <text class="a-item" x="28" y="166">memory isolation</text>
+        </g>
+
+        <g class="a-dom">
+          <rect x="296" y="8" width="270" height="180" rx="12"/>
+          <text class="a-tag" x="316" y="42">NETWORK DOMAIN</text>
+          <text class="a-core" x="316" y="76">Cortex®-M33</text>
+          <text class="a-sub" x="316" y="100">Non-secure · 200 MHz · NNLite</text>
+          <line class="a-rule" x1="316" y1="118" x2="538" y2="118"/>
+          <text class="a-item" x="316" y="144">Wi-Fi · MQTT · TLS</text>
+          <text class="a-item" x="316" y="166">OPTIGA™ Trust M</text>
+        </g>
+
+        <g class="a-dom a-dom-hot">
+          <rect x="584" y="8" width="308" height="180" rx="12"/>
+          <text class="a-tag a-tag-hot" x="604" y="42">PERFORMANCE DOMAIN</text>
+          <text class="a-core" x="604" y="76">Cortex®-M55 + NPU</text>
+          <text class="a-sub" x="604" y="100">400 MHz · Helium · Ethos™-U55</text>
+          <line class="a-rule" x1="604" y1="118" x2="864" y2="118"/>
+          <text class="a-item" x="604" y="144">LVGL display · graphics</text>
+          <text class="a-item" x="604" y="166">Edge AI engine</text>
+        </g>
+
+        <path class="a-link" d="M143 188 v34 M431 188 v34 M738 188 v34"/>
+        <rect class="a-bus" x="8" y="222" width="884" height="42" rx="10"/>
+        <text class="a-bus-t" x="450" y="249" text-anchor="middle">IPC — inter-core message channel</text>
+
+        <rect class="a-mem" x="8" y="284" width="884" height="48" rx="10"/>
+        <text class="a-mem-t" x="32" y="313">QSPI NOR flash 512 Mb</text>
+        <text class="a-mem-t" x="330" y="313">Octal HYPERRAM™ 128 Mb</text>
+        <text class="a-mem-t" x="680" y="313">LittleFS 52 MB</text>
+      </svg>
+      <figcaption>
+        Three domains, cleanly separated — heavy work on the M55 beside the NPU, networking and keys
+        on the M33 that stays awake with NNLite, and secure boot in a domain nothing else can touch.
+      </figcaption>
+    </figure>
+
+    <div class="specs">
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">Processing and memory</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>SoC</dt><dd>Infineon <span class="nb">PSoC™ Edge E84</span> — <span class="nb">PSE846GPS2DBZC4A</span></dd></div>
+          <div><dt>Performance domain</dt><dd>Arm® <span class="nb">Cortex®-M55</span> <b>400 MHz</b> + Helium DSP + <span class="nb">Ethos™-U55</span> NPU</dd></div>
+          <div><dt>Low-power domain</dt><dd>Arm® <span class="nb">Cortex®-M33</span> <b>200 MHz</b> + <span class="nb">NNLite</span>, Infineon's accelerator for always-on AI</dd></div>
+          <div><dt>Architectural security</dt><dd>Arm® <span class="nb">TrustZone®</span> — Secure / Non-secure separation</dd></div>
+          <div><dt>External memory</dt><dd>QSPI NOR flash <b>512 Mb</b> · Octal <span class="nb">HYPERRAM™</span> <b>128 Mb</b></dd></div>
+          <div><dt>File system</dt><dd>LittleFS <b>52 MB</b></dd></div>
+          <div><dt>Work split</dt><dd>M33-NS owns networking and the HSM · M55 owns the display and Edge AI · M33-S owns secure boot</dd></div>
+        </dl>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">Sensors</span><span class="spec-hint">SoM · driven by the firmware today</span></h3>
+        <dl class="spec-rows">
+          <div><dt>IMU</dt><dd>Bosch <span class="nb">BMI270</span> — accelerometer + gyroscope</dd></div>
+          <div><dt>Magnetometer</dt><dd>Bosch <span class="nb">BMM350</span></dd></div>
+          <div><dt>Pressure</dt><dd>Infineon <span class="nb">DPS368</span></dd></div>
+          <div><dt>Temperature · humidity</dt><dd>Sensirion <span class="nb">SHT40</span></dd></div>
+          <div><dt>Radar</dt><dd>Infineon XENSIV™ <span class="nb">BGT60TR13C</span> 60 GHz — gesture (push / swipe), presence and motion</dd></div>
+          <div><dt>Camera</dt><dd><span class="nb">OV7675</span> over DVP — for vision AI</dd></div>
+          <div><dt>Microphones</dt><dd>analog and PDM — fed straight into the Edge AI engine</dd></div>
+          <div><dt>Audio out</dt><dd>Audio codec over I²C</dd></div>
+        </dl>
+        <p class="spec-note">CapSense and the potentiometers are on the base board, not on the SoM.</p>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">Display and touch</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>Display</dt><dd>4.3 inch · MIPI DSI — driven by the GFX subsystem on the M55</dd></div>
+          <div><dt>Graphics</dt><dd>LVGL 9 with VGLite acceleration · Thai fonts built in</dd></div>
+          <div><dt>Touch</dt><dd>Capacitive touch controller on the display bus</dd></div>
+        </dl>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">Wireless</span><span class="spec-hint">SoM</span></h3>
+        <dl class="spec-rows">
+          <div><dt>Radio</dt><dd>Infineon <span class="nb">CYW55513</span> in a Murata <span class="nb">LBEE5HY2FY</span> module</dd></div>
+          <div><dt>Wi-Fi</dt><dd>Wi-Fi 6 · dual-band 2.4 / 5 GHz</dd></div>
+          <div><dt>Bluetooth</dt><dd>Bluetooth LE — off by default, enabled with a build flag</dd></div>
+          <div><dt>Regulatory domain</dt><dd>compiled as <b>US</b> — check your 5 GHz channels before deploying elsewhere</dd></div>
+        </dl>
+        <p class="spec-note">
+          The silicon carries a COEX arbiter and supports Wi-Fi and BLE together. Where a firmware
+          variant restricts that, the restriction is a software policy, not a hardware limit.
+        </p>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">Expansion and I/O</span><span class="spec-hint">TESAIoT base board</span></h3>
+        <dl class="spec-rows">
+          <div><dt>mikroBUS™</dt><dd>3 sockets — I²C, UART, SPI</dd></div>
+          <div><dt>Arduino header</dt><dd>D0–D13 wired</dd></div>
+          <div><dt>Fieldbus</dt><dd>CAN and RS-485 — selected by a slide switch</dd></div>
+          <div><dt>User input</dt><dd>push buttons · 2 potentiometers · CapSense co-processor</dd></div>
+          <div><dt>Output</dt><dd>RGB LED matrix</dd></div>
+          <div><dt>USB</dt><dd>Device and Host</dd></div>
+        </dl>
+        <div class="warn">
+          <p><b>Two things to know before you design a daughterboard</b></p>
+          <ul>
+            <li><b>The Arduino header has no analog inputs.</b> A0–A3 are not connected; only A4/A5 are, and those are the I²C pins.</li>
+            <li><b>mikroBUS socket 3 has MISO unconnected.</b> It transmits only — receiving needs a hand-wired link.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="spec">
+        <h3 class="spec-head"><span class="spec-name">Security module</span><span class="spec-hint">plug-in module · sold separately</span></h3>
+        <dl class="spec-rows">
+          <div><dt>Part</dt><dd>Infineon <span class="nb">OPTIGA™ Trust M</span></dd></div>
+          <div><dt>Form</dt><dd><b>A plug-in module, not soldered to the board</b> — I²C address <code>0x30</code></dd></div>
+        </dl>
+      </section>
+
+    </div>
+
+    <p class="act-foot">
+      Every figure above comes from the production schematic and from the firmware that drives that
+      hardware. Board dimensions, current draw and operating temperature are being measured and will
+      be published when there are real results.
+    </p>
+  </div>
+</section>
+
+<section class="act act-alt" id="software">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">02</p>
+      <h2>Two paths, <em>equal in quality</em></h2>
+      <p class="act-lead">
+        The TESAIoT Firmware Stack ships as two project templates. Choose by how you work,
+        not by how advanced you are — both use the same libraries, the same hardware
+        and the same documentation.
+      </p>
+    </header>
+
+    <div class="paths">
+      <article class="path">
+        <header>
+          <p class="path-tag">ModusToolbox™</p>
+          <h3>Compiled firmware, every byte under your control</h3>
+        </header>
+        <p>
+          ModusToolbox™ is Infineon's official development toolchain for PSoC™. It brings the board
+          BSP, the hardware libraries, a graphical device configurator and the Arm GCC compiler.
+          The project you get is plain C, compiled onto all three cores.
+        </p>
+        <ul class="path-points">
+          <li><b>Microsecond-level timing control</b> — no interpreter between your code and the hardware</li>
+          <li><b>Configure the device graphically</b> — clocks, pins and peripherals through the Device Configurator</li>
+          <li><b>Instruction-level debugging</b> — breakpoints, registers and single-stepping over KitProg</li>
+          <li><b>Smallest RAM and flash footprint</b> — which leaves the most room for Edge AI models</li>
+        </ul>
+        <p class="path-when">Suits: products going to manufacture, latency-critical work, battery-constrained designs.</p>
+        <dl class="path-rows">
+          <div><dt>Package size</dt><dd>8.6 MB · 2,353 files</dd></div>
+          <div><dt>Language</dt><dd>C — three cores</dd></div>
+          <div><dt>Documentation</dt><dd>732 pages (EN + TH)</dd></div>
+        </dl>
+      </article>
+
+      <article class="path path-featured">
+        <header>
+          <p class="path-tag">ModusToolbox™ + MicroPython</p>
+          <h3>Write Python on the board, see it the moment you press Enter</h3>
+        </header>
+        <p>
+          Everything in the first path, plus MicroPython embedded in the firmware from the start,
+          with modules we wrote ourselves for the sensors, the display, Wi-Fi, MQTT, the HSM and
+          Edge AI — plug in USB and start talking to the hardware.
+        </p>
+        <ul class="path-points">
+          <li><b>No compile, no flash</b> — edit and run; the experiment loop drops from minutes to seconds</li>
+          <li><b>A live REPL to the board</b> — read a sensor line by line while you are chasing a problem</li>
+          <li><b>Python files live on the board</b> — a 52 MB file system, so the code stays with the device</li>
+          <li><b>Mix C and Python</b> — C where it must be fast, Python where it changes often</li>
+        </ul>
+        <p class="path-when">Suits: teaching, prototyping, sensor experiments, and work whose requirements are still moving.</p>
+        <dl class="path-rows">
+          <div><dt>Package size</dt><dd>9.4 MB · 2,552 files</dd></div>
+          <div><dt>Language</dt><dd>C + MicroPython</dd></div>
+          <div><dt>GC heap</dt><dd>64 KB</dd></div>
+          <div><dt>Documentation</dt><dd>838 pages (EN + TH)</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="sdk">
+      <div class="sdk-copy">
+        <h3>An SDK that gives you both source and signed libraries</h3>
+        <p>
+          What you receive is not one opaque binary. It is code you can read, nearly all of it,
+          beside six prebuilt libraries carrying a digital signature — and a script that lets you
+          verify them yourself, from the first minute after you unzip.
+        </p>
+        <ul class="ticks">
+          <li><b>~237,000 lines</b> of C open to read — every screen, every driver, the whole BSP</li>
+          <li><b>6 prebuilt libraries</b> exporting 284 public API entries, with an <code>api.txt</code> that tells the truth</li>
+          <li><b>40 worked examples</b> that genuinely compile — not documentation code that does not build</li>
+          <li><b>35 tutorial chapters</b> in the order you actually meet the work, in both languages</li>
+          <li><b>Verify the signature yourself</b> — <code>./verify.sh</code> checks every file against a signed manifest</li>
+        </ul>
+      </div>
+      <div class="sdk-code">
+        <div class="code-head"><span>Getting started</span></div>
+<pre><code>$ unzip bento-firmware-template-mtb-mpy.zip
+$ cd bento-firmware-template-mtb-mpy
+
+$ cd lib &amp;&amp; ./verify.sh
+OK: signature valid and every file
+    matches its digest
+
+$ ./bento.sh doctor
+</code></pre>
+      </div>
+    </div>
+
+    <section class="getting-started" id="get-started" aria-labelledby="get-started-title">
+      <div>
+        <p class="act-no">GET STARTED</p>
+        <h3 id="get-started-title">Pick a path, then open the documentation that matches your work</h3>
+        <p>The API reference is generated with Doxygen straight from the headers that ship in the SDK,
+          so this page sends you to the same documentation that is inside the package rather than
+          keeping a second copy of it.</p>
+      </div>
+      <div class="start-actions">
+        <a class="start-card" href="sdk/mtb-only/index.html">
+          <span class="start-kicker">MTB-only · C / FreeRTOS</span>
+          <strong>Open the English documentation</strong>
+          <small>API, tutorials and examples for the pure-C firmware</small>
+        </a>
+        <a class="start-card" href="sdk/mtb-mpy/index.html">
+          <span class="start-kicker">MTB-MPY · C + MicroPython</span>
+          <strong>Open the English documentation</strong>
+          <small>API, tutorials and the Dev Kit's MicroPython modules</small>
+        </a>
+        <a class="start-card start-card-plain" href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk">
+          <span class="start-kicker">GitHub</span>
+          <strong>Browse the source and releases</strong>
+          <small>Download a template, verify its signature, and see the latest release</small>
+        </a>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="act act-dark" id="security">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">03</p>
+      <h2>Security stated at <em>the strength we can prove</em></h2>
+      <p class="act-lead">
+        We prove it on real hardware and write down only what we proved.
+        Where something is not enforced, we say it is not enforced.
+      </p>
+    </header>
+
+    <div class="sec-grid">
+      <article class="sec-card sec-proven">
+        <p class="sec-state">Proven on hardware</p>
+        <h3>OPTIGA™ Trust M</h3>
+        <ul>
+          <li>Key pair generated inside the chip — <b>the private key never leaves it</b></li>
+          <li>Certificate requested by CSR and returned over MQTT with TLS</li>
+          <li>Protected Update with manifest verification in silicon, which <b>fails closed</b></li>
+          <li>Mutual TLS with the key staying inside the chip throughout</li>
+        </ul>
+        <p class="sec-note">
+          OPTIGA is a <b>plug-in module</b>, not soldered to the board — ordered separately and fitted at address <code>0x30</code>.
+        </p>
+      </article>
+
+      <article class="sec-card">
+        <p class="sec-state sec-state-open">Not enforced — and we say so plainly</p>
+        <h3>What is contractual rather than mechanical</h3>
+        <ul>
+          <li>The licence check is <b>compiled into no image</b>. The commercial restriction is a contract, not a technical boundary.</li>
+          <li>The Edge AI model signature is <b>verified but not enforced</b> — a model that fails verification still loads.</li>
+          <li>BLE pairing is currently Just Works, with no authentication required (BLE is off by default).</li>
+          <li>The factory certificate identifies a <b>chip</b>, not a <b>device</b> — binding identity has to happen at the broker.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="act act-dark act-dark-cont" id="edgeai">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">04</p>
+      <h2>Edge AI that <em>runs on day one</em></h2>
+      <p class="act-lead">
+        The engine sits on the Cortex®-M55 beside the Ethos™-U55 NPU. It arrives with DEEPCRAFT™
+        models that work out of the box, and empty slots for models of your own.
+      </p>
+    </header>
+
+    <div class="ai-grid">
+      <div class="ai-slots">
+        <p class="ai-label">SIX MODEL SLOTS</p>
+        <ul class="slots">
+          <li class="slot-on"><b>motion</b><span>running</span></li>
+          <li class="slot-on"><b>audio</b><span>running</span></li>
+          <li class="slot-on"><b>radar</b><span>running</span></li>
+          <li class="slot-off"><b>cough</b><span>empty</span></li>
+          <li class="slot-off"><b>alarm</b><span>empty</span></li>
+          <li class="slot-off"><b>siren</b><span>empty</span></li>
+        </ul>
+        <p class="ai-note">
+          The first three carry models that ship with the kit. The other three are deliberately empty —
+          Imagimob's Ready Models are governed by their own licence, so we do not redistribute them,
+          but the slots are open for you to fit your own.
+        </p>
+      </div>
+
+      <div class="ai-routes">
+        <p class="ai-label">FOUR WAYS TO ADD YOUR OWN MODEL</p>
+        <ol class="routes">
+          <li>
+            <b>Register at run time</b>
+            <span>Call <code>ai_engine_register()</code> — no slot needed, and no rebuild of our engine.</span>
+          </li>
+          <li>
+            <b>Export from DEEPCRAFT™ Studio</b>
+            <span>Overwrite the generated model source and rename the four entry points.</span>
+          </li>
+          <li>
+            <b>Drop in your own library</b>
+            <span>Name it to the pattern and the Makefile links it for you.</span>
+          </li>
+          <li>
+            <b>Write your own runtime</b>
+            <span>Anything behind those four functions — TFLite, or something of your own.</span>
+          </li>
+        </ol>
+        <p class="ai-note">
+          Every route works <b>without touching the code we keep closed</b>, and without waiting for a new library from us.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="act" id="foundation">
+  <div class="wrap">
+    <header class="act-head">
+      <p class="act-no">05</p>
+      <h2>What developers <em>actually get</em></h2>
+      <p class="act-lead">
+        The TESAIoT AIoT Foundation does not exist to sell boards. It exists to shorten the distance
+        between one engineer and a product that can be sold.
+      </p>
+    </header>
+
+    <div class="benefits">
+      <article>
+        <h3>You do not start from zero</h3>
+        <p>
+          Three cores, IPC, an LVGL display with Thai fonts, TLS networking, a file system and Edge AI
+          already work together in the first file you open — the months that usually pass before the
+          first result appears.
+        </p>
+      </article>
+      <article>
+        <h3>Documentation written for engineers</h3>
+        <p>
+          838 pages in two languages, with technical terms kept in English as the field actually uses
+          them, and examples that compile — not code that looks right in a document and fails when copied.
+        </p>
+      </article>
+      <article>
+        <h3>A path to a real product</h3>
+        <p>
+          The same structure carries coursework, prototypes and production, with an HSM for device
+          identity and Protected Update for changing firmware in the field.
+        </p>
+      </article>
+      <article>
+        <h3>Knowledge that stays local</h3>
+        <p>
+          Curriculum, labs and training built on the same board and the same stack used to make products,
+          so what a learner practises is what the work requires.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="act act-dark act-contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>Start with the <em>TESAIoT Development Kit</em></h2>
+      <p class="act-lead">
+        For universities, product teams and training programmes — get in touch for details,
+        the firmware packages, and terms of use.
+      </p>
+      <a class="btn btn-primary" href="mailto:contact@tesaiot.com">Contact the team</a>
+      <p class="contact-alt">Source, documentation and every package live at <a href="https://github.com/tesaiot/tesaiot-pse84-devkit-sdk">github.com/tesaiot/tesaiot-pse84-devkit-sdk</a></p>
+    </div>
+    <dl class="contact-facts">
+      <div><dt>Board</dt><dd>TESAIoT base board + KIT_PSE84_AI</dd></div>
+      <div><dt>Toolchain</dt><dd>ModusToolbox™ · Arm GCC</dd></div>
+      <div><dt>Source licence</dt><dd>Apache-2.0</dd></div>
+      <div><dt>Documentation</dt><dd>Thai · English</dd></div>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-grid">
+    <p class="foot-brand">TESA<b>IoT</b></p>
+    <p class="foot-note">
+      Thai Embedded Systems Association · source published under Apache-2.0
+    </p>
+    <p class="foot-note">
+      PSoC™, OPTIGA™, DEEPCRAFT™ and ModusToolbox™ are trademarks of Infineon Technologies AG.
+      The Edge AI models referred to here are the work of Imagimob AB, an Infineon Technologies
+      company, and are used for research and teaching only.
+    </p>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" hidden aria-label="Back to top" title="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V6M6 12l6-6 6 6"/></svg></button>
+
+<script src="script.js" defer></script>
+</body>
+</html>

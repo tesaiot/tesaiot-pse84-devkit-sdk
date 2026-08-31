@@ -1,0 +1,42 @@
+Stops freeing the root certificates while the connection still needs them.
+
+Without this patch: SILENT. Intermittent TLS failures after the first connection.
+
+Asset:    aws-iot-device-sdk-port release-v2.7.0
+File:     source/COMPONENT_SECURE_SOCKETS/cy_aws_tcpip_port_secure_sockets.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/aws-iot-device-sdk-port/release-v2.7.0/source/COMPONENT_SECURE_SOCKETS/cy_aws_tcpip_port_secure_sockets.c	2026-08-28 08:25:52.674286284 +0700
++++ b/aws-iot-device-sdk-port/release-v2.7.0/source/COMPONENT_SECURE_SOCKETS/cy_aws_tcpip_port_secure_sockets.c	2026-03-28 21:25:46.000000000 +0700
+@@ -393,13 +393,16 @@
+         return CY_RSLT_MODULE_SECURE_SOCKETS_BADARG;
+     }
+ 
++    /* printf("[NET-DIAG] cy_socket_connect -> port=%u\r\n", network_context->address.port); */
+     result = cy_socket_connect( network_context->handle, &(network_context->address),
+                                 sizeof(cy_socket_sockaddr_t) );
+     if( result != CY_RSLT_SUCCESS )
+     {
++        /* printf("[NET-DIAG] cy_socket_connect FAILED: 0x%08X\r\n", (unsigned int)result); */
+         cy_ap_log_msg( CYLF_MIDDLEWARE, CY_LOG_ERR, "\ncy_socket_connect failed with Error : [0x%X]\n", (unsigned int)result );
+         return result;
+     }
++    /* printf("[NET-DIAG] cy_socket_connect OK\r\n"); */
+     cy_ap_log_msg( CYLF_MIDDLEWARE, CY_LOG_INFO, "\ncy_socket_connect Success\n" );
+ 
+     /* Set the receive timeout for socket connection. */
+@@ -512,14 +515,12 @@
+         network_context->tls_identity = NULL;
+     }
+ 
+-    /* Free the root certificates for a secured connection. */
+     if( network_context->is_rootca_loaded == true )
+     {
+         result = cy_tls_release_global_root_ca_certificates();
+         if( result != CY_RSLT_SUCCESS )
+         {
+             cy_ap_log_msg( CYLF_MIDDLEWARE, CY_LOG_ERR, "\ncy_tls_release_global_root_ca_certificates failed with Error : [0x%X]\n", (unsigned int)result );
+-            return result;
+         }
+         network_context->is_rootca_loaded = false;
+     }

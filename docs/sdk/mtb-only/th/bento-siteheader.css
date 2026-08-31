@@ -1,0 +1,150 @@
+/* ===========================================================================
+   bento-siteheader.css — the landing page's top bar, carried into the docs
+   ---------------------------------------------------------------------------
+   The reader clicks "SDK docs" on the landing page and lands in doxygen. Until
+   now that was a one-way door: doxygen's chrome has no way back and no idea the
+   rest of the site exists. This bar keeps the site's own navigation present.
+
+   THEME. Every colour here is a doxygen-awesome custom property with a fallback,
+   never a literal. That is what makes the bar follow the docs rather than fight
+   them: if the theme moves to dark, or a future doxygen-awesome retunes its
+   palette, the bar moves with it and nothing here needs editing. The one brand
+   value is the accent, and even that defers to --primary-color when the theme
+   defines one.
+
+   LAYOUT. doxygen-awesome-sidebar-only makes #top sticky at top:0. Adding a
+   second sticky bar at the same offset would overlap it, so the bar publishes
+   its own height as --bento-hdr-h and #top is pushed down by exactly that.
+   ========================================================================= */
+
+:root{
+  --bento-hdr-h: 52px;
+  --bento-accent: var(--primary-color, #b84406);
+}
+
+.bento-siteheader{
+  position: sticky;
+  top: 0;
+  z-index: 200;                    /* above doxygen's #top (which is 100-ish) */
+  height: var(--bento-hdr-h);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  background: var(--page-background-color, #f7f7f4);
+  border-bottom: 1px solid var(--separator-color, #d8d9d5);
+  font-family: var(--content-font-family, system-ui, sans-serif);
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* doxygen's own sticky header starts below ours instead of under it */
+#top{ top: var(--bento-hdr-h) !important; }
+/* and its anchor offsets have to clear both bars, or a #link lands under them */
+html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
+
+.bento-sh-brand{
+  display: flex; align-items: center; gap: 9px;
+  text-decoration: none; flex: 0 0 auto;
+  color: var(--page-foreground-color, #171a21);
+}
+.bento-sh-brand:hover{ text-decoration: none; }
+.bento-sh-mark{
+  width: 13px; height: 13px; border-radius: 3px; flex: 0 0 auto;
+  background: var(--bento-accent);
+}
+.bento-sh-name{ font-weight: 600; letter-spacing: .02em; }
+.bento-sh-name b{ font-weight: 600; color: var(--bento-accent); }
+.bento-sh-sub{
+  padding-left: 10px; margin-left: 2px;
+  border-left: 1px solid var(--separator-color, #d8d9d5);
+  color: var(--page-secondary-foreground-color, #5f666d);
+  white-space: nowrap;
+}
+
+.bento-sh-nav{ display: flex; align-items: center; gap: 16px; margin-left: auto; }
+.bento-sh-nav a{
+  text-decoration: none;
+  color: var(--page-secondary-foreground-color, #5f666d);
+  white-space: nowrap;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+}
+.bento-sh-nav a:hover{
+  color: var(--page-foreground-color, #171a21);
+  border-bottom-color: var(--bento-accent);
+  text-decoration: none;
+}
+.bento-sh-nav a.bento-sh-here{
+  color: var(--page-foreground-color, #171a21);
+  border-bottom-color: var(--bento-accent);
+}
+
+/* The language pill and the variant selector are MOVED here from doxygen's
+   search row, not rebuilt — those two controls already know how to find a
+   page's counterpart, and reimplementing that is how it breaks. */
+.bento-sh-controls{ display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.bento-sh-controls .bento-lang-toggle,
+.bento-sh-controls bento-variant-switch{ margin: 0; position: static; }
+
+/* Below the sidebar breakpoint doxygen already stacks; drop the section links
+   and keep the way home plus the two controls, which is what a reader on a
+   phone actually needs from this bar. */
+@media (max-width: 767px){
+  :root{ --bento-hdr-h: 48px; }
+  .bento-siteheader{ gap: 10px; padding: 0 12px; }
+  .bento-sh-sub{ display: none; }
+  .bento-sh-nav a[data-optional]{ display: none; }
+  .bento-sh-nav{ gap: 12px; }
+}
+@media (max-width: 480px){
+  .bento-sh-nav{ display: none; }
+  .bento-sh-controls{ margin-left: auto; }
+}
+
+@media print{ .bento-siteheader{ display: none; } #top{ top: 0 !important; } }
+
+/* ---------------------------------------------------------------------------
+   Specificity, measured rather than assumed: doxygen-awesome colours links
+   through rules that beat a bare `.bento-sh-nav a`, so the bar's links came out
+   in the docs' link blue instead of a quiet neutral. Prefixing with the bar
+   itself wins without !important. The nav is chrome, not content — it should
+   recede and let the page's own links be the blue ones.
+   ------------------------------------------------------------------------- */
+.bento-siteheader .bento-sh-nav a,
+.bento-siteheader .bento-sh-nav a:visited{
+  color: var(--page-foreground-color, #171a21);
+  opacity: .62;
+  transition: opacity .16s ease, border-color .16s ease;
+}
+.bento-siteheader .bento-sh-nav a:hover,
+.bento-siteheader .bento-sh-nav a:focus-visible{ opacity: 1; }
+.bento-siteheader .bento-sh-brand,
+.bento-siteheader .bento-sh-brand:visited{ color: var(--page-foreground-color, #171a21); }
+
+/* The two adopted controls were sized for doxygen's search row, which is taller
+   and wider than this bar. Cap them so neither dominates it. */
+.bento-sh-controls .bento-lang-toggle,
+.bento-sh-controls bento-variant-switch{
+  transform: scale(.92);
+  transform-origin: right center;
+}
+.bento-sh-controls bento-variant-switch{ max-width: 210px; }
+
+/* doxygen-awesome colours every anchor through
+   `a:link, a:visited, a:hover, a:focus, a:active { color: var(--primary-color) }`.
+   On paper a two-class descendant selector outranks that, and the measured
+   result says otherwise: the opacity from the block above applies while its
+   colour does not. Rather than keep guessing at the cascade, this states the
+   intent directly. It is scoped to the bar, which is site chrome — the page's
+   own links must stay the docs' link colour, and they do. */
+.bento-siteheader .bento-sh-nav a,
+.bento-siteheader .bento-sh-nav a:link,
+.bento-siteheader .bento-sh-nav a:visited,
+.bento-siteheader .bento-sh-brand,
+.bento-siteheader .bento-sh-brand:link,
+.bento-siteheader .bento-sh-brand:visited{
+  color: var(--page-foreground-color, #171a21) !important;
+}
+.bento-siteheader .bento-sh-name b{ color: var(--bento-accent) !important; }

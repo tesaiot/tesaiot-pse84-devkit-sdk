@@ -1,0 +1,49 @@
+Traces which ECDSA variant and hash TLS asks the secure element for. PK_DIAG 0 by default, printf defined away.
+
+Without this patch: Nothing. Diagnostic only, inert as shipped.
+
+Asset:    ifx-mbedtls release-v3.6.400
+File:     library/pk_wrap.c
+Upstream: N/A — local to BENTO, not submitted upstream
+
+--- a/ifx-mbedtls/release-v3.6.400/library/pk_wrap.c	2026-08-28 08:25:51.974386690 +0700
++++ b/ifx-mbedtls/release-v3.6.400/library/pk_wrap.c	2026-08-04 22:44:32.000000000 +0700
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include "common.h"
++#include <stdio.h>
+ 
+ #include "mbedtls/platform_util.h"
+ 
+@@ -709,18 +710,30 @@
+     key_bits = psa_get_key_bits(&key_attr);
+     psa_reset_key_attributes(&key_attr);
+ 
++    /* Traces which ECDSA variant and hash TLS asks the secure element for.
++     * Off by default; see the note on the key policy in mqtt_mtls_setup.c. */
++#define PK_DIAG 0
++#if !PK_DIAG
++#define printf(...) ((void)0)
++#endif
++    printf("[PK-DIAG] ecdsa_sign_psa md_alg=%d hash_len=%u key_bits=%u\r\n",
++           (int)md_alg, (unsigned)hash_len, (unsigned)key_bits);
++
+     status = psa_sign_hash(key_id,
+                            PSA_ALG_DETERMINISTIC_ECDSA(mbedtls_md_psa_alg_from_type(md_alg)),
+                            hash, hash_len, sig, sig_size, sig_len);
++    printf("[PK-DIAG] deterministic psa_sign_hash = %d\r\n", (int)status);
+     if (status == PSA_SUCCESS) {
+         goto done;
+     } else if (status != PSA_ERROR_NOT_PERMITTED) {
++        printf("[PK-DIAG] bailing out without trying randomised ECDSA\r\n");
+         return PSA_PK_ECDSA_TO_MBEDTLS_ERR(status);
+     }
+ 
+     status = psa_sign_hash(key_id,
+                            PSA_ALG_ECDSA(mbedtls_md_psa_alg_from_type(md_alg)),
+                            hash, hash_len, sig, sig_size, sig_len);
++    printf("[PK-DIAG] randomised psa_sign_hash = %d\r\n", (int)status);
+     if (status != PSA_SUCCESS) {
+         return PSA_PK_ECDSA_TO_MBEDTLS_ERR(status);
+     }

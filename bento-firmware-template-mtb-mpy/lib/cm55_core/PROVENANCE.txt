@@ -1,0 +1,9 @@
+module:     cm55_core
+core:       cm55
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
+sources:
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/page-components/hsm/hsm_provision_ui.c
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/page-components/edge_ai/page_edge_ai.c
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/deepcraft_task/deepcraft_task.c
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/lvgl_display/controller/tesaiot_display.c
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/page-components/wifi_connect/demo/wifi_connect_native/wifi_saved.c

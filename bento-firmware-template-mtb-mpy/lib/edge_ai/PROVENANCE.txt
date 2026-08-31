@@ -1,0 +1,6 @@
+module:     edge_ai
+core:       cm55
+built_from: TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
+sources:
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/ai_models/ai_engine.c
+  TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/proj_cm55/modules/ai_models/ai_model_staged.c
