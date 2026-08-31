@@ -125,8 +125,6 @@ full_setup:;
         return false;
     }
 
-     //! [hsm_optiga_oid_map]
-     /* ...context: inside mqtt_mtls_setup() ... */
     /* Bootstrap on the Infineon factory pair, as the reference firmware does.
      *
      * This used to try the device pair (0xE0E1/0xE0F1) first and fall back to
@@ -151,7 +149,6 @@ full_setup:;
      * 0xE0E9 holds the TESA CA. */
     uint16_t cert_oid = 0xE0E0;  /* IFX-provisioned factory certificate */
     uint16_t key_oid  = 0xE0F0;  /* IFX-provisioned factory key         */
-    //! [hsm_optiga_oid_map]
 
     printf("[mTLS] Setting up OPTIGA Trust M (cert=0x%04X, key=0x%04X)\n",
            cert_oid, key_oid);
@@ -202,14 +199,43 @@ full_setup:;
      *
      * modoptiga.c does this for optiga.csr(); nothing on the mTLS path did.
      * The call only creates a mutex and a util instance and is idempotent. */
-    //! [hsm_optiga_manager_init_before_tls]
-    /* ...context: inside mqtt_mtls_setup() ... */
     if (!optiga_manager_init(optiga_util_callback, NULL)) {
         printf("[mTLS] optiga_manager_init failed — signing would be impossible\n");
         optiga_manager_touch_release();
         return false;
     }
-    //! [hsm_optiga_manager_init_before_tls]
+
+    /* (1c) Choose WHICH identity to present, now that the chip can answer.
+     *
+     * This check must come after optiga_trust_init(): with the application
+     * closed, any read spins in a bare `while (status == BUSY)` with no timeout
+     * and CM33_NS never comes back. Placed before the open, it hung the board
+     * from a cold boot — the same failure (1a) describes, reproduced 2026-08-31
+     * by putting it two hundred lines too early.
+     */
+    /* The factory pair above is the safe default, unless the device pair can be PROVEN to match, which is the condition
+     * the paragraph above names and could not test when it was written.
+     *
+     * optiga_verify_cert_key_pair() signs a digest with the key and checks the
+     * signature against the public key inside the certificate. It answers the
+     * one question the old fallback could not: are these two the same identity.
+     * It is also safe on an unenrolled board — it asks the chip a bounded
+     * question rather than reading a slot that may never return, which is what
+     * made the previous attempt hang.
+     *
+     * This matters beyond tidiness. The TESAIoT API authenticates a client by
+     * its certificate, and the factory pair is issued by Infineon, not by
+     * TESAIoT MCU CA — presenting it gets AUTH_MISSING from the platform.
+     * Measured on a Dev Kit 2026-08-31: verify_pair(0xE0E1, 0xE0F1) is true,
+     * and the device certificate reads as CN = the configured device_id,
+     * issued by CN = TESAIoT MCU CA. */
+    if (optiga_verify_cert_key_pair(0xE0E1, 0xE0F1) == 1) {
+        cert_oid = 0xE0E1;
+        key_oid  = 0xE0F1;
+        printf("[mTLS] device pair verified — using TESAIoT identity\n");
+    } else {
+        printf("[mTLS] device pair unproven — using Infineon factory identity\n");
+    }
 
     /* (2) Read client certificate from OPTIGA */
     s_client_cert_pem_len = sizeof(s_client_cert_pem);

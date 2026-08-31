@@ -17,6 +17,10 @@
 #include "tesaiot_https.h"
 #include "tesaiot_config_store.h"
 #include "tesaiot_https_root_ca.h"
+
+/* Defined in tesaiot_mqtt/mqtt_mtls_setup.c. Weak so a build without Phase G
+   still links; see the note at the call site. */
+extern bool mqtt_mtls_setup_optiga(void) __attribute__((weak));
 #include "cy_secure_sockets.h"
 #include "cy_tls.h"
 #include <stdio.h>
@@ -111,8 +115,36 @@ bool tesaiot_https_post(const char *payload, size_t payload_len,
     bool has_apisix_key = (cfg.apisix_api_key[0] != '\0');
     bool has_api_key    = (cfg.api_key[0] != '\0');
 
-    if (!has_apisix_key && !has_api_key) {
-        printf("[HTTPS] No API key configured\n");
+    /* mTLS: present the device identity held in OPTIGA Trust M.
+     *
+     * The API accepts either an API key or a client certificate — its own 401
+     * says so: "Provide API key via X-API-KEY header or use mTLS certificate".
+     * Until now this path offered neither, because the only code that arms the
+     * identity sat on the MQTT connect path, and a board that had not yet
+     * spoken MQTT reached cy_tls_connect with optiga_key=0 and cert_ready=0.
+     *
+     * mqtt_mtls_setup_optiga() is misleadingly named: nothing in it is about
+     * MQTT. It reads the certificate out of the secure element, registers the
+     * key with PSA, and hands both to the TLS layer through two globals in
+     * cy_tls.c that cy_tls_connect consults on EVERY connection. Calling it
+     * here therefore arms this connection exactly as it arms an MQTT one.
+     *
+     * Weak, and NULL-checked, matching mqtt_client_config.c:19 — a build that
+     * leaves Phase G out still links, and falls back to key auth. */
+    bool have_mtls = false;
+    if (cfg.tls_mode == TESAIOT_MODE_MTLS) {
+        if (mqtt_mtls_setup_optiga) {
+            have_mtls = mqtt_mtls_setup_optiga();
+            if (!have_mtls) {
+                printf("[HTTPS] mTLS setup failed; falling back to API key\n");
+            }
+        } else {
+            printf("[HTTPS] mTLS not compiled in; using API key\n");
+        }
+    }
+
+    if (!has_apisix_key && !has_api_key && !have_mtls) {
+        printf("[HTTPS] No API key and no client certificate\n");
         return false;
     }
 

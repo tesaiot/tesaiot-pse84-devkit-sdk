@@ -1,0 +1,64 @@
+/******************************************************************************
+* File Name:   tesaiot_root_ca.h
+*
+* Description: TESAIoT Platform Intermediate CA certificate for TLS server
+*              verification. Used by mqtt_client_config.c for MQTT broker
+*              authentication.
+*
+*              We pin to the Intermediate CA (RSA-2048) rather than the Root CA
+*              (RSA-4096) because RSA-4096 signature verification requires more
+*              heap than available on PSoC Edge during TLS handshake.
+*              The Intermediate CA directly signs mqtt.tesaiot.com — pinning to
+*              it is valid and provides tighter trust than Root CA pinning.
+*
+*              PKI chain: Root CA (RSA-4096) → Intermediate CA (RSA-2048) → server
+*              Server presents [server cert, Intermediate CA] in TLS handshake.
+*              We verify: server cert ← Intermediate CA (our trust anchor).
+*
+* Usage:
+*   security_info.root_ca = TESAIOT_ROOT_CA_CERTIFICATE;
+*   security_info.root_ca_size = sizeof(TESAIOT_ROOT_CA_CERTIFICATE);
+******************************************************************************/
+
+#ifndef TESAIOT_ROOT_CA_H
+#define TESAIOT_ROOT_CA_H
+
+/* TESAIoT Platform Intermediate CA
+ * Valid: 2025-09-06 to 2030-09-05
+ * Subject: CN=TESAIoT Intermediate CA
+ * Issuer: C=TH, ST=Bangkok, L=Bangkok, O=TESA IoT Platform, OU=Certificate Authority, CN=TESAIoT Root CA
+ * Key: RSA-2048
+ */
+#define TESAIOT_ROOT_CA_CERTIFICATE \
+"-----BEGIN CERTIFICATE-----\n" \
+"MIIFGTCCAwGgAwIBAgIUQyPdoywMvhynALmoOkaVRjRxdgMwDQYJKoZIhvcNAQEL\n" \
+"BQAwgYcxCzAJBgNVBAYTAlRIMRAwDgYDVQQIEwdCYW5na29rMRAwDgYDVQQHEwdC\n" \
+"YW5na29rMRowGAYDVQQKExFURVNBIElvVCBQbGF0Zm9ybTEeMBwGA1UECxMVQ2Vy\n" \
+"dGlmaWNhdGUgQXV0aG9yaXR5MRgwFgYDVQQDEw9URVNBSW9UIFJvb3QgQ0EwHhcN\n" \
+"MjUwOTA2MTE1NDUyWhcNMzAwOTA1MTE1NTIyWjAiMSAwHgYDVQQDExdURVNBSW9U\n" \
+"IEludGVybWVkaWF0ZSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB\n" \
+"AMkIdY3CwBaqRtQkugeRMgXOT8maywvc56zHil/nBsbrfD1c4WdF1sUKnALiKlOz\n" \
+"6PER5lQRKOloVxRsXfA3/5JnRXipoPpjh0wSxzdec8rmOAB2zOjPx9ZC4OFS1Oc5\n" \
+"3nfE015dCM3qmt5YU+0fMrOkdHg84cG3mqwlEPCiyR2q6Q90eEe6oDAbdZf/VP/8\n" \
+"m6Nto+h5q9HskeLb+Q597I/1mGxVfuQ44dLEhjIi4xXsVoYEP/huPd6QKNMfiYyd\n" \
+"UggGzIOxOWXvpbAaERzMV4ORCBQLP0GT+ErzthjOoDdsYCn524vPVHUnDaKaNr2e\n" \
+"DdQYL+9FQJuJKILJx/yDx30CAwEAAaOB4DCB3TAOBgNVHQ8BAf8EBAMCAQYwDwYD\n" \
+"VR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUYOv9VE15yidpsZ6fT0RhYwXVuJgwHwYD\n" \
+"VR0jBBgwFoAUzeeXC4tRrrEdw4RCROaPjfMtVhkwQQYIKwYBBQUHAQEENTAzMDEG\n" \
+"CCsGAQUFBzAChiVodHRwOi8vdGVzYS12YXVsdDo4MjAwL3YxL3BraS1yb290L2Nh\n" \
+"MDcGA1UdHwQwMC4wLKAqoCiGJmh0dHA6Ly90ZXNhLXZhdWx0OjgyMDAvdjEvcGtp\n" \
+"LXJvb3QvY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBlpS+p+VHNBoNZoyx+tYwPn/QK\n" \
+"WYsmd6m4RL7Tdb+MQ1w3STDrcQBXZvpgn1V00cKoEnOrw2obtW/zIdAjXm3XGh9g\n" \
+"ODna7olj/lRZa5OxyN4Yy2HdWLI6vomMF24GJz0Ve+aeNbLAU7TET2wzUiOpi15E\n" \
+"wsByAXpsud7bYPnyuQ+QF2Aiau0ZVB5sMmylvHVRewXeGSb6mnQHsadtMEDJHkMr\n" \
+"uhY/1WZmafjETo7uOQi2BNv2X7taOam9NCIluXNLQxrQyljyrF7tkeeJQfRp0vJc\n" \
+"cP1AKmbu5wQJyDtLfJD6IbyyOkth5yyVnWHLZkOXjJ3sgXN6/mtMEv7y0wItOSVd\n" \
+"e7N/O5CK+BOYYrqQXdHF5Vd0fuCaUrVVC2nXWZPXTtet4ShN6uHQKJY+Bx1IU2/U\n" \
+"yBVj6vk1fQM5P1ixL44xNd3tanNX3n9Z/rVToo8iuHSVQkjuFqbc3puFpoWjMZr6\n" \
+"uOEUkamOryx4wC/dC0Y5IO8M/MqGZWocwf4YuAJF5ApkyNbXTscnJYZmi3F31+6p\n" \
+"rKzG2CUpNm2b5FxU9zefBe8ASoMF/h6+yqrnohHTtAWmvhh1IcJDpDiYOWu2E21c\n" \
+"KRVacmR6J4vQOSL9sj1HVw+zntFPNBQo7pu3ISQgBMBmknR9vWXCy4/tXo+2pgDI\n" \
+"xhdvQh0uPlE5Luai0A==\n" \
+"-----END CERTIFICATE-----\n"
+
+#endif /* TESAIOT_ROOT_CA_H */

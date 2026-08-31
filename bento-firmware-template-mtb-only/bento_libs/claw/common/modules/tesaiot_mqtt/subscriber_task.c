@@ -280,8 +280,6 @@ void mqtt_subscription_callback(cy_mqtt_publish_info_t *received_msg_info)
          * echoed to us. Harmless while nothing handles that topic, and a
          * double-processed request the moment something does. Drop it here,
          * where the topic is still available. */
-        //! [j4_mqtt_topic_suffix_router]
-        /* ...context: inside the subscriber message callback ... */
         static const char REQ_SUFFIX[] = "/commands/request";
         static const char CSR_SUFFIX[] = "/commands/csr";
         static const char PU_SUFFIX[] = "/commands/protected_update";
@@ -309,7 +307,6 @@ void mqtt_subscription_callback(cy_mqtt_publish_info_t *received_msg_info)
                        0 == strncmp(topic + tlen - (sizeof(ST_SUFFIX) - 1),
                                     ST_SUFFIX, sizeof(ST_SUFFIX) - 1)) {
                 cmd = HANDLE_COMMAND_STATUS;
-                //! [j4_mqtt_topic_suffix_router]
             }
         }
     }

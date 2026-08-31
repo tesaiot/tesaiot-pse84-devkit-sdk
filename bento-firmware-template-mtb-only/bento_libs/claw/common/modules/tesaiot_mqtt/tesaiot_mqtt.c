@@ -80,7 +80,6 @@ void tesaiot_bridge_mqtt_connected(void)
  * Public API Implementation
  *--------------------------------------------------------------------------*/
 
-//! [j4_mqtt_publish_queue]
 bool tesaiot_mqtt_connect(void)
 {
     if (mqtt_is_connected()) {
@@ -192,7 +191,6 @@ bool tesaiot_mqtt_publish(const char *topic, const char *payload, size_t payload
 
     /* Enqueue — non-blocking (0 timeout) to avoid deadlock from MicroPython task */
     if (xQueueSend(publisher_task_q, &msg, 0) != pdTRUE) {
-    //! [j4_mqtt_publish_queue]
         printf("[TESAIoT-MQTT] Publish queue full\n");
         if (msg.free_after_publish && msg.data) {
             vPortFree(msg.data);

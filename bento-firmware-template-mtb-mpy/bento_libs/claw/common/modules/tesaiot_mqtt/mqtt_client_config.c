@@ -102,8 +102,6 @@ bool mqtt_client_config_init(void)
     broker_info.hostname = s_broker_hostname;
     broker_info.hostname_len = strlen(s_broker_hostname);
 
-    //! [j4_mqtt_port_from_tls_mode]
-    /* ...context: inside mqtt_client_config_init() ... */
     /* Port derived from mode (config stores only one port field):
      *   Mode 0/1 (mTLS): 8883
      *   Mode 2 (serverTLS+MQTTs): 8884
@@ -118,7 +116,6 @@ bool mqtt_client_config_init(void)
             broker_info.port = 8884;
             break;
     }
-    //! [j4_mqtt_port_from_tls_mode]
 
     /* SNI hostname */
     if (cfg.sni_hostname[0] != '\0') {
