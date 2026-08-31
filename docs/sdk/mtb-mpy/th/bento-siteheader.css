@@ -116,7 +116,15 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 /* The language pill and the variant selector are MOVED here from doxygen's
    search row, not rebuilt — those two controls already know how to find a
    page's counterpart, and reimplementing that is how it breaks. */
-.bento-sh-controls{ display: flex; align-items: center; gap: 10px; flex: 0 0 auto; min-width: 0; }
+/* NO min-width:0 here. It was added meaning "do not shrink" and does the
+   opposite: it lets a flex item go below its content width. Measured, the slot
+   came out 213px around 269px of controls, and the switch hung 60px past the
+   right edge of the page at every viewport width. min-width:0 belongs on the
+   nav, which is allowed to give ground, and nowhere else in this bar. */
+.bento-sh-controls{
+  display: flex; align-items: center; gap: 10px;
+  flex: 0 0 auto; min-width: max-content;
+}
 .bento-sh-controls .bento-lang-toggle,
 .bento-sh-controls bento-variant-switch{ margin: 0; position: static; }
 
@@ -160,11 +168,16 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 
 /* The two adopted controls were sized for doxygen's search row, which is taller
    and wider than this bar. Cap them so neither dominates it. */
-.bento-sh-controls .bento-lang-toggle,
-.bento-sh-controls bento-variant-switch{
-  transform: scale(.92);
-  transform-origin: right center;
-}
+/* Sized down for real, not with a transform. A transform leaves the LAYOUT
+   box at full size while the paint shrinks, so the row reserved 213px for a
+   control that drew at 196px and the arithmetic never added up - the switch
+   hung past the right edge of the page at every viewport width. Height and
+   type size do the same job honestly. */
+.bento-sh-controls bento-variant-switch{ display: inline-flex; align-items: center; }
+.bento-sh-controls .bento-variant-pill{ height: 28px; }
+.bento-sh-controls a.bento-variant-seg{ font-size: 11px; padding: 0 8px; }
+.bento-sh-controls a.bento-lang-toggle{ height: 28px; font-size: 11px; }
+.bento-sh-controls a.bento-lang-toggle > span{ padding: 0 7px; }
 /* No max-width. Clamping the switch cut the label of whichever half was
    longer, which is how a selected half ended up looking like an empty blue
    pill with the other half's label beside it. */

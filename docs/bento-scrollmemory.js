@@ -45,18 +45,48 @@
         return KEY_PREFIX + p;
     }
 
+    function pageLang() {
+        var m = location.pathname.match(/\/(th|en)\//);
+        if (m) { return m[1]; }
+        return (document.documentElement.getAttribute("lang") || "en").slice(0, 2);
+    }
+
+    /* The id of the outline element nearest the top of the viewport. This is
+       what survives a language change; a pixel offset does not, because the
+       two translations of a page are not the same height and the same offset
+       lands somewhere unrelated. doxygen gives a section the same id in both
+       trees, so the anchor is a shared address and the offset is not. */
+    function topAnchor() {
+        var els = document.querySelectorAll(
+            "#doc-content [id], .contents [id], h1[id], h2[id], h3[id], a[id]");
+        var best = null, bestTop = -Infinity;
+        for (var i = 0; i < els.length; i++) {
+            var el = els[i];
+            if (!el.id || el.id.indexOf("MSearch") === 0) { continue; }
+            var t = el.getBoundingClientRect().top;
+            /* the last one that is at or above the top edge */
+            if (t <= 80 && t > bestTop) { bestTop = t; best = el.id; }
+        }
+        return best;
+    }
+
     function read() {
         try {
-            var v = sessionStorage.getItem(key());
-            var n = v === null ? NaN : parseInt(v, 10);
-            return (isFinite(n) && n > 0) ? n : 0;
-        } catch (e) { return 0; }   /* private mode, or storage disabled */
+            var raw = sessionStorage.getItem(key());
+            if (!raw) { return null; }
+            var v = JSON.parse(raw);
+            return (v && typeof v === "object") ? v : null;
+        } catch (e) { return null; }   /* private mode, or storage disabled */
     }
 
     function write(y) {
         try {
-            if (y > 0) { sessionStorage.setItem(key(), String(y)); }
-            else       { sessionStorage.removeItem(key()); }
+            if (y > 0) {
+                sessionStorage.setItem(key(), JSON.stringify(
+                    { y: y, lang: pageLang(), anchor: topAnchor() }));
+            } else {
+                sessionStorage.removeItem(key());
+            }
         } catch (e) { /* nothing to do; the page still works */ }
     }
 
@@ -94,7 +124,26 @@
     function restore() {
         if (location.hash && location.hash.length > 1) { return; }
 
-        var target = read();
+        var saved = read();
+        if (!saved) { return; }
+
+        /* Crossing languages: go to the section, never to the offset. Landing
+           mid-paragraph in the other language because the byte count differs
+           is exactly the complaint this branch exists to answer. */
+        if (saved.lang && saved.lang !== pageLang()) {
+            if (!saved.anchor) { return; }
+            var el = document.getElementById(saved.anchor);
+            if (!el) { return; }           /* no counterpart section: stay put */
+            var deadlineA = Date.now() + SETTLE_MS;
+            (function toAnchor() {
+                var e = document.getElementById(saved.anchor);
+                if (e) { e.scrollIntoView({ block: "start" }); }
+                if (Date.now() < deadlineA) { window.requestAnimationFrame(toAnchor); }
+            })();
+            return;
+        }
+
+        var target = saved.y;
         if (!target) { return; }
 
         var deadline = Date.now() + SETTLE_MS;
