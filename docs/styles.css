@@ -181,21 +181,8 @@ dd,.slots b,.hero-ledger dd{font-variant-numeric:tabular-nums slashed-zero}
 }
 .language-switch:hover{background:var(--paper-raised);border-color:var(--ink);color:var(--ink)}
 
-/* ── ไอคอนช่องทางภายนอก ─────────────────────────────────────────────────── */
-/* GitHub และ YouTube นั่งก่อนปุ่มภาษา เพราะทั้งคู่พาออกจากเว็บ ส่วนปุ่มภาษา
-   เปลี่ยนหน้าเดิม การจัดกลุ่มตามผลลัพธ์อ่านง่ายกว่าจัดตามชนิดของปุ่ม */
-.social{display:inline-flex;align-items:center;gap:var(--s-2);margin-left:var(--s-4)}
-.social-link{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:34px;height:34px;border-radius:9px;
-  color:var(--ink-2);text-decoration:none;
-  transition:background .18s ease,color .18s ease;
-}
-.social-link:hover,.social-link:focus-visible{background:var(--paper-raised);color:var(--ink)}
-/* 34px คือขนาดเป้ากดขั้นต่ำที่นิ้วเล็งได้ ตัว svg เล็กกว่านั้นได้ */
-.social-link svg{display:block}
 
-@media (max-width:840px){ .social{display:none} }
+
 
 .burger{
   display:none;margin-left:auto;
@@ -738,3 +725,19 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .to-top svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;
             stroke-linecap:round;stroke-linejoin:round}
 @media (max-width:640px){ .to-top{right:var(--s-4);bottom:var(--s-4);width:42px;height:42px} }
+
+
+/* ── ช่องทางภายนอก: GitHub และ YouTube ───────────────────────────────────── */
+/* อยู่ที่ footer ไม่ใช่ header — งานสำรวจ 500 เว็บของ Orbit Media พบว่ามีเพียง
+   13% ที่วางไอคอนไว้บน header และตัวเลขนี้ลดลงครึ่งหนึ่งในห้าปี เพราะ header
+   ควรเหลือไว้ให้ป้ายบอกทางหลัก ส่วน footer เป็นที่ที่ผู้ใช้เลื่อนไปหาลิงก์อยู่แล้ว
+   ทั้งสองไอคอนเป็น glyph ทึบในกล่อง 24 หน่วยเท่ากัน น้ำหนักสายตาจึงเท่ากัน */
+.foot-social-row{display:flex;align-items:center;gap:var(--s-2);margin-top:var(--s-3)}
+.foot-social{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:10px;
+  color:var(--ink-3);text-decoration:none;
+  transition:color .18s ease,background .18s ease;
+}
+.foot-social:hover,.foot-social:focus-visible{color:var(--ink);background:var(--paper-raised)}
+.foot-social svg{display:block}
