@@ -73,13 +73,27 @@
        Only a whole path segment counts, so a directory called "then" or a file
        called "th.html" is left alone. */
     function key() {
-        var p = location.pathname.replace(/\/(th|en)(?=\/)/g, "");
+        var p = location.pathname;
+        /* Two naming schemes carry the language, and both have to collapse to
+           the same key or the translations do not share an entry at all:
+
+             docs   /sdk/mtb-mpy/th/group__x.html  ->  /sdk/mtb-mpy/group__x.html
+             landing /index.en.html                ->  /index.html
+
+           The landing pages differ by FILENAME, not by directory. Handling
+           only the directory form left them on separate keys, so switching
+           language there restored whatever that language had stored from an
+           earlier visit - a different place entirely, which is exactly the
+           complaint. */
+        p = p.replace(/\/(th|en)(?=\/)/g, "");          /* /th/ segment */
+        p = p.replace(/\.(th|en)(?=\.[a-z0-9]+$)/i, ""); /* .en before .html */
         return KEY_PREFIX + p;
     }
 
     function pageLang() {
-        var m = location.pathname.match(/\/(th|en)\//);
-        if (m) { return m[1]; }
+        var m = location.pathname.match(/\/(th|en)\//) ||
+                location.pathname.match(/\.(th|en)\.[a-z0-9]+$/i);
+        if (m) { return m[1].toLowerCase(); }
         return (document.documentElement.getAttribute("lang") || "en").slice(0, 2);
     }
 
