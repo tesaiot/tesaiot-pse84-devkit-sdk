@@ -220,8 +220,8 @@ dd,.slots b,.hero-ledger dd{font-variant-numeric:tabular-nums slashed-zero}
 @media (max-width:900px){ .hero{padding:var(--s-8) 0 var(--s-9)} }
 
 .hero-grid{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
-  gap:var(--s-9);align-items:center;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);
+  gap:var(--s-8);align-items:center;
 }
 @media (max-width:960px){ .hero-grid{grid-template-columns:1fr;gap:var(--s-8)} }
 
@@ -271,9 +271,15 @@ dd,.slots b,.hero-ledger dd{font-variant-numeric:tabular-nums slashed-zero}
 .hero-ledger .u{font-size:var(--t-sm);font-weight:400;color:var(--ink-3)}
 
 .hero-board{margin:0;position:relative}
+@media (min-width:1280px){
+  .hero-board{ margin-right:calc(var(--s-7) * -1); }
+}
 .hero-board img{
-  border-radius:var(--radius);
-  box-shadow:0 30px 70px -30px rgba(16,18,24,.38), 0 2px 8px rgba(16,18,24,.06);
+  width:100%;height:auto;display:block;
+  /* No radius, no card, no shadow. The asset is a transparent cut-out, so a
+     frame would be a box drawn around empty pixels. A soft contact shadow
+     under the board itself is enough to lift it off the paper. */
+  filter:drop-shadow(0 26px 34px rgba(16,18,24,.22));
 }
 .hero-board figcaption{
   margin-top:var(--s-4);font-size:var(--t-xs);color:var(--ink-3);
@@ -612,8 +618,8 @@ dd,.slots b,.hero-ledger dd{font-variant-numeric:tabular-nums slashed-zero}
 /* ── จุดชี้บนรูปบอร์ด ─────────────────────────────────────────────────── */
 .board-wrap{position:relative;display:block}
 .board-wrap img{
-  border-radius:var(--radius);
-  box-shadow:0 30px 70px -30px rgba(16,18,24,.38),0 2px 8px rgba(16,18,24,.06);
+  width:100%;height:auto;display:block;
+  filter:drop-shadow(0 26px 34px rgba(16,18,24,.22));
 }
 .board-pins{position:absolute;inset:0;pointer-events:none}
 .board-pins li{
