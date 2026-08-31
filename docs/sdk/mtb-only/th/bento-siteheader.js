@@ -80,6 +80,26 @@
     b.textContent = 'IoT';
     name.appendChild(b);
     brand.appendChild(name);
+    /* Sidebar toggle, first thing in the bar and next to the brand — the
+       navigation it controls is on that side, and a control that lives beside
+       what it acts on needs no label to explain it.
+
+       doxygen makes the sidebar resizable by DRAGGING a two-pixel splitter.
+       Dragged to zero it looks gone, and getting it back means finding that
+       two-pixel strip again, which is not a thing anyone should have to aim
+       at. This is the same action as a button. */
+    var side = el('button', 'bento-sh-sidebar');
+    side.type = 'button';
+    side.setAttribute('aria-label', 'Show or hide the navigation');
+    side.title = 'ซ่อน/แสดงแถบนำทาง';
+    side.innerHTML =
+      '<svg viewBox="0 0 20 16" width="16" height="16" aria-hidden="true">' +
+      '<rect x="0.5" y="0.5" width="19" height="15" rx="2.5" fill="none" ' +
+      'stroke="currentColor"/><path d="M7 1v14" stroke="currentColor"/>' +
+      '<rect class="bento-sh-sidebar-fill" x="1" y="1" width="6" height="14" ' +
+      'fill="currentColor" opacity=".35"/></svg>';
+    bar.appendChild(side);
+
     bar.appendChild(brand);
     bar.appendChild(el('span', 'bento-sh-sub', TEXT.sub));
 
@@ -225,9 +245,39 @@
     }).observe(document.body, { childList: true, subtree: true });
   }
 
+  /* ---- the sidebar toggle ------------------------------------------------
+     Everything in this layout is sized from one custom property, so the whole
+     control is that property plus a class for the styling. Nothing here
+     touches #side-nav or #doc-content directly, which is what keeps it from
+     fighting doxygen's own splitter arithmetic. */
+  var SIDE_KEY = 'bento:sidebar';
+
+  function applySidebar(hidden) {
+    document.documentElement.classList.toggle('bento-sidebar-hidden', !!hidden);
+    var b = document.querySelector('.bento-sh-sidebar');
+    if (b) { b.setAttribute('aria-pressed', hidden ? 'true' : 'false'); }
+  }
+
+  function initSidebar() {
+    var hidden = false;
+    try { hidden = localStorage.getItem(SIDE_KEY) === '1'; } catch (e) {}
+    applySidebar(hidden);
+
+    document.addEventListener('click', function (ev) {
+      var t = ev.target;
+      var b = (t && t.closest) ? t.closest('.bento-sh-sidebar') : null;
+      if (!b) { return; }
+      ev.preventDefault();
+      var now = !document.documentElement.classList.contains('bento-sidebar-hidden');
+      applySidebar(now);
+      try { localStorage.setItem(SIDE_KEY, now ? '1' : '0'); } catch (e) {}
+    });
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', install);
+    document.addEventListener('DOMContentLoaded', function () { install(); initSidebar(); });
   } else {
     install();
+    initSidebar();
   }
 })();

@@ -312,3 +312,53 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 .bento-sh-controls a.bento-lang-toggle > span.bento-lang-active{
   background: var(--primary-color); color: #fff; opacity: 1;
 }
+
+/* ---------------------------------------------------------------------------
+   Sidebar toggle.
+
+   doxygen's own way to hide the navigation is to DRAG a two-pixel splitter to
+   the left edge. Dragged all the way it looks gone, and bringing it back means
+   finding that two-pixel strip again — a target nobody should have to aim at,
+   and one that does not exist at all on a touch screen. This is the same
+   action, as a button.
+
+   The layout takes every measurement from --side-nav-fixed-width, so setting
+   that to zero is the whole mechanism: #side-nav, #nav-tree and the content
+   offset all follow it, and doxygen's splitter arithmetic is left alone.
+   ------------------------------------------------------------------------- */
+.bento-sh-sidebar{
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; min-height: 30px; flex: 0 0 auto;
+  padding: 0; margin-right: -6px;
+  background: none; border: 1px solid transparent; border-radius: 7px;
+  color: var(--page-foreground-color, #171a21);
+  opacity: .62; cursor: pointer;
+  transition: opacity .16s ease, background-color .16s ease;
+}
+.bento-sh-sidebar:hover,
+.bento-sh-sidebar:focus-visible{
+  opacity: 1; background: var(--separator-color, #d8d9d5);
+}
+/* Pressed = the navigation is hidden. The filled block in the icon is the
+   sidebar, so it empties when the sidebar is away. */
+.bento-sh-sidebar[aria-pressed="true"] .bento-sh-sidebar-fill{ opacity: 0; }
+
+html.bento-sidebar-hidden{ --side-nav-fixed-width: 0px; }
+html.bento-sidebar-hidden #side-nav{
+  width: 0 !important; min-width: 0 !important; max-width: 0 !important;
+  overflow: hidden !important; border: 0 !important;
+}
+/* #splitbar is doxygen's drag handle. Hidden alone it still occupies its six
+   pixels, which measured as a sliver of sidebar left behind; take its width
+   too so the content really does start at zero. */
+html.bento-sidebar-hidden #splitbar{
+  display: none !important; width: 0 !important; min-width: 0 !important;
+}
+html.bento-sidebar-hidden #side-nav > *{ display: none !important; }
+html.bento-sidebar-hidden #doc-content{
+  margin-left: 0 !important; width: 100% !important;
+}
+
+/* On a phone doxygen already stacks and the sidebar is not beside anything, so
+   the button would toggle something the reader cannot see. */
+@media (max-width: 767px){ .bento-sh-sidebar{ display: none; } }
