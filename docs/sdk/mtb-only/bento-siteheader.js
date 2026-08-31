@@ -124,8 +124,51 @@
       // DOMContentLoaded; this only has to outlast a slow first paint.
       if (want.length && ++tries < 120) {
         window.requestAnimationFrame(collect);
+      } else {
+        hold(slot);
       }
     })();
+  }
+
+  /* Adoption alone is not enough. doxygen's menu.js runs its own layout pass
+     after DOMContentLoaded and RE-PARENTS the markup it manages between the
+     desktop and mobile menu bars — which carries the language pill back out of
+     this bar and into a row that the sidebar then clips, so the control simply
+     disappears for the reader. Watch for that and take it back.
+
+     Scoped to childList on document.body's subtree and doing nothing unless a
+     watched control has actually moved, so the observer costs nothing on a
+     page where menu.js leaves things alone. */
+  function hold(slot) {
+    if (!window.MutationObserver) return;
+
+    var SEL = 'bento-variant-switch, .bento-lang-toggle';
+    var pending = false;
+
+    function reclaim() {
+      pending = false;
+      var nodes = document.querySelectorAll(SEL);
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].parentNode !== slot) slot.appendChild(nodes[i]);
+      }
+    }
+
+    new MutationObserver(function (records) {
+      if (pending) return;
+      for (var i = 0; i < records.length; i++) {
+        var added = records[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          var n = added[j];
+          if (n.nodeType !== 1) continue;
+          if ((n.matches && n.matches(SEL)) ||
+              (n.querySelector && n.querySelector(SEL))) {
+            pending = true;
+            window.requestAnimationFrame(reclaim);
+            return;
+          }
+        }
+      }
+    }).observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {

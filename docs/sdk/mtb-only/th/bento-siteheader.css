@@ -41,6 +41,25 @@
 
 /* doxygen's own sticky header starts below ours instead of under it */
 #top{ top: var(--bento-hdr-h) !important; }
+
+/* The sidebar is position:fixed at top:0 in doxygen-awesome-sidebar-only, so
+   pushing #top down did nothing for it: the bar simply covered the first rows
+   of the tree, and the search box and the language pill that lives beside it
+   went under the bar entirely. Offset it by the same amount and take that
+   height back out of its own, or the last rows fall off the bottom instead. */
+#side-nav{
+  top: var(--bento-hdr-h) !important;
+  height: calc(100vh - var(--bento-hdr-h)) !important;
+  max-height: calc(100vh - var(--bento-hdr-h)) !important;
+}
+#nav-tree{ max-height: calc(100vh - var(--bento-hdr-h) - 
+                            var(--searchbar-height, 33px) - 20px); }
+
+/* doxygen's nav-tree sync button. It toggles whether the tree follows the
+   page, which on a generated site changes nothing a reader can see - so it
+   reads as a broken control. Hide it rather than leave a button that does
+   nothing when pressed. */
+#nav-sync{ display: none !important; }
 /* and its anchor offsets have to clear both bars, or a #link lands under them */
 html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 

@@ -115,7 +115,11 @@ a.bento-variant-seg {
     white-space: nowrap;
     text-decoration: none;
     color: var(--page-foreground-color);
-    opacity: .55;
+    /* .55 put the inactive half at roughly 2.4:1 on the dark theme, which
+       reads as disabled rather than as the other half of a switch. The
+       inactive side still has to be legible - it is the thing you are being
+       invited to click. */
+    opacity: .78;
     transition: background-color var(--animation-duration) ease-in-out,
                 color var(--animation-duration) ease-in-out,
                 opacity var(--animation-duration) ease-in-out;
