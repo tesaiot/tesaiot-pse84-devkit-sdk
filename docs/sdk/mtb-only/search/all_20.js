@@ -117,9 +117,10 @@ var searchData=
   ['update_20end_20to_20end_114',['D2 — Enrolment and Protected Update end to end',['../group__d2__enrolment__protected__update.html',1,'']]],
   ['update_20publish_115',['Enrolment &amp;amp; Protected Update publish',['../group__tesaiot__hsm__publish.html',1,'']]],
   ['usage_20notes_116',['Usage notes',['../group__edge__ai__notes.html',1,'Usage notes'],['../group__tesaiot__hsm__notes.html',1,'Usage notes'],['../group__ipc__core__notes.html',1,'Usage notes'],['../group__cm55__core__notes.html',1,'Usage notes'],['../group__ble__nus__notes.html',1,'Usage notes']]],
-  ['use_20after_20free_117',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
-  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_118',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]],
-  ['used_20on_20every_20entry_119',['Row classes used on every entry',['../group__ble__nus__row__classes.html',1,'']]],
-  ['used_5fsize_120',['used_size',['../structoptiga__slot__info__t.html#a43a5a66926d02a8bbfe43842c98105a2',1,'optiga_slot_info_t']]],
-  ['user_5fctx_121',['user_ctx',['../structble__nus__config__t.html#a2722cf1690d1e03f2f5f71f5f943d85f',1,'ble_nus_config_t']]]
+  ['use_117',['Which one to use',['../group__c5__cloud__https.html#c5_when',1,'']]],
+  ['use_20after_20free_118',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
+  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_119',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]],
+  ['used_20on_20every_20entry_120',['Row classes used on every entry',['../group__ble__nus__row__classes.html',1,'']]],
+  ['used_5fsize_121',['used_size',['../structoptiga__slot__info__t.html#a43a5a66926d02a8bbfe43842c98105a2',1,'optiga_slot_info_t']]],
+  ['user_5fctx_122',['user_ctx',['../structble__nus__config__t.html#a2722cf1690d1e03f2f5f71f5f943d85f',1,'ble_nus_config_t']]]
 ];

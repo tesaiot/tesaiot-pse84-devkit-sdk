@@ -53,7 +53,9 @@ var searchData=
   ['hsm_5fprovision_5fui_2edox_50',['hsm_provision_ui.dox',['../hsm__provision__ui_8dox.html',1,'']]],
   ['hsm_5fprovision_5fui_2eh_51',['hsm_provision_ui.h',['../hsm__provision__ui_8h.html',1,'']]],
   ['hsm_5fprovision_5fui_5fteardown_52',['hsm_provision_ui_teardown',['../group__cm55__core__hsm__provision__ui.html#ga8f4afea5d9ada4a8fa07e99822b854b0',1,'hsm_provision_ui.h']]],
-  ['https_20transport_53',['HTTPS transport',['../group__mpy__secure__claw__https.html',1,'']]],
-  ['hub_54',['hub',['../group__j3__sensor__auto.html',1,'J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]],
-  ['hz_20สำหรับโมเดล_20แล้วเปลี่ยนกลับ_55',['ขั้นที่ 2 — เปลี่ยนอัตราให้เป็น 50 Hz สำหรับโมเดล แล้วเปลี่ยนกลับ',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
+  ['https_53',['mTLS บนเส้นทาง HTTPS',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['https_20rest_20device_20api_20key_20และ_20mtls_54',['C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['https_20transport_55',['HTTPS transport',['../group__mpy__secure__claw__https.html',1,'']]],
+  ['hub_56',['hub',['../group__j3__sensor__auto.html',1,'J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]],
+  ['hz_20สำหรับโมเดล_20แล้วเปลี่ยนกลับ_57',['ขั้นที่ 2 — เปลี่ยนอัตราให้เป็น 50 Hz สำหรับโมเดล แล้วเปลี่ยนกลับ',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
 ];

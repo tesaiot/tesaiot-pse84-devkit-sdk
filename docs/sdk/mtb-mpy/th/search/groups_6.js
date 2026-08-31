@@ -5,6 +5,7 @@ var searchData=
   ['d3_20—_20weak_20symbol_20enable_5foptiga_5fclm_20และข้อผูกพันของผู้ใช้ไลบรารี_2',['D3 — Weak symbol, &lt;span class=&quot;tt&quot;&gt;ENABLE_OPTIGA_CLM&lt;/span&gt; และข้อผูกพันของผู้ใช้ไลบรารี',['../group__d3__weak__symbols__clm.html',1,'']]],
   ['deepcraft_20task_3',['DEEPCRAFT task',['../group__cm55__core__deepcraft__task.html',1,'']]],
   ['deferred_20binding_20และ_20snapshot_4',['B3 — แกนหลักของ IPC: การตั้งค่า deferred binding และ snapshot',['../group__b3__ipc__backbone.html',1,'']]],
-  ['devmode_5',['Devmode',['../group__ble__nus__devmode.html',1,'']]],
-  ['dispatch_6',['Widget manager (IPC dispatch)',['../group__ipc__core__ui__widget__mgr.html',1,'']]]
+  ['device_20api_20key_20และ_20mtls_5',['C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['devmode_6',['Devmode',['../group__ble__nus__devmode.html',1,'']]],
+  ['dispatch_7',['Widget manager (IPC dispatch)',['../group__ipc__core__ui__widget__mgr.html',1,'']]]
 ];

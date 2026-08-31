@@ -1,13 +1,14 @@
 var searchData=
 [
-  ['makefile_0',['F1 — การเพิ่มหน้าจอ: 3 ไฟล์ กับความจริงเรื่อง Makefile',['../group__tut__f1__adding__a__screen.html',1,'']]],
-  ['manager_1',['chip gate และ manager',['../group__tesaiot__hsm__chip__manager.html',1,'']]],
-  ['manager_20ipc_20dispatch_2',['Widget manager (IPC dispatch)',['../group__ipc__core__ui__widget__mgr.html',1,'']]],
-  ['matrix_20และ_20header_3',['J5 — บอร์ดฐาน QWA309: pot ปุ่ม RGB matrix และ header',['../group__j5__qwa309.html',1,'']]],
-  ['memory_4',['เซสชันและที่เก็บ memory',['../group__mpy__secure__claw__session.html',1,'']]],
-  ['micropython_20ผ่าน_20ipc_5',['F2 — การขับ widget จาก MicroPython ผ่าน IPC',['../group__tut__f2__widgets__over__ipc.html',1,'']]],
-  ['micropython_20agent_20bentoclaw_6',['MicroPython Agent (BentoClaw)',['../group__feat__mpy__agent.html',1,'']]],
-  ['micropython_20secure_20libbento_5fmpy_20a_7',['MicroPython Secure (libbento_mpy.a)',['../group__mpy__secure__api.html',1,'']]],
-  ['mqtt_20task_20→_20broker_8',['C3 — TESAIoT cloud: ไฟล์ config → MQTT task → broker',['../group__c3__cloud__mqtt.html',1,'']]],
-  ['mtls_3a_20ตัวตนของ_20tls_20ที่ยึดกับ_20optiga_9',['C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA',['../group__c4__mtls__optiga.html',1,'']]]
+  ['lcd_20และพาเนล_0',['คอนโซล LCD และพาเนล',['../group__ipc__core__ipc__lcd.html',1,'']]],
+  ['led_20และปุ่มกด_1',['J4 — LED และปุ่มกด',['../group__j4__gpio.html',1,'']]],
+  ['libbento_5fcm55_20a_2',['CM55 Core (libbento_cm55.a)',['../group__cm55__core__api.html',1,'']]],
+  ['libbento_5fedge_5fai_20a_3',['Edge AI (libbento_edge_ai.a)',['../group__edge__ai__api.html',1,'']]],
+  ['libbento_5fhsm_20a_4',['TESAIoT HSM (libbento_hsm.a)',['../group__tesaiot__hsm__api.html',1,'']]],
+  ['libbento_5fipc_20a_5',['IPC Core (libbento_ipc.a)',['../group__ipc__core__api.html',1,'']]],
+  ['libbento_5fmpy_20a_6',['MicroPython Secure (libbento_mpy.a)',['../group__mpy__secure__api.html',1,'']]],
+  ['libbento_5fsecure_20a_7',['BLE NUS / Bento Buddy (libbento_secure.a)',['../group__ble__nus__api.html',1,'']]],
+  ['link_20ของ_20printf_20puts_8',['อันตรายตอน link ของ printf/puts',['../group__edge__ai__link__hazard.html',1,'']]],
+  ['lock_20ของมัน_9',['J1 — บัสของเซนเซอร์และ lock ของมัน',['../group__j1__sensor__bus.html',1,'']]],
+  ['lock_20touch_20hold_10',['D1 — วินัยการเข้าถึงชิป: gate, lock, touch-hold',['../group__d1__chip__access__discipline.html',1,'']]]
 ];

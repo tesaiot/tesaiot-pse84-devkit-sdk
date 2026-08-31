@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['optiga_0',['OPTIGA',['../group__mpy__secure__optiga__verify.html',1,'การตรวจสอบด้วย OPTIGA'],['../group__cm55__core__wifi__saved.html',1,'เครือข่าย WiFi ที่บันทึกไว้ (ที่เก็บ OPTIGA)'],['../group__c4__mtls__optiga.html',1,'C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA']]],
-  ['overridables_20นิยามเอง_20ห้ามเรียก_1',['WiFi overridables (นิยามเอง ห้ามเรียก)',['../group__ble__nus__wifi__overridables.html',1,'']]]
+  ['nus_0',['NUS',['../group__ble__nus__nus__core__send.html',1,'แกนกลางและการส่งของ NUS'],['../group__tut__i2__nus__protocol__surface.html',1,'I2 — ส่วนที่เรียกใช้ได้ของโปรโตคอล NUS']]],
+  ['nus_20bento_20buddy_20libbento_5fsecure_20a_1',['BLE NUS / Bento Buddy (libbento_secure.a)',['../group__ble__nus__api.html',1,'']]]
 ];

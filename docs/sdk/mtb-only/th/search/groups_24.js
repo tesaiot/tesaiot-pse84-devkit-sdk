@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['บันทึกการใช้งาน_0',['บันทึกการใช้งาน',['../group__ipc__core__notes.html',1,'']]],
-  ['บัสของเซนเซอร์และ_20lock_20ของมัน_1',['J1 — บัสของเซนเซอร์และ lock ของมัน',['../group__j1__sensor__bus.html',1,'']]]
+  ['นิยามเอง_20ห้ามเรียก_0',['WiFi overridables (นิยามเอง ห้ามเรียก)',['../group__ble__nus__wifi__overridables.html',1,'']]],
+  ['นี้_1',['จุดที่เทมเพลตเรียก API นี้',['../group__ipc__core__index__callers.html',1,'']]]
 ];

@@ -15,7 +15,9 @@ var searchData=
   ['hooks_12',['ipc_core — seven weak hooks',['../group__tut__y__consumer__contracts.html#y_ipc',1,'']]],
   ['hooks_20—_20implement_20never_20call_13',['The seven weak hooks — implement, never call',['../group__tut__f2__widgets__over__ipc.html#f2_hooks',1,'']]],
   ['host_20port_20and_20client_20id_20are_20decided_14',['Where host, port and client-id are decided',['../group__c3__cloud__mqtt.html#c3_seq_port',1,'']]],
-  ['hsm_20surface_20still_20works_20with_20clm_20off_15',['Step 4 — Confirm the rest of the HSM surface still works with CLM off',['../group__d3__weak__symbols__clm.html#d3_step4',1,'']]],
-  ['hsm_20symbols_20require_20pointer_20null_20checks_16',['19. Weak-consumed HSM symbols require pointer NULL checks',['../group__tut__x__traps__antipatterns.html#x19',1,'']]],
-  ['hz_20model_20then_20put_20it_20back_17',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
+  ['how_20it_20broke_15',['The trust anchor, and how it broke',['../group__c5__cloud__https.html#c5_trust',1,'']]],
+  ['hsm_20surface_20still_20works_20with_20clm_20off_16',['Step 4 — Confirm the rest of the HSM surface still works with CLM off',['../group__d3__weak__symbols__clm.html#d3_step4',1,'']]],
+  ['hsm_20symbols_20require_20pointer_20null_20checks_17',['19. Weak-consumed HSM symbols require pointer NULL checks',['../group__tut__x__traps__antipatterns.html#x19',1,'']]],
+  ['https_20path_18',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['hz_20model_20then_20put_20it_20back_19',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
 ];

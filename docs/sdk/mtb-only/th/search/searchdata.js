@@ -9,7 +9,7 @@ var indexSectionsWithContent =
   6: "abcnrt",
   7: "abchrt",
   8: "abcdefgimnouvw",
-  9: "23abcdefghijlmnoprstuvwxyzกขคจชดตถทนบผฟภวสหอเแใไ—→",
+  9: "23abcdefghijklmnoprstuvwxyzกขคจชดตถทนบผฟภวสหอเแใไ—→",
   10: "0123456789_abcdefghilmnoprstuvwxกขคจชดตถทนบปผฝพภมยรลวสหอเแโใไๆ—→"
 };
 

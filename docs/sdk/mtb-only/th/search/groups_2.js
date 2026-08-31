@@ -11,5 +11,6 @@ var searchData=
   ['anti_20pattern_8',['ภาคผนวก X — กับดักและ anti-pattern',['../group__tut__x__traps__antipatterns.html',1,'']]],
   ['api_20ของอุปกรณ์ต่อพ่วงอยู่ที่ใด_9',['API ของอุปกรณ์ต่อพ่วงอยู่ที่ใด',['../group__feat__peripherals__apis.html',1,'']]],
   ['api_20นี้_10',['จุดที่เทมเพลตเรียก API นี้',['../group__ipc__core__index__callers.html',1,'']]],
-  ['api_20แต่ละตัวอยู่ที่ใด_11',['API แต่ละตัวอยู่ที่ใด',['../group__feat__connectivity__apis.html',1,'']]]
+  ['api_20แต่ละตัวอยู่ที่ใด_11',['API แต่ละตัวอยู่ที่ใด',['../group__feat__connectivity__apis.html',1,'']]],
+  ['api_20key_20และ_20mtls_12',['C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS',['../group__c5__cloud__https.html',1,'']]]
 ];

@@ -161,8 +161,9 @@ var searchData=
   ['—_20symbol_20ที่ผู้ใช้ไลบรารีต้องจัดหา_20และ_20symbol_20ที่เขียนทับได้_158',['ภาคผนวก Y — symbol ที่ผู้ใช้ไลบรารีต้องจัดหา และ symbol ที่เขียนทับได้',['../group__tut__y__consumer__contracts.html',1,'']]],
   ['—_20task_20ดันข้อมูลอัตโนมัติกับ_20sensor_20hub_159',['J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub',['../group__j3__sensor__auto.html',1,'']]],
   ['—_20tesaiot_20cloud_3a_20ไฟล์_20config_20→_20mqtt_20task_20→_20broker_160',['C3 — TESAIoT cloud: ไฟล์ config → MQTT task → broker',['../group__c3__cloud__mqtt.html',1,'']]],
-  ['—_20tmp_20remove_20rename_161',['การเขียนแบบอะตอมมิก — tmp, remove, rename',['../group__g1__bento__storage.html#g1_write',1,'']]],
-  ['—_20weak_20symbol_20enable_5foptiga_5fclm_20และข้อผูกพันของผู้ใช้ไลบรารี_162',['D3 — Weak symbol, &lt;span class=&quot;tt&quot;&gt;ENABLE_OPTIGA_CLM&lt;/span&gt; และข้อผูกพันของผู้ใช้ไลบรารี',['../group__d3__weak__symbols__clm.html',1,'']]],
-  ['—_20wifi_20จาก_20ui_20ผ่าน_20ipc_163',['C2 — WiFi จาก UI ผ่าน IPC',['../group__c2__wifi__ui__ipc.html',1,'']]],
-  ['—_20wifi_3a_20ที่เก็บข้อมูลรับรอง_202_20แห่งกับการเชื่อมต่ออัตโนมัติตอนบูต_164',['C1 — WiFi: ที่เก็บข้อมูลรับรอง 2 แห่งกับการเชื่อมต่ออัตโนมัติตอนบูต',['../group__c1__wifi__two__stores.html',1,'']]]
+  ['—_20tesaiot_20cloud_3a_20https_20rest_20device_20api_20key_20และ_20mtls_161',['C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['—_20tmp_20remove_20rename_162',['การเขียนแบบอะตอมมิก — tmp, remove, rename',['../group__g1__bento__storage.html#g1_write',1,'']]],
+  ['—_20weak_20symbol_20enable_5foptiga_5fclm_20และข้อผูกพันของผู้ใช้ไลบรารี_163',['D3 — Weak symbol, &lt;span class=&quot;tt&quot;&gt;ENABLE_OPTIGA_CLM&lt;/span&gt; และข้อผูกพันของผู้ใช้ไลบรารี',['../group__d3__weak__symbols__clm.html',1,'']]],
+  ['—_20wifi_20จาก_20ui_20ผ่าน_20ipc_164',['C2 — WiFi จาก UI ผ่าน IPC',['../group__c2__wifi__ui__ipc.html',1,'']]],
+  ['—_20wifi_3a_20ที่เก็บข้อมูลรับรอง_202_20แห่งกับการเชื่อมต่ออัตโนมัติตอนบูต_165',['C1 — WiFi: ที่เก็บข้อมูลรับรอง 2 แห่งกับการเชื่อมต่ออัตโนมัติตอนบูต',['../group__c1__wifi__two__stores.html',1,'']]]
 ];

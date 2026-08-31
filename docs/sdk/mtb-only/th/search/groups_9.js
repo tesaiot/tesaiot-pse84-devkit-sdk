@@ -6,5 +6,6 @@ var searchData=
   ['hook_20ให้นิยามเอง_20ห้ามเรียก_3',['Weak hook (ให้นิยามเอง ห้ามเรียก)',['../group__ipc__core__hooks.html',1,'']]],
   ['hsm_4',['HSM',['../group__feat__security.html',1,'ความปลอดภัย / HSM'],['../group__cm55__core__hsm__provision__ui.html',1,'UI การจัดเตรียม HSM']]],
   ['hsm_20libbento_5fhsm_20a_5',['TESAIoT HSM (libbento_hsm.a)',['../group__tesaiot__hsm__api.html',1,'']]],
-  ['hub_6',['hub',['../group__j3__sensor__auto.html',1,'J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]]
+  ['https_20rest_20device_20api_20key_20และ_20mtls_6',['C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['hub_7',['hub',['../group__j3__sensor__auto.html',1,'J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]]
 ];

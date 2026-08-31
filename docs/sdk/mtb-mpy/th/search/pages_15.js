@@ -27,5 +27,6 @@ var searchData=
   ['mtb_20only_24',['22. ไฟส่องหลังจอ (backlight) ตอนบูตเย็น (mtb-only)',['../group__tut__x__traps__antipatterns.html#x22',1,'']]],
   ['mtb_20only_20ที่กำลังทำงานค้างอยู่ในลูปของ_20boot_20rom_25',['16. การต่อดีบักเกอร์ทำให้ CM33 ของ mtb-only ที่กำลังทำงานค้างอยู่ในลูปของ boot ROM',['../group__tut__x__traps__antipatterns.html#x16',1,'']]],
   ['mtb_20only_3a_20การเรียกที่ไม่ได้เกี่ยวกับเซนเซอร์_26',['ขั้นที่ 5 — mtb-only: การเรียกที่ไม่ได้เกี่ยวกับเซนเซอร์',['../group__j3__sensor__auto.html#j3_step5',1,'']]],
-  ['mtls_27',['ขั้นที่ 1 — สลับ config ไปเป็น mTLS',['../group__c4__mtls__optiga.html#c4_step1',1,'']]]
+  ['mtls_27',['ขั้นที่ 1 — สลับ config ไปเป็น mTLS',['../group__c4__mtls__optiga.html#c4_step1',1,'']]],
+  ['mtls_20บนเส้นทาง_20https_28',['mTLS บนเส้นทาง HTTPS',['../group__c5__cloud__https.html#c5_mtls',1,'']]]
 ];
