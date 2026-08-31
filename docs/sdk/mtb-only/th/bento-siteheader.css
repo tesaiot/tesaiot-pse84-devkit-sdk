@@ -194,6 +194,47 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
 .bento-sh-controls a.bento-variant-seg{ font-size: 11px; padding: 0 8px; }
 .bento-sh-controls a.bento-lang-toggle{ height: 28px; font-size: 11px; }
 .bento-sh-controls a.bento-lang-toggle > span{ padding: 0 7px; }
+
+/* On a touch screen the same controls have to be hit with a finger. Measured
+   at a 390px viewport they came out 22px tall with 11px type, under the 24px
+   WCAG 2.5.8 minimum - they were shrunk to stop the bar overflowing on a
+   desktop, and that trade does not apply on a phone where the section links
+   are hidden and there is room. */
+@media (max-width: 1100px), (pointer: coarse){
+  :root{ --bento-hdr-h: 56px; }
+  .bento-sh-controls{ gap: 8px; }
+  .bento-sh-controls .bento-variant-pill{ height: 34px; }
+  .bento-sh-controls a.bento-variant-seg{
+    font-size: 12px; padding: 0 11px; min-height: 28px;
+  }
+  .bento-sh-controls a.bento-lang-toggle{ height: 34px; font-size: 12px; }
+  .bento-sh-controls a.bento-lang-toggle > span{ padding: 0 10px; min-height: 28px; }
+  /* The whole control is the target, and it is 34px; the segments inside it
+     reach 24px in their own right so either half can be hit accurately. */
+
+  /* The brand is a link and measured 77x13 — wide enough, but far too short
+     to hit. Padding gives it height without moving anything else, because the
+     bar centres its children. */
+  .bento-siteheader .bento-sh-brand{
+    display: inline-flex; align-items: center; min-height: 32px;
+  }
+
+  /* doxygen's content links measure 18px tall. Where they are list or table
+     entries — a table of contents, a member list — two neighbours are a coin
+     toss under a finger, so those get a real box: inline-block plus vertical
+     padding takes them to 26px. line-height alone does nothing here, because
+     an inline element's box is measured from the font, not from line-height.
+
+     Links inside a paragraph are deliberately left alone. WCAG 2.5.8 exempts
+     inline text in a sentence, and boxing them would break the line. */
+  #doc-content li > a,
+  #doc-content td a,
+  #doc-content dd > a,
+  #nav-tree a{
+    display: inline-block;
+    padding: 4px 0;
+  }
+}
 /* No max-width. Clamping the switch cut the label of whichever half was
    longer, which is how a selected half ended up looking like an empty blue
    pill with the other half's label beside it. */
