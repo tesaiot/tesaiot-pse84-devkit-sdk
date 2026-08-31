@@ -25,12 +25,20 @@ int example_ipc_core_sprites(lv_obj_t *parent);
 int example_cm55_reference(lv_obj_t *parent);
 int example_ipc_core_reference(lv_obj_t *parent);
 int example_ipc_core_sensor_feed(lv_obj_t *parent);
+int example_cm55_radar_presence(lv_obj_t *parent);
+int example_cm55_rgb_matrix(lv_obj_t *parent);
+int example_cm55_pots_and_capsense(lv_obj_t *parent);
+int example_cm55_usb_host_devices(lv_obj_t *parent);
 int example_edge_ai_first_inference(lv_obj_t *parent);
 int example_edge_ai_model_registry(lv_obj_t *parent);
 int example_edge_ai_parallel_set_run(lv_obj_t *parent);
 int example_edge_ai_set_membership(lv_obj_t *parent);
+int example_edge_ai_register_model(lv_obj_t *parent);
+int example_edge_ai_staged_load(lv_obj_t *parent);
+int example_edge_ai_engine_health(lv_obj_t *parent);
 int example_cm55_deepcraft_link(lv_obj_t *parent);
 int example_cm55_edge_ai_page(lv_obj_t *parent);
+int example_edge_ai_model_load_diagnosis(lv_obj_t *parent);
 int example_cm55_hsm_screens(lv_obj_t *parent);
 int example_cm55_wifi_saved_crud(lv_obj_t *parent);
 int example_cm55_wifi_saved_async(lv_obj_t *parent);
@@ -84,6 +92,22 @@ const sdk_example_t g_sdk_examples[] = {
       "the Eva Kit path - CM55 reads the bus, feeds the hub, and every consumer sees it; plus who owns the sequence number",
       "ipc_sensorhub_feed_bmi270, ipc_sensorhub_feed_bmm350, ipc_sensorhub_feed_capsense, ipc_sensorhub_feed_pot, ipc_sensorhub_snapshot",
       SDK_GRP_SENSORS, example_ipc_core_sensor_feed, NULL },
+    { "cm55/sensors/02_radar_presence", "Read range and presence from the BGT60TR13C radar",
+      "the range snapshot is a seqlock and bin 0 is dead; the threshold call has a magic zero that re-learns the room; and the two stats calls that tell a stalled sensor from a stalled task",
+      "radar_dsp_snapshot, radar_dsp_set_threshold_x10, radar_dsp_process, tesaiot_radar_task, tesaiot_radar_loop_stats, tesaiot_radar_recover_stats",
+      SDK_GRP_SENSORS, example_cm55_radar_presence, NULL },
+    { "cm55/io/01_rgb_matrix", "Draw on the DFR0522 16x8 RGB matrix",
+      "the panel is on the DISPLAY I2C bus, so it belongs to the GFX task and to no other; the eight draw ops, what each one costs on the wire, and which of them cancel an animation",
+      "dfr0522_clear, dfr0522_fill, dfr0522_pixel, dfr0522_blit, dfr0522_score, dfr0522_bar, dfr0522_scroll, dfr0522_effect",
+      SDK_GRP_IO, example_cm55_rgb_matrix, NULL },
+    { "cm55/io/02_pots_and_capsense", "Read the four knobs and the CapSense pad from CM55",
+      "why these two live on CM55 and not on the core MicroPython runs on, the knob-to-channel table that is NOT the identity, and the two tick rates the driver deliberately keeps apart",
+      "cm55_sensor_poll_init, cm55_sensor_poll_tick, cm55_capsense_tick, cm55_sensor_poll_status, cm55_pot_read_all, cm55_sensor_poll_diag, ipc_sensorhub_snapshot",
+      SDK_GRP_IO, example_cm55_pots_and_capsense, NULL },
+    { "cm55/io/03_usb_host_devices", "Read a USB gamepad, and a smart card, from the host port",
+      "why init is a REQUEST and never a call from the GFX task, how to tell a controller that is absent from one that is present and silent, and the two decode layers",
+      "usb_hid_joystick_init, usb_hid_joystick_request_init, usb_hid_joystick_is_connected, usb_hid_joystick_get_state, f310_parse, f310_deadzone, usb_ccid_smartcard_request_init, usb_ccid_smartcard_get_state, usb_ccid_smartcard_trigger_read",
+      SDK_GRP_IO, example_cm55_usb_host_devices, NULL },
     { "cm55/edge_ai/01_first_inference", "Run your first inference",
       "create the engine, activate one model, feed it at its training rate, read the verdict back",
       "ai_engine_init, ai_engine_model_count, ai_engine_model, ai_engine_set_sensor_rate, ai_engine_start, ai_engine_requested, ai_engine_active, ai_engine_snapshot, ai_engine_stop, ai_engine_resume_sensor",
@@ -100,6 +124,18 @@ const sdk_example_t g_sdk_examples[] = {
       "read a set's compiled membership, replace it at run time, read the override back, and put the original back",
       "ai_engine_set_name, ai_engine_set_models, ai_engine_set_define, ai_engine_set_members_defined, ai_engine_model_count, ai_engine_model",
       SDK_GRP_EDGE_AI, example_edge_ai_set_membership, NULL },
+    { "cm55/edge_ai/05_register_model", "Register your own model, run it, release it",
+      "fill an ai_model_desc_t with your own entry points, join the registry at run time, then hand the resources back",
+      "ai_engine_register, ai_engine_dyn_count, ai_engine_dyn_capacity, ai_engine_model_count, ai_engine_model, ai_engine_init, ai_engine_start, ai_engine_snapshot_model, ai_engine_active, ai_engine_stop, ai_engine_unload, ai_engine_unload_done, ai_engine_unload_refused",
+      SDK_GRP_EDGE_AI, example_edge_ai_register_model, NULL },
+    { "cm55/edge_ai/06_staged_load", "Load a model staged by the host",
+      "check a staging manifest yourself before handing the address to the loader, then read the loader's verdict",
+      "ai_model_staged_load, ai_model_staged_count, ai_model_staged_rejects, ai_model_staged_last_rc, ai_model_staged_heap_free, ai_engine_model, ai_engine_model_count",
+      SDK_GRP_EDGE_AI, example_edge_ai_staged_load, NULL },
+    { "cm55/edge_ai/07_engine_health", "Is the model actually running?",
+      "sample the pipeline counters twice and read the DELTAS, which is the only way a cumulative counter answers a question",
+      "ai_engine_active, ai_engine_feeds, ai_engine_dq_calls, ai_engine_dq_ok, ai_engine_stale_drops, ai_engine_npu_cycles, ai_engine_stack_words, ai_engine_stack_free_words",
+      SDK_GRP_EDGE_AI, example_edge_ai_engine_health, NULL },
     { "cm55/edge_ai/08_deepcraft_link", "Drive a model through the DEEPCRAFT link",
       "go through the model link instead of poking the engine, so the READY/STOPPED events fire and CM33 raises the sensor rate -- and keep the watchdog ticking",
       "deepcraft_task_init, deepcraft_task_select, deepcraft_task_request, deepcraft_task_watchdog",
@@ -110,6 +146,10 @@ const sdk_example_t g_sdk_examples[] = {
       "page_edge_ai_create, page_edge_ai_render, page_edge_ai_destroy, ipc_sensorhub_snapshot, ai_engine_model_count",
       SDK_GRP_EDGE_AI, example_cm55_edge_ai_page, NULL },
 #endif
+    { "cm55/edge_ai/10_model_load_diagnosis", "The model never produced a verdict — which of the four reasons is it?",
+      "init_calls, init_returns, inits and last_init_rc separate \"the task never ran\", \"init hung\", \"init failed\" and \"init was never called\"",
+      "ai_engine_init_calls, ai_engine_init_returns, ai_engine_inits, ai_engine_last_init_rc",
+      SDK_GRP_EDGE_AI, example_edge_ai_model_load_diagnosis, NULL },
     { "cm55/security/01_hsm_screens", "Open the HSM enrol and protect screens",
       "hand a seconds-long secure-element operation to a screen that polls, and always tear the previous overlay down first",
       "hsm_provision_ui_teardown, hsm_enrol_open, hsm_protect_open",
@@ -129,246 +169,185 @@ const sdk_example_t g_sdk_examples[] = {
      * 'which functions can I call' for the WHOLE SDK, and `where`
      * names the command that actually runs it. */
     { "cm33/sensors/01_i2c_bus_scan", "Scan the sensor I2C bus",
-      "the bus has one mutex and several owners - take it, scan, give it",
-      "sensor_i2c_is_init, sensor_i2c_lock, sensor_i2c_scan,",
+      "the bus has one mutex and several owners - take it, scan, give it back, and quiesce the auto task first so you are not fighting it",
+      "sensor_i2c_is_init, sensor_i2c_lock, sensor_i2c_scan, sensor_i2c_unlock, sensor_auto_is_running, sensor_auto_stop, sensor_auto_start",
       SDK_GRP_SENSORS, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/sensors/01_i2c_bus_scan" },
     { "cm33/sensors/02_read_imu", "Read the BMI270 accelerometer and gyroscope",
-      "prove the wire before you trust the driver, the real init order,",
-      "bmi270_read_chip_id, bmi270_read_accel, bmi270_read_gyro,",
+      "prove the wire before you trust the driver, the real init order, and one lock per SAMPLE rather than one per register",
+      "bmi270_read_chip_id, bmi270_read_accel, bmi270_read_gyro, bmi270_read_temperature, sensor_i2c_lock, sensor_i2c_unlock, sensor_auto_is_running",
       SDK_GRP_SENSORS, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/sensors/02_read_imu" },
     { "cm33/sensors/03_read_magnetometer", "Read the BMM350 magnetometer and calibrate the compass",
-      "a compass is useless until hard-iron calibration converges - how to",
-      "bmm350_read_chip_id, bmm350_read_xyz, bmm350_read_heading,",
+      "a compass is useless until hard-iron calibration converges - how to drive that, how to know when it has, and why heading_from_xy beats a second bus read",
+      "bmm350_read_chip_id, bmm350_read_xyz, bmm350_read_heading, bmm350_cal_update, bmm350_cal_get_offsets, bmm350_heading_from_xy, bmm350_cal_reset, sensor_i2c_lock, sensor_i2c_unlock",
       SDK_GRP_SENSORS, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/sensors/03_read_magnetometer" },
+    { "cm33/sensors/04_read_environment", "Read pressure, air temperature and humidity (AI Kit)",
+      "read_both() is not a convenience wrapper - it halves the bus traffic; and the two parts report two different temperatures",
+      "dps368_read_product_id, dps368_read_both, dps368_read_pressure, dps368_read_temperature, sht40_read_serial, sht40_read_both, sht40_read_temperature, sht40_read_humidity, sensor_i2c_lock, sensor_i2c_unlock",
+      SDK_GRP_SENSORS, NULL,
+      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/sensors/04_read_environment" },
+    { "cm33/sensors/05_auto_push_task", "Drive the background sensor-push task",
+      "retune the publisher that feeds the display and MicroPython - mask, rate, the 50 ms cliff, the free cache - and put it back",
+      "sensor_auto_is_running, sensor_auto_get_mask, sensor_auto_set_mask, sensor_auto_enable, sensor_auto_disable, sensor_auto_get_rate, sensor_auto_set_rate, sensor_auto_get_push_count, sensor_auto_stop, sensor_auto_start, sensor_auto_get_bmi270",
+      SDK_GRP_SENSORS, NULL,
+      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/sensors/05_auto_push_task" },
+    { "cm33/sensors/06_raw_register_access", "Talk to any device on the sensor bus directly",
+      "the escape hatch - register reads, a safe read-modify-write, and the command-response form for parts that have no registers at all",
+      "sensor_i2c_read_byte, sensor_i2c_write_byte, sensor_i2c_read_reg, sensor_i2c_write_reg, sensor_i2c_write_raw, sensor_i2c_read_raw, sensor_i2c_is_init, sensor_i2c_lock, sensor_i2c_unlock",
+      SDK_GRP_SENSORS, NULL,
+      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/sensors/06_raw_register_access" },
     { "cm33/io/01_read_buttons", "Read the CapSense buttons",
-      "capture the idle baseline with fingers OFF the pad, poll the two",
+      "capture the idle baseline with fingers OFF the pad, poll the two buttons, and know which of the two CapSense backends your build linked — they read two different I2C buses",
       "capsense_init, capsense_read",
       SDK_GRP_IO, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/io/01_read_buttons" },
     { "cm33/io/02_capsense_slider", "Read the CapSense slider position",
-      "the slider is 0..100 with no \"not touched\" value, so you need a",
+      "the slider is 0..100 with no \"not touched\" value, so you need a release test and a hysteresis band before you drive anything with it",
       "capsense_init, capsense_read_slider",
       SDK_GRP_IO, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/io/02_capsense_slider" },
     { "cm33/io/03_read_potentiometers", "Read the potentiometer three ways",
-      "raw counts, percent and volts off one SAR channel — and which",
-      "potentiometer_init, potentiometer_read_raw,",
+      "raw counts, percent and volts off one SAR channel — and which channel that actually is, which is not the one most people assume",
+      "potentiometer_init, potentiometer_read_raw, potentiometer_read_percent, potentiometer_read_voltage",
       SDK_GRP_IO, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/io/03_read_potentiometers" },
+    { "cm33/io/04_gpio_led_button", "Drive the board LEDs and read the user button",
+      "the PDL calls behind gpio.led()/gpio.button(), the drive modes that make them work, and how to debounce a button without blocking",
+      "Cy_GPIO_Pin_FastInit, Cy_GPIO_Set, Cy_GPIO_Clr, Cy_GPIO_Inv, Cy_GPIO_Write, Cy_GPIO_Read, CYBSP_USER_LED1_PORT, CYBSP_USER_BTN1_PORT",
+      SDK_GRP_IO, NULL,
+      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/io/04_gpio_led_button" },
 #if BENTO_HAS_MPY
     { "cm33/connectivity/01_link_registry", "Register and look up a transport link",
-      "how a backend joins the bento_link registry, and why registration",
+      "how a backend joins the bento_link registry, and why registration is one-way — look up before you register, never register twice",
       "bento_link_register, bento_link_get, bento_link_at",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/01_link_registry" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/02_link_ipc_backend", "Bring up the IPC backend and pull data back from CM55",
-      "the bidirectional QUERY — send a request, wait for CM55 to fill a",
+      "the bidirectional QUERY — send a request, wait for CM55 to fill a shared-memory response, and why that response must be SHAREDMEM",
       "bento_link_ipc_init, bento_link_ipc_query, bento_link_get",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/02_link_ipc_backend" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/03_https_session", "One HTTPS session, end to end",
-      "connect, GET, POST, disconnect against the TESAIoT gateway — and",
-      "claw_https_connect, claw_https_connected, claw_https_get,",
+      "connect, GET, POST, disconnect against the TESAIoT gateway — and when the plaintext door is the right one and when it is a mistake",
+      "claw_https_connect, claw_https_connected, claw_https_get, claw_https_post, claw_https_disconnect, claw_http_connect_insecure",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/03_https_session" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/04_circuit_breaker", "Stop hammering a backend that is already failing",
-      "drive the breaker CLOSED -> OPEN -> HALFOPEN -> CLOSED and read the",
-      "claw_cb_init, claw_cb_allow, claw_cb_failure, claw_cb_success,",
+      "drive the breaker CLOSED -> OPEN -> HALFOPEN -> CLOSED and read the cooldown, so a dead backend costs three attempts, not thousands",
+      "claw_cb_init, claw_cb_allow, claw_cb_failure, claw_cb_success, claw_cb_state, claw_cb_cooldown_remaining",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/04_circuit_breaker" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/05_rate_limit", "Cap how often one tool may be called",
-      "check-then-record around every tool call, per-tool budgets, and the",
+      "check-then-record around every tool call, per-tool budgets, and the two ways the limiter lets calls through that you must design for",
       "claw_rate_init, claw_rate_set, claw_rate_check, claw_rate_record",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/05_rate_limit" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/06_session_memory", "Keep a conversation, and remember facts across it",
-      "the RAM ring vs the persistent key-value store, how to build an LLM",
-      "claw_session_init, claw_session_add, claw_session_count,",
+      "the RAM ring vs the persistent key-value store, how to build an LLM context out of both, and the one call that must run on the MPY task",
+      "claw_session_init, claw_session_add, claw_session_count, claw_session_dirty, claw_session_clear, claw_session_build_context, claw_session_flush, claw_memory_set, claw_memory_get",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/06_session_memory" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/07_trust_policy", "Let the transport decide which tools may run",
-      "set the trust level when a session opens, gate every tool on its own",
+      "set the trust level when a session opens, gate every tool on its own risk class, and put the level back when the session closes",
       "claw_trust_set, claw_trust_get, claw_trust_allows",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/07_trust_policy" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/connectivity/08_tacp_host_protocol", "Pump the TACP host link and answer the IDE",
-      "the one-owner rule for the UART, the poll/drain loop, framed",
-      "tacp_init, tacp_poll_uart, tacp_ring_buf_readable,",
+      "the one-owner rule for the UART, the poll/drain loop, framed responses, and what \"_from_isr\" buys you and what it costs",
+      "tacp_init, tacp_poll_uart, tacp_ring_buf_readable, tacp_ring_buf_read, tacp_claw_respond, tacp_request_delete_main_from_isr",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/08_tacp_host_protocol" },
 #endif
+    { "cm33/connectivity/10_wifi_join", "Join a Wi-Fi network",
+      "the whole join on CM33_NS — bring the radio up, take credentials from a store instead of a #define, connect, read the IP and the associated AP back, and put the link down again",
+      "app_wifi_is_ready, app_wifi_init, app_wifi_connect_direct, app_wifi_get_ipv4, app_wifi_disconnect, cy_wcm_is_connected_to_ap, cy_wcm_get_ip_addr, cy_wcm_get_associated_ap_info, lfs_load_wifi_creds, tesaiot_config_get",
+      SDK_GRP_CONNECTIVITY, NULL,
+      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/10_wifi_join" },
 #if BENTO_HAS_MPY
     { "cm33/connectivity/ref_claw", "Reference list — every read-only call, and the two module objects",
-      "which mpy_secure calls are safe to make from any task at any time,",
-      "claw_https_connected, claw_cb_state, claw_cb_cooldown_remaining,",
+      "which mpy_secure calls are safe to make from any task at any time, and how the MicroPython module objects are referenced",
+      "claw_https_connected, claw_cb_state, claw_cb_cooldown_remaining, claw_trust_get, claw_rate_check, claw_session_count, claw_session_dirty, claw_session_build_context, claw_memory_get, lfs_wifi_creds_ready, lfs_wifi_creds_needs_resave, tacp_ring_buf_readable, bento_link_at, bento_link_get, mp_module_edge_ai, mp_module_optiga",
       SDK_GRP_CONNECTIVITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/connectivity/ref_claw" },
 #endif
 #if BENTO_HAS_MPY
     { "cm33/security/02_model_signature_hook", "Replace the staged-model signature check with your own",
-      "how to override a WEAK symbol the archive exports, and how to return",
+      "how to override a WEAK symbol the archive exports, and how to return a verdict that does not pretend to know more than it does",
       "optiga_verify_staged_model",
       SDK_GRP_SECURITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/security/02_model_signature_hook" },
 #endif
     { "cm33/security/03_chip_ownership", "Take the secure element, use it, give it back",
-      "the init-before-anything rule, the three names for one re-entrant",
-      "optiga_manager_init, optiga_manager_lock, optiga_manager_unlock,",
+      "the init-before-anything rule, the three names for one re-entrant gate, and why optiga_chip_enter() is not an \"is the chip up?\" test",
+      "optiga_manager_init, optiga_manager_lock, optiga_manager_unlock, optiga_manager_acquire, optiga_manager_release, optiga_chip_enter, optiga_chip_exit",
       SDK_GRP_SECURITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/security/03_chip_ownership" },
     { "cm33/security/04_touch_hold", "Keep the touch controller off the bus while the chip works",
-      "the counted hold/release pair, why it must wrap the WHOLE operation",
-      "optiga_manager_touch_hold, optiga_manager_touch_hold_reason,",
+      "the counted hold/release pair, why it must wrap the WHOLE operation and not just its setup, and what the user sees while it is held",
+      "optiga_manager_touch_hold, optiga_manager_touch_hold_reason, optiga_manager_touch_release",
       SDK_GRP_SECURITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/security/04_touch_hold" },
     { "cm33/security/05_csr_enrolment", "Publish a CSR and track the request that follows it",
-      "the request bookkeeping — correlation id, target and anchor OIDs —",
-      "publish_csr, trustm_update_state, trustm_reset_state,",
+      "the request bookkeeping — correlation id, target and anchor OIDs — and the buffer contract publish_csr() imposes on its caller",
+      "publish_csr, trustm_update_state, trustm_reset_state, trustm_current_correlation_id, trustm_requested_target_oid, trustm_requested_anchor_oid",
       SDK_GRP_SECURITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/security/05_csr_enrolment" },
     { "cm33/security/06_protected_update", "Ask the platform for a Protected Update — and what it changes",
-      "the request, the anti-rollback counter, what a manifest lock does",
-      "tesaiot_publish_protected_update,",
+      "the request, the anti-rollback counter, what a manifest lock does and undoes, and the one chip change that no reflash can undo",
+      "tesaiot_publish_protected_update, tesaiot_run_protected_update_isolated_test",
       SDK_GRP_SECURITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/security/06_protected_update" },
     { "cm33/security/ref_hsm", "Reference list — read the HSM's state without starting anything",
-      "which calls answer a question without a chip transaction, and the",
-      "optiga_manager_lock, optiga_manager_unlock,",
+      "which calls answer a question without a chip transaction, and the one probe that is balanced rather than free",
+      "optiga_manager_lock, optiga_manager_unlock, trustm_requested_target_oid, trustm_requested_anchor_oid, trustm_current_correlation_id",
       SDK_GRP_SECURITY, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/security/ref_hsm" },
 #if BENTO_HAS_MPY
     { "cm33/storage/03_wifi_creds_lfs", "Read and write saved WiFi networks on LittleFS",
-      "the credential store's readiness contract, the checksum-migration",
-      "lfs_wifi_creds_ready, lfs_wifi_creds_needs_resave,",
+      "the credential store's readiness contract, the checksum-migration flag, and why every call but two must run on the MicroPython task",
+      "lfs_wifi_creds_ready, lfs_wifi_creds_needs_resave, lfs_wifi_creds_init, lfs_wifi_creds_read, lfs_wifi_creds_write, lfs_wifi_creds_deinit",
       SDK_GRP_STORAGE, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/storage/03_wifi_creds_lfs" },
 #endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/01_advertise", "Bring up NUS and start advertising (STARTS THE BLE RADIO)",
-      "how to hand ble_nus a config, read back the advertised name and",
-      "ble_nus_init, ble_nus_get_state, ble_nus_get_adv_name,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/01_advertise" },
-#endif
+    { "cm33/storage/10_littlefs_basics", "Mount LittleFS in C, write a file, read it back",
+      "the geometry contract the two variants share, why the C mount only exists under mtb-only, and what the API deliberately does NOT give you — no directory read, no unmount, no remove",
+      "bento_storage_init, bento_storage_ready, bento_storage_read_file, bento_storage_write_file, bento_storage_format",
+      SDK_GRP_STORAGE, NULL,
+      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/storage/10_littlefs_basics" },
 #if ENABLE_PAGE_BENTO_BUDDY
     { "cm33/ble/01_nus_bring_up_and_talk", "Bring up NUS, pair, and exchange bytes (STARTS THE BLE RADIO)",
-      "the whole transport in one pass — advertise, read the link state,",
-      "ble_nus_init, ble_nus_get_state, ble_nus_get_adv_name,",
+      "the whole transport in one pass — advertise, read the link state, feed the newline framer, send a frame, answer a permission prompt, and stop cleanly",
+      "ble_nus_init, ble_nus_get_state, ble_nus_get_adv_name, ble_nus_send, ble_nus_rearm_advertising, ble_nus_deinit, ble_nus_passkey_cb, nus_gatt_database, nus_gatt_database_len, NUS_UUID_SERVICE, NUS_UUID_CHAR_RX, NUS_UUID_CHAR_TX, nus_protocol_init, nus_on_rx_bytes, nus_protocol_tick, nus_protocol_set_link_encrypted, nus_protocol_get_link_encrypted, nus_protocol_send_permission",
       SDK_GRP_BLE, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/01_nus_bring_up_and_talk" },
 #endif
 #if ENABLE_PAGE_BENTO_BUDDY
     { "cm33/ble/02_host_protocol", "Speak the Bento Buddy wire protocol end to end",
-      "dispatch a command, emit its ack, queue the acks a human still",
-      "nus_commands_dispatch, nus_commands_emit_ack,",
+      "dispatch a command, emit its ack, queue the acks a human still owes, decode chunked base64, receive a pushed folder, and accumulate a streamed agent answer",
+      "nus_commands_dispatch, nus_commands_emit_ack, nus_commands_handle_time_sync, nus_emit_event, nus_events_push_pending_ack, nus_events_drain_pending_ack, nus_events_pending_ack_count, nus_b64_init, nus_b64_feed, nus_b64_flush, nus_fp_char_begin, nus_fp_file, nus_fp_chunk, nus_fp_file_end, nus_fp_char_end, nus_fp_is_active, nus_fp_device_write_bytes, nus_agent_note_ask, nus_agent_handle_token, nus_agent_handle_tool_call, nus_agent_handle_done, nus_agent_buffer_len, nus_agent_reset",
       SDK_GRP_BLE, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/02_host_protocol" },
 #endif
 #if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/02_send_receive", "Move bytes over NUS and drive the newline framer",
-      "what ble_nus_send actually returns when there is no link, how to",
-      "ble_nus_send, nus_on_rx_bytes, nus_protocol_init, nus_protocol_tick,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/02_send_receive" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/03_commands", "Dispatch a desktop command and emit the ack",
-      "how to hand the dispatcher a parsed frame, the exact ack envelope",
-      "nus_commands_dispatch, nus_commands_emit_ack,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/03_commands" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/04_pending_acks", "Track notifications that still need a user acknowledgement",
-      "the four-slot pending-ack FIFO — dedup, oldest-first eviction, and",
-      "nus_events_push_pending_ack, nus_events_drain_pending_ack,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/04_pending_acks" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/05_base64_stream", "Decode base64 that arrives split across BLE chunks",
-      "how to carry a half-finished 4-char quantum between calls, what the",
-      "nus_b64_init, nus_b64_feed, nus_b64_flush",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/05_base64_stream" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/06_folder_push", "Receive a folder pushed from the desktop into LittleFS",
-      "the char_begin/file/chunk/file_end/char_end state machine, the",
-      "nus_fp_char_begin, nus_fp_file, nus_fp_chunk, nus_fp_file_end,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/06_folder_push" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/07_agent_stream", "Accumulate a streamed agent answer and hand it to the LCD",
-      "the ask/token/tool_call/done sequence, the id-matching rule that",
-      "nus_agent_note_ask, nus_agent_handle_token, nus_agent_handle_done,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/07_agent_stream" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/08_devmode", "Unlock developer mode with a real HMAC challenge/response",
-      "the nonce/HMAC/unlock/lock cycle, the one-shot nonce, the five-fail",
-      "bento_devmode_init, bento_devmode_nonce_issue, bento_devmode_unlock,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/08_devmode" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/09_firmware_update", "Report firmware identity and run the update physical-ack handshake",
-      "the boot-time SHA-256, what bento.fw.query answers, and why an",
-      "fw_hash_compute_at_boot, fw_hash_hex, fw_hash_prefix8,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/09_firmware_update" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/10_radio_scheduler", "Arbitrate the single radio between BLE and WiFi",
-      "the mode state machine, the boot-mode persistence hooks you must",
-      "radio_scheduler_init, radio_scheduler_get_mode,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/10_radio_scheduler" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/11_sensor_and_voice", "Stream a sensor to the desktop, and send a voice clip",
-      "starting and stopping the single sensor stream, reading the drop",
-      "sensor_stream_init, sensor_stream_start, sensor_stream_stop,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/11_sensor_and_voice" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/12_buddy_ipc_bridge", "Start the Buddy BLE stack on demand and bridge it to the CM55 LCD",
-      "the lazy start/stop pair the LCD button drives, and the two-way",
-      "bento_buddy_request_start, bento_buddy_request_stop,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/12_buddy_ipc_bridge" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/13_weak_overrides", "Replace the archive's weak WiFi and credential stubs with your own",
-      "how the weak-symbol seam works, the five exact signatures, and why",
-      "app_wifi_connect_direct, app_wifi_disconnect, app_wifi_get_ipv4,",
-      SDK_GRP_BLE, NULL,
-      "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/13_weak_overrides" },
-#endif
-#if ENABLE_PAGE_BENTO_BUDDY
-    { "cm33/ble/ref_ble", "Reference list — every read-only probe in the ble_nus module",
-      "what each inspector returns and when to reach for it",
-      "ble_nus_get_state, ble_nus_get_adv_name, ble_nus_get_diagnostics,",
+    { "cm33/ble/ref_ble", "Reference list — everything else in the ble_nus module",
+      "what each remaining call is for, when to reach for it, and what it gives back — devmode, firmware identity, OTA consent, the radio scheduler, sensor and voice streams, the CM55 bridge, and the five weak stubs you are expected to replace",
+      "ble_nus_get_diagnostics, fw_hash_compute_at_boot, fw_hash_hex, fw_hash_prefix8, fw_hash_get_diagnostics, bento_fw_handle_query, bento_fw_handle_update_begin, bento_fw_on_user_decision, bento_fw_emit_boot_complete, bento_devmode_init, bento_devmode_secret_fp_hex, bento_devmode_secret_hex, bento_devmode_nonce_issue, bento_devmode_unlock, bento_devmode_is_unlocked, bento_devmode_lock, bento_devmode_emit_provision, radio_scheduler_init, radio_scheduler_get_mode, radio_scheduler_get_status, radio_scheduler_get_boot_mode, radio_scheduler_set_boot_mode, radio_scheduler_request_mode, radio_scheduler_set_on_state, radio_scheduler_set_wifi_creds, radio_mode_str, nus_radio_emit_state_event, sensor_stream_init, sensor_stream_start, sensor_stream_stop, sensor_stream_stop_all, sensor_stream_is_active, sensor_stream_dropped_count, voice_capture_start, voice_capture_stop, voice_capture_is_running, ipc_bento_buddy_rx_init, ipc_bento_buddy_send, bento_buddy_request_start, bento_buddy_request_stop, bento_buddy_auto_start_install, app_wifi_connect_direct, app_wifi_disconnect, app_wifi_get_ipv4, lfs_save_wifi_creds, lfs_load_wifi_creds",
       SDK_GRP_BLE, NULL,
       "make build ENABLE_SDK_EXAMPLES=1 SDK_EXAMPLE_CM33=cm33/ble/ref_ble" },
 #endif

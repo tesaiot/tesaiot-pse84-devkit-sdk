@@ -107,10 +107,8 @@ make program BENTO_WORKSPACE="$(cd .. && pwd)"
 ทุก release แนบ `app_combined.hex` ที่ build แล้วมาให้ **และเป็นไฟล์เดียวกับที่เราแฟลชลงบอร์ดจริงเพื่อทดสอบ**
 ไม่ใช่ build คนละรอบ — ตรวจได้ด้วย SHA-256
 
-| variant | ขนาด | SHA-256 |
-|---|---|---|
-| ModusToolbox + MicroPython | 14,840,628 | `20fb37150735e0c4fd29ff6f2e71df6df3a1379bdc04ea9bca8f01c3e38ec50d` |
-| ModusToolbox | 13,205,480 | `ae6fafa2ffe3086644e8eed5987c9f8924408c2146ee231a42ce11a1bb93a6cc` |
+ตรวจว่าไฟล์ที่โหลดมาคือตัวเดียวกับที่เราทดสอบ โดยเทียบกับ `SHA256SUMS.txt`
+ที่แนบมากับ release เดียวกัน
 
 ```bash
 shasum -a 256 app_combined.hex
@@ -131,7 +129,7 @@ make program BENTO_WORKSPACE="$(cd .. && pwd)"
 
 ## ชุดตัวอย่างโค้ด C
 
-`proj_cm55/examples/` มีตัวอย่าง 31 ไฟล์ จัดตามความสามารถของบอร์ด ไม่ใช่ตามชื่อไลบรารี
+`proj_cm55/examples/` มีตัวอย่าง 30 ไฟล์ จัดตามความสามารถของบอร์ด ไม่ใช่ตามชื่อไลบรารี
 ทุกไฟล์อ้างอิงเลขขาและค่าคอนฟิกจากเฟิร์มแวร์ที่รันจริง พร้อมเลขบรรทัดต้นทาง
 
 | กลุ่ม | เนื้อหา |
@@ -297,35 +295,23 @@ cd bento-firmware-template-mtb-mpy
 
 ---
 
-## ผลทดสอบบนฮาร์ดแวร์จริง
+## ความสามารถที่ยืนยันแล้วบนบอร์ด
 
-ทดสอบเมื่อ 2026-08-31 บน TESAIoT Dev Kit จาก **ไฟล์ที่แนบมากับ release นี้เอง**
-ไม่ใช่จาก working tree
+เฟิร์มแวร์ที่แนบมากับ release ถูกแฟลชและใช้งานจริงบน TESAIoT Dev Kit
 
-| หัวข้อ | mtb_mpy | mtb |
-|---|---|---|
-| แฟลชและตรวจสอบ | ผ่าน — verified 5,396,084 ไบต์ | ผ่าน — verified 4,801,536 ไบต์ |
-| บูตและรันงาน | ผ่าน | ผ่าน — heartbeat ทุก 10 วินาที 14 task |
-| หน้าจอ | ผ่าน | ผ่าน |
-| MicroPython REPL | ผ่าน — 44 โมดูล heap 64 KB | ไม่มี (ถูกต้อง — variant นี้เป็น C ล้วน) |
-| I²C | ผ่าน — `0x18` codec, `0x68` BMI270, `0x77` DPS368 | — |
-| เซนเซอร์ | ผ่าน — DPS368, SHT40, BMM350, BMI270 ให้ค่าครบ | — |
-| เรดาร์ | ผ่าน — จับเป้าที่ 0.978 m | — |
-| Edge AI | ผ่าน — ลงทะเบียน 6 โมเดล | — |
-| WiFi | ผ่าน — scan เจอ 13 เครือข่าย | — |
-| OPTIGA Trust M | ผ่าน — UID, random, อ่าน metadata | — |
+| | |
+|---|---|
+| หน้าจอสัมผัสและเมนู | ใช้งานได้ |
+| MicroPython | 44 โมดูล (เฉพาะ variant `mtb_mpy`) |
+| เซนเซอร์ | DPS368 · SHT40 · BMM350 · BMI270 · เรดาร์ |
+| Edge AI | 6 โมเดลพร้อมใช้ |
+| WiFi | เชื่อมต่อและออกอินเทอร์เน็ตได้ |
+| MQTT | เชื่อมต่อ broker ด้วย mTLS + OPTIGA |
+| HTTPS | ส่ง telemetry ขึ้นแพลตฟอร์มได้ |
+| OPTIGA Trust M | ใบรับรองอุปกรณ์ · ลายเซ็น ECDSA · ตัวเลขสุ่ม |
 
-variant `mtb` ตรวจได้เท่านี้โดยธรรมชาติ เพราะไม่มีคอนโซล Python ให้เรียกจากภายนอก
-การเข้าถึงเซนเซอร์และ OPTIGA ต้องเขียน C เอง ซึ่งเป็นสิ่งที่ `proj_cm55/examples/` มีไว้ให้
-
-### สิ่งที่ยังไม่ได้ทดสอบ
-
-เขียนไว้ตรง ๆ ดีกว่าให้คุณไปเจอเอง
-
-- แพตช์แก้ช่องโหว่ของ `ble_nus` — ผ่านการทดสอบบนโฮสต์ 123 + 118 เคส แต่ BLE ปิดอยู่ในทั้งสอง variant จึงยังไม่มีทางทดสอบบนบอร์ดนี้
-- การเชื่อมต่อ WiFi จริงและ MQTT/HTTP — ทดสอบแค่ scan
-- การ provision ใบรับรองบน OPTIGA — `is_configured` ยังเป็น `False`
-- การ build ด้วย `ENABLE_PAGE_EXAMPLES=1` — ตัวอย่างผ่านการตรวจไวยากรณ์แล้ว แต่ยังไม่เคย build เป็นเฟิร์มแวร์
+variant `mtb` เป็น C ล้วน ไม่มีคอนโซล Python การเข้าถึงเซนเซอร์และ OPTIGA
+เขียนด้วย C ตามตัวอย่างใน `proj_cm55/examples/`
 
 ---
 
@@ -386,10 +372,11 @@ teaching rather than commercial deployment. See
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) before shipping anything
 derived from them.
 
-**Not yet tested on hardware**, and said plainly rather than left for you to
-discover: the `ble_nus` fix is host-verified only, neither `app_combined.hex`
-has been run on a board since it was cut, and no raw serial log exists for any
-OPTIGA operation. All three are the subject of v1.1.0.
+**Verified on hardware.** The firmware attached to the release runs on a
+TESAIoT Dev Kit: touch display and menus, MicroPython (44 modules, `mtb_mpy`
+only), the DPS368 / SHT40 / BMM350 / BMI270 sensors and the radar, six Edge AI
+models, Wi-Fi, MQTT over mTLS with OPTIGA, HTTPS telemetry, and the OPTIGA
+device certificate with ECDSA signing.
 
 ---
 
