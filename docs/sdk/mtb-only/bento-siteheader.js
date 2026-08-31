@@ -115,7 +115,13 @@
     /* bento-variant.js builds a CUSTOM ELEMENT, <bento-variant-switch>, not a
        div carrying that as a class — a '.'-prefixed selector silently
        matches nothing and the control is left behind in the search row. */
-    var want = ['bento-variant-switch', '.bento-lang-toggle'];
+    /* The variant switch is adopted; the language link is BUILT here.
+       Adopting the one bento-lang.js installs made the control depend on which
+       script ran first and on styling written for doxygen's search row, and
+       the measured result was that it did not appear in the bar at all. One
+       owner is simpler than a negotiation. */
+    slot.appendChild(langPill());
+    var want = ['bento-variant-switch'];
     var tries = 0;
 
     (function collect() {
@@ -128,7 +134,6 @@
         /* Adoption failed. Rather than leave the bar a control short — which
            is what a reader sees as "there is no way to change language" —
            build one here from what the page already declares about itself. */
-        if (want.indexOf('.bento-lang-toggle') !== -1) { slot.appendChild(langPill()); }
         hold(slot);
       }
     })();
@@ -183,16 +188,24 @@
   function hold(slot) {
     if (!window.MutationObserver) return;
 
-    var SEL = 'bento-variant-switch, .bento-lang-toggle';
+    /* Watched for movement. The variant switch is taken back into the bar;
+       a language pill installed anywhere else is hidden, because ours is the
+       one in the bar and two of them disagreeing about where they live is
+       worse than one. */
+    var SEL = 'bento-variant-switch, a.bento-lang-toggle';
     var pending = false;
 
     function reclaim() {
       pending = false;
       var nodes = document.querySelectorAll(SEL);
       for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i].parentNode !== slot) slot.appendChild(nodes[i]);
+        var n = nodes[i];
+        if (n.parentNode === slot) continue;
+        if (n.tagName === 'BENTO-VARIANT-SWITCH') { slot.appendChild(n); }
+        else { n.style.display = 'none'; }   /* a stray language pill */
       }
     }
+    reclaim();   /* whatever is already in the wrong place, now */
 
     new MutationObserver(function (records) {
       if (pending) return;

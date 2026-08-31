@@ -220,7 +220,7 @@ dd,.slots b,.hero-ledger dd{font-variant-numeric:tabular-nums slashed-zero}
 @media (max-width:900px){ .hero{padding:var(--s-8) 0 var(--s-9)} }
 
 .hero-grid{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.18fr);
   gap:var(--s-8);align-items:center;
 }
 @media (max-width:960px){ .hero-grid{grid-template-columns:1fr;gap:var(--s-8)} }
@@ -236,8 +236,15 @@ dd,.slots b,.hero-ledger dd{font-variant-numeric:tabular-nums slashed-zero}
   font-size:var(--t-display-1);
   line-height:1.40;
   margin-bottom:var(--s-5);
+  /* 16ch is measured for Thai, whose glyphs are narrow: it puts the headline
+     on four lines with no orphan. The same 16ch on English cuts "Three cores,
+     one NPU," mid-phrase and strands "and" alone on a line, because a Latin
+     ch is a wider unit and the words are longer. The limit is therefore set
+     per language rather than compromised into something that suits neither. */
   max-width:16ch;
+  text-wrap:balance;          /* evens the lines where the browser supports it */
 }
+html[lang="en"] .hero h1{ max-width:24ch; }
 .hero h1 em{font-style:normal;color:var(--orange-ink)}
 
 .lead{font-size:var(--t-lead);color:var(--ink-2);max-width:52ch}

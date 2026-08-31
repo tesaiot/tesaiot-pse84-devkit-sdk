@@ -151,7 +151,9 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
   transform: scale(.92);
   transform-origin: right center;
 }
-.bento-sh-controls bento-variant-switch{ max-width: 210px; }
+/* No max-width. Clamping the switch cut the label of whichever half was
+   longer, which is how a selected half ended up looking like an empty blue
+   pill with the other half's label beside it. */
 
 /* doxygen-awesome colours every anchor through
    `a:link, a:visited, a:hover, a:focus, a:active { color: var(--primary-color) }`.
@@ -169,3 +171,56 @@ html{ scroll-padding-top: calc(var(--bento-hdr-h) + 60px); }
   color: var(--page-foreground-color, #171a21) !important;
 }
 .bento-siteheader .bento-sh-name b{ color: var(--bento-accent) !important; }
+
+
+/* ---------------------------------------------------------------------------
+   The two controls, coloured from inside the bar and stated with !important.
+
+   doxygen-awesome paints EVERY anchor through
+   `a:link, a:visited, a:hover, a:focus, a:active { color: var(--primary-color) }`.
+   The variant switch and the language pill are anchors, so both came out in the
+   docs' link blue — the selected half of the switch had white text specified
+   and rendered blue anyway, and the language pill was blue on near-black.
+   Two classes ought to outrank one pseudo-class; measured, it does not, and the
+   same note further up this file records the same surprise for the nav links.
+   State it rather than keep guessing.
+   ------------------------------------------------------------------------- */
+.bento-sh-controls a.bento-variant-seg,
+.bento-sh-controls a.bento-variant-seg:link,
+.bento-sh-controls a.bento-variant-seg:visited{
+  color: #e8ecf2 !important; opacity: .72;
+}
+.bento-sh-controls a.bento-variant-seg.bento-variant-seg-current,
+.bento-sh-controls a.bento-variant-seg.bento-variant-seg-current:link,
+.bento-sh-controls a.bento-variant-seg.bento-variant-seg-current:visited{
+  color: #fff !important; opacity: 1;
+}
+
+.bento-sh-controls a.bento-lang-toggle,
+.bento-sh-controls a.bento-lang-toggle:link,
+.bento-sh-controls a.bento-lang-toggle:visited{
+  display: inline-flex; align-items: center; gap: 2px;
+  height: var(--searchbar-height, 33px);
+  padding: 0 4px;
+  border: 1px solid var(--separator-color);
+  border-radius: var(--searchbar-border-radius, 999px);
+  font-family: var(--font-family); font-size: 12px; font-weight: 600;
+  letter-spacing: .04em; line-height: 1; text-decoration: none;
+  color: #e8ecf2 !important;
+}
+.bento-sh-controls a.bento-lang-toggle > span{
+  display: inline-flex; align-items: center;
+  padding: 0 9px; height: calc(100% - 4px); border-radius: 999px;
+  opacity: .72;
+}
+.bento-sh-controls a.bento-lang-toggle > span.bento-lang-active{
+  background: var(--primary-color); color: #fff; opacity: 1;
+}
+
+/* Light theme: the inactive halves must be dark, not near-white. */
+html:not(.dark-mode) .bento-sh-controls a.bento-variant-seg,
+html:not(.dark-mode) .bento-sh-controls a.bento-variant-seg:link,
+html:not(.dark-mode) .bento-sh-controls a.bento-lang-toggle,
+html:not(.dark-mode) .bento-sh-controls a.bento-lang-toggle:link{
+  color: #1d2430 !important;
+}
