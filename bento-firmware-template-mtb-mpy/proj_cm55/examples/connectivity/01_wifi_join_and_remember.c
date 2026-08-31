@@ -189,16 +189,20 @@ void example_cm55_wifi_join_and_remember(void)
     /* Credentials come from the configuration store, never from source.
        ipc_tesaiot_defs.h:66-68 holds wifi_ssid[33] / wifi_pass[65]. Read them
        through the store rather than pasting them here. */
-    char ssid[33] = {0};
-    char pass[65] = {0};
+    /* wifi_saved_load() fills one 106-byte record — ssid, password, security,
+       flags and last_used together (wifi_saved.h:28-36). It does not take
+       separate buffers; the record IS the buffer. Slots are 0..5
+       (WIFI_SAVED_MAX = 6, wifi_saved.h:25). */
+    wifi_saved_entry_t saved;
+    memset(&saved, 0, sizeof(saved));
 
-    if (!wifi_saved_load(0, ssid, sizeof(ssid), pass, sizeof(pass))) {
+    if (!wifi_saved_load(0, &saved)) {
         printf("no saved network yet — add one from the Wi-Fi page first\n");
         return;
     }
 
-    printf("joining %s ...\n", ssid);
-    if (!wifi_manager_connect(ssid, pass)) {   /* blocks, up to 95 s on a cold radio */
+    printf("joining %s ...\n", saved.ssid);
+    if (!wifi_manager_connect(saved.ssid, saved.password)) {  /* blocks, up to 95 s cold */
         explain_last_error("connect");
         return;
     }
@@ -245,8 +249,10 @@ void example_cm55_wifi_join_and_remember(void)
     /* ---- 4. remember it ------------------------------------------------ */
     /* wifi_saved_find() first: adding a duplicate grows the list without
        changing behaviour, and the list is small. */
-    if (wifi_saved_find(ssid) < 0) {
-        if (wifi_saved_add(ssid, pass)) {
+    /* wifi_saved_add() takes the security type as well — the store keeps it so
+       a later auto-connect does not have to scan to find out (wifi_saved.h:81). */
+    if (wifi_saved_find(saved.ssid) < 0) {
+        if (wifi_saved_add(saved.ssid, saved.password, saved.security)) {
             printf("saved — %d network%s remembered\n",
                    wifi_saved_count(), (wifi_saved_count() == 1) ? "" : "s");
         } else {

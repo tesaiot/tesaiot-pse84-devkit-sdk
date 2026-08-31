@@ -77,6 +77,9 @@ void ipc_sensorhub_snapshot(sensorhub_snapshot_t *snap);
 /** Returns true if CM33_NS reported WiFi connected via IPC_CMD_WIFI_STATE_PUSH */
 bool ipc_sensorhub_wifi_connected(void);
 
+/** Latest weather pushed from CM33_NS. False until the first push lands. */
+bool ipc_sensorhub_weather(weather_ipc_t *out);
+
 /** Returns true if CM33_NS reported BLE NUS host CONNECTED via IPC_CMD_BLE_STATE_PUSH.
  *  Only true while a host is connected; advertising/idle return false. */
 bool ipc_sensorhub_ble_connected(void);
