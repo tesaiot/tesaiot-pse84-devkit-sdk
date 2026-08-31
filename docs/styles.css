@@ -727,17 +727,40 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 @media (max-width:640px){ .to-top{right:var(--s-4);bottom:var(--s-4);width:42px;height:42px} }
 
 
-/* ── ช่องทางภายนอก: GitHub และ YouTube ───────────────────────────────────── */
-/* อยู่ที่ footer ไม่ใช่ header — งานสำรวจ 500 เว็บของ Orbit Media พบว่ามีเพียง
-   13% ที่วางไอคอนไว้บน header และตัวเลขนี้ลดลงครึ่งหนึ่งในห้าปี เพราะ header
-   ควรเหลือไว้ให้ป้ายบอกทางหลัก ส่วน footer เป็นที่ที่ผู้ใช้เลื่อนไปหาลิงก์อยู่แล้ว
-   ทั้งสองไอคอนเป็น glyph ทึบในกล่อง 24 หน่วยเท่ากัน น้ำหนักสายตาจึงเท่ากัน */
-.foot-social-row{display:flex;align-items:center;gap:var(--s-2);margin-top:var(--s-3)}
-.foot-social{
+
+/* ── GitHub และ YouTube ในแถบเมนู ────────────────────────────────────────── */
+/* วางไว้ท้ายกลุ่มลิงก์ ก่อนปุ่มติดต่อ ไม่ใช่ระหว่างปุ่มติดต่อกับปุ่มภาษา —
+   ตรงนั้นจะเป็นสามทรงเรียงกัน และไอคอนที่เป็น "ที่ให้ไป" ควรอยู่กับลิงก์ที่เป็น
+   ที่ให้ไปเหมือนกัน  Orbit Media สำรวจ 500 เว็บพบว่า header ที่รกคือเหตุผลที่
+   หลายเว็บย้ายไอคอนออก จึงต้องเงียบเท่าตัวหนังสือในเมนู ไม่ใช่เด่นกว่า:
+   สีเดียวกับลิงก์ ไม่มีกรอบ ไม่มีพื้นหลัง
+   ทั้งสองเป็น glyph ทึบในกล่อง 24 หน่วยเท่ากัน น้ำหนักสายตาจึงเท่ากัน
+   (ครั้งแรกใช้เส้นคู่กับบล็อกทึบ คนละขนาด 17 กับ 19 — อ่านเป็นคนละภาษา) */
+.nav-icons{display:inline-flex;align-items:center;gap:2px;margin-left:var(--s-2)}
+.nav-icon{
   display:inline-flex;align-items:center;justify-content:center;
-  width:40px;height:40px;border-radius:10px;
+  width:32px;height:32px;border-radius:8px;
   color:var(--ink-3);text-decoration:none;
   transition:color .18s ease,background .18s ease;
 }
-.foot-social:hover,.foot-social:focus-visible{color:var(--ink);background:var(--paper-raised)}
-.foot-social svg{display:block}
+.nav-icon:hover,.nav-icon:focus-visible{color:var(--ink);background:var(--paper-raised)}
+.nav-icon::after{content:none}
+.nav-icon svg{display:block}
+
+
+/* ── GitHub และ YouTube ในแถบเมนู ────────────────────────────────────────── */
+/* ท้ายกลุ่มลิงก์ ก่อนปุ่มติดต่อ — ไม่ใช่ระหว่างปุ่มติดต่อกับปุ่มภาษา ตรงนั้น
+   จะเป็นสามทรงเรียงกัน และไอคอนที่เป็น "ที่ให้ไป" ควรอยู่กับลิงก์ประเภทเดียวกัน
+   เงียบเท่าตัวหนังสือในเมนู ไม่มีกรอบ ไม่มีพื้นหลัง สีเดียวกับลิงก์
+   ทั้งคู่เป็น glyph ทึบในกล่อง 24 หน่วยเท่ากัน ขนาด 18px เท่ากัน
+   (ครั้งแรกใช้เส้นคู่กับบล็อกทึบ 17 กับ 19 อ่านเป็นคนละภาษา) */
+.nav-icons{display:inline-flex;align-items:center;gap:2px;margin-left:var(--s-2)}
+.nav-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:8px;
+  color:var(--ink-3);text-decoration:none;
+  transition:color .18s ease,background .18s ease;
+}
+.nav-icon:hover,.nav-icon:focus-visible{color:var(--ink);background:var(--paper-raised)}
+.nav-icon::after{content:none}
+.nav-icon svg{display:block}
