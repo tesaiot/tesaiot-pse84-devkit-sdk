@@ -258,29 +258,37 @@
      from the middle. This measures instead: the tree ends where its container
      ends, whatever is above it and whatever the window does next. */
   function fitNavTree() {
+    var top  = document.getElementById('top');
     var side = document.getElementById('side-nav');
     var tree = document.getElementById('nav-tree');
-    if (!side || !tree) { return; }
+    if (!top || !side || !tree) { return; }
+
+    /* --top-height is a CONSTANT 120px in doxygen-awesome, and #top is not
+       120px tall here: it carries a two-line title and the search box, and the
+       Thai title wraps differently from the English one. #top is sticky and
+       paints over whatever shares its space, so the sidebar started underneath
+       it and its first two entries were covered — which is what "the list is
+       being pushed out of view" was. Guessing a replacement constant is what
+       removed five entries in an earlier attempt.
+
+       Measure #top instead. Everything below follows from its real bottom. */
+    var topBottom = Math.round(top.getBoundingClientRect().bottom);
+    if (topBottom <= 0) { return; }
+
+    side.style.top    = topBottom + 'px';
+    side.style.height = 'calc(100vh - ' + topBottom + 'px)';
+
     var s = side.getBoundingClientRect();
     var t = tree.getBoundingClientRect();
     var h = Math.max(0, Math.round(s.bottom - t.top));
     if (h > 0) { tree.style.height = h + 'px'; }
-    /* navtree.js remembers where the tree was scrolled to and puts it back on
-       the next visit (four scrollTop/cookie sites in that file). The offset it
-       restores was measured against a different window and a different set of
-       expanded nodes, so it commonly lands part-way through a row: the reader
-       opens the page and the first entries appear cut off or missing, which is
-       exactly how this was reported and why it never reproduced in a fresh
-       browser profile.
 
-       The tree here is around two dozen rows. Starting at the top costs a
-       returning reader almost nothing and removes an entry state that reads as
-       a broken page. Only the initial settle resets it — once the reader has
-       scrolled, scrolling is theirs. */
+    /* navtree.js restores a scroll offset measured against a different layout,
+       and doxygen also scrolls the tree to the selected node. Either can leave
+       the top rows out of reach. Start at the top; once the reader scrolls,
+       the scrolling is theirs. */
     if (!navSettled) { tree.scrollTop = 0; }
   }
-
-  var navSettled = false;
 
   function watchNavTree() {
     fitNavTree();
