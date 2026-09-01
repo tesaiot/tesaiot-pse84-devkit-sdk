@@ -245,6 +245,56 @@
     }).observe(document.body, { childList: true, subtree: true });
   }
 
+  /* ---- the navigation tree's height ------------------------------------
+     doxygen-awesome gives #nav-tree `height: calc(100vh - var(--top-height))`,
+     but the tree does not start at --top-height: the sidebar's own title and
+     search box sit above it inside #side-nav. The tree is therefore taller
+     than the space it has by exactly the height of that block, and the items
+     at one end fall outside. doxygen also restores a scroll offset for the
+     tree from a cookie, so on a returning visit the overflow shows up as the
+     FIRST entries being cut off — which is how this was reported.
+
+     An earlier attempt subtracted a guessed constant and removed five entries
+     from the middle. This measures instead: the tree ends where its container
+     ends, whatever is above it and whatever the window does next. */
+  function fitNavTree() {
+    var side = document.getElementById('side-nav');
+    var tree = document.getElementById('nav-tree');
+    if (!side || !tree) { return; }
+    var s = side.getBoundingClientRect();
+    var t = tree.getBoundingClientRect();
+    var h = Math.max(0, Math.round(s.bottom - t.top));
+    if (h > 0) { tree.style.height = h + 'px'; }
+    /* navtree.js remembers where the tree was scrolled to and puts it back on
+       the next visit (four scrollTop/cookie sites in that file). The offset it
+       restores was measured against a different window and a different set of
+       expanded nodes, so it commonly lands part-way through a row: the reader
+       opens the page and the first entries appear cut off or missing, which is
+       exactly how this was reported and why it never reproduced in a fresh
+       browser profile.
+
+       The tree here is around two dozen rows. Starting at the top costs a
+       returning reader almost nothing and removes an entry state that reads as
+       a broken page. Only the initial settle resets it — once the reader has
+       scrolled, scrolling is theirs. */
+    if (!navSettled) { tree.scrollTop = 0; }
+  }
+
+  var navSettled = false;
+
+  function watchNavTree() {
+    fitNavTree();
+    window.addEventListener('resize', fitNavTree);
+    /* navtree.js builds its rows after load and the fonts settle later still;
+       both change the height the tree needs. Re-fit while that happens. */
+    var until = Date.now() + 1500;
+    (function again() {
+      fitNavTree();
+      if (Date.now() < until) { window.requestAnimationFrame(again); }
+      else { navSettled = true; }
+    })();
+  }
+
   /* ---- the sidebar toggle ------------------------------------------------
      Everything in this layout is sized from one custom property, so the whole
      control is that property plus a class for the styling. Nothing here
@@ -276,8 +326,10 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { install(); initSidebar(); });
+    window.addEventListener('load', watchNavTree);
   } else {
     install();
     initSidebar();
+    watchNavTree();
   }
 })();
