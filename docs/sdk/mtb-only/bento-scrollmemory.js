@@ -87,6 +87,11 @@
            complaint. */
         p = p.replace(/\/(th|en)(?=\/)/g, "");          /* /th/ segment */
         p = p.replace(/\.(th|en)(?=\.[a-z0-9]+$)/i, ""); /* .en before .html */
+        /* The landing page is now ONE document that switches language in
+           place, so "/", "/index.html" and "/?lang=en" are the same page and
+           must not produce three keys. The query string is dropped for the
+           same reason: it selects a language, not a document. */
+        p = p.replace(/\/index\.html?$/i, "/");
         return KEY_PREFIX + p;
     }
 
