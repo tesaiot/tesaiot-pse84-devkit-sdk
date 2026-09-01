@@ -64,7 +64,15 @@
 
 /* ── RESET ──────────────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{
+  scroll-behavior:smooth;-webkit-text-size-adjust:100%;
+  /* แถบเมนูเป็น sticky จึงลอยทับจุดที่ลิงก์กระโดดไป scroll-padding-top บอก
+     เบราว์เซอร์ให้หยุดต่ำลงมาเท่ากับความสูงของแถบ ขอบบนของหัวข้อจึงมาอยู่ใต้
+     แถบพอดีแทนที่จะมุดหายไปข้างหลัง
+     ค่า --head-h ถูกวัดจากแถบจริงใน script.js ไม่ใช่ค่าคงที่ เพราะความสูง
+     เปลี่ยนตามภาษาและขนาดหน้าจอ ส่วน 68px คือค่าสำรองก่อนสคริปต์ทำงาน */
+  scroll-padding-top:calc(var(--head-h, 68px) + var(--s-3));
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}

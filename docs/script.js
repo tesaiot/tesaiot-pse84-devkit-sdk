@@ -133,3 +133,28 @@
     }
   }
 })();
+
+/* ---------------------------------------------------------------------------
+   --head-h: ความสูงจริงของแถบเมนู
+   styles.css ใช้ค่านี้กับ scroll-padding-top เพื่อไม่ให้แถบ sticky บังหัวข้อ
+   ที่ลิงก์กระโดดไป ความสูงเปลี่ยนตามภาษาและขนาดหน้าจอ จึงวัดแทนที่จะกำหนดตาย
+   วัดซ้ำเมื่อเปลี่ยนขนาดหน้าต่างและตอนฟอนต์จัดตัวเสร็จ
+   ------------------------------------------------------------------------- */
+(function () {
+  var head = document.querySelector('.site');
+  if (!head) { return; }
+
+  function setHeadHeight() {
+    var h = Math.round(head.getBoundingClientRect().height);
+    if (h > 0) {
+      document.documentElement.style.setProperty('--head-h', h + 'px');
+    }
+  }
+
+  setHeadHeight();
+  window.addEventListener('resize', setHeadHeight, { passive: true });
+  window.addEventListener('load', setHeadHeight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(setHeadHeight);
+  }
+})();
