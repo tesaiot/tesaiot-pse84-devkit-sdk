@@ -72,9 +72,42 @@
     targets.forEach(function (el) { el.classList.add('is-in'); });
   } else {
     targets.forEach(function (el) { el.classList.add('reveal'); });
+
+    /* Stagger, for the groups that are actually groups.
+     *
+     * A row of cards that all fade in on the same frame reads as one block
+     * flickering, not as a set arriving. Offsetting each one slightly is what
+     * makes a grid feel deliberate rather than merely animated.
+     *
+     * The offset is by position WITHIN the card's own parent, so a single
+     * heading is never delayed, and it is capped: past the fifth card the
+     * delay stops growing, because a reader who has scrolled to the bottom of
+     * a long grid should not sit waiting for the last item.
+     *
+     * Delay is set at reveal time, not up front, so an element scrolled past
+     * quickly is not still holding a delay from a group it never showed with. */
+    var STEP_MS = 70;
+    var MAX_STEPS = 5;
+
+    function staggerIndex(el) {
+      var parent = el.parentElement;
+      if (!parent) { return 0; }
+      var sibs = [];
+      for (var i = 0; i < parent.children.length; i++) {
+        if (parent.children[i].classList.contains('reveal')) {
+          sibs.push(parent.children[i]);
+        }
+      }
+      if (sibs.length < 2) { return 0; }     /* not a group; do not delay it */
+      var n = sibs.indexOf(el);
+      return Math.min(n < 0 ? 0 : n, MAX_STEPS);
+    }
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
+        var d = staggerIndex(entry.target) * STEP_MS;
+        if (d > 0) { entry.target.style.transitionDelay = d + 'ms'; }
         entry.target.classList.add('is-in');
         io.unobserve(entry.target);
       });
