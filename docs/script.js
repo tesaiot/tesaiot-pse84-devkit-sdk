@@ -191,3 +191,89 @@
     document.fonts.ready.then(setHeadHeight);
   }
 })();
+
+/* ---------------------------------------------------------------------------
+   Hero entrance, the board's callout pins, and the counters.
+
+   All three are skipped outright under prefers-reduced-motion: the elements
+   are simply left in their finished state, which is what the rest of this file
+   does and what the media query is for.
+   ------------------------------------------------------------------------- */
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- 1. the hero arrives in reading order --------------------------- */
+  var heroSeq = ['.hero .eyebrow', '.hero h1', '.hero .lead',
+                 '.hero-actions', '.hero-ledger', '.hero-board'];
+  var heroEls = heroSeq
+        .map(function (sel) { return document.querySelector(sel); })
+        .filter(Boolean);
+
+  if (!reduce) { heroEls.forEach(function (el) { el.classList.add('hero-in'); }); }
+
+  function runHero() {
+    heroEls.forEach(function (el, i) {
+      if (reduce) { el.classList.add('is-in'); return; }
+      /* 90ms apart: far enough to read as a sequence, close enough that the
+         last item is in place well before a reader could act on the first. */
+      setTimeout(function () { el.classList.add('is-in'); }, 60 + i * 90);
+    });
+  }
+
+  /* ---- 2. the eight callout pins, after the photograph is in place ---- */
+  var pins = document.querySelector('.board-pins');
+
+  function runPins() {
+    if (!pins) { return; }
+    if (reduce) { pins.classList.add('is-in'); return; }
+    var items = pins.querySelectorAll('li');
+    items.forEach(function (li, i) { li.style.transitionDelay = (i * 90) + 'ms'; });
+    pins.classList.add('is-in');
+    /* Drop the delays once they have played, or a later repaint replays them. */
+    setTimeout(function () {
+      items.forEach(function (li) { li.style.transitionDelay = ''; });
+    }, 90 * items.length + 600);
+  }
+
+  /* ---- 3. the four headline numbers count up ------------------------- */
+  /* Only the leading integer is animated. The unit that follows it lives in
+     its own <span class="u"> and is left alone, so "237k บรรทัด" does not
+     become "0k บรรทัด" on the way up. */
+  function countUp(dd) {
+    var node = dd.firstChild;
+    if (!node || node.nodeType !== 3) { return; }
+    var target = parseInt(node.nodeValue, 10);
+    if (!isFinite(target) || target <= 0) { return; }
+    if (reduce) { return; }
+
+    var DUR = 900, t0 = null;
+    node.nodeValue = '0';
+    (function step(ts) {
+      if (t0 === null) { t0 = ts; }
+      var p = Math.min(1, (ts - t0) / DUR);
+      /* ease-out: fast at first, settling into the real figure */
+      var v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      node.nodeValue = String(v);
+      if (p < 1) { requestAnimationFrame(step); }
+      else { node.nodeValue = String(target); }
+    })(performance.now());
+  }
+
+  var stats = document.querySelector('.hero-ledger');
+  function runCounters() {
+    if (!stats) { return; }
+    stats.querySelectorAll('dd').forEach(countUp);
+  }
+
+  /* ---- when ----------------------------------------------------------- */
+  function start() {
+    runHero();
+    /* The pins wait for the photograph's own entrance to finish; it is last in
+       the hero sequence. */
+    setTimeout(runPins, 60 + (heroEls.length - 1) * 90 + 500);
+    setTimeout(runCounters, 60 + 4 * 90);
+  }
+
+  if (document.readyState === 'complete') { start(); }
+  else { window.addEventListener('load', start); }
+})();

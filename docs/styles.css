@@ -590,6 +590,28 @@ html[lang="en"] .hero h1{ max-width:24ch; }
   transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.3,1);
 }
 
+/* ── การเข้าของ hero ตอนเปิดหน้า ─────────────────────────────────────────
+   สิ่งแรกที่ทุกคนเห็นคือส่วนนี้ และเดิมมันนิ่งสนิท ส่วนที่มีชีวิตอยู่ถัดลงไป
+   ทั้งหมด การทยอยเข้าตามลำดับ eyebrow → หัวข้อ → คำอธิบาย → ปุ่ม → สถิติ →
+   ภาพ ทำให้ลำดับการมาถึงบอกลำดับความสำคัญไปในตัว
+   ระยะทางสั้นและช้ากว่า reveal ของ section อื่นเล็กน้อย เพราะเป็นการเข้าครั้ง
+   แรกที่ไม่มีการเลื่อนมาก่อน ผู้อ่านจึงมีเวลามองมากกว่า                       */
+.js-ready .hero-in{opacity:0;transform:translateY(18px)}
+.js-ready .hero-in.is-in{
+  opacity:1;transform:none;
+  transition:opacity .62s ease,transform .62s cubic-bezier(.2,.7,.3,1);
+}
+
+/* ── จุดชี้บนบอร์ด ทยอยขึ้นหลังภาพเข้าที่ ───────────────────────────────
+   แปดจุดที่โผล่พร้อมกันคือแปดจุดที่ตาไม่รู้จะเริ่มตรงไหน ทยอยขึ้นแล้วตาจะไล่
+   ตามลำดับหมายเลขไปเอง กลายเป็นการเล่าว่าบอร์ดมีอะไร ไม่ใช่แค่ตกแต่ง
+   ย่อจาก .6 เพราะจุดกลมที่โตขึ้นอ่านง่ายกว่าจุดที่เลื่อนเข้ามา              */
+.js-ready .board-pins li{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+.js-ready .board-pins.is-in li{
+  opacity:1;transform:translate(-50%,-50%) scale(1);
+  transition:opacity .34s ease,transform .34s cubic-bezier(.34,1.4,.5,1);
+}
+
 /* ── ไดอะแกรมสถาปัตยกรรม ──────────────────────────────────────────────── */
 .arch{margin:0 0 var(--s-9)}
 .arch-svg{width:100%;height:auto;display:block}
