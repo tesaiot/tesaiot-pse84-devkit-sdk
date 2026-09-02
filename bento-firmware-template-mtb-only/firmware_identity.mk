@@ -21,4 +21,11 @@ FW_RELEASE_TAG_PREFIX := fw-c-only-v
 # identity is (repo, filename), and <BOARD> cannot separate these two because both
 # build for KIT_PSE84_AI. Publishing both as app_combined.hex is why the C-only build
 # currently reaches nobody.
-FW_RELEASE_ASSET_SLUG := bento-c-only
+#
+# The -devkit suffix is not decoration. board=KIT_PSE84_AI carries SEVEN SKUs across
+# TWO products, because KitProg3 sits on the AI Kit SoM that the Dev Kit is built
+# from. So for this board the slug is the ONLY field that names the product, and it
+# is what the flash client falls back to while the index is not yet visible — the
+# raw.githubusercontent CDN holds a 300 s cache. Without it, an Eval Kit owner is
+# shown Dev Kit firmware with only a grey "Board unconfirmed" chip to warn them.
+FW_RELEASE_ASSET_SLUG := bento-c-only-devkit
