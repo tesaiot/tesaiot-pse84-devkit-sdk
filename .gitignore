@@ -5,3 +5,8 @@ mtb_shared/
 *.o
 *.a
 .DS_Store
+
+# The MicroPython port, unpacked beside the templates exactly where doctor tells a
+# user to put it. 189 MB, and it belongs to its own repository — the template README
+# 7 calls it out as one of the two trees this package deliberately does not carry.
+micropython-psoc-edge-psoc-edge-main/
