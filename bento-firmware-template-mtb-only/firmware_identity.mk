@@ -28,4 +28,9 @@ FW_RELEASE_TAG_PREFIX := fw-c-only-v
 # is what the flash client falls back to while the index is not yet visible — the
 # raw.githubusercontent CDN holds a 300 s cache. Without it, an Eval Kit owner is
 # shown Dev Kit firmware with only a grey "Board unconfirmed" chip to warn them.
+# The product this project is allowed to publish. release_fw.sh compares it with
+# the SKU it reads out of the built record and refuses if they differ — the only
+# check that survives pointing the script at the wrong tree, since tag, asset name
+# and manifest are all derived from the record and would agree with each other.
+FW_RELEASE_EXPECT_SKU := TESAIOT-CLAW-AI-MTB-DEVKIT
 FW_RELEASE_ASSET_SLUG := bento-c-only-devkit
