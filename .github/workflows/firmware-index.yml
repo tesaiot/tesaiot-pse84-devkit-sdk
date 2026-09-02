@@ -66,11 +66,21 @@ jobs:
           rows = doc if isinstance(doc, list) else doc["firmware"]
           print("\n".join(sorted(r["sha256"] for r in rows)))
           PY
+          # GitHub does not always populate `digest` — the flash relay received null for
+          # exactly these assets. A null is not a mismatch, so warn and cross-check
+          # against the ones that are present rather than failing the branch.
           gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
-            --jq '.[] | select(.draft | not) | .assets[] | select(.name | endswith(".hex")) | .digest' \
+            --jq '.[] | select(.draft | not) | .assets[] | select(.name | endswith(".hex"))
+                  | select(.digest == null) | .name' > /tmp/no-digest.txt || true
+          if [ -s /tmp/no-digest.txt ]; then
+            echo "::warning::GitHub reports no digest for $(wc -l < /tmp/no-digest.txt) .hex asset(s); those rows are not cross-checked here"
+          fi
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+            --jq '.[] | select(.draft | not) | .assets[] | select(.name | endswith(".hex"))
+                  | .digest // empty' \
             | sed 's/^sha256://' | sort -u > /tmp/release-hashes.txt
           if [ ! -s /tmp/release-hashes.txt ]; then
-            echo "no .hex asset digests returned — cannot cross-check" >&2
+            echo "no .hex asset digests returned at all — cannot cross-check" >&2
             exit 1
           fi
           orphans=$(comm -23 /tmp/index-hashes.txt /tmp/release-hashes.txt || true)

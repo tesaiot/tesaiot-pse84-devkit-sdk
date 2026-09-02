@@ -32,6 +32,24 @@ def die(msg):
     raise SystemExit(2)
 
 
+def hash_asset(tag, name):
+    """Download one release asset and hash the bytes. Used only when the API gives no
+    digest — a hash still must never be typed by a person."""
+    import hashlib
+    import subprocess
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        r = subprocess.run(["gh", "release", "download", tag, "--pattern", name, "-D", d],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            die("could not download %s/%s to hash it: %s" % (tag, name, r.stderr.strip()))
+        h = hashlib.sha256()
+        with open(os.path.join(d, name), "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--releases", required=True,
@@ -67,10 +85,16 @@ def main(argv):
                 % (tag, len(hexes)))
         asset = hexes[0]
 
+        # GitHub does not always populate `digest` — the flash relay received null for
+        # exactly these assets and had to fall back to comparing name and size. When it
+        # is missing, download and hash the bytes; never fall back to typing a hash.
         digest = asset.get("digest") or ""
-        if not digest.startswith("sha256:"):
-            die("%s/%s: the API returned no sha256 digest — refusing to type a hash by hand"
-                % (tag, asset["name"]))
+        if digest.startswith("sha256:"):
+            sha = digest[len("sha256:"):]
+        else:
+            sys.stderr.write("%s/%s: no digest from the API — hashing the asset itself\n"
+                             % (tag, asset["name"]))
+            sha = hash_asset(rel["tag_name"], asset["name"])
 
         row = dict(curated[tag])
         row.pop("exclude", None)
@@ -78,7 +102,7 @@ def main(argv):
         row.pop("evidence", None)
         row.update({
             "file": asset["name"],
-            "sha256": digest[len("sha256:"):],
+            "sha256": sha,
             "release_tag": tag,
             "status": "OK",
         })
