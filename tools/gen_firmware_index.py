@@ -28,7 +28,11 @@ import sys
 
 SCHEMA_VERSION = "1.0.0"
 
-SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+# fullmatch, not match: `$` also matches before a trailing newline, so a hash carrying
+# the newline from `shasum ... | cut` used to validate and enter the index as a key that
+# can never match the relay's hash. The row is then dead and its artifact silently
+# unattributable — the exact failure this file exists to prevent.
+SHA256_RE = re.compile(r"[0-9a-f]{64}")
 
 # Fields the consumer requires. A row missing any of these cannot be attributed to a
 # board, which is the entire purpose of the index, so it is an error and not a warning.
@@ -42,6 +46,11 @@ RECOMMENDED = ("description", "sku")
 def die(msg):
     sys.stderr.write("FATAL: %s\n" % msg)
     raise SystemExit(2)
+
+
+def board_key(b):
+    """Fold the board the way the consumer matches it: case-insensitive, - == _."""
+    return str(b or "").lower().replace("-", "_")
 
 
 def version_key(v):
@@ -63,8 +72,11 @@ def load_rows(path):
     """Read an existing index. Accepts both shapes the contract allows."""
     if not os.path.exists(path):
         return [], None
-    with open(path) as f:
-        doc = json.load(f)
+    try:
+        with open(path, encoding="utf-8") as f:
+            doc = json.load(f)
+    except (OSError, ValueError) as e:
+        die("%s could not be read as JSON: %s" % (path, e))
     if isinstance(doc, list):
         return doc, None
     if isinstance(doc, dict) and isinstance(doc.get("firmware"), list):
@@ -73,10 +85,15 @@ def load_rows(path):
 
 
 def check(row, origin):
+    if not isinstance(row, dict):
+        die("%s: expected an object, got %s" % (origin, type(row).__name__))
     for field in REQUIRED:
         if not row.get(field):
             die("%s: missing required field `%s`" % (origin, field))
-    if not SHA256_RE.match(row["sha256"]):
+        if not isinstance(row[field], str):
+            die("%s: `%s` must be a string, got %s (%r)"
+                % (origin, field, type(row[field]).__name__, row[field]))
+    if not isinstance(row["sha256"], str) or not SHA256_RE.fullmatch(row["sha256"]):
         die("%s: sha256 %r is not 64 lowercase hex characters" % (origin, row["sha256"]))
     for field in RECOMMENDED:
         if not row.get(field):
@@ -109,8 +126,11 @@ def main(argv):
 
     new = []
     for path in a.manifests:
-        with open(path) as f:
-            row = json.load(f)
+        try:
+            with open(path, encoding="utf-8") as f:
+                row = json.load(f)
+        except (OSError, ValueError) as e:
+            die("%s could not be read as JSON: %s" % (path, e))
         if not isinstance(row, dict):
             die("%s: expected a single manifest object" % path)
         if a.release_tag:
@@ -123,14 +143,17 @@ def main(argv):
     # and its owners would be offered nothing — six of the nine firmware projects build
     # with TARGET=KIT_PSE84_AI, so byte-identical images across kits are a live risk
     # here, not a hypothetical. A human has to resolve it.
+    def identity(r):
+        return (board_key(r["board"]), r["firmware_version"], r.get("sku"))
+
     by_hash = {}
     for row in old + new:
         prior = by_hash.setdefault(row["sha256"], row)
-        if prior["board"] != row["board"]:
-            die("sha256 %s is claimed by two boards, %r and %r. One row would be lost. "
-                "Identical bytes cannot carry two board identities — give each board its "
-                "own build, or drop one row."
-                % (row["sha256"], prior["board"], row["board"]))
+        if identity(prior) != identity(row):
+            die("sha256 %s carries two identities, %r and %r. Merging keeps one and the "
+                "other artifact silently leaves the index. Identical bytes cannot be two "
+                "different firmwares — fix the manifest, or drop one row."
+                % (row["sha256"], identity(prior), identity(row)))
 
     # Later wins, so this release replaces an identical-bytes row published earlier —
     # which is normally right, the artifact IS in this release. --keep-first-release-tag
@@ -145,7 +168,7 @@ def main(argv):
     # student cannot tell apart, so the descriptions have to do that work.
     seen_version = {}
     for r in rows:
-        k = (r["board"], r["firmware_version"])
+        k = (board_key(r["board"]), r["firmware_version"])
         seen_version.setdefault(k, []).append(r["sha256"])
     for (board, ver), hashes in sorted(seen_version.items()):
         if len(hashes) > 1:
@@ -166,13 +189,15 @@ def main(argv):
     body = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
 
     if unchanged and os.path.exists(a.index):
-        with open(a.index) as f:
+        with open(a.index, encoding="utf-8") as f:
             if f.read() == body:
                 print("%s: unchanged (%d row(s))" % (a.index, len(rows)))
                 return 0
 
-    tmp = a.index + ".tmp"
-    with open(tmp, "w") as f:
+    # Unique per process: two releases publishing at once must not clobber
+    # each other's partially written file.
+    tmp = "%s.%d.tmp" % (a.index, os.getpid())
+    with open(tmp, "w", encoding="utf-8") as f:
         f.write(body)
     os.replace(tmp, a.index)
     seen = {r["sha256"] for r in old}

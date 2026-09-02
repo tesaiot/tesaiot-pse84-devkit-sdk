@@ -134,9 +134,16 @@ def _(d):
 
 @case("--keep-first-release-tag records first publication instead")
 def _(d):
-    run(["--release-tag", "v1", manifest(d, "m.json")], d)
-    run(["--keep-first-release-tag", "--release-tag", "v2", manifest(d, "m.json")], d)
-    check("tag is v1", index(d)["firmware"][0]["release_tag"] == "v1")
+    r1 = run(["--release-tag", "v1", manifest(d, "m.json")], d)
+    check("first run ok", r1.returncode == 0, r1.stderr)
+    check("starts at v1", index(d)["firmware"][0]["release_tag"] == "v1")
+    r2 = run(["--keep-first-release-tag", "--release-tag", "v2", manifest(d, "m.json")], d)
+    check("second run ok", r2.returncode == 0, r2.stderr)
+    check("tag stayed v1", index(d)["firmware"][0]["release_tag"] == "v1")
+    # Prove the case is not vacuous: without the flag the same input moves the tag.
+    r3 = run(["--release-tag", "v2", manifest(d, "m.json")], d)
+    check("control: without the flag it becomes v2",
+          r3.returncode == 0 and index(d)["firmware"][0]["release_tag"] == "v2", r3.stderr)
 
 
 @case("a bare array index is read, and rewritten in the wrapped shape")
@@ -173,7 +180,7 @@ def _(d):
     run(["--release-tag", "v1", manifest(d, "a.json", board="KIT_A")], d)
     r = run(["--release-tag", "v1", manifest(d, "b.json", board="KIT_B")], d)
     check("exit 2", r.returncode == 2, "rc=%d" % r.returncode)
-    check("names both boards", "KIT_A" in r.stderr and "KIT_B" in r.stderr, r.stderr)
+    check("names both boards", "kit_a" in r.stderr.lower() and "kit_b" in r.stderr.lower(), r.stderr)
     check("index untouched", [x["board"] for x in index(d)["firmware"]] == ["KIT_A"])
 
 
@@ -191,6 +198,65 @@ def _(d):
     r = run(["--release-tag", "v1", manifest(d, "m.json", description=None)], d)
     check("exit 0", r.returncode == 0, r.stderr)
     check("warned", "description" in r.stderr, r.stderr)
+
+
+@case("a sha256 carrying a trailing newline is rejected")
+def _(d):
+    # `shasum ... | cut` hands back a newline. `$` matches before one, so this used to
+    # validate and enter the index as a key that can never match the relay's hash.
+    r = run(["--release-tag", "v1", manifest(d, "m.json", sha256=H["a"] + "\n")], d)
+    check("exit 2", r.returncode == 2, "rc=%d" % r.returncode)
+    check("no index written", not os.path.exists(os.path.join(d, "firmware-index.json")))
+    for pad in (" " + H["a"], H["a"] + " ", H["a"] + "\t"):
+        check("rejects padded %r" % pad[:3],
+              run(["--release-tag", "v1", manifest(d, "m.json", sha256=pad)], d).returncode == 2)
+
+
+@case("wrong types give a clean error, not a traceback")
+def _(d):
+    for field, value in (("sha256", 12345678), ("firmware_version", ["1", "0"]),
+                         ("firmware_version", 2.0), ("board", {"a": 1})):
+        r = run(["--release-tag", "v1", manifest(d, "m.json", **{field: value})], d)
+        check("%s=%r -> exit 2" % (field, value), r.returncode == 2,
+              "rc=%d stderr=%s" % (r.returncode, r.stderr[-200:]))
+        check("%s=%r -> no traceback" % (field, value), "Traceback" not in r.stderr,
+              r.stderr[-200:])
+
+
+@case("a corrupt existing index is named, not crashed on")
+def _(d):
+    open(os.path.join(d, "firmware-index.json"), "w").write("{not json")
+    r = run(["--check"], d)
+    check("exit 2", r.returncode == 2, "rc=%d" % r.returncode)
+    check("no traceback", "Traceback" not in r.stderr, r.stderr[-200:])
+    check("names the file", "firmware-index.json" in r.stderr, r.stderr)
+
+
+@case("an index row that is not an object is rejected")
+def _(d):
+    with open(os.path.join(d, "firmware-index.json"), "w") as f:
+        json.dump(["justastring"], f)
+    r = run(["--check"], d)
+    check("exit 2", r.returncode == 2, "rc=%d" % r.returncode)
+    check("no traceback", "Traceback" not in r.stderr, r.stderr[-200:])
+
+
+@case("board matching folds case and -/_ the way the consumer does")
+def _(d):
+    # KIT_PSE84_AI and kit-pse84-ai are ONE board to the consumer. Treating them as two
+    # keys hid a duplicate that a student would see as two identical picker entries.
+    run(["--release-tag", "v1", manifest(d, "a.json", sha256=H["a"], board="KIT_PSE84_AI")], d)
+    r = run(["--release-tag", "v2", manifest(d, "b.json", sha256=H["b"], board="kit-pse84-ai")], d)
+    check("exit 0", r.returncode == 0, r.stderr)
+    check("warned about the duplicate", "side by side" in r.stderr, r.stderr)
+
+
+@case("one sha256 cannot carry two versions — no row is dropped in silence")
+def _(d):
+    run(["--release-tag", "v1", manifest(d, "a.json", firmware_version="1.0.0")], d)
+    r = run(["--release-tag", "v2", manifest(d, "b.json", firmware_version="2.0.0")], d)
+    check("exit 2", r.returncode == 2, "rc=%d" % r.returncode)
+    check("old row survives", len(index(d)["firmware"]) == 1)
 
 
 print()

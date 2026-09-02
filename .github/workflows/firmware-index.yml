@@ -18,6 +18,8 @@ on:
       - firmware-index.json
       - tools/gen_firmware_index.py
       - tools/test_gen_firmware_index.py
+      - tools/release-rows.json
+      - .github/workflows/firmware-index.yml
   release:
     types: [published]
   workflow_dispatch:
@@ -25,11 +27,21 @@ on:
 permissions:
   contents: read
 
+# The index is a read-modify-write on one file. Serialise, and never cancel a run
+# that may already have pushed.
+concurrency:
+  group: firmware-index
+  cancel-in-progress: false
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # On a release trigger the default ref is the tag, whose tree predates these
+          # tools. Validate the branch that is actually being written.
+          ref: ${{ github.event_name == 'release' && 'main' || github.ref }}
 
       - name: Generator tests
         run: python3 tools/test_gen_firmware_index.py
@@ -55,7 +67,7 @@ jobs:
           print("\n".join(sorted(r["sha256"] for r in rows)))
           PY
           gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
-            --jq '.[].assets[] | select(.name | endswith(".hex")) | .digest' \
+            --jq '.[] | select(.draft | not) | .assets[] | select(.name | endswith(".hex")) | .digest' \
             | sed 's/^sha256://' | sort -u > /tmp/release-hashes.txt
           if [ ! -s /tmp/release-hashes.txt ]; then
             echo "no .hex asset digests returned — cannot cross-check" >&2
@@ -85,6 +97,8 @@ jobs:
           curated = json.load(open("tools/release-rows.json"))["releases"]
           unaccounted = []
           for rel in json.load(open("/tmp/releases.json")):
+              if rel.get("draft"):
+                  continue          # not published, nothing to attribute yet
               tag = rel["tag_name"]
               for asset in rel.get("assets", []):
                   if not asset["name"].endswith(".hex"):
@@ -163,11 +177,20 @@ jobs:
           python3 tools/gen_firmware_index.py --release-tag "$TAG" "${manifests[@]}"
 
       - name: Commit
+        env:
+          TAG: ${{ github.event.release.tag_name }}
         run: |
           set -euo pipefail
           git config user.name  "tesaiot-bot"
           git config user.email "bot@tesaiot.dev"
           git add firmware-index.json
           git diff --cached --quiet && { echo "index already current"; exit 0; }
-          git commit -m "chore(index): ${{ github.event.release.tag_name }}"
-          git push origin HEAD:main
+          git commit -m "chore(index): ${TAG:-manual}"
+          # Another release may have landed while this job ran; rebase rather than
+          # lose the write.
+          for attempt in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          echo "could not push after 3 attempts" >&2
+          exit 1
