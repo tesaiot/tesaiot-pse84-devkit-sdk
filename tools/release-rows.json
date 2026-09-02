@@ -26,7 +26,9 @@
       "firmware_version": "1.9.0",
       "description": "MicroPython on the board — edit and run over the REPL. Sensors, radar, Edge AI, WiFi and HTTPS.",
       "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
-      "board_source": "firmware identity record (0x60900000)"
+      "board_source": "firmware identity record (0x60900000)",
+      "exclude": true,
+      "reason": "Superseded by fw-mpy-v1.9.0, which is the first build of this firmware to carry a stamped CRC and a release flag. This one was cut outside the release pipeline: crc32 = 0 and flags say DEBUG."
     },
     "v1.2.0-mtb": {
       "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
@@ -35,7 +37,9 @@
       "firmware_version": "1.9.0",
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
       "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
-      "board_source": "firmware identity record (0x60900000)"
+      "board_source": "firmware identity record (0x60900000)",
+      "exclude": true,
+      "reason": "Superseded by fw-c-only-v1.9.0. Same reason: cut outside the release pipeline, crc32 = 0, flags say DEBUG — and it never reached the flash UI at all, because it shared the filename app_combined.hex with its sibling."
     },
     "v1.1.0-mtb_mpy": {
       "exclude": true,
@@ -81,6 +85,26 @@
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
       "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
       "board_source": "firmware identity record (0x60900000)"
+    },
+    "fw-mpy-v1.9.0": {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000); KitProg3 on a Dev Kit reports KIT_PSE84_AI, measured 2026-09-02",
+      "description": "MicroPython on the board — edit and run over the REPL. Sensors, radar, Edge AI, WiFi and HTTPS."
+    },
+    "fw-c-only-v1.9.0": {
+      "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000); KitProg3 on a Dev Kit reports KIT_PSE84_AI, measured 2026-09-02",
+      "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point."
     }
   }
 }

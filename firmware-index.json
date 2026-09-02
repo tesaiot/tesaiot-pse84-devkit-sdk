@@ -1,31 +1,33 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-02T05:33:50Z",
+  "generated_at": "2026-09-02T11:39:25Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
       "family": "CLAW",
       "board": "KIT_PSE84_AI",
       "firmware_version": "1.9.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000); KitProg3 on a Dev Kit reports KIT_PSE84_AI, measured 2026-09-02",
       "description": "MicroPython on the board — edit and run over the REPL. Sensors, radar, Edge AI, WiFi and HTTPS.",
-      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
-      "board_source": "firmware identity record (0x60900000)",
-      "file": "app_combined.hex",
-      "sha256": "fb9cfb7e2d94816d6e6e271662c8fd947e5ccb3a0f4f92b54d73bf7d6ebce350",
-      "release_tag": "v1.2.0-mtb_mpy",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v1.9.0.hex",
+      "sha256": "e0f193287ff31800f42369933151132377374552f8db54fd61def2cd73ce7c44",
+      "release_tag": "fw-mpy-v1.9.0",
       "status": "OK"
     },
     {
       "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
       "family": "CLAW",
       "board": "KIT_PSE84_AI",
       "firmware_version": "1.9.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000); KitProg3 on a Dev Kit reports KIT_PSE84_AI, measured 2026-09-02",
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
-      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
-      "board_source": "firmware identity record (0x60900000)",
-      "file": "app_combined.hex",
-      "sha256": "26e4b57b8d14473baf720b18572186de1077033bddb95ac948e0e55a6114b0fa",
-      "release_tag": "v1.2.0-mtb",
+      "file": "bento-c-only-devkit__KIT_PSE84_AI__v1.9.0.hex",
+      "sha256": "1899a9ea4dd6cb525921f5ac63b1a45d4a7a06e31d97bb11b88a0d26a20bd49c",
+      "release_tag": "fw-c-only-v1.9.0",
       "status": "OK"
     }
   ]
