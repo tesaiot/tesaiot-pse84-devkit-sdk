@@ -46,6 +46,18 @@ jobs:
       - name: Generator tests
         run: python3 tools/test_gen_firmware_index.py
 
+      - name: No release tool is left with nothing calling it
+        # Every defect that cost 2026-09-02 was a correct tool the publishing path did
+        # not invoke. Remembering to wire a new one up is what people forget, so this
+        # asks instead of trusting memory. Skipped when the workspace checkout is not
+        # present, because it reads across sibling repositories.
+        run: |
+          if [ -f ../tools/check_no_orphan_tools.py ]; then
+            python3 ../tools/check_no_orphan_tools.py
+          else
+            echo "workspace not checked out beside this repo — skipped"
+          fi
+
       - name: Index is well formed
         run: python3 tools/gen_firmware_index.py --check
 
