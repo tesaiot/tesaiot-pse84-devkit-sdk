@@ -1,0 +1,173 @@
+name: firmware-index
+
+# firmware-index.json is the only file a browser can read that states which board a
+# published .hex belongs to — release assets are served without a CORS header, so a web
+# page cannot fetch manifest.json where it lives. Two jobs: `validate` guards every
+# change to the index, and `update` folds a new release's manifests into it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - firmware-index.json
+      - tools/gen_firmware_index.py
+      - tools/test_gen_firmware_index.py
+      - .github/workflows/firmware-index.yml
+  pull_request:
+    paths:
+      - firmware-index.json
+      - tools/gen_firmware_index.py
+      - tools/test_gen_firmware_index.py
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generator tests
+        run: python3 tools/test_gen_firmware_index.py
+
+      - name: Index is well formed
+        run: python3 tools/gen_firmware_index.py --check
+
+      - name: Every row's sha256 belongs to a real published asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # The join key is worth nothing unless it matches the bytes the flash relay will
+        # hash. The authority is the `digest` GitHub computes over the stored asset —
+        # NOT a SHA256SUMS.txt we generated ourselves. On 2026-09-02 the SHA256SUMS.txt
+        # attached to v1.1.0-mtb_mpy carried the v1.0.0 build's hash for the mtb-only
+        # artifact, under a stale `hw_tested_v1.0.0/` path. A self-reported hash can be
+        # stale; the digest cannot.
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' > /tmp/index-hashes.txt
+          import json
+          doc = json.load(open("firmware-index.json"))
+          rows = doc if isinstance(doc, list) else doc["firmware"]
+          print("\n".join(sorted(r["sha256"] for r in rows)))
+          PY
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+            --jq '.[].assets[] | select(.name | endswith(".hex")) | .digest' \
+            | sed 's/^sha256://' | sort -u > /tmp/release-hashes.txt
+          if [ ! -s /tmp/release-hashes.txt ]; then
+            echo "no .hex asset digests returned — cannot cross-check" >&2
+            exit 1
+          fi
+          orphans=$(comm -23 /tmp/index-hashes.txt /tmp/release-hashes.txt || true)
+          if [ -n "$orphans" ]; then
+            echo "index rows whose sha256 matches no published .hex asset:" >&2
+            echo "$orphans" >&2
+            exit 1
+          fi
+          echo "every index row resolves to a published asset"
+
+      - name: Every published .hex is either indexed or explicitly excluded
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # An artifact that is neither is an accident: the flash UI will badge it
+        # "Board unconfirmed" and nobody decided that. Leaving one out has to be a
+        # written decision in release-rows.json, with a reason a reader can weigh.
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases" > /tmp/releases.json
+          python3 - <<'PY'
+          import json, os, sys
+          doc = json.load(open("firmware-index.json"))
+          indexed = {r["sha256"] for r in (doc if isinstance(doc, list) else doc["firmware"])}
+          curated = json.load(open("tools/release-rows.json"))["releases"]
+          unaccounted = []
+          for rel in json.load(open("/tmp/releases.json")):
+              tag = rel["tag_name"]
+              for asset in rel.get("assets", []):
+                  if not asset["name"].endswith(".hex"):
+                      continue
+                  digest = (asset.get("digest") or "").removeprefix("sha256:")
+                  if digest in indexed:
+                      continue
+                  entry = curated.get(tag)
+                  if entry and entry.get("exclude") and entry.get("reason"):
+                      print("excluded  %s  %s" % (tag, entry["reason"][:80]))
+                  else:
+                      unaccounted.append("%s/%s (%s)" % (tag, asset["name"], digest[:12]))
+          for u in unaccounted:
+              print("unaccounted: %s" % u, file=sys.stderr)
+          if unaccounted:
+              print("Add a row, or an `exclude` with a `reason`, in tools/release-rows.json.",
+                    file=sys.stderr)
+              sys.exit(1)
+          print("all published .hex assets accounted for")
+          PY
+
+      - name: Nothing in the index is left unattributed
+        # A row the UI cannot attribute is shown under every board badged
+        # "Board unconfirmed", which is exactly what the index exists to prevent.
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          doc = json.load(open("firmware-index.json"))
+          rows = doc if isinstance(doc, list) else doc["firmware"]
+          bad = [r for r in rows if not r.get("board") or not r.get("description")]
+          for r in bad:
+              print("incomplete row: %s" % r.get("sha256", "?"), file=sys.stderr)
+          sys.exit(1 if bad else 0)
+          PY
+
+  update:
+    # Only a published release adds rows. Runs after validate so a broken generator
+    # can never write to main.
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # main, never the tag. On a release trigger HEAD is the tag's commit, and
+          # pushing that to main would rewind every commit made since the tag.
+          ref: main
+
+      - name: Fetch this release's manifests
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/manifests
+          if [ -z "${TAG:-}" ]; then
+            echo "no tag in the event payload — nothing to fold in"
+            exit 0
+          fi
+          gh release download "$TAG" --pattern '*manifest*.json' -D /tmp/manifests || true
+
+      - name: Fold them into the index
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          manifests=(/tmp/manifests/*.json)
+          if [ ${#manifests[@]} -eq 0 ]; then
+            echo "release $TAG published no manifest.json — index left untouched." >&2
+            echo "Attach one per .hex, or update the index from the release checklist." >&2
+            exit 0
+          fi
+          python3 tools/gen_firmware_index.py --release-tag "$TAG" "${manifests[@]}"
+
+      - name: Commit
+        run: |
+          set -euo pipefail
+          git config user.name  "tesaiot-bot"
+          git config user.email "bot@tesaiot.dev"
+          git add firmware-index.json
+          git diff --cached --quiet && { echo "index already current"; exit 0; }
+          git commit -m "chore(index): ${{ github.event.release.tag_name }}"
+          git push origin HEAD:main

@@ -1,0 +1,80 @@
+{
+  "_comment": [
+    "Editorial fields for firmware-index.json, one entry per release tag. Nothing here is",
+    "a hash: sha256, file name and release_tag are filled in by manifests_from_releases.py",
+    "from the digest GitHub computes over the stored asset bytes, so a stale hash cannot be",
+    "pasted in. That has already gone wrong once here - the SHA256SUMS.txt attached to",
+    "v1.1.0-mtb_mpy records the v1.0.0-mtb hash for the mtb-only artifact.",
+    "",
+    "`board`, `sku`, `firmware_uuid` and `firmware_version` are read from the on-device",
+    "identity record at 0x60900000 in each published hex, verified 2026-09-02 against the",
+    "downloaded release assets. All six report firmware version 1.9.0 - the v1.x.y tags are",
+    "SDK-package versions and do not appear in the firmware at all.",
+    "",
+    "PROVENANCE OF `board`: KIT_PSE84_AI is the value the firmware itself declares, which",
+    "is the ModusToolbox TARGET. The consuming contract asks for the kit name KitProg3",
+    "reports, and no reading of a TESAIoT Dev Kit probe exists anywhere in our records, so",
+    "the two are not yet known to agree. Correcting this is a one-line change here.",
+    "Related and unresolved: four firmware projects across two physically different kits",
+    "emit this same string, so the field may not distinguish them however it is filled."
+  ],
+  "releases": {
+    "v1.2.0-mtb_mpy": {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "description": "MicroPython REPL on the board: sensors, radar, Edge AI, WiFi, MQTT and HTTPS telemetry.",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3"
+    },
+    "v1.2.0-mtb": {
+      "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "description": "Plain C on all three cores: touch UI, sensors, radar, Edge AI. No Python console.",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2"
+    },
+    "v1.1.0-mtb_mpy": {
+      "exclude": true,
+      "reason": "Superseded by v1.2.0-mtb_mpy and missing its HTTPS trust-anchor and OPTIGA certificate-pairing fixes. Byte-identical in function to v1.0.0-mtb_mpy: the two differ in exactly 20 bytes, all inside the embedded git-describe string.",
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "description": "MicroPython REPL, 44 modules, 64 KB heap. Sensors, radar, Edge AI, WiFi and OPTIGA verified on board.",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3"
+    },
+    "v1.1.0-mtb": {
+      "exclude": true,
+      "reason": "Provenance of the published bytes is unresolved. The release body states the attached file is the one that was flashed and quotes ae6fafa2..., but the stored asset hashes to a1a61934...; ae6fafa2... is the v1.0.0-mtb build. Until it is established which of the two was hardware-tested, this artifact must not be offered to a student.",
+      "evidence": "release body of v1.1.0-mtb; SHA256SUMS.txt attached to v1.1.0-mtb_mpy; GitHub asset digests, all read 2026-09-02",
+      "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "description": "Plain C on all three cores: touch UI, sensors, radar, Edge AI. No Python console.",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2"
+    },
+    "v1.0.0-mtb_mpy": {
+      "exclude": true,
+      "reason": "The release says so itself: not flashed to a real board. Never offer an untested image from a picker a student trusts.",
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "description": "MicroPython REPL plus the full C firmware, 64 KB heap.",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3"
+    },
+    "v1.0.0-mtb": {
+      "exclude": true,
+      "reason": "The release says so itself: not flashed to a real board.",
+      "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.9.0",
+      "description": "Plain C on all three cores: touch UI, sensors, radar, Edge AI. No Python console.",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2"
+    }
+  }
+}
