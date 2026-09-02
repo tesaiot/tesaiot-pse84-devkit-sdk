@@ -9,7 +9,16 @@ FW_APP     := $(if $(filter 0,$(BENTO_HAS_MPY)),MTB,MPY)
 FW_VARIANT := DEVKIT
 FW_VERSION := $(shell sed -n 's/.*BENTOCLAW_VERSION[[:space:]][[:space:]]*"\([0-9][0-9.]*\)".*/\1/p' \
     ../proj_cm55/tesaiot_version/bentoclaw_version_project.h)
-FW_RELEASE_REPO       := wiroon/TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw
-FW_RELEASE_TAG_PREFIX := v
-# No FW_RELEASE_ASSET_SLUG: repo is private — not listed on the flash-service
-# catalog yet. Set a slug before the first public catalog release.
+# The public SDK repo. This pointed at a private repo until 2026-09-02, left over
+# from before the SDK was published — running the release pipeline would have cut a
+# release in the wrong place entirely.
+FW_RELEASE_REPO       := tesaiot/tesaiot-pse84-devkit-sdk
+# Both variants share one firmware version, so a bare "v" prefix would compute the
+# same tag for each and the second release would be refused as already published.
+# The prefix carries the variant; the version stays the firmware's own.
+FW_RELEASE_TAG_PREFIX := fw-mpy-v
+# The asset slug must IDENTIFY the product, not merely differ: the relay's catalogue
+# identity is (repo, filename), and <BOARD> cannot separate these two because both
+# build for KIT_PSE84_AI. Publishing both as app_combined.hex is why the C-only build
+# currently reaches nobody.
+FW_RELEASE_ASSET_SLUG := bento-micropython
