@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-02T05:23:30Z",
+  "generated_at": "2026-09-02T05:33:50Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -9,8 +9,7 @@
       "firmware_version": "1.9.0",
       "description": "MicroPython on the board — edit and run over the REPL. Sensors, radar, Edge AI, WiFi and HTTPS.",
       "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading",
+      "board_source": "firmware identity record (0x60900000)",
       "file": "app_combined.hex",
       "sha256": "fb9cfb7e2d94816d6e6e271662c8fd947e5ccb3a0f4f92b54d73bf7d6ebce350",
       "release_tag": "v1.2.0-mtb_mpy",
@@ -23,8 +22,7 @@
       "firmware_version": "1.9.0",
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
       "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading",
+      "board_source": "firmware identity record (0x60900000)",
       "file": "app_combined.hex",
       "sha256": "26e4b57b8d14473baf720b18572186de1077033bddb95ac948e0e55a6114b0fa",
       "release_tag": "v1.2.0-mtb",

@@ -11,12 +11,12 @@
     "downloaded release assets. All six report firmware version 1.9.0 - the v1.x.y tags are",
     "SDK-package versions and do not appear in the firmware at all.",
     "",
-    "PROVENANCE OF `board`: KIT_PSE84_AI is the value the firmware itself declares, which",
-    "is the ModusToolbox TARGET. The consuming contract asks for the kit name KitProg3",
-    "reports, and no reading of a TESAIoT Dev Kit probe exists anywhere in our records, so",
-    "the two are not yet known to agree. Correcting this is a one-line change here.",
-    "Related and unresolved: four firmware projects across two physically different kits",
-    "emit this same string, so the field may not distinguish them however it is filled."
+    "`board` is the string the firmware declares about itself, which is the ModusToolbox",
+    "TARGET. That is what the consuming contract asks for as of its rev 2: the platform",
+    "team confirmed on 2026-09-02 that their earlier `QWA303-B1-1.0` example came from",
+    "their own board-package.json and was never measured, and asked for the declared value",
+    "unbent. `board` alone cannot separate our AI Kit from our Dev Kit - four projects emit",
+    "KIT_PSE84_AI - so `sku` is the per-product key, and it is unique per row."
   ],
   "releases": {
     "v1.2.0-mtb_mpy": {
@@ -26,8 +26,7 @@
       "firmware_version": "1.9.0",
       "description": "MicroPython on the board — edit and run over the REPL. Sensors, radar, Edge AI, WiFi and HTTPS.",
       "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading"
+      "board_source": "firmware identity record (0x60900000)"
     },
     "v1.2.0-mtb": {
       "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
@@ -36,8 +35,7 @@
       "firmware_version": "1.9.0",
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
       "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading"
+      "board_source": "firmware identity record (0x60900000)"
     },
     "v1.1.0-mtb_mpy": {
       "exclude": true,
@@ -48,8 +46,7 @@
       "firmware_version": "1.9.0",
       "description": "MicroPython REPL, 44 modules, 64 KB heap. Sensors, radar, Edge AI, WiFi and OPTIGA verified on board.",
       "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading"
+      "board_source": "firmware identity record (0x60900000)"
     },
     "v1.1.0-mtb": {
       "exclude": true,
@@ -61,8 +58,7 @@
       "firmware_version": "1.9.0",
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
       "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading"
+      "board_source": "firmware identity record (0x60900000)"
     },
     "v1.0.0-mtb_mpy": {
       "exclude": true,
@@ -73,8 +69,7 @@
       "firmware_version": "1.9.0",
       "description": "MicroPython REPL plus the full C firmware, 64 KB heap.",
       "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading"
+      "board_source": "firmware identity record (0x60900000)"
     },
     "v1.0.0-mtb": {
       "exclude": true,
@@ -85,8 +80,7 @@
       "firmware_version": "1.9.0",
       "description": "Plain C across all three cores, with the touch UI. No Python console — the smallest starting point.",
       "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
-      "board_verified": false,
-      "board_source": "firmware identity record (ModusToolbox TARGET); not yet confirmed against a KitProg3 reading"
+      "board_source": "firmware identity record (0x60900000)"
     }
   }
 }
