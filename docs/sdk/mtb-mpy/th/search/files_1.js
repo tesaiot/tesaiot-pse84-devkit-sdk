@@ -5,12 +5,13 @@ var searchData=
   ['b3_5fipc_5fbackbone_2edox_2',['b3_ipc_backbone.dox',['../b3__ipc__backbone_8dox.html',1,'']]],
   ['bento_5fdevmode_2eh_3',['bento_devmode.h',['../bento__devmode_8h.html',1,'']]],
   ['bento_5ffw_2eh_4',['bento_fw.h',['../bento__fw_8h.html',1,'']]],
-  ['bento_5flink_2edox_5',['bento_link.dox',['../bento__link_8dox.html',1,'']]],
-  ['bento_5flink_2eh_6',['bento_link.h',['../bento__link_8h.html',1,'']]],
-  ['bento_5fsecure_5fundeclared_2eh_7',['bento_secure_undeclared.h',['../ble__nus_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)'],['../cm55__core_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)'],['../ipc__core_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)'],['../mpy__secure_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)']]],
-  ['bento_5ftime_2eh_8',['bento_time.h',['../bento__time_8h.html',1,'']]],
-  ['ble_5fnus_2eh_9',['ble_nus.h',['../ble__nus_8h.html',1,'']]],
-  ['ble_5fnus_5findex_2edox_10',['ble_nus_index.dox',['../ble__nus__index_8dox.html',1,'']]],
-  ['ble_5fnus_5flazy_2eh_11',['ble_nus_lazy.h',['../ble__nus__lazy_8h.html',1,'']]],
-  ['buddy_5flifecycle_2edox_12',['buddy_lifecycle.dox',['../buddy__lifecycle_8dox.html',1,'']]]
+  ['bento_5fkit_2eh_5',['bento_kit.h',['../bento__kit_8h.html',1,'']]],
+  ['bento_5flink_2edox_6',['bento_link.dox',['../bento__link_8dox.html',1,'']]],
+  ['bento_5flink_2eh_7',['bento_link.h',['../bento__link_8h.html',1,'']]],
+  ['bento_5fsecure_5fundeclared_2eh_8',['bento_secure_undeclared.h',['../ble__nus_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)'],['../cm55__core_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)'],['../ipc__core_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)'],['../mpy__secure_2include_2bento__secure__undeclared_8h.html',1,'(Global Namespace)']]],
+  ['bento_5ftime_2eh_9',['bento_time.h',['../bento__time_8h.html',1,'']]],
+  ['ble_5fnus_2eh_10',['ble_nus.h',['../ble__nus_8h.html',1,'']]],
+  ['ble_5fnus_5findex_2edox_11',['ble_nus_index.dox',['../ble__nus__index_8dox.html',1,'']]],
+  ['ble_5fnus_5flazy_2eh_12',['ble_nus_lazy.h',['../ble__nus__lazy_8h.html',1,'']]],
+  ['buddy_5flifecycle_2edox_13',['buddy_lifecycle.dox',['../buddy__lifecycle_8dox.html',1,'']]]
 ];

@@ -187,6 +187,9 @@ static const home_card_def_t s_card_defs[] = {
 #if ENABLE_PAGE_TESAIOT_CONNECT && !(defined(ENABLE_PAGE_BENTO_BUDDY) && ENABLE_PAGE_BENTO_BUDDY == 1)
     { PAGE_ID_TESAIOT_CONNECT, "TESAIoT Connectivity", LV_SYMBOL_WIFI, 0x00897B },
 #endif
+#if ENABLE_PAGE_EXAMPLES
+    { PAGE_ID_EXAMPLES, "SDK Examples", LV_SYMBOL_LIST, UI_COLOR_ACCENT_CYAN },
+#endif
 #if ENABLE_PAGE_GAME_SNAKE
     { PAGE_ID_GAME_SNAKE,   "Snake",         LV_SYMBOL_RIGHT,   0x4CAF50 },
 #endif

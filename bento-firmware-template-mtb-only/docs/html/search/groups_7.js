@@ -11,5 +11,6 @@ var searchData=
   ['hsm_8',['Security / HSM',['../group__feat__security.html',1,'']]],
   ['hsm_20libbento_5fhsm_20a_9',['TESAIoT HSM (libbento_hsm.a)',['../group__tesaiot__hsm__api.html',1,'']]],
   ['hsm_20provisioning_20ui_10',['HSM provisioning UI',['../group__cm55__core__hsm__provision__ui.html',1,'']]],
-  ['hub_11',['hub',['../group__j3__sensor__auto.html',1,'J3 — The auto-push task and the sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]]
+  ['https_20rest_20the_20device_20api_20key_20and_20mtls_11',['C5 — TESAIoT cloud: HTTPS REST, the Device API Key, and mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['hub_12',['hub',['../group__j3__sensor__auto.html',1,'J3 — The auto-push task and the sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]]
 ];

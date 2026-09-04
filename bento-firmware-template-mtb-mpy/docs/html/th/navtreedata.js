@@ -69,7 +69,8 @@ var NAVTREE =
         [ "C1 — WiFi: ที่เก็บข้อมูลรับรอง 2 แห่งกับการเชื่อมต่ออัตโนมัติตอนบูต", "group__c1__wifi__two__stores.html", null ],
         [ "C2 — WiFi จาก UI ผ่าน IPC", "group__c2__wifi__ui__ipc.html", null ],
         [ "C3 — TESAIoT cloud: ไฟล์ config → MQTT task → broker", "group__c3__cloud__mqtt.html", null ],
-        [ "C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA", "group__c4__mtls__optiga.html", null ]
+        [ "C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA", "group__c4__mtls__optiga.html", null ],
+        [ "C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS", "group__c5__cloud__https.html", null ]
       ] ],
       [ "API แต่ละตัวอยู่ที่ใด", "group__feat__connectivity__apis.html", null ]
     ] ],

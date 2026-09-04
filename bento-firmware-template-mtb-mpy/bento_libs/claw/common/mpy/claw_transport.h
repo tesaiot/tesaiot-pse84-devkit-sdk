@@ -29,6 +29,16 @@ bool claw_https_connected(void);
  * Returns true on success. */
 bool claw_https_connect(const char *host, uint16_t port, const char *api_key);
 
+/* Plaintext HTTP, for keyless public endpoints that carry nothing worth
+ * hiding (the weather services). Never send an API key over this. Separate
+ * from claw_https_connect() on purpose: the port number there is attacker-
+ * reachable, so it must not be able to select plaintext. */
+bool claw_http_connect_insecure(const char *host, uint16_t port);
+
+/* GET on the open connection. Returns body length, or -1. Used for the
+ * keyless services the watch face reads (weather, IP geolocation). */
+int claw_https_get(const char *path, char *resp_buf, size_t resp_max);
+
 /* POST JSON to endpoint.
  * path: API path (e.g., "/ai/v1/chat")
  * json: request body (JSON string)

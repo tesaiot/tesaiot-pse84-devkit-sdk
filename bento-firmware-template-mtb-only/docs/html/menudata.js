@@ -56,7 +56,8 @@ var menudata={children:[
 {text:"C1 — The two credential stores",url:"group__c1__wifi__two__stores.html"},
 {text:"C2 — WiFi from the UI over IPC",url:"group__c2__wifi__ui__ipc.html"},
 {text:"C3 — TESAIoT cloud: config, MQTT, broker",url:"group__c3__cloud__mqtt.html"},
-{text:"C4 — mTLS: the OPTIGA-backed TLS identity",url:"group__c4__mtls__optiga.html"}]},
+{text:"C4 — mTLS: the OPTIGA-backed TLS identity",url:"group__c4__mtls__optiga.html"},
+{text:"C5 — TESAIoT cloud: HTTPS REST, the Device API Key, and mTLS",url:"group__c5__cloud__https.html"}]},
 {text:"Where the APIs live",url:"group__feat__connectivity__apis.html"}]},
 {text:"UI Pages & IPC",url:"group__feat__ui__ipc.html",children:[
 {text:"Tutorials",url:"group__feat__ui__ipc__tut.html",children:[

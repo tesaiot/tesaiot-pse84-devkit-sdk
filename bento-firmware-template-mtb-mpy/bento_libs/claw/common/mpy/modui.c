@@ -501,6 +501,31 @@ static mp_obj_t widget_hide(mp_obj_t self_in) {
 }
 static MP_DEFINE_CONST_FUN_OBJ_1(widget_hide_obj, widget_hide);
 
+/* .enable() / .disable() — the twin of show()/hide(), one layer down.
+ *
+ * hide() takes the widget off the screen; disable() leaves it in place and
+ * takes it out of service. LVGL greys it AND stops routing presses to it, so
+ * ui.poll() goes quiet for that widget — the picture and the behaviour agree,
+ * which is the entire reason this is not a style helper.
+ *
+ * Methods rather than a `.enabled = ` property because nothing in this class
+ * is a property: all 43 of its members are methods, and show()/hide() already
+ * set the shape for a two-state control.
+ */
+static void widget_send_prop(ui_widget_obj_t *self, uint8_t prop_id, int32_t value);
+
+static mp_obj_t widget_enable(mp_obj_t self_in) {
+    widget_send_prop(MP_OBJ_TO_PTR(self_in), UI_PROP_DISABLED, 0);
+    return mp_const_none;
+}
+static MP_DEFINE_CONST_FUN_OBJ_1(widget_enable_obj, widget_enable);
+
+static mp_obj_t widget_disable(mp_obj_t self_in) {
+    widget_send_prop(MP_OBJ_TO_PTR(self_in), UI_PROP_DISABLED, 1);
+    return mp_const_none;
+}
+static MP_DEFINE_CONST_FUN_OBJ_1(widget_disable_obj, widget_disable);
+
 /* .delete() */
 static mp_obj_t widget_delete(mp_obj_t self_in) {
     ui_widget_obj_t *self = MP_OBJ_TO_PTR(self_in);
@@ -1084,6 +1109,8 @@ static const mp_rom_map_elem_t widget_locals_dict_table[] = {
     { MP_ROM_QSTR(MP_QSTR_color),      MP_ROM_PTR(&widget_color_obj) },
     { MP_ROM_QSTR(MP_QSTR_show),       MP_ROM_PTR(&widget_show_obj) },
     { MP_ROM_QSTR(MP_QSTR_hide),       MP_ROM_PTR(&widget_hide_obj) },
+    { MP_ROM_QSTR(MP_QSTR_enable),     MP_ROM_PTR(&widget_enable_obj) },
+    { MP_ROM_QSTR(MP_QSTR_disable),    MP_ROM_PTR(&widget_disable_obj) },
     { MP_ROM_QSTR(MP_QSTR_delete),     MP_ROM_PTR(&widget_delete_obj) },
 #if ENABLE_GAME_SPRITES
     { MP_ROM_QSTR(MP_QSTR_frame),      MP_ROM_PTR(&widget_frame_obj) },

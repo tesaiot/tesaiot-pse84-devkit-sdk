@@ -20,6 +20,7 @@ TESAIOT_FW_NS = uuid.uuid5(uuid.NAMESPACE_DNS, "firmware-identity.tesaiot.io")
 # TARGET -> BOARD short token used in the SKU (contract §3)
 BOARD_MAP = {
     "KIT_PSE84_AI": "AI",
+    "KIT_PSE84_HMI": "HMI",
     "APP_KIT_PSE84_AI": "AI",
     "APP_KIT_PSE84_EVAL_EPC2": "EPC2",
     "KIT_PSE84_EVAL_EPC2": "EPC2",
@@ -30,6 +31,7 @@ BOARD_MAP = {
 # a fitting token is used and flagged for the contract owners.
 BOARD_FIELD_MAP = {
     "KIT_PSE84_AI": "KIT_PSE84_AI",
+    "KIT_PSE84_HMI": "KIT_PSE84_HMI",   # 13 chars, fits board[16]
     "APP_KIT_PSE84_AI": "KIT_PSE84_AI",
     "APP_KIT_PSE84_EVAL_EPC2": "KIT_EVAL_EPC2",
     "KIT_PSE84_EVAL_EPC2": "KIT_EVAL_EPC2",

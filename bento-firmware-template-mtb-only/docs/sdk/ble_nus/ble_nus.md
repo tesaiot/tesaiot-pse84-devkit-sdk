@@ -10,7 +10,7 @@ Nordic UART Service (NUS) transport for BENTO Bento Desktop Buddy. Runs on CM33_
 void ble_nus_deinit(void);
 ```
 
-Soft-stop: stop advertising + drop any active GATT link, but keep the AIROC host stack alive. Pair with `ble_nus_rearm_advertising` to toggle the link without re-running the heavy stack init/deinit cycle (which crashed CM33 when invoked from the IPC RX task — see ISSUE-029).
+Advertising interval, in milliseconds, once the initial fast window ends. This bounds how often a connectionless reader can see a new reading: the payload can be rewritten far faster than the radio transmits it, so the interval, not the update rate, is the ceiling. Override per project in the makefile, e.g. DEFINES+=BLE_NUS_ADV_INTERVAL_MS=1000 for a battery-powered node that only needs a reading a second. 100 ms suits a bench kit and a scope: mains powered, and several advertisements land inside any plausible scan window. A shipped meter on a cell would use a far longer interval and trade resolution for years of life - which is why this is a knob and not a constant. */ #ifndef BLE_NUS_ADV_INTERVAL_MS #define BLE_NUS_ADV_INTERVAL_MS 100 #endif /** Seconds of fast advertising after the stack starts, before it settles to BLE_NUS_ADV_INTERVAL_MS. */ #ifndef BLE_NUS_ADV_FAST_SECONDS #define BLE_NUS_ADV_FAST_SECONDS 30 #endif /** Largest payload that fits the advertisement beside the flags structure. 31 total, 3 for flags, 4 for the manufacturer-data header and company identifier, leaves 24. */ #define BLE_NUS_METER_PAYLOAD_MAX 24 /** Soft-stop: stop advertising + drop any active GATT link, but keep the AIROC host stack alive. Pair with `ble_nus_rearm_advertising` to toggle the link without re-running the heavy stack init/deinit cycle (which crashed CM33 when invoked from the IPC RX task — see ISSUE-029).
 
 ### `ble_nus_get_adv_name`
 
@@ -111,6 +111,9 @@ typedef struct {
 |---|---|
 | `BLE_NUS_H` | `#include` |
 | `BLE_NUS_MAX_PAYLOAD` | `244` |
+| `BLE_NUS_ADV_INTERVAL_MS` | `100` |
+| `BLE_NUS_ADV_FAST_SECONDS` | `30` |
+| `BLE_NUS_METER_PAYLOAD_MAX` | `24` |
 
 ## Functions (implemented in open source in this package)
 

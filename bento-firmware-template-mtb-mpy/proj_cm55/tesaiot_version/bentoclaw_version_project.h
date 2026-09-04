@@ -12,6 +12,6 @@
  *
  * Picked up by the shared bentoclaw_version.h through __has_include.
  */
-#define BENTOCLAW_VERSION "1.9.0"
+#define BENTOCLAW_VERSION "1.10.0"
 
 #endif /* BENTOCLAW_VERSION_PROJECT_H */

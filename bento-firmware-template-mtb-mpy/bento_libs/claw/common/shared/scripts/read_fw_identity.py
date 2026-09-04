@@ -15,7 +15,10 @@ import sys
 import uuid
 import zlib
 
-FW_IDENTITY_ADDR = 0x60580400
+# ORIGIN(m55_nvm_sel) + 0x380000, matching the linker script and
+# release_fw.sh. Was 0x60580400 until 2026-09-02 — 3.5 MB low, in vector-table
+# data — so the default reported "record absent" on valid images.
+FW_IDENTITY_ADDR = 0x60900000
 FW_IDENTITY_SIZE = 256
 FW_IDENTITY_MAGIC = 0x49415354  # "TSAI" LE
 
@@ -54,6 +57,31 @@ def extract(mem, addr, size):
             return None
         out.append(mem[a])
     return bytes(out)
+
+
+def find_record(mem):
+    """Locate the record by its own magic instead of trusting an address.
+
+    The record is self-identifying — 'TSAI' plus a CRC over its own bytes — so an
+    address is a convenience, not a requirement. It is also the thing most often
+    wrong: the constant in fw_identity.h pointed 3.5 MB below the linker's placement
+    until 2026-09-02, and every reader that trusted it reported "record absent" on
+    valid images. Projects also differ: a 6 MB m55_nvm can hold the record at
+    ORIGIN+0x380000, a 3.75 MB one cannot, so it sits at the region tail there.
+
+    Returns (addr, bytes) for the first plausible record, or (None, None).
+    """
+    magic = FW_IDENTITY_MAGIC.to_bytes(4, "little")
+    for a in sorted(mem):
+        if (mem.get(a), mem.get(a + 1), mem.get(a + 2), mem.get(a + 3)) != tuple(magic):
+            continue
+        rec = extract(mem, a, FW_IDENTITY_SIZE)
+        if rec is None:
+            continue
+        info, err = decode(rec)
+        if info is not None:
+            return a, rec
+    return None, None
 
 
 # ---- openocd read --------------------------------------------------------------
@@ -115,14 +143,25 @@ def main(argv):
     ap.add_argument("--addr", default=hex(FW_IDENTITY_ADDR))
     ap.add_argument("--cfg", action="append", default=[], help="openocd -f config (repeatable)")
     ap.add_argument("--openocd-bin", default="openocd")
+    ap.add_argument("--no-scan", action="store_true",
+                    help="fail at --addr instead of searching the image for the magic")
     a = ap.parse_args(argv[1:])
     addr = int(a.addr, 0)
 
     if a.hex:
         mem = parse_ihex(a.hex)
         rec = extract(mem, addr, FW_IDENTITY_SIZE)
+        if rec is not None and decode(rec)[0] is None:
+            rec = None                      # bytes present but not a record
+        if rec is None and not a.no_scan:
+            found, rec = find_record(mem)
+            if rec is not None and found != addr:
+                print(f"  note        : no record at {addr:#010x}; found one at {found:#010x}")
+                addr = found
         if rec is None:
-            print(f"NO RECORD at {addr:#010x} in {a.hex} (address not present in hex)")
+            where = (f"at {addr:#010x} (--no-scan)" if a.no_scan
+                     else "anywhere in the image — searched for the TSAI magic")
+            print(f"NO RECORD in {a.hex} {where}")
             return 3
     else:
         rec = read_openocd(addr, FW_IDENTITY_SIZE, a.cfg, a.openocd_bin)

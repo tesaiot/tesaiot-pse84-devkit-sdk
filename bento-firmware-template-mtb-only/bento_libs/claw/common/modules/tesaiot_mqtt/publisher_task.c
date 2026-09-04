@@ -53,6 +53,7 @@ static cy_mqtt_publish_info_t publish_info = {
 * Publisher Task
 ******************************************************************************/
 
+//! [j4_mqtt_publisher_drain]
 void publisher_task(void *pvParameters)
 {
     publisher_data_t publisher_q_data;
@@ -101,6 +102,7 @@ void publisher_task(void *pvParameters)
                                    (int)publish_info.topic_len,
                                    publish_info.topic,
                                    (unsigned)publish_info.payload_len);
+                                   //! [j4_mqtt_publisher_drain]
                             #endif
                             break;
                         }

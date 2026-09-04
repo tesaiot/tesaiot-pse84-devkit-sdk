@@ -73,21 +73,41 @@ static void send_ipc_cmd(uint32_t ipc_cmd)
 }
 
 /*******************************************************************************
- * Delete Confirmation: hard reset after showing overlay message.
+ * Delete Confirmation: the way out when the reboot does not come.
  *
- * IPC_CMD_DELETE_MAIN_PY was sent 3 seconds ago.  CM33_NS has had time to
- * consume s_delete_pending via tacp_poll_uart(), trigger a soft reset, and
- * delete main.py.  NVIC_SystemReset() now reboots all cores cleanly —
- * the board boots to Home with main.py removed.
+ * The reboot itself is NOT ours. CM33_NS owns it: it consumes the delete
+ * request, soft-resets MicroPython, removes /main.py during boot and only then
+ * calls NVIC_SystemReset() (mpy_main.c). That ordering is load-bearing — the
+ * request lives in ordinary SRAM that a hard reset wipes, so resetting any
+ * earlier throws the request away and the file survives.
  *
- * This replaces the previous pm_navigate(HOME) approach which could freeze
- * if pm_is_animating() never cleared or the page state was inconsistent.
+ * This core must not try to reset. It did, for three seconds of blocked GFX
+ * task and then a NVIC_SystemReset() that does nothing from CM55 on this part,
+ * and the result was an overlay that stayed on screen forever — while the file
+ * had already been deleted successfully. The screen was the only broken part.
+ *
+ * So this timer exists solely as the escape hatch: if the reboot has not
+ * arrived within the grace period, take the overlay down and give the user
+ * their board back. Keep it independent of the reboot working. A confirmation
+ * screen with no exit is worse than no confirmation screen.
  *******************************************************************************/
+#define DELETE_REBOOT_GRACE_MS 8000
+
 static void delete_home_timer_cb(lv_timer_t *timer)
 {
     (void)timer;
-    NVIC_SystemReset();
-    /* Unreachable */
+
+    if (s_delete_overlay != NULL) {
+        lv_obj_del(s_delete_overlay);
+        s_delete_overlay = NULL;
+    }
+
+    /* Deliberately does not claim the delete failed. From here it is unknown:
+     * CM33_NS almost certainly removed the file and only the reboot was lost.
+     * Reporting a failure we have not observed is how the previous version of
+     * this screen misled people. */
+    printf("[PLAYGROUND] delete: no reboot within %d ms — overlay dismissed\r\n",
+           DELETE_REBOOT_GRACE_MS);
 }
 
 static void uxui_ctrl_event_cb(lv_event_t *e)
@@ -141,13 +161,13 @@ static void uxui_ctrl_event_cb(lv_event_t *e)
         lv_obj_set_style_text_align(sub, LV_TEXT_ALIGN_CENTER, 0);
         lv_obj_align(sub, LV_ALIGN_CENTER, 0, 44);
 
-        /* Force LVGL to render the overlay to display, then block this
-         * task for 3 seconds so CM33_NS has time to soft-reset and delete
-         * main.py.  Finally, hard-reset all cores for a clean reboot. */
-        lv_refr_now(NULL);
-        vTaskDelay(pdMS_TO_TICKS(3000));
-        NVIC_SystemReset();
-        return;  /* unreachable */
+        /* Hand the screen straight back to LVGL. No vTaskDelay here: blocking
+         * the GFX task froze touch and repaint for three seconds on a board
+         * that was working perfectly. */
+        lv_timer_t *bail = lv_timer_create(delete_home_timer_cb,
+                                           DELETE_REBOOT_GRACE_MS, NULL);
+        lv_timer_set_repeat_count(bail, 1);
+        return;
     }
 
     //! [ipc_ui_widget_mgr_clear_all_restart]

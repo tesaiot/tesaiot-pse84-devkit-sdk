@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """gen_fw_uuid.py — deterministic UUIDv5 bytes for a firmware SKU (contract §4).
 
+STANDALONE: a person checks a SKU's uuid with it; the build computes its own inline
+
     uuid = uuid5(TESAIOT_FW_NS, sku)
     TESAIOT_FW_NS = uuid5(NAMESPACE_DNS, "firmware-identity.tesaiot.io")
                   = abc4e100-8876-5985-bef8-73d532d38527   (frozen for contract v1.0)

@@ -22,10 +22,13 @@
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 <link href="bento-lang.css" rel="stylesheet" type="text/css"/>
 <link href="bento-variant.css" rel="stylesheet" type="text/css"/>
+<link href="bento-siteheader.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">window.BENTO_DOC={lang:"en",variant:"mtb-only",relpath:""};</script>
 <script type="text/javascript" src="bento-lang-pages.js"></script>
 <script type="text/javascript" src="bento-lang.js"></script>
 <script type="text/javascript" src="bento-variant.js"></script>
+<script type="text/javascript" src="bento-siteheader.js"></script>
+<script type="text/javascript" src="bento-scrollmemory.js"></script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -164,8 +167,15 @@ The OID map</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">0xE0E9</span>  </td><td class="markdownTableBodyNone">TESA CA (trust anchor for the device pair)  </td><td class="markdownTableBodyNone">D2  </td></tr>
 </table>
-<p><span class="tt">mqtt_mtls_setup_optiga()</span> picks <span class="tt">cert_oid = 0xE0E0</span>, <span class="tt">key_oid = 0xE0F0</span>. If you enrol a TESAIoT pair (D2) and want TLS to use it, this is the line you change — nothing else selects the identity.</p>
-<p>What the factory certificate proves, and what it does not.** The certificate in <span class="tt">0xE0E0</span> has subject <span class="tt">CN=InfineonIoTNode</span>, and that subject is the same on every OPTIGA Trust M part (decoded from a real board's <span class="tt">board-factory-cert-cd16334d.pem</span> with <span class="tt">openssl x509</span>, 2026-08-29: issuer <span class="tt">Infineon OPTIGA(TM) Trust M CA 300</span>, valid 2025-10-21 to 2045-10-21, no SAN and no device-identifying field). The only per-part fields are the serial number and the public key.</p>
+<p><span class="tt">mqtt_mtls_setup_optiga()</span> now chooses for itself. It calls <span class="tt">optiga_verify_cert_key_pair(0xE0E1, 0xE0F1)</span> first: if the TESAIoT certificate and key are the same identity, that pair is used; otherwise it falls back to the factory pair <span class="tt">0xE0E0</span> / <span class="tt">0xE0F0</span>.</p>
+<p>That check answers the question the old fallback could not — <em>are these two the same identity</em> — and is safe on an unenrolled board, because it asks the chip a bounded question rather than reading a slot that may never return, which is what made the previous attempt hang.</p>
+<p>Order matters.** The check must come after <span class="tt"><a class="el" href="optiga__trust__helpers_8h.html#a61963212d74ea7647d49e16b1b489e26">optiga_trust_init()</a></span>. Called with the OPTIGA application closed, the read spins in a bare <span class="tt">while (status == BUSY)</span> with no timeout and CM33_NS never comes back — measured 2026-08-31 by placing it too early.</p>
+<p>From a Dev Kit that day:</p>
+<div class="fragment"><div class="line">[mTLS] device pair verified — <span class="keyword">using </span>TESAIoT identity</div>
+<div class="line">[PSA-SE] Setting signing key OID to 0xE0F1</div>
+<div class="line">[mTLS] Certificate read: 730 bytes PEM</div>
+<div class="line">[HTTPS] Response: 200</div>
+</div><!-- fragment --><p>What the factory certificate proves, and what it does not.** The certificate in <span class="tt">0xE0E0</span> has subject <span class="tt">CN=InfineonIoTNode</span>, and that subject is the same on every OPTIGA Trust M part (decoded from a real board's <span class="tt">board-factory-cert-cd16334d.pem</span> with <span class="tt">openssl x509</span>, 2026-08-29: issuer <span class="tt">Infineon OPTIGA(TM) Trust M CA 300</span>, valid 2025-10-21 to 2045-10-21, no SAN and no device-identifying field). The only per-part fields are the serial number and the public key.</p>
 <p>So the handshake proves <em>the peer holds a genuine Infineon Trust M</em> — not which device it is. Meanwhile the MQTT client id in mTLS mode comes from <span class="tt">cfg.factory_uid</span> and the subscribed command topic from <span class="tt">cfg.device_id</span> (<span class="tt">mqtt_client_config.c:143-144</span>, <span class="tt">subscriber_task.c:92-93</span>), and both are free-form strings settable from MicroPython with <span class="tt">tesaiot.config_set(...)</span> and persisted (<span class="tt">tesaiot_config_store.c:174-176</span>).</p>
 <p>State the consequence exactly: <b>at the firmware level nothing binds the identity a device asserts to the certificate it presents.</b> The decisive control is broker-side — an ACL that grants <span class="tt">device/{id}/#</span> only to the client whose certificate is pinned to that <span class="tt">id</span>, pinned by public-key fingerprint or certificate serial, never by subject, which is identical across parts. Verify that ACL before putting the chapter D2 enrolment recipe into production use.</p>
 <h2 class="doxsection"><a class="anchor" id="c4_seq_setup"></a>

@@ -52,7 +52,8 @@ var searchData=
   ['mtb_20only_49',['22. ไฟส่องหลังจอ (backlight) ตอนบูตเย็น (mtb-only)',['../group__tut__x__traps__antipatterns.html#x22',1,'']]],
   ['mtb_20only_20ที่กำลังทำงานค้างอยู่ในลูปของ_20boot_20rom_50',['16. การต่อดีบักเกอร์ทำให้ CM33 ของ mtb-only ที่กำลังทำงานค้างอยู่ในลูปของ boot ROM',['../group__tut__x__traps__antipatterns.html#x16',1,'']]],
   ['mtb_20only_3a_20การเรียกที่ไม่ได้เกี่ยวกับเซนเซอร์_51',['ขั้นที่ 5 — mtb-only: การเรียกที่ไม่ได้เกี่ยวกับเซนเซอร์',['../group__j3__sensor__auto.html#j3_step5',1,'']]],
-  ['mtls_52',['ขั้นที่ 1 — สลับ config ไปเป็น mTLS',['../group__c4__mtls__optiga.html#c4_step1',1,'']]],
-  ['mtls_3a_20ตัวตนของ_20tls_20ที่ยึดกับ_20optiga_53',['C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA',['../group__c4__mtls__optiga.html',1,'']]],
-  ['mtu_54',['mtu',['../structbento__link__s.html#aa3c50b68546f64941610719d6a59ef10',1,'bento_link_s']]]
+  ['mtls_52',['mTLS',['../group__c4__mtls__optiga.html#c4_step1',1,'ขั้นที่ 1 — สลับ config ไปเป็น mTLS'],['../group__c5__cloud__https.html',1,'C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS']]],
+  ['mtls_20บนเส้นทาง_20https_53',['mTLS บนเส้นทาง HTTPS',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['mtls_3a_20ตัวตนของ_20tls_20ที่ยึดกับ_20optiga_54',['C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA',['../group__c4__mtls__optiga.html',1,'']]],
+  ['mtu_55',['mtu',['../structbento__link__s.html#aa3c50b68546f64941610719d6a59ef10',1,'bento_link_s']]]
 ];

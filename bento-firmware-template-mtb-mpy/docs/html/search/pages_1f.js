@@ -20,6 +20,7 @@ var searchData=
   ['update_20bundle_20ingest_17',['9b. Return path B — Protected Update bundle ingest',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
   ['update_20bundles_20replay_18',['12. Retained Protected Update bundles replay',['../group__tut__x__traps__antipatterns.html#x12',1,'']]],
   ['usb_20power_19',['Two buttons, one of which is also USB power',['../group__j5__qwa309.html#j5_buttons',1,'']]],
-  ['use_20after_20free_20',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
-  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_21',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]]
+  ['use_20',['Which one to use',['../group__c5__cloud__https.html#c5_when',1,'']]],
+  ['use_20after_20free_21',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
+  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_22',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]]
 ];

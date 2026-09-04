@@ -344,6 +344,7 @@ Define your own and the linker prefers yours:
 | Symbol |
 |---|
 | `cm55_controls_snapshot` |
+| `cm55_env_snapshot` |
 | `game_sprite_create` |
 | `game_sprite_lookup` |
 | `game_sprite_set` |

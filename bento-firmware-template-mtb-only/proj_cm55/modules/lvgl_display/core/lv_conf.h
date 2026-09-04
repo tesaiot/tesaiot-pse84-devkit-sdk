@@ -137,7 +137,13 @@
  *====================*/
 
 /*Default display refresh, input device read and animation step period.*/
-#define LV_DEF_REFR_PERIOD 33 /*[ms] 30fps — reduces VG-Lite GPU load by ~45% vs 18ms/55fps */
+#define LV_DEF_REFR_PERIOD  50  /* Band mitigation (2026-08-20): the bottom-band
+                                  * backlight flicker is driven by the frame-locked
+                                  * render-current pulse; bench threshold sits between
+                                  * 40 ms (band visible) and 50 ms (band gone). Was 33.
+                                  * Real fix on the roadmap: partial rendering (the C
+                                  * course mode, band-free at full rate) — see
+                                  * TESAIoT_PLAN/2026-8/Bento_Engine/PROGRESS.md. */ /*[ms] 30fps — reduces VG-Lite GPU load by ~45% vs 18ms/55fps */
 
 /*Default Dot Per Inch. Used to initialize default sizes such as widgets sized,
  * style paddings. (Not so important, you can adjust it to modify default sizes

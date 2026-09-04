@@ -16,5 +16,6 @@ var searchData=
   ['topbar_20เลิกซ่อนเมื่อเชื่อมต่อสำเร็จ_13',['ขั้นที่ 1 — ดูไอคอน WiFi บน topbar เลิกซ่อนเมื่อเชื่อมต่อสำเร็จ',['../group__b3__ipc__backbone.html#b3_step1',1,'']]],
   ['topic_20และตัวแยกเส้นทางตาม_20suffix_14',['ส่วนของ topic และตัวแยกเส้นทางตาม suffix',['../group__c3__cloud__mqtt.html#c3_seq_topics',1,'']]],
   ['touch_20hold_20→_20ทำงาน_20→_20release_20→_20unlock_15',['lock → touch-hold → ทำงาน → release → unlock',['../group__d1__chip__access__discipline.html#d1_seq_lock',1,'']]],
-  ['trust_20gate_20ทำงาน_16',['ขั้นที่ 2 — ทำให้ trust gate ทำงาน',['../group__tut__h2__claw__safety__gates.html#h2_step2',1,'']]]
+  ['trust_20anchor_20และเหตุที่มันพังมาแล้ว_16',['trust anchor และเหตุที่มันพังมาแล้ว',['../group__c5__cloud__https.html#c5_trust',1,'']]],
+  ['trust_20gate_20ทำงาน_17',['ขั้นที่ 2 — ทำให้ trust gate ทำงาน',['../group__tut__h2__claw__safety__gates.html#h2_step2',1,'']]]
 ];

@@ -82,6 +82,14 @@ bento-variant-switch {
     display: inline-flex;
     align-items: center;
     flex: 0 0 auto;
+    /* width:auto UNSETS the `width: 100%` set further up for the sidebar
+       position, where the switch lines up with the search box. Without this
+       the switch keeps filling its parent wherever it is moved to: in the site
+       header it took the whole controls slot, was then pushed right by the
+       language pill beside it, and hung 60px past the right edge of the page
+       at every viewport width. Measured by forcing the slot to 320px and
+       watching the switch grow to 320px with it. */
+    width: auto;
 }
 
 .bento-variant-pill {
@@ -114,8 +122,14 @@ a.bento-variant-seg {
     line-height: 1;
     white-space: nowrap;
     text-decoration: none;
+    /* Both halves are set explicitly rather than through the theme tokens.
+       --page-foreground-color at .55 opacity read as a disabled control, and
+       the selected half took --on-primary-color, which on the dark theme is
+       close enough to --primary-color that the label vanished into its own
+       background - the switch looked like a blue blob with the label of the
+       OTHER half beside it. */
     color: var(--page-foreground-color);
-    opacity: .55;
+    opacity: .72;
     transition: background-color var(--animation-duration) ease-in-out,
                 color var(--animation-duration) ease-in-out,
                 opacity var(--animation-duration) ease-in-out;
@@ -130,9 +144,16 @@ a.bento-variant-seg:focus-visible {
 
 a.bento-variant-seg.bento-variant-seg-current {
     background-color: var(--primary-color);
-    color: var(--on-primary-color);
+    color: #fff;                 /* never --on-primary-color; see above */
     opacity: 1;
 }
+
+/* No theme guard here. This site follows the system through
+   prefers-color-scheme and sets no .dark-mode class, so an
+   `html:not(.dark-mode)` rule matches on the DARK theme as well and paints the
+   label near-black on near-black. --page-foreground-color is already correct
+   in both themes; the colours are stated in bento-siteheader.css, where the
+   !important that beats doxygen's a:link rule also lives. */
 
 /* The page has no counterpart in the other package yet: the jump lands on
    that package's front page. Dotted underline adds no height. */

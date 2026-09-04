@@ -41,14 +41,23 @@ and every `ifeq ($(FOO),1)` downstream is silently false.
 
 **`consumer_must_provide.txt`** — symbols the archive references and does
 **not** define at all. Your link fails without them. This build has
-61:
+74:
 
     Cy_IPC_Pipe_RegisterCallback
     Cy_IPC_Pipe_SendMessage
+    atoi
     atoll
-    ble_nus_is_connected
+    bento_time_handle_now
+    bento_time_handle_sync
+    dualband_net_get_ipv4
+    dualband_wifi_connect
+    dualband_wifi_scan_to_json
     exec_python_capture
     exec_python_str_public
+    g_boot_wifi_creds
+    g_boot_wifi_creds_count
+    g_boot_wifi_creds_dirty
+    mallinfo
     mbedtls_md_hmac
     mbedtls_md_info_from_type
     mbedtls_sha256
@@ -64,7 +73,9 @@ and every `ifeq ($(FOO),1)` downstream is silently false.
     printf
     puts
     pvPortMalloc
+    sensor_auto_ntp_and_push_time
     sensor_auto_push_ble_state
+    sensor_auto_push_wifi_state
     snprintf
     strchr
     strcmp
@@ -95,6 +106,8 @@ and every `ifeq ($(FOO),1)` downstream is silently false.
     wiced_bt_gattdb_local_read_data_by_type
     wiced_bt_stack_init
     wiced_bt_start_advertisements
+    wifi_creds_lock
+    wifi_creds_unlock
     xQueueCreateMutex
     xQueueCreateMutexStatic
     xQueueGenericCreateStatic
@@ -130,7 +143,7 @@ Some exported symbols are declared in no header at all — each caller in the BE
 
 ## What this does not hide
 
-`objdump -d` disassembles it, and 56 format strings survive in
+`objdump -d` disassembles it, and 62 format strings survive in
 `.rodata` as plain text. Obfuscation raises the cost of extraction; it does
 not prevent it, and nothing in the firmware gates use behind it: the
 OPTIGA-UID licence check is compiled into no core image — `tesaiot_license.c`

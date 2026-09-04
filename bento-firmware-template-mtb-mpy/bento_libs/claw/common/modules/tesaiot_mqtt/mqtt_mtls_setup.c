@@ -125,6 +125,8 @@ full_setup:;
         return false;
     }
 
+     //! [hsm_optiga_oid_map]
+     /* ...context: inside mqtt_mtls_setup() ... */
     /* Bootstrap on the Infineon factory pair, as the reference firmware does.
      *
      * This used to try the device pair (0xE0E1/0xE0F1) first and fall back to
@@ -149,6 +151,7 @@ full_setup:;
      * 0xE0E9 holds the TESA CA. */
     uint16_t cert_oid = 0xE0E0;  /* IFX-provisioned factory certificate */
     uint16_t key_oid  = 0xE0F0;  /* IFX-provisioned factory key         */
+    //! [hsm_optiga_oid_map]
 
     printf("[mTLS] Setting up OPTIGA Trust M (cert=0x%04X, key=0x%04X)\n",
            cert_oid, key_oid);
@@ -199,11 +202,14 @@ full_setup:;
      *
      * modoptiga.c does this for optiga.csr(); nothing on the mTLS path did.
      * The call only creates a mutex and a util instance and is idempotent. */
+    //! [hsm_optiga_manager_init_before_tls]
+    /* ...context: inside mqtt_mtls_setup() ... */
     if (!optiga_manager_init(optiga_util_callback, NULL)) {
         printf("[mTLS] optiga_manager_init failed — signing would be impossible\n");
         optiga_manager_touch_release();
         return false;
     }
+    //! [hsm_optiga_manager_init_before_tls]
 
     /* (1c) Choose WHICH identity to present, now that the chip can answer.
      *

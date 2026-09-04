@@ -38,5 +38,6 @@ var searchData=
   ['mtb_20only_20cm33_20in_20a_20boot_20rom_20loop_35',['16. Debugger attach parks a running mtb-only CM33 in a boot-ROM loop',['../group__tut__x__traps__antipatterns.html#x16',1,'']]],
   ['mtb_20only_3a_20the_20call_20that_20is_20not_20about_20sensors_36',['Step 5 — mtb-only: the call that is not about sensors',['../group__j3__sensor__auto.html#j3_step5',1,'']]],
   ['mtls_37',['Step 1 — Switch the config to mTLS',['../group__c4__mtls__optiga.html#c4_step1',1,'']]],
-  ['multi_20register_20read_38',['Step 3 — Hold one lock across a multi-register read',['../group__j1__sensor__bus.html#j1_step3',1,'']]]
+  ['mtls_20on_20the_20https_20path_38',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['multi_20register_20read_39',['Step 3 — Hold one lock across a multi-register read',['../group__j1__sensor__bus.html#j1_step3',1,'']]]
 ];

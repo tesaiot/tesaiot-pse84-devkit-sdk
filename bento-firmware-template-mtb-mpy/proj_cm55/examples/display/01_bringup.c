@@ -2,7 +2,7 @@
  * id:      cm55/display/01_bringup
  * title:   Bring the CM55 IPC peers up in the right order
  * teaches: the exact init sequence a GFX task owes the IPC library, and how to read back what is already running
- * apis:    ipc_sensorhub_init, ipc_service_init, ipc_lcd_init, ipc_ui_init, ui_widget_mgr_init, ui_widget_mgr_get_parent, ui_widget_mgr_needs_container
+ * apis:    ipc_sensorhub_init, ipc_service_init, ipc_lcd_init, ipc_ui_init, ui_widget_mgr_init, ui_widget_mgr_get_parent, ui_widget_mgr_needs_container, cm55_ipc_pipe_isr, cm55_ipc_pipe_ep_busy, cm55_ipc_pipe_drain_release
  * entry:   example_ipc_core_bringup
  */
 /*******************************************************************************
@@ -81,6 +81,29 @@ unsigned tesaiot_ipc_core_bringup(lv_obj_t *ui_parent, lv_obj_t *console_parent)
     /* 1. The pipe. Everything below registers a callback on it, so nothing
      *    below is legal until this returns. */
     cm55_ipc_communication_setup();
+
+    /* 1b. Two plumbing symbols worth knowing while the pipe is still bare:
+     *
+     *     cm55_ipc_pipe_isr() is the pipe's interrupt service routine. The
+     *     BSP wires it into the vector table during setup; you never call it,
+     *     but if you relocate vectors at run time, this is the address that
+     *     has to survive the move — taking it here is the honest use.
+     *
+     *     cm55_ipc_pipe_ep_busy() reads the endpoint's busy flag. Nonzero is
+     *     normal while a message drains; nonzero STUCK across successive
+     *     reads means the pipe is wedged and no receiver below will ever
+     *     fire. Read it when a dashboard goes quiet before blaming a sensor. */
+    void (*const pipe_vector)(void) = cm55_ipc_pipe_isr;
+    (void)pipe_vector;
+    uint32_t pipe_busy = cm55_ipc_pipe_ep_busy();
+    if (pipe_busy != 0u && cm55_ipc_pipe_ep_busy() != 0u) {
+        /* Busy across two reads this early is a wedge, not a drain in
+         * progress. cm55_ipc_pipe_drain_release() is the designed remedy —
+         * it force-processes any pending release callback and clears the
+         * endpoint's busy flag; the firmware's own WiFi manager uses it the
+         * same way before posting into the pipe. Harmless when not wedged. */
+        cm55_ipc_pipe_drain_release();
+    }
 
     /* 2. Sensor receiver. No LVGL, no display — safe even on a board whose
      *    panel failed to initialise, which is why it goes first. */

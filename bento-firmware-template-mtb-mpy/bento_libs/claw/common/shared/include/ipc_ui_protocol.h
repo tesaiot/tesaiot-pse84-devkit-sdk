@@ -511,6 +511,20 @@ typedef struct __attribute__((packed)) {
                                           * C course ran 200-point scopes and
                                           * the old fixed 50 was the limit. */
 
+#define UI_PROP_DISABLED           (29)  /* value != 0 puts the widget into
+                                          * LV_STATE_DISABLED; 0 clears it.
+                                          *
+                                          * This is NOT only a tint. LVGL 9.5
+                                          * tests the same state before routing
+                                          * a press, so a disabled widget also
+                                          * emits NO events — lv_indev.c lines
+                                          * 828, 983, 1339, 1391 and 1510 all
+                                          * gate on
+                                          *   !lv_obj_has_state(obj, LV_STATE_DISABLED)
+                                          * Nothing reaches ui.poll() from it,
+                                          * which is the whole point: a control
+                                          * that looks dead must BE dead. */
+
 /* ITEM_ADD `a` on a UI_WIDGET_MENU_PAGE (or on a section handed back by one) */
 #define UI_MENU_ITEM_ROW       (0)   /* lv_menu_cont + a label from `text`     */
 #define UI_MENU_ITEM_SECTION   (1)   /* lv_menu_section — a grouped block      */

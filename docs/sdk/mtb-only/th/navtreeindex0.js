@@ -10,6 +10,7 @@ var NAVTREEINDEX0 =
 "group__c2__wifi__ui__ipc.html":[6,0,1],
 "group__c3__cloud__mqtt.html":[6,0,2],
 "group__c4__mtls__optiga.html":[6,0,3],
+"group__c5__cloud__https.html":[6,0,4],
 "group__cm55__core__api.html":[7,2],
 "group__d1__chip__access__discipline.html":[5,0,0],
 "group__d2__enrolment__protected__update.html":[5,0,1],

@@ -52,12 +52,13 @@ var searchData=
   ['reserved_49',['reserved',['../structai__stage__sig__t.html#ad000d18fc2029405de7ad9b493dbbb90',1,'ai_stage_sig_t']]],
   ['reserved0_50',['reserved0',['../structai__stage__header__t.html#ab13deac7aa67174baedcbf49c746b43a',1,'ai_stage_header_t']]],
   ['reserved1_51',['reserved1',['../structai__stage__header__t.html#a1a7aa08c6838fb1a95ba5be80d3ebec2',1,'ai_stage_header_t']]],
-  ['retained_20จะเล่นซ้ำ_52',['12. bundle ของ Protected Update ที่ค้างแบบ retained จะเล่นซ้ำ',['../group__tut__x__traps__antipatterns.html#x12',1,'']]],
-  ['rgb_20matrix_53',['ขั้นที่ 4 — แสดงบางอย่างบน RGB matrix',['../group__j5__qwa309.html#j5_step4',1,'']]],
-  ['rgb_20matrix_20และ_20header_54',['J5 — บอร์ดฐาน QWA309: pot ปุ่ม RGB matrix และ header',['../group__j5__qwa309.html',1,'']]],
-  ['ring_20buffer_20ตัวอย่างที่เขียนขึ้นเอง_55',['ขั้นที่ 3 — อ่าน ring buffer (ตัวอย่างที่เขียนขึ้นเอง)',['../group__tut__h1__tacp.html#h1_step3',1,'']]],
-  ['rom_56',['16. การต่อดีบักเกอร์ทำให้ CM33 ของ mtb-only ที่กำลังทำงานค้างอยู่ในลูปของ boot ROM',['../group__tut__x__traps__antipatterns.html#x16',1,'']]],
-  ['rssi_5frange_57',['rssi_range',['../unioncy__wcm__scan__filter__t_1_1_0funion_0e_8param.html#ac339bd413993ffb797ffe4fcf25c67ee',1,'cy_wcm_scan_filter_t::[union].param']]],
-  ['rtos_5fcm55_5fgfx_5ftask_5fhandle_58',['rtos_cm55_gfx_task_handle',['../group__cm55__core__diag.html#gaa61de529ca9b2815e0d8b55b9fdd9519',1,'tesaiot_display.h']]],
-  ['running_59',['running',['../structai__result__t.html#a309bcbdd7e8c017bb2df895f8b21c892',1,'ai_result_t']]]
+  ['rest_20device_20api_20key_20และ_20mtls_52',['C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['retained_20จะเล่นซ้ำ_53',['12. bundle ของ Protected Update ที่ค้างแบบ retained จะเล่นซ้ำ',['../group__tut__x__traps__antipatterns.html#x12',1,'']]],
+  ['rgb_20matrix_54',['ขั้นที่ 4 — แสดงบางอย่างบน RGB matrix',['../group__j5__qwa309.html#j5_step4',1,'']]],
+  ['rgb_20matrix_20และ_20header_55',['J5 — บอร์ดฐาน QWA309: pot ปุ่ม RGB matrix และ header',['../group__j5__qwa309.html',1,'']]],
+  ['ring_20buffer_20ตัวอย่างที่เขียนขึ้นเอง_56',['ขั้นที่ 3 — อ่าน ring buffer (ตัวอย่างที่เขียนขึ้นเอง)',['../group__tut__h1__tacp.html#h1_step3',1,'']]],
+  ['rom_57',['16. การต่อดีบักเกอร์ทำให้ CM33 ของ mtb-only ที่กำลังทำงานค้างอยู่ในลูปของ boot ROM',['../group__tut__x__traps__antipatterns.html#x16',1,'']]],
+  ['rssi_5frange_58',['rssi_range',['../unioncy__wcm__scan__filter__t_1_1_0funion_0e_8param.html#ac339bd413993ffb797ffe4fcf25c67ee',1,'cy_wcm_scan_filter_t::[union].param']]],
+  ['rtos_5fcm55_5fgfx_5ftask_5fhandle_59',['rtos_cm55_gfx_task_handle',['../group__cm55__core__diag.html#gaa61de529ca9b2815e0d8b55b9fdd9519',1,'tesaiot_display.h']]],
+  ['running_60',['running',['../structai__result__t.html#a309bcbdd7e8c017bb2df895f8b21c892',1,'ai_result_t']]]
 ];

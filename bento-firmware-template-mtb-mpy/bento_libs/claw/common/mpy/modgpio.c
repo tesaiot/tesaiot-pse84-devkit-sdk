@@ -51,10 +51,24 @@ static const gpio_pin_def_t led_table[] = {
 #define NUM_LEDS  ((int)(sizeof(led_table) / sizeof(led_table[0])))
 
 static const gpio_pin_def_t btn_table[] = {
-    /* Physical silkscreen says SW2 on both the AI Kit and the Eva Kit; the
-     * BSP alias chain is CYBSP_USER_BTN1 = CYBSP_SW1, which is the DEFINE's
-     * name, not the button's. Reported as "SW1" until 2026-08-20. */
-    { CYBSP_USER_BTN1_PORT, CYBSP_USER_BTN1_NUM, "SW2" },
+    /* "USER Button 1", not a silkscreen name, and this is the one entry in this
+     * file where that is deliberate.
+     *
+     * The SoM prints SW2 on this button (the BSP alias chain is
+     * CYBSP_USER_BTN1 = CYBSP_SW1, which is the DEFINE's name, not the
+     * button's). But the QWA309 base board also carries switches SW2 through
+     * SW14 -- thirteen of them, one part number, and they are POWER switches.
+     * On an assembled Dev Kit "SW2" therefore names two different controls and
+     * one of them cuts power to a header, so a student told to press SW2 can
+     * reach for the wrong one.
+     *
+     * name() exists so a reader can find the control with a finger. A name
+     * that points at two things fails the only job it has.
+     *
+     * Reported as "SW1" until 2026-08-20, then "SW2" in this tree only;
+     * unified here on Wiroon's instruction. */
+    { CYBSP_USER_BTN1_PORT, CYBSP_USER_BTN1_NUM, "USER Button 1" },
+
 };
 #define NUM_BTNS  1
 

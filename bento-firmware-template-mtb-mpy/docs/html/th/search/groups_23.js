@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['ถึงโปรแกรมแรก_0',['A1 — จากไฟล์ zip ถึงโปรแกรมแรก',['../group__a1__first__build.html',1,'']]]
+  ['ตัวตนของ_20tls_20ที่ยึดกับ_20optiga_0',['C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA',['../group__c4__mtls__optiga.html',1,'']]],
+  ['ตัวนับสำหรับวินิจฉัย_1',['ตัวนับสำหรับวินิจฉัย',['../group__edge__ai__diagnostics.html',1,'']]],
+  ['ตัว_2',['J2 — การอ่านเซนเซอร์ทั้ง 6 ตัว',['../group__j2__sensors__api.html',1,'']]],
+  ['ตั้งแต่ต้นจนจบ_3',['D2 — การลงทะเบียนและ Protected Update ตั้งแต่ต้นจนจบ',['../group__d2__enrolment__protected__update.html',1,'']]]
 ];

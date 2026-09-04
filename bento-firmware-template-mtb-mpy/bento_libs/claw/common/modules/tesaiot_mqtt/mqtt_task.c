@@ -100,6 +100,7 @@ static cy_rslt_t mqtt_init(void);
 /* Lazy task creation — called from tesaiot.connect() context.
  * Boot-time creation was removed because the 5KB stack competed with
  * cy_wcm_init() for FreeRTOS heap, preventing WiFi SDIO init. */
+//! [j4_mqtt_lazy_task_start]
 bool mqtt_request_start(void)
 {
     /* Create MQTT task on first request (lazy — saves 5KB heap during boot) */
@@ -139,6 +140,7 @@ bool mqtt_request_start(void)
     (void)xEventGroupSetBits(mqtt_control_events, MQTT_CTRL_START_BIT);
     return true;
 }
+//! [j4_mqtt_lazy_task_start]
 
 bool mqtt_is_started(void)
 {
@@ -325,6 +327,8 @@ static cy_rslt_t mqtt_connect(void)
     tesaiot_config_t cfg;
     tesaiot_config_get(&cfg);
 
+    //! [j4_mqtt_connect_observables]
+    /* ...context: inside the MQTT connect helper ... */
     printf("[MQTT] Connecting to '%s:%u' as '%s'...\n",
            broker_info.hostname, broker_info.port,
            connection_info.client_id);
@@ -354,6 +358,7 @@ static cy_rslt_t mqtt_connect(void)
         printf("[MQTT] cy_mqtt_connect returned: 0x%08X\n", (unsigned int)result);
         if (result == CY_RSLT_SUCCESS) {
             printf("[MQTT] Connected to broker\n");
+            //! [j4_mqtt_connect_observables]
             status_flag |= MQTT_CONNECTION_SUCCESS;
             /* Bridge status directly — don't rely on cfg-task polling
              * (cfg task priority 1 < MQTT priority 2 → may not get CPU) */

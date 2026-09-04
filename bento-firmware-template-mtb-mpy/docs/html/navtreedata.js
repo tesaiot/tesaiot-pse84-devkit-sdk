@@ -69,7 +69,8 @@ var NAVTREE =
         [ "C1 — The two credential stores", "group__c1__wifi__two__stores.html", null ],
         [ "C2 — WiFi from the UI over IPC", "group__c2__wifi__ui__ipc.html", null ],
         [ "C3 — TESAIoT cloud: config, MQTT, broker", "group__c3__cloud__mqtt.html", null ],
-        [ "C4 — mTLS: the OPTIGA-backed TLS identity", "group__c4__mtls__optiga.html", null ]
+        [ "C4 — mTLS: the OPTIGA-backed TLS identity", "group__c4__mtls__optiga.html", null ],
+        [ "C5 — TESAIoT cloud: HTTPS REST, the Device API Key, and mTLS", "group__c5__cloud__https.html", null ]
       ] ],
       [ "Where the APIs live", "group__feat__connectivity__apis.html", null ]
     ] ],

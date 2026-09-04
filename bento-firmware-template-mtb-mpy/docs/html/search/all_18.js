@@ -80,10 +80,11 @@ var searchData=
   ['mtb_20only_77',['22. Cold-boot backlight (mtb-only)',['../group__tut__x__traps__antipatterns.html#x22',1,'']]],
   ['mtb_20only_20cm33_20in_20a_20boot_20rom_20loop_78',['16. Debugger attach parks a running mtb-only CM33 in a boot-ROM loop',['../group__tut__x__traps__antipatterns.html#x16',1,'']]],
   ['mtb_20only_3a_20the_20call_20that_20is_20not_20about_20sensors_79',['Step 5 — mtb-only: the call that is not about sensors',['../group__j3__sensor__auto.html#j3_step5',1,'']]],
-  ['mtls_80',['Step 1 — Switch the config to mTLS',['../group__c4__mtls__optiga.html#c4_step1',1,'']]],
-  ['mtls_3a_20the_20optiga_20backed_20tls_20identity_81',['C4 — mTLS: the OPTIGA-backed TLS identity',['../group__c4__mtls__optiga.html',1,'']]],
-  ['mtu_82',['mtu',['../structbento__link__s.html#aa3c50b68546f64941610719d6a59ef10',1,'bento_link_s']]],
-  ['multi_20register_20read_83',['Step 3 — Hold one lock across a multi-register read',['../group__j1__sensor__bus.html#j1_step3',1,'']]],
-  ['must_20be_20the_20actual_20snprintf_20length_84',['17. payload_len for tacp_claw_respond must be the actual snprintf length',['../group__tut__x__traps__antipatterns.html#x17',1,'']]],
-  ['must_20provide_85',['What the consumer must provide',['../group__tesaiot__hsm__consumer__roster.html',1,'']]]
+  ['mtls_80',['mTLS',['../group__c5__cloud__https.html',1,'C5 — TESAIoT cloud: HTTPS REST, the Device API Key, and mTLS'],['../group__c4__mtls__optiga.html#c4_step1',1,'Step 1 — Switch the config to mTLS']]],
+  ['mtls_20on_20the_20https_20path_81',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['mtls_3a_20the_20optiga_20backed_20tls_20identity_82',['C4 — mTLS: the OPTIGA-backed TLS identity',['../group__c4__mtls__optiga.html',1,'']]],
+  ['mtu_83',['mtu',['../structbento__link__s.html#aa3c50b68546f64941610719d6a59ef10',1,'bento_link_s']]],
+  ['multi_20register_20read_84',['Step 3 — Hold one lock across a multi-register read',['../group__j1__sensor__bus.html#j1_step3',1,'']]],
+  ['must_20be_20the_20actual_20snprintf_20length_85',['17. payload_len for tacp_claw_respond must be the actual snprintf length',['../group__tut__x__traps__antipatterns.html#x17',1,'']]],
+  ['must_20provide_86',['What the consumer must provide',['../group__tesaiot__hsm__consumer__roster.html',1,'']]]
 ];

@@ -56,7 +56,8 @@ var menudata={children:[
 {text:"C1 — WiFi: ที่เก็บข้อมูลรับรอง 2 แห่งกับการเชื่อมต่ออัตโนมัติตอนบูต",url:"group__c1__wifi__two__stores.html"},
 {text:"C2 — WiFi จาก UI ผ่าน IPC",url:"group__c2__wifi__ui__ipc.html"},
 {text:"C3 — TESAIoT cloud: ไฟล์ config → MQTT task → broker",url:"group__c3__cloud__mqtt.html"},
-{text:"C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA",url:"group__c4__mtls__optiga.html"}]},
+{text:"C4 — mTLS: ตัวตนของ TLS ที่ยึดกับ OPTIGA",url:"group__c4__mtls__optiga.html"},
+{text:"C5 — TESAIoT cloud: HTTPS REST, Device API Key และ mTLS",url:"group__c5__cloud__https.html"}]},
 {text:"API แต่ละตัวอยู่ที่ใด",url:"group__feat__connectivity__apis.html"}]},
 {text:"หน้า UI และ IPC",url:"group__feat__ui__ipc.html",children:[
 {text:"Tutorial",url:"group__feat__ui__ipc__tut.html",children:[

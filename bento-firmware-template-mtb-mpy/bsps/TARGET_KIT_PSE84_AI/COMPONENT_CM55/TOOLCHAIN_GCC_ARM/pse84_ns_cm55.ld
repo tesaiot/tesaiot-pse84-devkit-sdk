@@ -203,34 +203,6 @@ SECTIONS
         __zero_table_end__ = .;
     } > m55_nvm_sel
 
-    /* A section for performance-sensitive or critical functions that need to be executed in ITCM */
-    .app_code_itcm : ALIGN(16)
-    {
-        /* Reserving the first 16 bytes to avoid debug symbols (that have default address 0x0) to be confused with actual code  */
-        . += 16;
-        KEEP(*(.cy_itcm))
-        KEEP(*(.cy_sram_code))
-        KEEP(*(.cy_ramfunc))
-        KEEP(*(.text.cy_os_common))
-        *cy_syslib_ext.*(.text*)
-        *cy_syslib.*(.text*)
-        *cy_smif.*(.text*)
-        *cy_smif_memnum.*(.text*)
-        *cy_smif_memslot.*(.text*)
-        *cy_smif_sfdp.*(.text*)
-        *cy_smif_hb_flash.*(.text*)
-        *mtb_hal_memoryspi.*(.text*)
-        *mtb_serial_memory.*(.text*)
-        *freertos/Source*.*(.text*)
-        *cy_clib_support*.*(.text*)
-        *cy_mutex_pool*.*(.text*)
-        *cy_time.*(.text*)
-        *cyabs_*.*(.text*)
-        *cy_worker_thread.*(.text*)
-        *cmsis*.*(.text*)
-
-        . = ALIGN(4);
-    } > m55_code_INTERNAL AT > m55_nvm_sel
 
     /* A section for the vector table */
     .ram_vectors (NOLOAD) : ALIGN(VECTORS_ALIGNMENT)
@@ -381,6 +353,41 @@ SECTIONS
         *snake_sprites.o(.rodata .rodata.*)
         . = ALIGN(4);
     } > m55_nvm_sel
+
+    /* Load image steered above the fw_identity wall at 0x60900000, the same way
+     * .ml_weights and .game_sprites are. The run address stays in ITCM; only the
+     * load address moves, and the copy table below already derives it with
+     * LOADADDR(), so the boot copy follows automatically. Kept below the wall this
+     * section's ~61 KB pushes .cy_socmem_data's load image across 0x60900000 and
+     * the link fails once the Bluetooth host is compiled in. */
+    /* A section for performance-sensitive or critical functions that need to be executed in ITCM */
+    .app_code_itcm : ALIGN(16)
+    {
+        /* Reserving the first 16 bytes to avoid debug symbols (that have default address 0x0) to be confused with actual code  */
+        . += 16;
+        KEEP(*(.cy_itcm))
+        KEEP(*(.cy_sram_code))
+        KEEP(*(.cy_ramfunc))
+        KEEP(*(.text.cy_os_common))
+        *cy_syslib_ext.*(.text*)
+        *cy_syslib.*(.text*)
+        *cy_smif.*(.text*)
+        *cy_smif_memnum.*(.text*)
+        *cy_smif_memslot.*(.text*)
+        *cy_smif_sfdp.*(.text*)
+        *cy_smif_hb_flash.*(.text*)
+        *mtb_hal_memoryspi.*(.text*)
+        *mtb_serial_memory.*(.text*)
+        *freertos/Source*.*(.text*)
+        *cy_clib_support*.*(.text*)
+        *cy_mutex_pool*.*(.text*)
+        *cy_time.*(.text*)
+        *cyabs_*.*(.text*)
+        *cy_worker_thread.*(.text*)
+        *cmsis*.*(.text*)
+
+        . = ALIGN(4);
+    } > m55_code_INTERNAL AT > m55_nvm_sel
 
     /* A section for the heap memory */
     .heap(NOLOAD) : ALIGN(8)

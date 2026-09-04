@@ -1,7 +1,13 @@
 var searchData=
 [
-  ['radio_20scheduler_0',['Radio scheduler',['../group__ble__nus__radio__scheduler.html',1,'']]],
-  ['registry_20และการ_20settle_1',['ผลลัพธ์ registry และการ settle',['../group__edge__ai__results.html',1,'']]],
-  ['repl_2',['G2 — สัญญาณชีพ: การอยู่ได้โดยไม่มี REPL',['../group__g2__heartbeat.html',1,'']]],
-  ['requested_20เทียบกับ_20active_3',['E1 — Select, confirm, start: REQUESTED เทียบกับ ACTIVE',['../group__tut__e1__select__confirm__start.html',1,'']]]
+  ['parallel_20set_20และการวนถามผลลัพธ์_0',['E2 — Parallel set และการวนถามผลลัพธ์',['../group__tut__e2__parallel__sets.html',1,'']]],
+  ['parallel_20sets_1',['Parallel sets',['../group__edge__ai__sets.html',1,'']]],
+  ['pattern_2',['ภาคผนวก X — กับดักและ anti-pattern',['../group__tut__x__traps__antipatterns.html',1,'']]],
+  ['printf_20puts_3',['อันตรายตอน link ของ printf/puts',['../group__edge__ai__link__hazard.html',1,'']]],
+  ['protected_20update_4',['การลงทะเบียนและการ publish ของ Protected Update',['../group__tesaiot__hsm__publish.html',1,'']]],
+  ['protected_20update_20ตั้งแต่ต้นจนจบ_5',['D2 — การลงทะเบียนและ Protected Update ตั้งแต่ต้นจนจบ',['../group__d2__enrolment__protected__update.html',1,'']]],
+  ['protocol_20folder_20push_20และ_20base64_6',['Protocol, folder-push และ base64',['../group__ble__nus__nus__protocol__fp__b64.html',1,'']]],
+  ['publish_20ของ_20protected_20update_7',['การลงทะเบียนและการ publish ของ Protected Update',['../group__tesaiot__hsm__publish.html',1,'']]],
+  ['push_20และ_20base64_8',['Protocol, folder-push และ base64',['../group__ble__nus__nus__protocol__fp__b64.html',1,'']]],
+  ['puts_9',['อันตรายตอน link ของ printf/puts',['../group__edge__ai__link__hazard.html',1,'']]]
 ];

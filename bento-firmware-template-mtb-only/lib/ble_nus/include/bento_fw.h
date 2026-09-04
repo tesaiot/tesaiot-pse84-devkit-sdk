@@ -53,6 +53,15 @@ extern "C" {
  *             single round-trip without serial console access.
  *   * FW_TX_BUF 256 → 1024 to fit the new _diag payload.
  */
+/* A project that declares BENTO_FW_VERSION in its Makefile wins. The constant
+ * below is the fallback for builds that declare nothing - and until 2026-09-02
+ * that was every project in the workspace, so an HMI Kit running 0.2.0 told the
+ * desktop it was 1.4.0 over both bento.info.board and bento.fw.query. Prefer
+ * the project's own number wherever one is supplied. */
+#ifdef BENTO_FW_VERSION
+#undef  BENTO_BUDDY_FW_VERSION
+#define BENTO_BUDDY_FW_VERSION BENTO_FW_VERSION
+#endif
 #ifndef BENTO_BUDDY_FW_VERSION
 #define BENTO_BUDDY_FW_VERSION "1.4.0"
 #endif

@@ -18,6 +18,7 @@ var searchData=
   ['up_20on_20the_20console_15',['Step 1 — Watch the two-layer bring-up on the console',['../group__tut__i1__ble__bringup__single__rf.html#i1_step1',1,'']]],
   ['update_20bundle_20ingest_16',['9b. Return path B — Protected Update bundle ingest',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
   ['update_20bundles_20replay_17',['12. Retained Protected Update bundles replay',['../group__tut__x__traps__antipatterns.html#x12',1,'']]],
-  ['use_20after_20free_18',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
-  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_19',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]]
+  ['use_18',['Which one to use',['../group__c5__cloud__https.html#c5_when',1,'']]],
+  ['use_20after_20free_19',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
+  ['use_20it_20as_20the_20instrument_20during_20a_20postmortem_20',['Step 2 — Use it as the instrument during a postmortem',['../group__g2__heartbeat.html#g2_step2',1,'']]]
 ];

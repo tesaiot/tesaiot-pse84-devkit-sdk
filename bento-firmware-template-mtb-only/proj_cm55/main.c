@@ -202,6 +202,10 @@ int main(void)
     }
     //! [cm55_tesaiot_display_init_boot]
 
+    /* SDK examples need no hook here. They are reached from the Examples page
+     * (PAGE_ID_EXAMPLES), which sensorhub_ui.c registers when
+     * ENABLE_PAGE_EXAMPLES=1 — nothing runs until a developer taps a row. */
+
     /* USB Host joystick init deferred to app_task (post-scheduler) */
 
 #if BSP_HAS_RADAR && !TESAIOT_DIAG_DISABLE_RADAR_TASK

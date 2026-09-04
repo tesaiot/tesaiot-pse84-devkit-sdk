@@ -22,10 +22,13 @@
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 <link href="bento-lang.css" rel="stylesheet" type="text/css"/>
 <link href="bento-variant.css" rel="stylesheet" type="text/css"/>
+<link href="bento-siteheader.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">window.BENTO_DOC={lang:"th",variant:"mtb-only",relpath:""};</script>
 <script type="text/javascript" src="bento-lang-pages.js"></script>
 <script type="text/javascript" src="bento-lang.js"></script>
 <script type="text/javascript" src="bento-variant.js"></script>
+<script type="text/javascript" src="bento-siteheader.js"></script>
+<script type="text/javascript" src="bento-scrollmemory.js"></script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -164,8 +167,15 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__c4__mtl
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">0xE0E9</span>  </td><td class="markdownTableBodyNone">TESA CA (trust anchor ของคู่กุญแจฝั่งอุปกรณ์)  </td><td class="markdownTableBodyNone">D2  </td></tr>
 </table>
-<p><span class="tt">mqtt_mtls_setup_optiga()</span> เลือก <span class="tt">cert_oid = 0xE0E0</span> และ <span class="tt">key_oid = 0xE0F0</span> หากลงทะเบียนคู่ของ TESAIoT (D2) แล้วต้องการให้ TLS ใช้คู่นั้น นี่คือบรรทัดที่ต้องแก้ ไม่มีอย่างอื่นที่เลือกตัวตนนี้</p>
-<p><b>ใบรับรองจากโรงงานพิสูจน์อะไร และไม่พิสูจน์อะไร</b> ใบรับรองใน <span class="tt">0xE0E0</span> มี subject เป็น <span class="tt">CN=InfineonIoTNode</span> เท่ากันทุกชิ้นบนชิป OPTIGA Trust M ทุกตัว (ถอดรหัสจริงจาก <span class="tt">board-factory-cert-cd16334d.pem</span> ด้วย <span class="tt">openssl x509</span> เมื่อ 2026-08-29 ได้ issuer <span class="tt">Infineon OPTIGA(TM) Trust M CA 300</span> อายุ 2025-10-21 ถึง 2045-10-21 ไม่มี SAN และไม่มีฟิลด์ระบุอุปกรณ์) ฟิลด์ที่ต่างกันไปในแต่ละชิปมีเพียง serial number และกุญแจสาธารณะ</p>
+<p><span class="tt">mqtt_mtls_setup_optiga()</span> เลือกตัวตนให้เองแล้ว โดยเรียก <span class="tt">optiga_verify_cert_key_pair(0xE0E1, 0xE0F1)</span> ก่อน ถ้าใบรับรองกับกุญแจของ TESAIoT เข้าคู่กันจริง จะใช้คู่นั้น ถ้าไม่ จะถอยไปใช้คู่จากโรงงาน <span class="tt">0xE0E0</span> / <span class="tt">0xE0F0</span></p>
+<p>การตรวจนี้ตอบคำถามที่การถอยกลับแบบเดิมตอบไม่ได้ คือ <em>ใบรับรองกับกุญแจนี้เป็นตัวตนเดียวกันหรือไม่</em> และปลอดภัยกับบอร์ดที่ยังไม่ลงทะเบียน เพราะเป็นการถามชิปด้วยคำถามที่มีขอบเขต ไม่ใช่การอ่านช่องที่อาจไม่คืนค่ากลับมาเลย ซึ่งเป็นสิ่งที่ทำให้ความพยายามครั้งก่อนค้าง</p>
+<p><b>ลำดับสำคัญ</b> การตรวจต้องอยู่หลัง <span class="tt"><a class="el" href="optiga__trust__helpers_8h.html#a61963212d74ea7647d49e16b1b489e26">optiga_trust_init()</a></span> ถ้าเรียกตอนแอปพลิเคชันของ OPTIGA ยังไม่เปิด การอ่านจะวนอยู่ใน <span class="tt">while (status == BUSY)</span> ที่ไม่มี timeout และ CM33_NS จะค้างถาวร วัดจริงเมื่อ 2026-08-31</p>
+<p>บันทึกจากบอร์ดจริง ณ วันนั้น</p>
+<div class="fragment"><div class="line">[mTLS] device pair verified — <span class="keyword">using </span>TESAIoT identity</div>
+<div class="line">[PSA-SE] Setting signing key OID to 0xE0F1</div>
+<div class="line">[mTLS] Certificate read: 730 bytes PEM</div>
+<div class="line">[HTTPS] Response: 200</div>
+</div><!-- fragment --><p><b>ใบรับรองจากโรงงานพิสูจน์อะไร และไม่พิสูจน์อะไร</b> ใบรับรองใน <span class="tt">0xE0E0</span> มี subject เป็น <span class="tt">CN=InfineonIoTNode</span> เท่ากันทุกชิ้นบนชิป OPTIGA Trust M ทุกตัว (ถอดรหัสจริงจาก <span class="tt">board-factory-cert-cd16334d.pem</span> ด้วย <span class="tt">openssl x509</span> เมื่อ 2026-08-29 ได้ issuer <span class="tt">Infineon OPTIGA(TM) Trust M CA 300</span> อายุ 2025-10-21 ถึง 2045-10-21 ไม่มี SAN และไม่มีฟิลด์ระบุอุปกรณ์) ฟิลด์ที่ต่างกันไปในแต่ละชิปมีเพียง serial number และกุญแจสาธารณะ</p>
 <p>สิ่งที่ handshake นี้พิสูจน์จึงคือ <em>อุปกรณ์ปลายทางถือ Trust M ของแท้จาก Infineon</em> เท่านั้น ไม่ได้พิสูจน์ว่าอุปกรณ์นั้นคือเครื่องใด ในขณะเดียวกัน MQTT client id ในโหมด mTLS มาจาก <span class="tt">cfg.factory_uid</span> และหัวข้อคำสั่งที่สมัครรับมาจาก <span class="tt">cfg.device_id</span> (<span class="tt">mqtt_client_config.c:143-144</span>, <span class="tt">subscriber_task.c:92-93</span>) ซึ่งทั้งสองค่าเป็นสตริงที่ตั้งได้จาก MicroPython ด้วย <span class="tt">tesaiot.config_set(...)</span> และถูกบันทึกลงไฟล์ตั้งค่า (<span class="tt">tesaiot_config_store.c:174-176</span>)</p>
 <p>ผลที่ตามมาต้องระบุให้ตรง: <b>ในระดับเฟิร์มแวร์ไม่มีสิ่งใดผูกตัวตนที่อุปกรณ์ประกาศเข้ากับใบรับรองที่อุปกรณ์นั้นแสดง</b> การป้องกันที่ชี้ขาดอยู่ที่ฝั่ง broker — ต้องมี ACL ที่อนุญาตหัวข้อ <span class="tt">device/{id}/#</span> เฉพาะกับ client ที่ใบรับรองของมันถูกผูกไว้กับ <span class="tt">id</span> นั้น (ผูกด้วย fingerprint ของกุญแจสาธารณะหรือ serial number ของใบรับรอง ไม่ใช่ด้วย subject ซึ่งเหมือนกันหมด) ให้ตรวจสอบ ACL นั้นก่อนนำขั้นตอนการลงทะเบียนในบท D2 ไปใช้จริง</p>
 <h2 class="doxsection"><a class="anchor" id="c4_seq_setup"></a>

@@ -30,6 +30,12 @@
 #include "sensor_auto_task.h"
 #include "ipc_hsm_handler.h"
 #include "ipc_tesaiot_handler.h"
+#if ENABLE_PAGE_EXAMPLES
+/* examples/ is only on the include path when the feature is on — the Makefile
+ * CY_IGNOREs the whole directory otherwise, so this include must be guarded by
+ * the same flag or a default build cannot find it. */
+#include "sdk_examples_cm33.h"
+#endif
 #include "psa/crypto.h"
 #include "optiga_psa_se.h"
 #include <malloc.h>   /* mallinfo() — heap reporting in the malloc-failed hook */
@@ -374,6 +380,12 @@ int main(void)
     }
 #endif
 //! [ble_radio_scheduler_bringup]
+
+#if ENABLE_PAGE_EXAMPLES
+    /* SDK examples are opt-in. A priority-1 task lists every CM33 example on
+     * the console and runs the one named by SDK_EXAMPLE_CM33, if any. */
+    (void)sdk_examples_cm33_start();
+#endif
 
     /* Start FreeRTOS scheduler — never returns */
     vTaskStartScheduler();

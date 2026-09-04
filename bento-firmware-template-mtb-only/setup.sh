@@ -45,11 +45,7 @@ esac
 # Detected from what the package actually carries, not from its directory
 # name, because a directory can be renamed and a missing library cannot.
 if [ -d "$HERE/lib/mpy_secure" ]; then
-    # MicroPython ships prebuilt as prebuilt/libmicropython.a, so the port
-    # itself is not needed to build. Rebuilding the interpreter -- to freeze a
-    # module in, or to add a C extension -- needs the upstream port:
-    #   https://github.com/Infineon/micropython-psoc-edge  branch psoc-edge-main
-    VARIANT="mtb-mpy";  NEEDS_PORT=0
+    VARIANT="mtb-mpy";  NEEDS_PORT=1
 else
     VARIANT="mtb-only"; NEEDS_PORT=0
 fi

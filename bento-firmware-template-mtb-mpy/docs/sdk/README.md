@@ -5,7 +5,7 @@ found it in the corresponding binary.
 
 | Module | Core | Archive | Pages |
 |---|---|---|---|
-| [ble_nus](ble_nus/README.md) | cm33 | libbento_secure.a | 18 |
+| [ble_nus](ble_nus/README.md) | cm33 | libbento_secure.a | 19 |
 | [mpy_secure](mpy_secure/README.md) | cm33 | libbento_mpy.a | 8 |
 | [ipc_core](ipc_core/README.md) | cm55 | libbento_ipc.a | 9 |
 | [edge_ai](edge_ai/README.md) | cm55 | libbento_edge_ai.a | 4 |
