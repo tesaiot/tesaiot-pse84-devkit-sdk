@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-02T11:39:25Z",
+  "generated_at": "2026-09-04T12:08:44Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -28,6 +28,34 @@
       "file": "bento-c-only-devkit__KIT_PSE84_AI__v1.9.0.hex",
       "sha256": "1899a9ea4dd6cb525921f5ac63b1a45d4a7a06e31d97bb11b88a0d26a20bd49c",
       "release_tag": "fw-c-only-v1.9.0",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.10.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-09-04",
+      "description": "MicroPython on the board — edit and run over the REPL. Sensors, radar, Edge AI, WiFi and HTTPS. Adds widget.enable()/.disable() and the USER Button 1 naming fix.",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v1.10.0.hex",
+      "sha256": "b1c3b2f25e4fd1dce948d225883a613211d24ce734d10a7a332ef727d7b776e4",
+      "release_tag": "fw-mpy-v1.10.0",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "1.10.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-09-04",
+      "description": "C-only (ModusToolbox) build — same drivers and UI, no Python VM. For students building the C template.",
+      "file": "bento-c-only-devkit__KIT_PSE84_AI__v1.10.0.hex",
+      "sha256": "59ac887dd62f68c6164bd83bf3bdff30913a590d048471cc605161f32a3c0b84",
+      "release_tag": "fw-c-only-v1.10.0",
       "status": "OK"
     }
   ]
