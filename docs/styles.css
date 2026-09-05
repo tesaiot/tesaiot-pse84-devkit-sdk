@@ -794,3 +794,152 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .nav-icon:hover,.nav-icon:focus-visible{color:var(--ink);background:var(--paper-raised)}
 .nav-icon::after{content:none}
 .nav-icon svg{display:block}
+
+
+/* ── วิดีโอประกอบท้ายแต่ละองก์ ───────────────────────────────────────────
+   ตัวหนังสืออธิบายบอร์ดได้ไกลระดับหนึ่ง แต่ประโยคอย่าง "แฟลชผ่านเบราว์เซอร์
+   โดยไม่ต้องมี toolchain" หรือ "ทวินขับด้วยค่าจากเซนเซอร์จริง" อ่านสิบบรรทัด
+   ยังไม่เท่าเห็นสิบวินาที การ์ดจึงวางไว้ท้ายองก์ที่มันอธิบาย ไม่รวมเป็นห้องสมุด
+   วิดีโอก้อนเดียวที่ท้ายหน้า — ผู้อ่านจะเจอคลิปตอนที่เพิ่งอ่านเรื่องนั้นจบพอดี
+   และคนที่ไม่ดูวิดีโอก็ข้ามได้โดยไม่เสียเนื้อความ
+
+   ไม่มี iframe ตัวใดถูกโหลดตอนเปิดหน้า การ์ดคือภาพนิ่งจาก i.ytimg.com กับลิงก์
+   จริงไป youtu.be — ปิดสคริปต์แล้วยังกดดูได้ เปิดสคริปต์แล้ว bento-video.js
+   จะยกเฉพาะคลิปที่กดขึ้นมาเป็น iframe เดียวใน modal (youtube-nocookie)     */
+
+.vids{margin-top:var(--s-8);padding-top:var(--s-6);border-top:1px solid var(--line)}
+.act-dark .vids{border-top-color:var(--line-dark)}
+
+.vids-head{margin-bottom:var(--s-5);max-width:78ch}
+.vids-kicker{
+  font-family:var(--font-mono);font-size:var(--t-xs);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--orange-ink);margin-bottom:var(--s-2);
+}
+.act-dark .vids-kicker{color:var(--orange)}
+.vids-head h3{font-family:var(--font-display);font-size:var(--t-h3);line-height:1.45;margin:0 0 var(--s-3)}
+.vids-head p{color:var(--ink-2);font-size:var(--t-sm);margin:0}
+.act-dark .vids-head p{color:var(--dark-ink-2)}
+.vids-all{
+  display:inline-block;margin-top:var(--s-3);font-size:var(--t-sm);
+  color:var(--orange-ink);text-decoration:none;border-bottom:1px solid currentColor;
+}
+.act-dark .vids-all{color:var(--orange)}
+.vids-all:hover{color:var(--ink)}
+.act-dark .vids-all:hover{color:var(--dark-ink)}
+
+/* auto-fit กับพื้นที่ 1180px ให้การ์ดกว้างราว 275–375px ซึ่งพอดีกับภาพต้นทาง
+   ที่ YouTube มีให้ (hqdefault กว้าง 480) แถวที่มีสองคลิปจึงต้องคุมความกว้าง
+   ไว้ ไม่งั้นการ์ดจะกว้าง 570px แล้วภาพถูกยืดจนเห็นเนื้อภาพแตก */
+.vid-row{display:grid;gap:var(--s-4);grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.vid-row-2{max-width:760px}
+
+.vid-card{
+  display:flex;flex-direction:column;gap:var(--s-3);
+  padding:var(--s-3);border:1px solid var(--line);border-radius:12px;
+  background:var(--paper-raised);color:var(--ink);text-decoration:none;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.vid-card:hover{transform:translateY(-2px);border-color:var(--orange-ink);box-shadow:0 12px 28px -22px rgba(16,18,24,.55)}
+.vid-card:focus-visible{outline:2px solid var(--orange-ink);outline-offset:3px}
+.act-dark .vid-card{background:rgba(255,255,255,.035);border-color:var(--line-dark);color:var(--dark-ink)}
+.act-dark .vid-card:hover{border-color:var(--orange);box-shadow:none;background:rgba(255,255,255,.06)}
+.act-dark .vid-card:focus-visible{outline-color:var(--orange)}
+
+.vid-thumb{
+  position:relative;display:block;overflow:hidden;border-radius:8px;
+  aspect-ratio:16/9;background:var(--paper-sunken);
+}
+.act-dark .vid-thumb{background:var(--black-2)}
+/* hqdefault เป็น 4:3 ที่มีแถบดำบนล่าง object-fit:cover จึงตัดแถบนั้นทิ้งพอดี
+   และเหลือเฉพาะเนื้อภาพ 16:9 — ไม่ใช้ maxresdefault เพราะคลิปที่ไม่มีไฟล์นั้น
+   จะได้ภาพแตกกลับมาเป็น 404 */
+.vid-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+.vid-card:hover .vid-thumb img{transform:scale(1.035)}
+
+.vid-play{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:46px;height:46px;border-radius:999px;display:grid;place-items:center;
+  background:rgba(16,18,24,.70);border:1px solid rgba(255,255,255,.30);
+  transition:background .18s ease,border-color .18s ease;
+}
+.vid-play::before{
+  content:"";width:0;height:0;margin-left:3px;
+  border-left:13px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent;
+}
+.vid-card:hover .vid-play{background:var(--orange);border-color:var(--orange)}
+.vid-card:hover .vid-play::before{border-left-color:var(--black)}
+
+.vid-len,.vid-ep,.vid-flag{
+  position:absolute;font-family:var(--font-mono);font-size:11px;line-height:1;
+  padding:4px 6px;border-radius:5px;
+}
+.vid-len{right:6px;bottom:6px;background:rgba(16,18,24,.82);color:#fff}
+.vid-ep{left:6px;top:6px;background:rgba(16,18,24,.82);color:var(--orange)}
+.vid-flag{right:6px;top:6px;background:var(--orange);color:var(--black);font-weight:500}
+
+.vid-body{display:flex;flex-direction:column;gap:var(--s-1);padding:0 var(--s-1) var(--s-1)}
+.vid-title{font-family:var(--font-display);font-size:var(--t-sm);font-weight:600;line-height:1.5}
+.vid-note{font-size:var(--t-xs);line-height:1.65;color:var(--ink-2)}
+.act-dark .vid-note{color:var(--dark-ink-2)}
+
+/* ปุ่มวิดีโอใน hero — สามเหลี่ยมเป็น ::before เพราะ bento-i18n สลับภาษาโดย
+   เขียนทับ text node แรกของปุ่ม ไอคอนที่เป็น element จริงจะถูกดันไปหลังคำ */
+.btn-video{gap:var(--s-2)}
+.btn-video::before{
+  content:"";width:0;height:0;
+  border-left:9px solid currentColor;border-top:6px solid transparent;border-bottom:6px solid transparent;
+}
+
+/* ── กล่องเล่นวิดีโอ ─────────────────────────────────────────────────────
+   z-index 90 อยู่เหนือแถบเมนู sticky (50) และปุ่มกลับขึ้นบน (40) แต่ยังต่ำกว่า
+   ลิงก์ข้ามไปเนื้อหา (100) ซึ่งต้องอยู่บนสุดเสมอ                            */
+.vid-modal{
+  position:fixed;inset:0;z-index:90;display:grid;place-items:center;
+  padding:var(--s-5);background:rgba(10,11,15,.86);
+}
+@supports (backdrop-filter:blur(4px)){ .vid-modal{backdrop-filter:blur(6px)} }
+.vid-modal-inner{
+  width:min(1040px,100%);background:var(--black-1);color:var(--dark-ink);
+  border:1px solid var(--line-dark-strong);border-radius:14px;overflow:hidden;
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.9);
+}
+.vid-modal-head{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);
+  padding:var(--s-3) var(--s-4);font-family:var(--font-display);font-size:var(--t-sm);font-weight:600;
+}
+.vid-modal-close{
+  flex:none;width:34px;height:34px;border-radius:8px;cursor:pointer;
+  background:transparent;border:1px solid var(--line-dark);color:var(--dark-ink-2);
+  font-size:18px;line-height:1;display:grid;place-items:center;
+  transition:color .18s ease,border-color .18s ease,background .18s ease;
+}
+.vid-modal-close:hover{color:var(--dark-ink);border-color:var(--line-dark-strong);background:rgba(255,255,255,.06)}
+.vid-modal-close:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.vid-modal-frame{position:relative;aspect-ratio:16/9;background:#000}
+.vid-modal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid-modal-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);
+  padding:var(--s-3) var(--s-4);font-size:var(--t-xs);color:var(--dark-ink-3);
+}
+.vid-modal-foot a{color:var(--orange);text-decoration:none;white-space:nowrap}
+.vid-modal-foot a:hover{text-decoration:underline}
+/* เลื่อนหน้าไม่ได้ระหว่างเปิดกล่อง — ไม่งั้นหน้าหลังกล่องจะไถลตามล้อเมาส์ */
+.vid-lock{overflow:hidden}
+
+.js-ready .vid-modal{opacity:0;transition:opacity .18s ease}
+.js-ready .vid-modal.is-open{opacity:1}
+@media (prefers-reduced-motion:reduce){ .js-ready .vid-modal{opacity:1;transition:none} }
+
+/* ช่วงแท็บเล็ต auto-fit จะได้สามคอลัมน์ แถวสี่คลิปจึงเหลือใบสุดท้ายโดดอยู่แถวล่าง
+   บังคับสองคอลัมน์ในช่วงนี้ แถวสี่คลิปจะลงตัวเป็น 2×2 และการ์ดกว้างขึ้นด้วย */
+@media (min-width:561px) and (max-width:1000px){
+  .vid-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vid-row-2{max-width:none}
+}
+
+@media (max-width:560px){
+  .vids{margin-top:var(--s-7)}
+  .vid-row{grid-template-columns:1fr}
+  .vid-modal{padding:var(--s-3)}
+  .vid-modal-foot{flex-direction:column;align-items:flex-start;gap:var(--s-2)}
+}

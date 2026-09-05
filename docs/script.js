@@ -66,7 +66,7 @@
      Skipped entirely when the visitor asks for reduced motion: in that
      case the elements are simply left visible. */
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var targets = document.querySelectorAll('.act-head, .spec, .path, .sdk-copy, .sdk-code, .sec-card, .ai-slots, .ai-routes, .benefits article');
+  var targets = document.querySelectorAll('.act-head, .spec, .path, .sdk-copy, .sdk-code, .sec-card, .ai-slots, .ai-routes, .benefits article, .vids-head, .vid-card');
 
   if (reduce || !('IntersectionObserver' in window)) {
     targets.forEach(function (el) { el.classList.add('is-in'); });
