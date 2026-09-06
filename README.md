@@ -9,7 +9,12 @@
 [![Cores](https://img.shields.io/badge/cores-M55%20%2B%202%C3%97M33%20%2B%20NPU-101218)](#ฮาร์ดแวร์โดยย่อ)
 [![SoC](https://img.shields.io/badge/PSoC™%20Edge-E84-101218)](https://www.infineon.com/)
 
-[**เอกสารฉบับเต็ม →**](https://tesaiot.github.io/tesaiot-pse84-devkit-sdk/) · [English](#english)
+### [tesaiot.github.io/tesaiot-pse84-devkit-sdk](https://tesaiot.github.io/tesaiot-pse84-devkit-sdk/)
+
+เว็บไซต์ของชุดพัฒนา — หมุนดูบอร์ดสามมิติทีละจุด พร้อมสเปกที่เลื่อนตาม
+และเอกสาร 838 หน้าทั้งไทยและอังกฤษ
+
+[English](#english)
 
 <img src="assets/board.webp" alt="TESAIoT Development Kit" width="760">
 
@@ -319,6 +324,11 @@ variant `mtb` เป็น C ล้วน ไม่มีคอนโซล Pyth
 <a name="english"></a>
 
 ## English
+
+### [tesaiot.github.io/tesaiot-pse84-devkit-sdk](https://tesaiot.github.io/tesaiot-pse84-devkit-sdk/)
+
+The kit's website — turn the board in 3D stop by stop, with the specs
+following alongside, plus 838 pages of documentation in English and Thai.
 
 </div>
 
