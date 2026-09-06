@@ -795,6 +795,54 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .nav-icon::after{content:none}
 .nav-icon svg{display:block}
 
+/* ── 3D board tour (board3d.js) ─────────────────────────────────────── */
+.b3d{padding:var(--s-8) 0 var(--s-9)}
+.b3d-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);gap:var(--s-5);align-items:stretch;margin-top:var(--s-6)}
+.b3d-stage{position:relative;height:min(74vh,640px);min-height:420px;background:transparent;border-radius:16px;overflow:hidden}
+.b3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;touch-action:pan-y}
+.b3d-loadhint{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3);font-size:var(--t-sm);pointer-events:none;transition:opacity .5s;z-index:3}
+.b3d-gone{opacity:0 !important;pointer-events:none !important}
+.b3d-intro{position:absolute;left:24px;top:20px;z-index:3;color:var(--ink);max-width:46ch;transition:opacity .5s,transform .5s}
+.b3d-intro h3{font-size:clamp(19px,2.4vw,26px);color:var(--ink);margin:0}
+.b3d-intro p{margin:4px 0 0;font-size:var(--t-sm);color:var(--ink-3)}
+.b3d-cap{position:absolute;left:24px;bottom:56px;max-width:44ch;z-index:3;color:var(--ink);transition:opacity .4s,transform .4s}
+.b3d-swap{opacity:0;transform:translateY(8px)}
+.b3d-capno{font-family:var(--font-mono);font-size:12px;color:var(--orange-ink);letter-spacing:1.5px}
+.b3d-captitle{font-size:clamp(19px,2.4vw,26px);line-height:1.15;color:var(--ink);margin:3px 0 0}
+.b3d-deck{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;padding:11px 4px;z-index:3}
+.b3d-dots{display:flex;gap:8px;flex:1}
+.b3d-dots button{height:5px;border-radius:3px;border:0;background:var(--line);flex:1;max-width:60px;cursor:pointer;padding:0;position:relative;overflow:hidden}
+.b3d-fill{position:absolute;inset:0;width:0;background:var(--orange);display:block}
+.b3d-done .b3d-fill{width:100%}
+.b3d-now .b3d-fill{width:100%;transition:width 5.2s linear}
+.b3d-play{background:var(--paper-raised);border:1px solid var(--line);color:var(--ink);border-radius:8px;font-size:13.5px;font-family:var(--font-display,inherit);padding:8px 14px;cursor:pointer}
+.b3d-pin{position:absolute;transform:translate(-50%,-50%);z-index:2}
+.b3d-dot{width:31px;height:31px;border-radius:50%;background:#101216;color:var(--orange);border:2.5px solid #f4f2ec;display:grid;place-items:center;font-weight:600;font-size:14px;box-shadow:0 2px 10px rgba(0,0,0,.45);cursor:pointer;opacity:.85;transition:transform .2s,opacity .2s;padding:0}
+.b3d-dot:hover{transform:scale(1.2);opacity:1}
+.b3d-act .b3d-dot{opacity:1;outline:3px solid rgba(232,89,12,.5);transform:scale(1.15)}
+.b3d-lbl{position:absolute;left:50%;transform:translateX(-50%);margin-top:9px;background:#fdfcf9;color:#26282c;font-size:13.5px;line-height:1.4;padding:6px 11px;border-radius:9px;box-shadow:0 3px 14px rgba(0,0,0,.3);white-space:nowrap;display:none}
+.b3d-act .b3d-lbl{display:block}
+.b3d-pin[data-flip] .b3d-lbl{white-space:normal;width:max-content;max-width:220px}
+.b3d-panel{border:1px solid var(--line);background:var(--paper-raised);border-radius:16px;padding:var(--s-5);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.b3d-pbody{overflow-y:auto;min-height:0;transition:opacity .3s,transform .3s}
+.b3d-pnum{font-family:var(--font-mono);font-size:12px;color:var(--orange-ink);letter-spacing:1px;margin-bottom:4px}
+.b3d-pbody .spec{margin:0;border:0;padding:0}
+.b3d-pbody .spec-rows > div{padding:8px 0}
+.b3d-pbody .spec-rows dd{font-size:var(--t-sm)}
+.b3d-pbody .spec-rows dt{font-size:13px}
+.b3d-hl{background:color-mix(in srgb,var(--orange) 9%,transparent);border-radius:6px}
+.b3d-idx{margin:var(--s-4) 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
+.b3d-idx button{display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-bottom:1px dashed var(--line);padding:8px 2px;cursor:pointer;font-size:var(--t-sm);color:var(--ink)}
+.b3d-idx button:hover{color:var(--orange-ink)}
+.b3d-idx b{font-family:var(--font-mono);font-size:12px;color:var(--orange)}
+.b3d-pfoot{margin:auto 0 0;padding-top:var(--s-4);color:var(--ink-3);font-size:12px;border-top:1px solid var(--line)}
+@media (max-width:960px){
+  .b3d-split{grid-template-columns:1fr}
+  .b3d-stage{height:54vh;min-height:340px}
+  .b3d-panel{max-height:56vh}
+}
+
+
 
 /* ── วิดีโอประกอบท้ายแต่ละองก์ ───────────────────────────────────────────
    ตัวหนังสืออธิบายบอร์ดได้ไกลระดับหนึ่ง แต่ประโยคอย่าง "แฟลชผ่านเบราว์เซอร์
