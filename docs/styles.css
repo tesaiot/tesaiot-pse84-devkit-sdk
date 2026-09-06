@@ -1015,3 +1015,8 @@ html[lang="en"] .hero h1{ max-width:24ch; }
   .vid-modal{padding:var(--s-3)}
   .vid-modal-foot{flex-direction:column;align-items:flex-start;gap:var(--s-2)}
 }
+
+/* A site opened in the video modal: a page needs height, not 16/9, and its own
+   white ground rather than the player's black. */
+.vid-modal.is-site .vid-modal-inner{width:min(1180px,100%)}
+.vid-modal.is-site .vid-modal-frame{aspect-ratio:auto;height:min(76vh,860px);background:var(--paper)}

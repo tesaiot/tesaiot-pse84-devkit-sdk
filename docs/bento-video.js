@@ -37,11 +37,14 @@
      bento-i18n.js ดูแล เปลี่ยนกล่องที่เปิดค้างอยู่ได้เหมือนเนื้อหาอื่นในหน้า */
   function build(card) {
     var id = card.getAttribute('data-video');
+    /* data-embed ยกหน้าเว็บทั้งหน้าขึ้นมาแทนคลิป — ใช้กลไกกล่องเดียวกันทั้งหมด
+       (ปิดด้วย Escape, คืนโฟกัส, ล็อกการเลื่อน, สลับภาษาตามหน้า) */
+    var site = card.getAttribute('data-embed');
     var titleEl = card.querySelector('.vid-title');
-    var current = titleEl ? titleEl.textContent.trim() : 'TESAIoT';
+    var current = titleEl ? titleEl.textContent.trim() : (site ? card.textContent.trim() : 'TESAIoT');
 
     var modal = document.createElement('div');
-    modal.className = 'vid-modal';
+    modal.className = site ? 'vid-modal is-site' : 'vid-modal';
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-label', current);
@@ -74,13 +77,18 @@
     frame.className = 'vid-modal-frame';
 
     var iframe = document.createElement('iframe');
-    iframe.src = PLAYER + encodeURIComponent(id) +
-      '?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=' + lang() + '&cc_lang_pref=' + lang();
+    if (site) {
+      iframe.src = site;
+      iframe.setAttribute('loading', 'lazy');
+    } else {
+      iframe.src = PLAYER + encodeURIComponent(id) +
+        '?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=' + lang() + '&cc_lang_pref=' + lang();
+      iframe.setAttribute('allow',
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+    }
     iframe.title = current;
-    iframe.setAttribute('allow',
-      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
     iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    iframe.setAttribute('allowfullscreen', '');
     frame.appendChild(iframe);
 
     var foot = document.createElement('div');
@@ -97,12 +105,14 @@
     }
 
     var out = document.createElement('a');
-    out.href = card.getAttribute('href') || ('https://youtu.be/' + id);
+    out.href = card.getAttribute('href') || (site ? site : 'https://youtu.be/' + id);
     out.target = '_blank';
     out.rel = 'noopener';
-    out.textContent = lang() === 'en' ? 'Watch on YouTube ↗' : 'ดูบน YouTube ↗';
-    out.setAttribute('data-th', 'ดูบน YouTube ↗');
-    out.setAttribute('data-en', 'Watch on YouTube ↗');
+    var outTh = site ? 'เปิดในแท็บใหม่ ↗' : 'ดูบน YouTube ↗';
+    var outEn = site ? 'Open in a new tab ↗' : 'Watch on YouTube ↗';
+    out.textContent = lang() === 'en' ? outEn : outTh;
+    out.setAttribute('data-th', outTh);
+    out.setAttribute('data-en', outEn);
 
     foot.appendChild(note);
     foot.appendChild(out);
@@ -160,8 +170,11 @@
   document.addEventListener('click', function (e) {
     /* ปล่อยให้เบราว์เซอร์ทำงานตามปกติเมื่อผู้ใช้ตั้งใจเปิดแท็บใหม่ */
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) { return; }
-    var card = e.target.closest && e.target.closest('[data-video]');
+    var card = e.target.closest && e.target.closest('[data-video],[data-embed]');
     if (!card) { return; }
+    /* หน้าเว็บทั้งหน้าในกล่องแคบ ๆ บนมือถืออ่านยากกว่าเปิดแท็บจริง */
+    if (card.hasAttribute('data-embed') &&
+        window.matchMedia('(max-width: 760px)').matches) { return; }
     e.preventDefault();
     show(card);
   });
