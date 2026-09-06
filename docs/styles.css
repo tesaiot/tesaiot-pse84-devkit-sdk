@@ -812,10 +812,18 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 /* the model draws on an oversized, frameless layer that bleeds past the
    stage; the .b3d band's own edge is the only (invisible) clip, so a zoomed
    board spills into whitespace but never over the page's other content */
-.b3d-bleed{position:absolute;inset:-10% -3% -10% -10%;pointer-events:none}
+.b3d-bleed{position:absolute;inset:0;pointer-events:none}
 .b3d-bleed canvas{pointer-events:auto}
 .b3d-bleed .b3d-pin .b3d-dot{pointer-events:auto}
-.b3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;touch-action:pan-y}
+.b3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;touch-action:pan-y;
+  /* frameless without spilling over the page: the render stops at the stage,
+     but the last ~54px of every edge fades out, so a zoomed board dissolves
+     into the paper instead of ending on a crop line. The pins sit outside
+     this mask and stay crisp. */
+  --b3d-fade:54px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--b3d-fade),#000 calc(100% - var(--b3d-fade)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--b3d-fade),#000 calc(100% - var(--b3d-fade)),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 var(--b3d-fade),#000 calc(100% - var(--b3d-fade)),transparent 100%),linear-gradient(to bottom,transparent 0,#000 var(--b3d-fade),#000 calc(100% - var(--b3d-fade)),transparent 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect}
 .b3d-loadhint{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3);font-size:var(--t-sm);pointer-events:none;transition:opacity .5s;z-index:3}
 .b3d-gone{opacity:0 !important;pointer-events:none !important}
 .b3d-intro{position:absolute;left:24px;top:20px;z-index:3;color:var(--ink);max-width:46ch;transition:opacity .5s,transform .5s}

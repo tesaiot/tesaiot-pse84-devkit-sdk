@@ -26,17 +26,17 @@ function init(section){
   /* stop table: which spec section (index in .specs), which rows to highlight,
      and the measured camera pose + pin anchor */
   const STOPS = [
-    {spec:2, hl:[0],   th:8,    ph:44, r:2.0,  tg:[0.34,0.16,-0.27],  hs:[0.34,0.27,-0.27]},
-    {spec:0, hl:[],    th:-55,  ph:36, r:1.15, tg:[-0.72,0.09,-0.21], hs:[-0.72,0.12,-0.21]},
-    {spec:1, hl:[],    th:-32,  ph:26, r:0.9,  tg:[-0.63,0.09,-0.18], hs:[-0.56,0.1,-0.14]},
-    {spec:4, hl:[0,1], th:-28,  ph:52, r:1.5,  tg:[-0.5,0.03,0.4],    hs:[-0.75,0.09,0.52]},
-    {spec:4, hl:[2],   th:32,   ph:56, r:1.3,  tg:[0.42,0.05,0.72],   hs:[0.43,0.13,0.89]},
-    {spec:4, hl:[3],   th:70,   ph:44, r:1.5,  tg:[0.85,0.04,0.1],    hs:[0.73,0.06,0.58]},
-    {spec:4, hl:[4],   th:44,   ph:28, r:1.1,  tg:[0.59,0.07,0.30],   hs:[0.59,0.15,0.30]},
-    {spec:5, hl:[],    th:12,   ph:30, r:0.95, tg:[-0.42,0.08,-0.55], hs:[-0.42,0.15,-0.6]},
+    {spec:2, hl:[0],   th:8,    ph:44, r:2.24,  tg:[0.34,0.16,-0.27],  hs:[0.34,0.27,-0.27]},
+    {spec:0, hl:[],    th:-55,  ph:36, r:1.288, tg:[-0.72,0.09,-0.21], hs:[-0.72,0.12,-0.21]},
+    {spec:1, hl:[],    th:-32,  ph:26, r:1.008,  tg:[-0.63,0.09,-0.18], hs:[-0.56,0.1,-0.14]},
+    {spec:4, hl:[0,1], th:-28,  ph:52, r:1.68,  tg:[-0.5,0.03,0.4],    hs:[-0.75,0.09,0.52]},
+    {spec:4, hl:[2],   th:32,   ph:56, r:1.456,  tg:[0.42,0.05,0.72],   hs:[0.43,0.13,0.89]},
+    {spec:4, hl:[3],   th:70,   ph:44, r:1.68,  tg:[0.85,0.04,0.1],    hs:[0.73,0.06,0.58]},
+    {spec:4, hl:[4],   th:44,   ph:28, r:1.232,  tg:[0.59,0.07,0.30],   hs:[0.59,0.15,0.30]},
+    {spec:5, hl:[],    th:12,   ph:30, r:1.064, tg:[-0.42,0.08,-0.55], hs:[-0.42,0.15,-0.6]},
   ];
   const NUM = STOPS.length;
-  const INTRO = {th:-25, ph:55, r:2.75, tg:new THREE.Vector3(0,0.05,0)};
+  const INTRO = {th:-25, ph:55, r:3.0, tg:new THREE.Vector3(0,0.05,0)};
   const D2R = Math.PI/180;
   const prefersStill = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = matchMedia('(pointer: coarse)').matches;
