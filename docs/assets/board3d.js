@@ -36,7 +36,7 @@ function init(section){
     {spec:5, hl:[],    th:12,   ph:30, r:0.95, tg:[-0.42,0.08,-0.55], hs:[-0.42,0.15,-0.6]},
   ];
   const NUM = STOPS.length;
-  const INTRO = {th:-25, ph:55, r:3.05, tg:new THREE.Vector3(0,0.05,0)};
+  const INTRO = {th:-25, ph:55, r:2.75, tg:new THREE.Vector3(0,0.05,0)};
   const D2R = Math.PI/180;
   const prefersStill = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = matchMedia('(pointer: coarse)').matches;

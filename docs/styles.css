@@ -797,16 +797,22 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 
 /* ── 3D board tour (board3d.js) ─────────────────────────────────────── */
 .b3d{padding:var(--s-8) 0 var(--s-7);width:100vw;margin-left:calc(50% - 50vw);overflow:hidden}
-.b3d > .wrap{max-width:min(1560px,95vw);margin:0 auto}
+/* .wrap sets `width: min(100% - gutter, --wrap)`, so overriding max-width
+   alone left this band locked at 1180px inside a 100vw shell. Take the width
+   itself: fill the band, keep a gutter that grows with the screen. */
+.b3d > .wrap{width:auto;max-width:none;margin-inline:0;padding-inline:clamp(20px,2.4vw,72px)}
+/* the media goes full width, the heading keeps the page's text column so the
+   band reads as part of the act rather than a stray element */
+.b3d .act-head{width:min(100%,var(--wrap));margin-inline:auto}
 /* when the 3D tour is live, the static spec grid stands down — the panel
    shows the same sections in sync; without WebGL the grid returns */
 .b3d-on #hardware .specs{display:none}
-.b3d-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,470px);gap:var(--s-5);align-items:stretch;margin-top:var(--s-6)}
-.b3d-stage{position:relative;height:min(80vh,760px);min-height:460px;background:transparent}
+.b3d-split{display:grid;grid-template-columns:minmax(0,1fr) clamp(360px,27vw,520px);gap:var(--s-6);align-items:stretch;margin-top:var(--s-6)}
+.b3d-stage{position:relative;height:min(82vh,820px);min-height:460px;background:transparent}
 /* the model draws on an oversized, frameless layer that bleeds past the
    stage; the .b3d band's own edge is the only (invisible) clip, so a zoomed
    board spills into whitespace but never over the page's other content */
-.b3d-bleed{position:absolute;inset:-9% -8%;pointer-events:none}
+.b3d-bleed{position:absolute;inset:-10% -3% -10% -10%;pointer-events:none}
 .b3d-bleed canvas{pointer-events:auto}
 .b3d-bleed .b3d-pin .b3d-dot{pointer-events:auto}
 .b3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;touch-action:pan-y}
