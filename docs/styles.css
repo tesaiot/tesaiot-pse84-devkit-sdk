@@ -796,19 +796,23 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .nav-icon svg{display:block}
 
 /* ── 3D board tour (board3d.js) ─────────────────────────────────────── */
-.b3d{padding:var(--s-8) 0 var(--s-9)}
-.b3d-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);gap:var(--s-5);align-items:stretch;margin-top:var(--s-6)}
-.b3d-stage{position:relative;height:min(74vh,640px);min-height:420px;background:transparent;border-radius:16px;overflow:hidden}
+.b3d{padding:var(--s-8) 0 var(--s-7);width:100vw;margin-left:calc(50% - 50vw)}
+.b3d > .wrap{max-width:min(1560px,95vw);margin:0 auto}
+/* when the 3D tour is live, the static spec grid stands down — the panel
+   shows the same sections in sync; without WebGL the grid returns */
+.b3d-on #hardware .specs{display:none}
+.b3d-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,470px);gap:var(--s-5);align-items:stretch;margin-top:var(--s-6)}
+.b3d-stage{position:relative;height:min(80vh,760px);min-height:460px;background:transparent;border-radius:16px;overflow:hidden}
 .b3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;touch-action:pan-y}
 .b3d-loadhint{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3);font-size:var(--t-sm);pointer-events:none;transition:opacity .5s;z-index:3}
 .b3d-gone{opacity:0 !important;pointer-events:none !important}
 .b3d-intro{position:absolute;left:24px;top:20px;z-index:3;color:var(--ink);max-width:46ch;transition:opacity .5s,transform .5s}
 .b3d-intro h3{font-size:clamp(19px,2.4vw,26px);color:var(--ink);margin:0}
 .b3d-intro p{margin:4px 0 0;font-size:var(--t-sm);color:var(--ink-3)}
-.b3d-cap{position:absolute;left:24px;bottom:56px;max-width:44ch;z-index:3;color:var(--ink);transition:opacity .4s,transform .4s}
+.b3d-cap{position:absolute;left:24px;bottom:78px;max-width:44ch;z-index:3;color:var(--ink);transition:opacity .4s,transform .4s}
 .b3d-swap{opacity:0;transform:translateY(8px)}
 .b3d-capno{font-family:var(--font-mono);font-size:12px;color:var(--orange-ink);letter-spacing:1.5px}
-.b3d-captitle{font-size:clamp(19px,2.4vw,26px);line-height:1.15;color:var(--ink);margin:3px 0 0}
+.b3d-captitle{font-size:clamp(18px,2vw,23px);line-height:1.15;color:var(--ink);margin:3px 0 0}
 .b3d-deck{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:14px;padding:11px 4px;z-index:3}
 .b3d-dots{display:flex;gap:8px;flex:1}
 .b3d-dots button{height:5px;border-radius:3px;border:0;background:var(--line);flex:1;max-width:60px;cursor:pointer;padding:0;position:relative;overflow:hidden}

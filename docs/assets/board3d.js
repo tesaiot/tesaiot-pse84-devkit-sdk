@@ -152,6 +152,7 @@ function init(section){
     scene.add(buildOptiga());
     hintEl.classList.add('b3d-gone');
     section.classList.add('b3d-live');
+    document.documentElement.classList.add('b3d-on');
     if (!coarse && !prefersStill) autoTimer = setTimeout(start, 2800);
   }, undefined, ()=>{ section.hidden = true; });
 
