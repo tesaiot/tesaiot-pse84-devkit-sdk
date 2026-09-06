@@ -60,11 +60,18 @@ function init(section){
   try {
     renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   } catch (e) { section.hidden = true; return; }
+  /* the static spec grid stands down NOW — before the model even loads —
+     so the duplicate never flashes; every failure path below restores it */
+  document.documentElement.classList.add('b3d-on');
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.toneMappingExposure = 1.0;
   renderer.domElement.className = 'b3d-canvas';
-  stage.prepend(renderer.domElement);
+  /* frameless: the canvas lives on a bleed layer larger than the stage */
+  const bleed = document.createElement('div');
+  bleed.className = 'b3d-bleed';
+  bleed.appendChild(renderer.domElement);
+  stage.prepend(bleed);
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 0.02, 60);
@@ -81,7 +88,7 @@ function init(section){
     const p = document.createElement('div'); p.className = 'b3d-pin';
     p.innerHTML = '<button class="b3d-dot" type="button">'+(i+1)+'</button><div class="b3d-lbl"></div>';
     p.querySelector('.b3d-dot').addEventListener('click', ()=>{ pause(); goStop(i); });
-    stage.appendChild(p); return p;
+    bleed.appendChild(p); return p;
   });
 
   const pose = {th:INTRO.th, ph:INTRO.ph, r:INTRO.r, tg:INTRO.tg.clone()};
@@ -152,9 +159,9 @@ function init(section){
     scene.add(buildOptiga());
     hintEl.classList.add('b3d-gone');
     section.classList.add('b3d-live');
-    document.documentElement.classList.add('b3d-on');
     if (!coarse && !prefersStill) autoTimer = setTimeout(start, 2800);
-  }, undefined, ()=>{ section.hidden = true; });
+  }, undefined, ()=>{ section.hidden = true;
+    document.documentElement.classList.remove('b3d-on'); });
 
   /* render loop */
   const v3 = new THREE.Vector3();
@@ -174,7 +181,7 @@ function init(section){
       const sph = new THREE.Spherical().setFromVector3(v3.copy(camera.position).sub(controls.target));
       pose.th = sph.theta/D2R; pose.ph = sph.phi/D2R; pose.r = sph.radius; pose.tg.copy(controls.target);
     }
-    const w = stage.clientWidth, h = stage.clientHeight;
+    const w = bleed.clientWidth, h = bleed.clientHeight;
     pins.forEach((p,i)=>{
       v3.set(...STOPS[i].hs).project(camera);
       if (v3.z < 1){
@@ -188,11 +195,11 @@ function init(section){
   requestAnimationFrame(tick);
 
   function fit(){
-    const w = stage.clientWidth||1, h = stage.clientHeight||1;
+    const w = bleed.clientWidth||1, h = bleed.clientHeight||1;
     renderer.setSize(w, h, false);
     camera.aspect = w/h; camera.updateProjectionMatrix();
   }
-  new ResizeObserver(fit).observe(stage); fit();
+  new ResizeObserver(fit).observe(bleed); fit();
 
   /* ---- synced spec panel: clone the live spec sections ---- */
   function renderIntroPanel(){

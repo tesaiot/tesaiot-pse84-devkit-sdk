@@ -796,13 +796,19 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .nav-icon svg{display:block}
 
 /* ── 3D board tour (board3d.js) ─────────────────────────────────────── */
-.b3d{padding:var(--s-8) 0 var(--s-7);width:100vw;margin-left:calc(50% - 50vw)}
+.b3d{padding:var(--s-8) 0 var(--s-7);width:100vw;margin-left:calc(50% - 50vw);overflow:hidden}
 .b3d > .wrap{max-width:min(1560px,95vw);margin:0 auto}
 /* when the 3D tour is live, the static spec grid stands down — the panel
    shows the same sections in sync; without WebGL the grid returns */
 .b3d-on #hardware .specs{display:none}
 .b3d-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,470px);gap:var(--s-5);align-items:stretch;margin-top:var(--s-6)}
-.b3d-stage{position:relative;height:min(80vh,760px);min-height:460px;background:transparent;border-radius:16px;overflow:hidden}
+.b3d-stage{position:relative;height:min(80vh,760px);min-height:460px;background:transparent}
+/* the model draws on an oversized, frameless layer that bleeds past the
+   stage; the .b3d band's own edge is the only (invisible) clip, so a zoomed
+   board spills into whitespace but never over the page's other content */
+.b3d-bleed{position:absolute;inset:-9% -8%;pointer-events:none}
+.b3d-bleed canvas{pointer-events:auto}
+.b3d-bleed .b3d-pin .b3d-dot{pointer-events:auto}
 .b3d-canvas{position:absolute;inset:0;width:100% !important;height:100% !important;display:block;touch-action:pan-y}
 .b3d-loadhint{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3);font-size:var(--t-sm);pointer-events:none;transition:opacity .5s;z-index:3}
 .b3d-gone{opacity:0 !important;pointer-events:none !important}
@@ -827,7 +833,7 @@ html[lang="en"] .hero h1{ max-width:24ch; }
 .b3d-lbl{position:absolute;left:50%;transform:translateX(-50%);margin-top:9px;background:#fdfcf9;color:#26282c;font-size:13.5px;line-height:1.4;padding:6px 11px;border-radius:9px;box-shadow:0 3px 14px rgba(0,0,0,.3);white-space:nowrap;display:none}
 .b3d-act .b3d-lbl{display:block}
 .b3d-pin[data-flip] .b3d-lbl{white-space:normal;width:max-content;max-width:220px}
-.b3d-panel{border:1px solid var(--line);background:var(--paper-raised);border-radius:16px;padding:var(--s-5);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.b3d-panel{border:1px solid var(--line);background:var(--paper-raised);border-radius:16px;padding:var(--s-5);display:flex;flex-direction:column;min-height:0;overflow:hidden;position:relative;z-index:4}
 .b3d-pbody{overflow-y:auto;min-height:0;transition:opacity .3s,transform .3s}
 .b3d-pnum{font-family:var(--font-mono);font-size:12px;color:var(--orange-ink);letter-spacing:1px;margin-bottom:4px}
 .b3d-pbody .spec{margin:0;border:0;padding:0}
