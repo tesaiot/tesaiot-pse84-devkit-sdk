@@ -13,8 +13,10 @@ var searchData=
   ['ไม่มีทั้งคู่ที่นี่_10',['สองการเรียกที่อาจเคยเห็นจากที่อื่น — ไม่มีทั้งคู่ที่นี่',['../group__peripherals__quickref.html#pq_absent',1,'']]],
   ['ไม่เคยทำงานเมื่อ_20main_20py_20วนลูปไม่จบ_11',['11. การเขียนข้อมูลรับรองลงจริง (flush) ของ mtb-mpy ไม่เคยทำงานเมื่อ /main.py วนลูปไม่จบ',['../group__tut__x__traps__antipatterns.html#x11',1,'']]],
   ['ไม่ใช่การตรวจว่า_20init_20แล้วหรือยัง_12',['3. optiga_chip_enter() ไม่ใช่การตรวจว่า init แล้วหรือยัง',['../group__tut__x__traps__antipatterns.html#x3',1,'']]],
-  ['ไม่ใช่ดัชนี_20slot_20ของ_20optiga_13',['10. ดัชนีในรายการบน UI ไม่ใช่ดัชนี slot ของ OPTIGA',['../group__tut__x__traps__antipatterns.html#x10',1,'']]],
-  ['ไม่ได้กล่าวถึง_14',['จุดแก้ไข 5 จุดใน Makefile ที่ README ไม่ได้กล่าวถึง',['../group__tut__f1__adding__a__screen.html#f1_makefile',1,'']]],
-  ['ไว้_15',['การจับ touch ไว้',['../group__tesaiot__hsm__touch.html',1,'']]],
-  ['ไว้_20แล้วส่งต่อให้_20worker_16',['3. CM33_NS: ล็อกค่า OID ไว้ แล้วส่งต่อให้ worker',['../group__d2__enrolment__protected__update.html#d2_seq_worker',1,'']]]
+  ['ไม่ใช่คำวินิจฉัย_20มันเขียนทับข้อผิดพลาดจริง_13',['25. 0x08060009 ไม่ใช่คำวินิจฉัย มันเขียนทับข้อผิดพลาดจริง',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['ไม่ใช่ดัชนี_20slot_20ของ_20optiga_14',['10. ดัชนีในรายการบน UI ไม่ใช่ดัชนี slot ของ OPTIGA',['../group__tut__x__traps__antipatterns.html#x10',1,'']]],
+  ['ไม่ใช่เครือข่าย_15',['27. MQTTS เงียบสนิทขณะที่ HTTPS ยังทำงาน = ชิปค้าง ไม่ใช่เครือข่าย',['../group__tut__x__traps__antipatterns.html#x27',1,'']]],
+  ['ไม่ได้กล่าวถึง_16',['จุดแก้ไข 5 จุดใน Makefile ที่ README ไม่ได้กล่าวถึง',['../group__tut__f1__adding__a__screen.html#f1_makefile',1,'']]],
+  ['ไว้_17',['การจับ touch ไว้',['../group__tesaiot__hsm__touch.html',1,'']]],
+  ['ไว้_20แล้วส่งต่อให้_20worker_18',['3. CM33_NS: ล็อกค่า OID ไว้ แล้วส่งต่อให้ worker',['../group__d2__enrolment__protected__update.html#d2_seq_worker',1,'']]]
 ];

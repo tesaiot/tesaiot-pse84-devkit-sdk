@@ -68,9 +68,10 @@ var searchData=
   ['hsm_5fprovision_5fui_2edox_65',['hsm_provision_ui.dox',['../hsm__provision__ui_8dox.html',1,'']]],
   ['hsm_5fprovision_5fui_2eh_66',['hsm_provision_ui.h',['../hsm__provision__ui_8h.html',1,'']]],
   ['hsm_5fprovision_5fui_5fteardown_67',['hsm_provision_ui_teardown',['../group__cm55__core__hsm__provision__ui.html#ga8f4afea5d9ada4a8fa07e99822b854b0',1,'hsm_provision_ui.h']]],
-  ['https_20path_68',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
-  ['https_20rest_20the_20device_20api_20key_20and_20mtls_69',['C5 — TESAIoT cloud: HTTPS REST, the Device API Key, and mTLS',['../group__c5__cloud__https.html',1,'']]],
-  ['https_20transport_70',['HTTPS transport',['../group__mpy__secure__claw__https.html',1,'']]],
-  ['hub_71',['hub',['../group__j3__sensor__auto.html',1,'J3 — The auto-push task and the sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]],
-  ['hz_20model_20then_20put_20it_20back_72',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
+  ['https_20is_20a_20wedged_20chip_20not_20a_20network_20fault_68',['27. Silent MQTTS with working HTTPS is a wedged chip, not a network fault',['../group__tut__x__traps__antipatterns.html#x27',1,'']]],
+  ['https_20path_69',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['https_20rest_20the_20device_20api_20key_20and_20mtls_70',['C5 — TESAIoT cloud: HTTPS REST, the Device API Key, and mTLS',['../group__c5__cloud__https.html',1,'']]],
+  ['https_20transport_71',['HTTPS transport',['../group__mpy__secure__claw__https.html',1,'']]],
+  ['hub_72',['hub',['../group__j3__sensor__auto.html',1,'J3 — The auto-push task and the sensor hub'],['../group__ipc__core__ipc__sensorhub.html',1,'Sensor hub']]],
+  ['hz_20model_20then_20put_20it_20back_73',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
 ];

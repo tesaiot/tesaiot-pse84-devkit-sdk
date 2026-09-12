@@ -55,7 +55,8 @@ var searchData=
   ['ordinals_20are_20abi_20baked_20into_20libbento_5fipc_20a_52',['14. PAGE_ID ordinals are ABI baked into libbento_ipc.a',['../group__tut__x__traps__antipatterns.html#x14',1,'']]],
   ['overridables_53',['ble_nus — five overridables',['../group__tut__y__consumer__contracts.html#y_ble',1,'']]],
   ['overview_54',['Overview',['../index.html',1,'']]],
-  ['own_20membership_55',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
-  ['owns_56',['cm55_core — the seam the reader owns',['../group__tut__y__consumer__contracts.html#y_cm55',1,'']]],
-  ['owns_20which_20capability_57',['Which module owns which capability',['../group__a0__orientation.html#a0_modules',1,'']]]
+  ['overwrites_20the_20real_20error_55',['25. 0x08060009 is not a diagnosis — it overwrites the real error',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['own_20membership_56',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
+  ['owns_57',['cm55_core — the seam the reader owns',['../group__tut__y__consumer__contracts.html#y_cm55',1,'']]],
+  ['owns_20which_20capability_58',['Which module owns which capability',['../group__a0__orientation.html#a0_modules',1,'']]]
 ];

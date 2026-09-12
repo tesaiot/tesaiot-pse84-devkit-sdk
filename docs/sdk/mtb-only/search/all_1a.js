@@ -144,7 +144,8 @@ var searchData=
   ['overridables_141',['overridables',['../group__tut__y__consumer__contracts.html',1,'Appendix Y — Consumer-provided symbols and overridables'],['../group__tut__y__consumer__contracts.html#y_ble',1,'ble_nus — five overridables']]],
   ['overridables_20implement_20don_20t_20call_142',['WiFi overridables (implement, don&apos;t call)',['../group__ble__nus__wifi__overridables.html',1,'']]],
   ['overview_143',['Overview',['../index.html',1,'']]],
-  ['own_20membership_144',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
-  ['owns_145',['cm55_core — the seam the reader owns',['../group__tut__y__consumer__contracts.html#y_cm55',1,'']]],
-  ['owns_20which_20capability_146',['Which module owns which capability',['../group__a0__orientation.html#a0_modules',1,'']]]
+  ['overwrites_20the_20real_20error_144',['25. 0x08060009 is not a diagnosis — it overwrites the real error',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['own_20membership_145',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
+  ['owns_146',['cm55_core — the seam the reader owns',['../group__tut__y__consumer__contracts.html#y_cm55',1,'']]],
+  ['owns_20which_20capability_147',['Which module owns which capability',['../group__a0__orientation.html#a0_modules',1,'']]]
 ];

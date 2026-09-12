@@ -28,12 +28,13 @@ var searchData=
   ['ที่ล็อกไว้_25',['ขั้นที่ 6 — Enrol เข้า slot ที่ล็อกไว้',['../group__d2__enrolment__protected__update.html#d2_step6',1,'']]],
   ['ที่ล็อกไว้_20สร้างกุญแจและ_20csr_20แล้ว_20publish_26',['6–8. ปฏิเสธ slot ที่ล็อกไว้ สร้างกุญแจและ CSR แล้ว publish',['../group__d2__enrolment__protected__update.html#d2_seq_flow',1,'']]],
   ['ที่วางอยู่บนนั้น_27',['ชั้น config ที่วางอยู่บนนั้น',['../group__g1__bento__storage.html#g1_config',1,'']]],
-  ['ที่สำเร็จ_28',['หนึ่ง exit ต่อหนึ่ง enter ที่สำเร็จ',['../group__d1__chip__access__discipline.html#d1_seq_exit',1,'']]],
-  ['ที่หน้าจอมีให้_20ทั้งสอง_20variant_29',['ขั้นที่ 1 — ดูรายชื่อ set ที่หน้าจอมีให้ (ทั้งสอง variant)',['../group__tut__e2__parallel__sets.html#e2_step1',1,'']]],
-  ['ที่เก็บข้อมูลรับรองฝั่ง_20c_20—_20ชื่อเดิม_20ไบต์เดิม_30',['ที่เก็บข้อมูลรับรองฝั่ง C — ชื่อเดิม ไบต์เดิม',['../group__g1__bento__storage.html#g1_creds',1,'']]],
-  ['ที่เป็นของ_20edge_20ai_31',['ขั้นที่ 4 — ยืนยันว่าไม่มีอะไรบน UART ที่เป็นของ Edge AI',['../group__tut__e4__diagnostics.html#e4_step4',1,'']]],
-  ['ที่ใช้แบบ_20weak_20ต้องตรวจ_20null_20ที่พอยน์เตอร์ก่อนเรียก_32',['19. symbol ของ HSM ที่ใช้แบบ weak ต้องตรวจ NULL ที่พอยน์เตอร์ก่อนเรียก',['../group__tut__x__traps__antipatterns.html#x19',1,'']]],
-  ['ที่ไม่มีขอบเวลาบนบัสจอแสดงผลที่ใช้ร่วมกัน_20ทำให้_20cm55_20อดทำงาน_33',['13. timeout ของ I2C ที่ไม่มีขอบเวลาบนบัสจอแสดงผลที่ใช้ร่วมกัน ทำให้ CM55 อดทำงาน',['../group__tut__x__traps__antipatterns.html#x13',1,'']]],
-  ['ที่ไม่ใช่_20dualband_34',['ขั้นที่ 2 — ทำให้กฎวิทยุเดียวทำงาน (mtb-mpy, build ที่ไม่ใช่ DualBand)',['../group__tut__i1__ble__bringup__single__rf.html#i1_step2',1,'']]],
-  ['ที่_20readme_20ไม่ได้กล่าวถึง_35',['จุดแก้ไข 5 จุดใน Makefile ที่ README ไม่ได้กล่าวถึง',['../group__tut__f1__adding__a__screen.html#f1_makefile',1,'']]]
+  ['ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น_28',['26. การ enrol ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น',['../group__tut__x__traps__antipatterns.html#x26',1,'']]],
+  ['ที่สำเร็จ_29',['หนึ่ง exit ต่อหนึ่ง enter ที่สำเร็จ',['../group__d1__chip__access__discipline.html#d1_seq_exit',1,'']]],
+  ['ที่หน้าจอมีให้_20ทั้งสอง_20variant_30',['ขั้นที่ 1 — ดูรายชื่อ set ที่หน้าจอมีให้ (ทั้งสอง variant)',['../group__tut__e2__parallel__sets.html#e2_step1',1,'']]],
+  ['ที่เก็บข้อมูลรับรองฝั่ง_20c_20—_20ชื่อเดิม_20ไบต์เดิม_31',['ที่เก็บข้อมูลรับรองฝั่ง C — ชื่อเดิม ไบต์เดิม',['../group__g1__bento__storage.html#g1_creds',1,'']]],
+  ['ที่เป็นของ_20edge_20ai_32',['ขั้นที่ 4 — ยืนยันว่าไม่มีอะไรบน UART ที่เป็นของ Edge AI',['../group__tut__e4__diagnostics.html#e4_step4',1,'']]],
+  ['ที่ใช้แบบ_20weak_20ต้องตรวจ_20null_20ที่พอยน์เตอร์ก่อนเรียก_33',['19. symbol ของ HSM ที่ใช้แบบ weak ต้องตรวจ NULL ที่พอยน์เตอร์ก่อนเรียก',['../group__tut__x__traps__antipatterns.html#x19',1,'']]],
+  ['ที่ไม่มีขอบเวลาบนบัสจอแสดงผลที่ใช้ร่วมกัน_20ทำให้_20cm55_20อดทำงาน_34',['13. timeout ของ I2C ที่ไม่มีขอบเวลาบนบัสจอแสดงผลที่ใช้ร่วมกัน ทำให้ CM55 อดทำงาน',['../group__tut__x__traps__antipatterns.html#x13',1,'']]],
+  ['ที่ไม่ใช่_20dualband_35',['ขั้นที่ 2 — ทำให้กฎวิทยุเดียวทำงาน (mtb-mpy, build ที่ไม่ใช่ DualBand)',['../group__tut__i1__ble__bringup__single__rf.html#i1_step2',1,'']]],
+  ['ที่_20readme_20ไม่ได้กล่าวถึง_36',['จุดแก้ไข 5 จุดใน Makefile ที่ README ไม่ได้กล่าวถึง',['../group__tut__f1__adding__a__screen.html#f1_makefile',1,'']]]
 ];

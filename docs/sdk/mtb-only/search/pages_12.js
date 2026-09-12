@@ -18,6 +18,7 @@ var searchData=
   ['how_20it_20broke_15',['The trust anchor, and how it broke',['../group__c5__cloud__https.html#c5_trust',1,'']]],
   ['hsm_20surface_20still_20works_20with_20clm_20off_16',['Step 4 — Confirm the rest of the HSM surface still works with CLM off',['../group__d3__weak__symbols__clm.html#d3_step4',1,'']]],
   ['hsm_20symbols_20require_20pointer_20null_20checks_17',['19. Weak-consumed HSM symbols require pointer NULL checks',['../group__tut__x__traps__antipatterns.html#x19',1,'']]],
-  ['https_20path_18',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
-  ['hz_20model_20then_20put_20it_20back_19',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
+  ['https_20is_20a_20wedged_20chip_20not_20a_20network_20fault_18',['27. Silent MQTTS with working HTTPS is a wedged chip, not a network fault',['../group__tut__x__traps__antipatterns.html#x27',1,'']]],
+  ['https_20path_19',['mTLS on the HTTPS path',['../group__c5__cloud__https.html#c5_mtls',1,'']]],
+  ['hz_20model_20then_20put_20it_20back_20',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
 ];

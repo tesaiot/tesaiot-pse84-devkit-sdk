@@ -51,5 +51,8 @@ var searchData=
   ['22_20ไฟส่องหลังจอ_20backlight_20ตอนบูตเย็น_20mtb_20only_48',['22. ไฟส่องหลังจอ (backlight) ตอนบูตเย็น (mtb-only)',['../group__tut__x__traps__antipatterns.html#x22',1,'']]],
   ['23_20ช่องว่างต่อท้ายใน_20bsp_5ffeatures_20mk_20ทำให้คุณสมบัตินั้นหายไปเงียบ_20ๆ_49',['23. ช่องว่างต่อท้ายใน bsp_features.mk ทำให้คุณสมบัตินั้นหายไปเงียบ ๆ',['../group__tut__x__traps__antipatterns.html#x23',1,'']]],
   ['24_20gpio_5fipc_5fmsg_20ใช้ร่วมกันแบบ_20non_20static_20กับ_20modoptiga_20c_50',['24. gpio_ipc_msg ใช้ร่วมกันแบบ non-static กับ modoptiga.c',['../group__tut__x__traps__antipatterns.html#x24',1,'']]],
-  ['253_51',['ขั้นที่ 4 — คำมั่นที่บันทึกไว้: select(13) รายงานค่า 253',['../group__tut__e1__select__confirm__start.html#e1_step4',1,'']]]
+  ['25_200x08060009_20ไม่ใช่คำวินิจฉัย_20มันเขียนทับข้อผิดพลาดจริง_51',['25. 0x08060009 ไม่ใช่คำวินิจฉัย มันเขียนทับข้อผิดพลาดจริง',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['253_52',['ขั้นที่ 4 — คำมั่นที่บันทึกไว้: select(13) รายงานค่า 253',['../group__tut__e1__select__confirm__start.html#e1_step4',1,'']]],
+  ['26_20การ_20enrol_20ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น_53',['26. การ enrol ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น',['../group__tut__x__traps__antipatterns.html#x26',1,'']]],
+  ['27_20mqtts_20เงียบสนิทขณะที่_20https_20ยังทำงาน_20ชิปค้าง_20ไม่ใช่เครือข่าย_54',['27. MQTTS เงียบสนิทขณะที่ HTTPS ยังทำงาน = ชิปค้าง ไม่ใช่เครือข่าย',['../group__tut__x__traps__antipatterns.html#x27',1,'']]]
 ];

@@ -53,12 +53,13 @@ var searchData=
   ['การเรียก_20ipc_5flcd_5ftoggle_5fpanel_20แบบตาบอดทำให้สถานะกลับด้าน_50',['7. การเรียก ipc_lcd_toggle_panel() แบบตาบอดทำให้สถานะกลับด้าน',['../group__tut__x__traps__antipatterns.html#x7',1,'']]],
   ['การแพ็ก_20payload_20การลองใหม่_20และการบันทึก_51',['Connect: การแพ็ก payload การลองใหม่ และการบันทึก',['../group__c2__wifi__ui__ipc.html#c2_seq_connect',1,'']]],
   ['การ_20bring_20up_20ble_20และกฎวิทยุเดียว_52',['I1 — การ bring-up BLE และกฎวิทยุเดียว',['../group__tut__i1__ble__bringup__single__rf.html',1,'']]],
-  ['การ_20ingest_20bundle_20ของ_20protected_20update_53',['9b. เส้นทางขากลับ B — การ ingest bundle ของ Protected Update',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
-  ['การ_20init_20และลำดับการเรียก_54',['การ init และลำดับการเรียก',['../group__ipc__core__index__order.html',1,'']]],
-  ['การ_20unload_20และโมเดลแบบ_20staged_55',['การ unload และโมเดลแบบ staged',['../group__edge__ai__unload__staged.html',1,'']]],
-  ['กำลังทำงานอยู่_20ทั้งสอง_20variant_56',['ขั้นที่ 1 — ยืนยันว่า task กำลังทำงานอยู่ (ทั้งสอง variant)',['../group__j3__sensor__auto.html#j3_step1',1,'']]],
-  ['กำหนดสมาชิกภาพเอง_57',['ขั้นที่ 4 — กำหนดสมาชิกภาพเอง',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
-  ['กุญแจสองชนิด_20อยู่คนละช่อง_58',['กุญแจสองชนิด อยู่คนละช่อง',['../group__c5__cloud__https.html#c5_keys',1,'']]],
-  ['ก่อนเริ่ม_59',['ขั้นที่ 1 — เก็บสภาพชิปเป็น snapshot ก่อนเริ่ม',['../group__d2__enrolment__protected__update.html#d2_step1',1,'']]],
-  ['ก่อน_20แล้วจึง_20read_20ทีละ_20slot_20ต่อหนึ่ง_20tick_60',['รายการเครือข่ายที่บันทึกไว้: probe ก่อน แล้วจึง read ทีละ slot ต่อหนึ่ง tick',['../group__c2__wifi__ui__ipc.html#c2_seq_list',1,'']]]
+  ['การ_20enrol_20ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น_53',['26. การ enrol ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น',['../group__tut__x__traps__antipatterns.html#x26',1,'']]],
+  ['การ_20ingest_20bundle_20ของ_20protected_20update_54',['9b. เส้นทางขากลับ B — การ ingest bundle ของ Protected Update',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
+  ['การ_20init_20และลำดับการเรียก_55',['การ init และลำดับการเรียก',['../group__ipc__core__index__order.html',1,'']]],
+  ['การ_20unload_20และโมเดลแบบ_20staged_56',['การ unload และโมเดลแบบ staged',['../group__edge__ai__unload__staged.html',1,'']]],
+  ['กำลังทำงานอยู่_20ทั้งสอง_20variant_57',['ขั้นที่ 1 — ยืนยันว่า task กำลังทำงานอยู่ (ทั้งสอง variant)',['../group__j3__sensor__auto.html#j3_step1',1,'']]],
+  ['กำหนดสมาชิกภาพเอง_58',['ขั้นที่ 4 — กำหนดสมาชิกภาพเอง',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
+  ['กุญแจสองชนิด_20อยู่คนละช่อง_59',['กุญแจสองชนิด อยู่คนละช่อง',['../group__c5__cloud__https.html#c5_keys',1,'']]],
+  ['ก่อนเริ่ม_60',['ขั้นที่ 1 — เก็บสภาพชิปเป็น snapshot ก่อนเริ่ม',['../group__d2__enrolment__protected__update.html#d2_step1',1,'']]],
+  ['ก่อน_20แล้วจึง_20read_20ทีละ_20slot_20ต่อหนึ่ง_20tick_61',['รายการเครือข่ายที่บันทึกไว้: probe ก่อน แล้วจึง read ทีละ slot ต่อหนึ่ง tick',['../group__c2__wifi__ui__ipc.html#c2_seq_list',1,'']]]
 ];

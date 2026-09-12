@@ -30,10 +30,11 @@ var searchData=
   ['การเรียก_202_20ตัวที่มีตัวอย่างอยู่จริงในของที่ส่งมอบ_27',['ขั้นที่ 2 — การเรียก 2 ตัวที่มีตัวอย่างอยู่จริงในของที่ส่งมอบ',['../group__j2__sensors__api.html#j2_step2',1,'']]],
   ['การเรียก_20ipc_5flcd_5ftoggle_5fpanel_20แบบตาบอดทำให้สถานะกลับด้าน_28',['7. การเรียก ipc_lcd_toggle_panel() แบบตาบอดทำให้สถานะกลับด้าน',['../group__tut__x__traps__antipatterns.html#x7',1,'']]],
   ['การแพ็ก_20payload_20การลองใหม่_20และการบันทึก_29',['Connect: การแพ็ก payload การลองใหม่ และการบันทึก',['../group__c2__wifi__ui__ipc.html#c2_seq_connect',1,'']]],
-  ['การ_20ingest_20bundle_20ของ_20protected_20update_30',['9b. เส้นทางขากลับ B — การ ingest bundle ของ Protected Update',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
-  ['กำลังทำงานอยู่_20ทั้งสอง_20variant_31',['ขั้นที่ 1 — ยืนยันว่า task กำลังทำงานอยู่ (ทั้งสอง variant)',['../group__j3__sensor__auto.html#j3_step1',1,'']]],
-  ['กำหนดสมาชิกภาพเอง_32',['ขั้นที่ 4 — กำหนดสมาชิกภาพเอง',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
-  ['กุญแจสองชนิด_20อยู่คนละช่อง_33',['กุญแจสองชนิด อยู่คนละช่อง',['../group__c5__cloud__https.html#c5_keys',1,'']]],
-  ['ก่อนเริ่ม_34',['ขั้นที่ 1 — เก็บสภาพชิปเป็น snapshot ก่อนเริ่ม',['../group__d2__enrolment__protected__update.html#d2_step1',1,'']]],
-  ['ก่อน_20แล้วจึง_20read_20ทีละ_20slot_20ต่อหนึ่ง_20tick_35',['รายการเครือข่ายที่บันทึกไว้: probe ก่อน แล้วจึง read ทีละ slot ต่อหนึ่ง tick',['../group__c2__wifi__ui__ipc.html#c2_seq_list',1,'']]]
+  ['การ_20enrol_20ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น_30',['26. การ enrol ที่สำเร็จเปลี่ยนใบที่บอร์ดยื่น',['../group__tut__x__traps__antipatterns.html#x26',1,'']]],
+  ['การ_20ingest_20bundle_20ของ_20protected_20update_31',['9b. เส้นทางขากลับ B — การ ingest bundle ของ Protected Update',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]],
+  ['กำลังทำงานอยู่_20ทั้งสอง_20variant_32',['ขั้นที่ 1 — ยืนยันว่า task กำลังทำงานอยู่ (ทั้งสอง variant)',['../group__j3__sensor__auto.html#j3_step1',1,'']]],
+  ['กำหนดสมาชิกภาพเอง_33',['ขั้นที่ 4 — กำหนดสมาชิกภาพเอง',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
+  ['กุญแจสองชนิด_20อยู่คนละช่อง_34',['กุญแจสองชนิด อยู่คนละช่อง',['../group__c5__cloud__https.html#c5_keys',1,'']]],
+  ['ก่อนเริ่ม_35',['ขั้นที่ 1 — เก็บสภาพชิปเป็น snapshot ก่อนเริ่ม',['../group__d2__enrolment__protected__update.html#d2_step1',1,'']]],
+  ['ก่อน_20แล้วจึง_20read_20ทีละ_20slot_20ต่อหนึ่ง_20tick_36',['รายการเครือข่ายที่บันทึกไว้: probe ก่อน แล้วจึง read ทีละ slot ต่อหนึ่ง tick',['../group__c2__wifi__ui__ipc.html#c2_seq_list',1,'']]]
 ];

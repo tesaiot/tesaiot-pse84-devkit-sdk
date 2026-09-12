@@ -68,7 +68,8 @@ var searchData=
   ['out_20what_20the_20board_20thinks_20it_20has_65',['Step 1 — Find out what the board thinks it has',['../group__j4__gpio.html#j4_step1',1,'']]],
   ['overridables_66',['ble_nus — five overridables',['../group__tut__y__consumer__contracts.html#y_ble',1,'']]],
   ['overview_67',['Overview',['../index.html',1,'']]],
-  ['own_20membership_68',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
-  ['owns_69',['cm55_core — the seam the reader owns',['../group__tut__y__consumer__contracts.html#y_cm55',1,'']]],
-  ['owns_20which_20capability_70',['Which module owns which capability',['../group__a0__orientation.html#a0_modules',1,'']]]
+  ['overwrites_20the_20real_20error_68',['25. 0x08060009 is not a diagnosis — it overwrites the real error',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['own_20membership_69',['Step 4 — Define your own membership',['../group__tut__e2__parallel__sets.html#e2_step4',1,'']]],
+  ['owns_70',['cm55_core — the seam the reader owns',['../group__tut__y__consumer__contracts.html#y_cm55',1,'']]],
+  ['owns_20which_20capability_71',['Which module owns which capability',['../group__a0__orientation.html#a0_modules',1,'']]]
 ];

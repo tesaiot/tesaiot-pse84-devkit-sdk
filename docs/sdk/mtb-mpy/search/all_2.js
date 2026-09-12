@@ -40,5 +40,8 @@ var searchData=
   ['22_20cold_20boot_20backlight_20mtb_20only_37',['22. Cold-boot backlight (mtb-only)',['../group__tut__x__traps__antipatterns.html#x22',1,'']]],
   ['23_20a_20trailing_20space_20in_20bsp_5ffeatures_20mk_20silently_20drops_20the_20feature_38',['23. A trailing space in bsp_features.mk silently drops the feature',['../group__tut__x__traps__antipatterns.html#x23',1,'']]],
   ['24_20gpio_5fipc_5fmsg_20is_20shared_20non_20static_20with_20modoptiga_20c_39',['24. gpio_ipc_msg is shared, non-static, with modoptiga.c',['../group__tut__x__traps__antipatterns.html#x24',1,'']]],
-  ['253_40',['Step 4 — The documented promise: select(13) reports 253',['../group__tut__e1__select__confirm__start.html#e1_step4',1,'']]]
+  ['25_200x08060009_20is_20not_20a_20diagnosis_20—_20it_20overwrites_20the_20real_20error_40',['25. 0x08060009 is not a diagnosis — it overwrites the real error',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['253_41',['Step 4 — The documented promise: select(13) reports 253',['../group__tut__e1__select__confirm__start.html#e1_step4',1,'']]],
+  ['26_20a_20successful_20enrolment_20changes_20which_20certificate_20the_20board_20presents_42',['26. A successful enrolment changes which certificate the board presents',['../group__tut__x__traps__antipatterns.html#x26',1,'']]],
+  ['27_20silent_20mqtts_20with_20working_20https_20is_20a_20wedged_20chip_20not_20a_20network_20fault_43',['27. Silent MQTTS with working HTTPS is a wedged chip, not a network fault',['../group__tut__x__traps__antipatterns.html#x27',1,'']]]
 ];
