@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['bento_5fbuddy_5fauto_5fstart_5finstall_0',['bento_buddy_auto_start_install',['../group__ble__nus__buddy__lifecycle.html#gafee8c6a01fc04670e48e970244e761c7',1,'ble_nus_lazy.h']]],
+  ['bento_5fbuddy_5frequest_5fstart_1',['bento_buddy_request_start',['../group__ble__nus__buddy__lifecycle.html#ga7e6005710253c77508887fa408d86941',1,'ble_nus_lazy.h']]],
+  ['bento_5fbuddy_5frequest_5fstop_2',['bento_buddy_request_stop',['../group__ble__nus__buddy__lifecycle.html#ga3df578a435df6c7eb32263b42d149469',1,'ble_nus_lazy.h']]],
+  ['bento_5fdevmode_5femit_5fprovision_3',['bento_devmode_emit_provision',['../group__ble__nus__devmode.html#gaca8f061197e08945a1791c63ee7c6564',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5finit_4',['bento_devmode_init',['../group__ble__nus__devmode.html#gaf0aa5b2041b397c3212794de273cc528',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5fis_5funlocked_5',['bento_devmode_is_unlocked',['../group__ble__nus__devmode.html#ga51d7e28f247e145ddd56b30e881cbfbc',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5flock_6',['bento_devmode_lock',['../group__ble__nus__devmode.html#ga077a7ff9f64d71b340592b89637be94f',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5fnonce_5fissue_7',['bento_devmode_nonce_issue',['../group__ble__nus__devmode.html#ga813f03fa4aa43cade0eab6fa59f26a29',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5fsecret_5ffp_5fhex_8',['bento_devmode_secret_fp_hex',['../group__ble__nus__devmode.html#gabf3818c3eaac1f16bef47c46df56c6e9',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5fsecret_5fhex_9',['bento_devmode_secret_hex',['../group__ble__nus__devmode.html#gaac392edc629e27709aa9c3c19139f1ff',1,'bento_devmode.h']]],
+  ['bento_5fdevmode_5funlock_10',['bento_devmode_unlock',['../group__ble__nus__devmode.html#gab8b5bb0f5795810eb49a962bdbbf031f',1,'bento_devmode.h']]],
+  ['bento_5ffw_5femit_5fboot_5fcomplete_11',['bento_fw_emit_boot_complete',['../group__ble__nus__fw__update.html#ga51722bf67fff9a89a41672c5b129142d',1,'bento_fw.h']]],
+  ['bento_5ffw_5fhandle_5fquery_12',['bento_fw_handle_query',['../group__ble__nus__fw__update.html#gaad3067766a2d9274f68eeb043eb93410',1,'bento_fw.h']]],
+  ['bento_5ffw_5fhandle_5fupdate_5fbegin_13',['bento_fw_handle_update_begin',['../group__ble__nus__fw__update.html#ga700be6a0ba8654b898b9507effddc6b3',1,'bento_fw.h']]],
+  ['bento_5ffw_5fon_5fuser_5fdecision_14',['bento_fw_on_user_decision',['../group__ble__nus__fw__update.html#ga2532dc822acfee94f397d927e36eee96',1,'bento_fw.h']]],
+  ['bento_5ftime_5fhandle_5fnow_15',['bento_time_handle_now',['../bento__time_8h.html#a7d47e21e47b51d85dc03b5a6a22eccbf',1,'bento_time.h']]],
+  ['bento_5ftime_5fhandle_5fsync_16',['bento_time_handle_sync',['../bento__time_8h.html#a509f31b0ecddbfb58cd14e3a90622bc4',1,'bento_time.h']]],
+  ['ble_5fnus_5fdeinit_17',['ble_nus_deinit',['../group__ble__nus__nus__core__send.html#gaa6ee81a3e69ca99a9741e8b6987c1930',1,'ble_nus.h']]],
+  ['ble_5fnus_5fget_5fadv_5fname_18',['ble_nus_get_adv_name',['../group__ble__nus__nus__core__send.html#gaf62cc7715e146b8665fbd529f48f975d',1,'ble_nus.h']]],
+  ['ble_5fnus_5fget_5fdiagnostics_19',['ble_nus_get_diagnostics',['../group__ble__nus__nus__core__send.html#ga5e989e850a58006e32719c7420438443',1,'ble_nus.h']]],
+  ['ble_5fnus_5fget_5fstate_20',['ble_nus_get_state',['../group__ble__nus__nus__core__send.html#gad08cc38865761b359b25faf454141257',1,'ble_nus.h']]],
+  ['ble_5fnus_5finit_21',['ble_nus_init',['../group__ble__nus__nus__core__send.html#ga78f4f2626a6066e37f91f238be5a959c',1,'ble_nus.h']]],
+  ['ble_5fnus_5fpasskey_5fcb_22',['ble_nus_passkey_cb',['../group__ble__nus__nus__core__send.html#ga1b2d1127da36b2a15d7d66c048a78d3f',1,'ble_nus.h']]],
+  ['ble_5fnus_5frearm_5fadvertising_23',['ble_nus_rearm_advertising',['../group__ble__nus__nus__core__send.html#ga4bb916429466559aa793ed1761e5c420',1,'ble_nus.h']]],
+  ['ble_5fnus_5fsend_24',['ble_nus_send',['../group__ble__nus__nus__core__send.html#ga01d005d3cd13a5301611e72a6210411a',1,'ble_nus.h']]]
+];
