@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-09-30T14:38:13Z",
+  "generated_at": "2026-10-03T11:52:54Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -150,10 +150,24 @@
       "firmware_version": "2.4.5",
       "release": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; KitProg3 on a TESAIoT Dev Kit reports KIT_PSE84_AI (fw-loader --info 2026-09-27)",
-      "description": "MicroPython on the board — use this one. The Wi-Fi page no longer pre-fills a development network's password; everything in 2.4.4 is kept. Released after build and image checks, not flashed on a bench board.",
+      "description": "Superseded by 2.4.6. Everything in 2.4.5 (no development Wi-Fi password in the firmware, the credential check) is carried into 2.4.6.",
       "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.4.5.hex",
       "sha256": "b46aeebade71bbb3609332afdb8a3278af9dc52d44b5f357709b583703b66679",
       "release_tag": "fw-mpy-v2.4.5",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "2.4.6",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-03; KitProg3 on a TESAIoT Dev Kit reports KIT_PSE84_AI (fw-loader --info 2026-09-27)",
+      "description": "MicroPython on the board — use this one. Fixes a network stall after repeated refused secure connections, checks the server certificate in bentoclaw.connect(), keeps BENTO Claw away from the board's secret files, adds Pin.irq and PDM_PCM.overruns(), and stops a microphone left running.",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.4.6.hex",
+      "sha256": "a6f2625927860896d5cd24d4dd9d3a90f547c5e8ee409fbaa3cf6dacd669a3fe",
+      "release_tag": "fw-mpy-v2.4.6",
       "status": "OK"
     }
   ]
