@@ -43,7 +43,7 @@ variant writes, so a board can move between the two without losing them.
 ## 2. Getting it: the release zip, or a clone plus `lib/`
 
 **The release zip is the complete package.** Download
-`bento-firmware-template-mtb-only.zip` from the `fw-c-only-v1.12.0` release of
+`bento-firmware-template-mtb-only.zip` from the `fw-c-only-v1.13.0` release of
 [tesaiot/tesaiot-pse84-devkit-sdk](https://github.com/tesaiot/tesaiot-pse84-devkit-sdk/releases),
 unzip it, and check the archives before anything else:
 
@@ -220,8 +220,8 @@ Read it before you wire anything. Three points from it:
   pull-up when it first opens.
 - **SW1 to SW4 are not wired to the E84.** The CapSense controller on the base
   board reads them and reports them over I2C at address 0x08, and only its
-  firmware protocol 0x0D or 0x0E reports them. The link needs SW12 ON (V3.1)
-  and a restart; B1 boards have no link. The decoding was tested on the host
+  firmware protocol 0x0D or 0x0E reports them. The link needs SW12 ON and a
+  restart. The decoding was tested on the host
   only, because no board with that firmware was available. The GPIO & RGB
   Matrix page says which firmware it found (its on-screen text says "0x0D or
   newer"; it accepts only 0x0D and 0x0E).
@@ -239,7 +239,7 @@ the same diagram with a Thai legend, and an SVG version for zooming.
 
 ## 6. What is prebuilt
 
-Five areas ship as static libraries in `lib/` rather than as source:
+These areas ship as static libraries in `lib/` rather than as source:
 
 | Area | Library | Core |
 |---|---|---|
@@ -247,7 +247,6 @@ Five areas ship as static libraries in `lib/` rather than as source:
 | HSM screen, Edge AI page, display bring-up | `libbento_cm55.a` | CM55 |
 | Core IPC: service, LCD, UI, sensor hub | `libbento_ipc.a` | CM55 |
 | OPTIGA enrolment: CSR and Protected Update | `libbento_hsm.a` | CM33_NS |
-| Bento Buddy BLE agent | `libbento_secure.a` | CM33_NS; no Makefile in this package links it |
 
 Each sits in `lib/<area>/` with its own `include/`, an `api.txt` listing every
 symbol it exports, a `consumer_must_provide.txt` listing what it expects from
@@ -285,7 +284,7 @@ through each of these with code taken from this tree.
 - **GPIO & RGB Matrix page:** the pin beside every input, the knobs in mV
   (0 to 1800) as well as raw, the CapSense link state, and SW1-SW4 when the
   CapSense controller runs firmware protocol 0x0D or 0x0E (decoding tested on
-  the host only; needs SW12 ON and a restart; B1 boards have no link).
+  the host only; needs SW12 ON and a restart).
 - **Sensor Dashboard:** the CapSense line is redrawn only when it changes,
   which removes a visible flicker.
 - **Start-up:** BMI270, DPS368 and SHT40 initialisation is tried up to four times

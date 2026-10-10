@@ -196,7 +196,7 @@ flag ของ BSP ตามที่บอร์ดนี้ตั้งไว�
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">ปุ่ม USER บน SoM  </td><td class="markdownTableBodyNone"><span class="tt">CYBSP_USER_BTN1</span>  </td><td class="markdownTableBodyNone">SoM พิมพ์ชื่อว่า SW1 ส่วนโมดูล <span class="tt">gpio</span> ของ mtb-mpy รายงานชื่อเป็น <span class="tt">"SW2"</span>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">ปุ่มกด QWA309 SW6 / SW5 (ชื่อตาม drawing B1)  </td><td class="markdownTableBodyNone">P17.5 / P17.7  </td><td class="markdownTableBodyNone">active-low ใช้ pull-up ของ MCU (<span class="tt">page_gpio_rgb.c</span>) ชื่อบน V3.1 รอยืนยัน ดู <a class="el" href="group__j7__qwa309__baseboard.html" title="J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์">J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์</a>  </td></tr>
+<td class="markdownTableBodyNone">ปุ่มกด QWA309 SW6 / SW5  </td><td class="markdownTableBodyNone">P17.5 / P17.7  </td><td class="markdownTableBodyNone">active-low ใช้ pull-up ของ MCU (<span class="tt">page_gpio_rgb.c</span>) ดู <a class="el" href="group__j7__qwa309__baseboard.html" title="J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์">J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์</a>  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">โพเทนชิออมิเตอร์ตัวเดียว (<span class="tt">sensors.pot</span>)  </td><td class="markdownTableBodyNone">P15[1]  </td><td class="markdownTableBodyNone"><b>บนบอร์ดนี้ไม่มีโพเทนชิออมิเตอร์ที่ P15[1]</b> ขา P15.1 คือ Arduino D1 (UART TX ของ SCB9) ไดรเวอร์เขียนไว้สำหรับชุดคิทอื่น (SAR GPIO ช่อง 0 ผ่าน MTB HAL ปรับสเกลเทียบกับ 3.3 V, <span class="tt">sensor_potentiometer.c:6-19</span>) ลูกบิดของบอร์ดนี้คือ VR1..VR4 ในแถวถัดไป  </td></tr>
 <tr class="markdownTableRowEven">

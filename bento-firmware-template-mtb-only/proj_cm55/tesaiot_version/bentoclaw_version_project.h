@@ -23,6 +23,6 @@
  * touch/CapSense/RGB), the XIP guard for C-storage writes, a read-only HSM
  * self-test that no longer erases saved WiFi #3, and the OID table corrected.
  */
-#define BENTOCLAW_VERSION "1.12.0"
+#define BENTOCLAW_VERSION "1.13.0"
 
 #endif /* BENTOCLAW_VERSION_PROJECT_H */

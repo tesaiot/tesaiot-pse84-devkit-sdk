@@ -42,7 +42,7 @@ heartbeat บนพอร์ต USB serial ของ KitProg3 (115200 8N1) ห�
 ## 2. การได้มา: ไฟล์ zip ของ release หรือ clone แล้วเติม `lib/`
 
 **ไฟล์ zip ของ release คือแพ็กเกจที่ครบ** ดาวน์โหลด
-`bento-firmware-template-mtb-only.zip` จาก release `fw-c-only-v1.12.0` ของ
+`bento-firmware-template-mtb-only.zip` จาก release `fw-c-only-v1.13.0` ของ
 [tesaiot/tesaiot-pse84-devkit-sdk](https://github.com/tesaiot/tesaiot-pse84-devkit-sdk/releases)
 แตกไฟล์ แล้วตรวจไลบรารีก่อนทำอย่างอื่น:
 
@@ -211,8 +211,8 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
   ปุ่มต่อขานี้ลงกราวด์ตรง ๆ หน้านั้นตั้งขาใหม่เป็นอินพุตพร้อม pull-up เมื่อเปิดครั้งแรก
 - **SW1 ถึง SW4 ไม่ได้ต่อเข้า E84** ตัวควบคุม CapSense บนบอร์ดฐานเป็นผู้อ่าน แล้ว
   รายงานผ่าน I2C ที่ address 0x08 และรายงานได้เฉพาะเฟิร์มแวร์ของมันที่ใช้ protocol 0x0D
-  หรือ 0x0E การเชื่อมต่อต้องเปิด SW12 (รุ่น V3.1) แล้วเริ่มระบบใหม่ บอร์ดรุ่น B1 ไม่มี
-  การเชื่อมต่อนี้ การถอดรหัสทดสอบบนเครื่องคอมพิวเตอร์เท่านั้น เพราะไม่มีบอร์ดที่มี
+  หรือ 0x0E การเชื่อมต่อต้องเปิด SW12 แล้วเริ่มระบบใหม่
+  การถอดรหัสทดสอบบนเครื่องคอมพิวเตอร์เท่านั้น เพราะไม่มีบอร์ดที่มี
   เฟิร์มแวร์นั้น หน้า GPIO & RGB Matrix บอกว่าพบเฟิร์มแวร์แบบใด (ข้อความบนจอเขียนว่า
   "0x0D or newer" แต่รับเฉพาะ 0x0D และ 0x0E)
 - **ชื่อที่พิมพ์บนบอร์ดกับชื่อใน schematic ไม่ตรงกัน** สำหรับสวิตช์ทุกตัวที่ผู้ใช้กด
@@ -228,7 +228,7 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
 
 ## 6. ส่วนที่ build มาแล้ว
 
-มี 5 ส่วนที่ส่งมาเป็น static library ใน `lib/` แทนซอร์ส:
+ส่วนเหล่านี้ส่งมาเป็น static library ใน `lib/` แทนซอร์ส:
 
 | ส่วน | ไลบรารี | คอร์ |
 |---|---|---|
@@ -236,7 +236,6 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
 | หน้าจอ HSM หน้า Edge AI และการเริ่มจอแสดงผล | `libbento_cm55.a` | CM55 |
 | IPC หลัก: service, LCD, UI และ sensor hub | `libbento_ipc.a` | CM55 |
 | การลงทะเบียน OPTIGA: CSR และ Protected Update | `libbento_hsm.a` | CM33_NS |
-| agent BLE ของ Bento Buddy | `libbento_secure.a` | CM33_NS ไม่มี Makefile ใดในแพ็กเกจนี้ link มัน |
 
 แต่ละไฟล์อยู่ใน `lib/<ส่วน>/` พร้อม `include/` ของตัวเอง `api.txt` ที่ระบุทุก symbol
 ที่ export ออกมา `consumer_must_provide.txt` ที่ระบุสิ่งที่มันต้องการจากคุณ และ
@@ -273,7 +272,7 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
 - **หน้า GPIO & RGB Matrix:** ชื่อขากำกับทุกอินพุต ลูกบิดแสดงเป็น mV (0 ถึง 1800)
   และค่า raw สถานะการเชื่อมต่อ CapSense และ SW1-SW4 เมื่อตัวควบคุม CapSense ใช้
   เฟิร์มแวร์ที่ใช้ protocol 0x0D หรือ 0x0E (ทดสอบการถอดรหัสบนเครื่องคอมพิวเตอร์เท่านั้น
-  ต้องเปิด SW12 แล้วเริ่มระบบใหม่ และบอร์ดรุ่น B1 ไม่มีการเชื่อมต่อนี้)
+  ต้องเปิด SW12 แล้วเริ่มระบบใหม่)
 - **Sensor Dashboard:** วาดบรรทัด CapSense ใหม่เฉพาะเมื่อค่าเปลี่ยน ภาพจึงไม่กระพริบ
 - **ตอนเริ่มระบบ:** ลองเริ่ม BMI270, DPS368 และ SHT40 ได้ 4 ครั้ง ก่อนจะปิดแถวของ
   เซนเซอร์นั้นไปตลอดการบูต

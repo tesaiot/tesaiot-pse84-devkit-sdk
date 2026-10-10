@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="2219" viewBox="0 0 1600 2219">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="2202" viewBox="0 0 1600 2202">
 <title>TESAIoT Dev Kit - QWA309 base board pinout (V3.1)</title>
-<rect x="0.0" y="0.0" width="1600.0" height="2219.0" rx="0.0" fill="#ffffff" stroke="none" stroke-width="1.0"/>
+<rect x="0.0" y="0.0" width="1600.0" height="2202.0" rx="0.0" fill="#ffffff" stroke="none" stroke-width="1.0"/>
 <rect x="0.0" y="0.0" width="1600.0" height="86.0" rx="0.0" fill="#0d3b66" stroke="none" stroke-width="1.0"/>
 <text x="20.0" y="38.0" font-family="Arial, Helvetica, sans-serif" font-size="30.0" font-weight="bold" fill="#ffffff" text-anchor="start">TESAIoT Dev Kit - QWA309 base board pinout (V3.1)</text>
 <text x="20.0" y="66.0" font-family="Arial, Helvetica, sans-serif" font-size="14.5" fill="#dbe7f3" text-anchor="start">TESA AIoT E84 Embedded AI Board, base board V3.1 (schematic rev V3_P1). Pin names are PSoC Edge E84 port.pin; U6 = the on-board PSoC 4000T.</text>
@@ -167,9 +167,9 @@
 <rect x="134.3" y="664.1" width="167.3" height="47.5" rx="4.0" fill="#ffffff" stroke="#00838f" stroke-width="1.6"/>
 <text x="218.0" y="685.4" font-family="Arial, Helvetica, sans-serif" font-size="12.0" font-weight="bold" fill="#00838f" text-anchor="middle">mikroBUS 3</text>
 <text x="218.0" y="698.4" font-family="Arial, Helvetica, sans-serif" font-size="10.5" fill="#202124" text-anchor="middle">J13 / J14: SPI (no MISO), UART</text>
-<text x="30.0" y="799.2" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#5f6368" text-anchor="start">Board picture: a stylised rendering based on the TESA reference image, not a photograph; labels re-checked against</text>
-<text x="30.0" y="815.2" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#5f6368" text-anchor="start">schematic V3.1 and the B1 assembly drawing. SW5/SW6 labels are from the B1 assembly drawing. 'ref SWn' = schematic</text>
-<text x="30.0" y="831.2" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#5f6368" text-anchor="start">name of a power slide switch. Unlabelled parts could not be identified in the picture.</text>
+<text x="30.0" y="799.2" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#5f6368" text-anchor="start">Board picture: a stylised rendering based on the TESA reference image, not a photograph; labels checked against</text>
+<text x="30.0" y="815.2" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#5f6368" text-anchor="start">the QWA309 V3.1 schematic. 'ref SWn' = schematic name of a power slide switch. Unlabelled parts could not be</text>
+<text x="30.0" y="831.2" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#5f6368" text-anchor="start">identified in the picture.</text>
 <rect x="16.0" y="911.2" width="872.0" height="468.8" rx="6.0" fill="#ffffff" stroke="#00838f" stroke-width="1.5"/>
 <path d="M22.0,911.2 h860.0 a6,6 0 0 1 6,6 v24.0 h-872.0 v-24.0 a6,6 0 0 1 6,-6 z" fill="#00838f"/>
 <text x="28.0" y="931.7" font-family="Arial, Helvetica, sans-serif" font-size="16.0" font-weight="bold" fill="#ffffff" text-anchor="start">mikroBUS sockets (3.3 V logic)</text>
@@ -363,7 +363,7 @@
 <rect x="31.0" y="1857.2" width="130.0" height="17.0" rx="3.0" fill="#5e35b1" stroke="none" stroke-width="1.0"/>
 <text x="96.0" y="1869.7" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">CapSense U6</text>
 <text x="170.0" y="1869.7" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">address 0x08, via Q5/Q6 and SW12 ON</text>
-<text x="470.0" y="1869.7" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">V3.1 only; B1 has no link</text>
+<text x="470.0" y="1869.7" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">SW12 ON</text>
 <line x1="28.0" y1="1877.2" x2="876.0" y2="1877.2" stroke="#dadce0" stroke-width="0.8"/>
 <rect x="31.0" y="1880.2" width="130.0" height="17.0" rx="3.0" fill="#5e35b1" stroke="none" stroke-width="1.0"/>
 <text x="96.0" y="1892.7" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">I2C ports P2, P14</text>
@@ -728,8 +728,7 @@
 <line x1="916.0" y1="1409.0" x2="1572.0" y2="1409.0" stroke="#dadce0" stroke-width="0.8"/>
 <rect x="919.0" y="1412.0" width="90.0" height="33.0" rx="3.0" fill="#616161" stroke="none" stroke-width="1.0"/>
 <text x="964.0" y="1424.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RST</text>
-<text x="1018.0" y="1424.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">SW1</text>
-<text x="1018.0" y="1440.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">(B1)</text>
+<text x="1018.0" y="1424.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">-</text>
 <text x="1084.0" y="1424.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">push button</text>
 <text x="1176.0" y="1424.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#202124" text-anchor="start">not established</text>
 <text x="1294.0" y="1424.5" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">-</text>
@@ -799,23 +798,19 @@
 <rect x="916.0" y="1799.5" width="656.0" height="23.0" rx="0.0" fill="#fbfbfc" stroke="none" stroke-width="1.0"/>
 <line x1="916.0" y1="1799.5" x2="1572.0" y2="1799.5" stroke="#dadce0" stroke-width="0.8"/>
 <rect x="919.0" y="1802.5" width="86.0" height="17.0" rx="3.0" fill="#6d4c41" stroke="none" stroke-width="1.0"/>
-<text x="962.0" y="1815.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">B1 boards</text>
-<text x="1014.0" y="1815.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">no Q5/Q6/SW12: the 4000T is reachable only on header P5 (1.8 V)</text>
+<text x="962.0" y="1815.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">P4 SWD</text>
+<text x="1014.0" y="1815.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">1 +V_TARGET, 2 GND, 3 XRES, 4 SWCLK (U6 P3.3), 5 SWDIO (U6 P3.2). 1.8 V ONLY</text>
 <line x1="916.0" y1="1822.5" x2="1572.0" y2="1822.5" stroke="#dadce0" stroke-width="0.8"/>
 <rect x="919.0" y="1825.5" width="86.0" height="17.0" rx="3.0" fill="#6d4c41" stroke="none" stroke-width="1.0"/>
-<text x="962.0" y="1838.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">P4 SWD</text>
-<text x="1014.0" y="1838.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">1 +V_TARGET, 2 GND, 3 XRES, 4 SWCLK (U6 P3.3), 5 SWDIO (U6 P3.2). 1.8 V ONLY</text>
+<text x="962.0" y="1838.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">P5 I2C</text>
+<text x="1014.0" y="1838.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">1 +V_TARGET, 2 GND, 3 XRES, 4 SCL 1.8 V, 5 SDA 1.8 V. 1.8 V ONLY</text>
 <rect x="916.0" y="1845.5" width="656.0" height="23.0" rx="0.0" fill="#fbfbfc" stroke="none" stroke-width="1.0"/>
 <line x1="916.0" y1="1845.5" x2="1572.0" y2="1845.5" stroke="#dadce0" stroke-width="0.8"/>
 <rect x="919.0" y="1848.5" width="86.0" height="17.0" rx="3.0" fill="#6d4c41" stroke="none" stroke-width="1.0"/>
-<text x="962.0" y="1861.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">P5 I2C</text>
-<text x="1014.0" y="1861.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">1 +V_TARGET, 2 GND, 3 XRES, 4 SCL 1.8 V, 5 SDA 1.8 V. 1.8 V ONLY</text>
+<text x="962.0" y="1861.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">D4 green</text>
+<text x="1014.0" y="1861.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">lights only when a programmer drives pin 1 of P4/P5 (+V_TARGET). Dark D4 is normal.</text>
 <line x1="916.0" y1="1868.5" x2="1572.0" y2="1868.5" stroke="#dadce0" stroke-width="0.8"/>
-<rect x="919.0" y="1871.5" width="86.0" height="17.0" rx="3.0" fill="#6d4c41" stroke="none" stroke-width="1.0"/>
-<text x="962.0" y="1884.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="bold" fill="#ffffff" text-anchor="middle">D4 green</text>
-<text x="1014.0" y="1884.0" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#202124" text-anchor="start">lights only when a programmer drives pin 1 of P4/P5 (+V_TARGET). Dark D4 is normal.</text>
-<line x1="916.0" y1="1891.5" x2="1572.0" y2="1891.5" stroke="#dadce0" stroke-width="0.8"/>
-<rect x="16.0" y="1949.2" width="1568.0" height="230.1" rx="6.0" fill="#ffffff" stroke="#455a64" stroke-width="1.5"/>
+<rect x="16.0" y="1949.2" width="1568.0" height="213.2" rx="6.0" fill="#ffffff" stroke="#455a64" stroke-width="1.5"/>
 <path d="M22.0,1949.2 h1556.0 a6,6 0 0 1 6,6 v24.0 h-1568.0 v-24.0 a6,6 0 0 1 6,-6 z" fill="#455a64"/>
 <text x="28.0" y="1969.7" font-family="Arial, Helvetica, sans-serif" font-size="16.0" font-weight="bold" fill="#ffffff" text-anchor="start">Notes before you wire anything</text>
 <circle cx="32.0" cy="1999.2" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
@@ -829,17 +824,16 @@
 <circle cx="32.0" cy="2101.7" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
 <text x="42.0" y="2106.7" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">mikroBUS 3 has no MISO, so full SPI clicks will not work there. mikroBUS 1 carries only I2C and PWM.</text>
 <circle cx="32.0" cy="2124.6" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
-<text x="42.0" y="2129.6" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">SW6 (P17.5) and SW5 (P17.7) (labels from the B1 assembly drawing) share the camera control lines (J4 pins 2/4 and 1/3). P17.5</text>
-<text x="42.0" y="2146.5" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">is also the USB-host VBUS enable. Set both as inputs with pull-up before reading: V3.1 fits no external pull-up and the stock BSP</text>
-<text x="42.0" y="2163.4" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">drives P17.5 high.</text>
+<text x="42.0" y="2129.6" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">SW6 (P17.5) and SW5 (P17.7) share the camera control lines (J4 pins 2/4 and 1/3). P17.5 is also the USB-host VBUS enable.</text>
+<text x="42.0" y="2146.5" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">Set both as inputs with pull-up before reading: the board fits no external pull-up and the stock BSP drives P17.5 high.</text>
 <circle cx="816.0" cy="1999.2" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
 <text x="826.0" y="2004.2" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">Camera lines are shared: P16.0-P16.7, P17.2-P17.5, P17.7 and P11.1 also feed mikroBUS, CAN, RS-485, SW5 and SW6. Use</text>
 <text x="826.0" y="2021.1" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">the camera or those functions, not both.</text>
 <circle cx="816.0" cy="2039.0" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
 <text x="826.0" y="2044.0" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">No I3C on the base board. The SoM uses I3C only internally.</text>
 <circle cx="816.0" cy="2061.9" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
-<text x="826.0" y="2066.9" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">CapSense link needs SW12 ON (V3.1). B1 boards have no SW12/SW13/SW14 and do fit pull-ups R43/R44 on SW6/SW5.</text>
+<text x="826.0" y="2066.9" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">CapSense link needs SW12 ON, then a restart.</text>
 <circle cx="816.0" cy="2084.8" r="2.2" fill="#5f6368" stroke="none" stroke-width="1.0"/>
 <text x="826.0" y="2089.8" font-family="Arial, Helvetica, sans-serif" font-size="13.0" fill="#202124" text-anchor="start">D4 (green, beside the SWD header) lights only when a programmer powers pin 1 of P4/P5.</text>
-<text x="20.0" y="2205.3" font-family="Arial, Helvetica, sans-serif" font-size="12.0" fill="#5f6368" text-anchor="start">Sources: QWA309 schematic rev V3_P1 (V3.1) sheets 8-22; QWA309 assembly drawing (variant B1) for silkscreen; board picture: a rendering based on the TESA reference image. Rows not established are marked in chapter J7 of the SDK documentation.</text>
+<text x="20.0" y="2188.4" font-family="Arial, Helvetica, sans-serif" font-size="12.0" fill="#5f6368" text-anchor="start">Sources: QWA309 schematic rev V3_P1 (V3.1) sheets 8-22; board picture: a rendering based on the TESA reference image. Rows not established are marked in chapter J7 of the SDK documentation.</text>
 </svg>

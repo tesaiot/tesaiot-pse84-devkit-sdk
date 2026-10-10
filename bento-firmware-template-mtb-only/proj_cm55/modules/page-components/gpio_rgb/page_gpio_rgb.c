@@ -667,8 +667,7 @@ static void render_caps_link(const cm55_capsense_info_t *caps)
     switch (state) {
     case LINK_NO_ANSWER:
         snprintf(s_link_buf, sizeof(s_link_buf),
-                 "CapSense: no answer at 0x08 - check SW12 (V3.1); "
-                 "B1 boards have no link");
+                 "CapSense: no answer at 0x08 - check SW12");
         color = UI_COLOR_ACCENT_ORANGE;
         break;
     case LINK_READ_FAIL:

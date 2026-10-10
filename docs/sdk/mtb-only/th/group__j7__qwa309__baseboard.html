@@ -129,7 +129,6 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 <h1 class="doxsection"><a class="anchor" id="j7_goal"></a>
 บทนี้มีไว้เพื่ออะไร</h1>
 <p>บทนี้คือคู่มือฮาร์ดแวร์ของบอร์ดฐาน QWA309 ที่อยู่ใต้ AI Kit SoM: สวิตช์ ลูกบิด และ header แต่ละตัวคืออะไร ต่อเข้าขาใด และเฟิร์มแวร์อ่านอะไรได้หรืออ่านอะไรไม่ได้ หน้า GPIO &amp; RGB Matrix บนจอคือคู่หูของบทนี้ ทุกสวิตช์และลูกบิดที่หน้านั้นแสดงจะมีชื่อขากำกับไว้ข้าง ๆ</p>
-<p>ข้อเท็จจริงในบทนี้มาจาก schematic ของ QWA309 สองรุ่น — <b>V3.1</b> (รุ่นผลิต) และ <b>B1</b> (รุ่นทดลอง) — และจาก assembly drawing ซึ่งมีเฉพาะของรุ่น B1 ข้อความใดที่มาจาก B1 เท่านั้นจะระบุไว้</p>
 <h1 class="doxsection"><a class="anchor" id="j7_diagram"></a>
 แผนผังขาของบอร์ด</h1>
 <p>แผนผังด้านล่างรวมทุกตารางในบทนี้ไว้ในภาพเดียว (ภาษาอังกฤษ) คำอธิบายสีและหมายเหตุภาษาไทยอยู่ใต้ภาพ ถ้าต้องการขยายภาพโดยไม่แตก ให้เปิด <a href="qwa309_pinout_v3_1.svg">ไฟล์ SVG</a> แถวใดในภาพที่ยังยืนยันไม่ได้ บทนี้ระบุไว้ว่ายังไม่ยืนยัน</p>
@@ -145,20 +144,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 สวิตช์ทุกตัวมีสองชื่อ</h1>
 <p>บอร์ดนี้ใช้ระบบชื่อสองระบบพร้อมกัน: <b>ชื่อที่พิมพ์บนบอร์ด</b> (silkscreen) และ <b>ชื่ออ้างอิงใน schematic</b> (reference designator, refdes) สำหรับสวิตช์ที่ผู้ใช้กดได้ ทั้งสองชื่อไม่ตรงกันเลยสักตัว บทนี้จึงให้ทั้งสองชื่อเสมอ เช่น "SW1 ที่พิมพ์ไว้ (refdes SW5)"</p>
 <p>ชื่อ <b>SW3</b> หมายถึงชิ้นส่วนสองชิ้นที่ต่างกัน: SW3 ที่พิมพ์บนบอร์ดคือสวิตช์เลื่อนที่ตัวควบคุม CapSense อ่าน ส่วน refdes SW3 คือสวิตช์จ่ายไฟของ mikroBUS เมื่ออ่านเอกสารอื่นหรือคุยกับผู้อื่น ให้ถามเสมอว่าหมายถึงชื่อแบบใด</p>
-<dl class="section warning"><dt>Warning</dt><dd><b>ชื่อของปุ่มกดสองปุ่มบน P17.5 และ P17.7 มาจาก assembly drawing ของรุ่น B1</b> ซึ่งพิมพ์ SW6 ไว้เหนือ P17.5 และ SW5 ไว้เหนือ P17.7 รุ่น V3.1 ไม่มี assembly drawing ภาพ pinout ของรุ่น V3.1 แสดงลำดับเดียวกัน (SW6 อยู่เหนือ SW5) แต่ภาพนั้นผิดในจุดอื่น (<a class="el" href="#j7_pinout" title="ภาพ pinout ชุดเก่าไม่ใช่แหล่งข้อมูล">ภาพ pinout ชุดเก่าไม่ใช่แหล่งข้อมูล</a>) และยังไม่ได้อ่านชื่อเหล่านี้จากบอร์ด V3.1 จริง ส่วนชื่อขาที่พิมพ์ไว้ข้างปุ่มแต่ละปุ่มไม่กำกวม ให้ยึดชื่อขาเป็นหลัก</dd></dl>
-<h1 class="doxsection"><a class="anchor" id="j7_revisions"></a>
-รุ่น B1 และรุ่น V3.1</h1>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">เรื่อง  </th><th class="markdownTableHeadNone">B1 (รุ่นทดลอง)  </th><th class="markdownTableHeadNone">V3.1 (รุ่นผลิต)  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">ตัวควบคุม CapSense ต่อกับบัส I2C หลักของ E84 (P17.0/P17.1)  </td><td class="markdownTableBodyNone">ไม่ต่อ ออกได้ทาง header P5 (1.8 V) เท่านั้น  </td><td class="markdownTableBodyNone">ต่อผ่าน level shifter สองตัว เมื่อสวิตช์เลื่อน SW12 อยู่ที่ ON  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">สวิตช์เลื่อน SW12, SW13, SW14  </td><td class="markdownTableBodyNone">ไม่มี  </td><td class="markdownTableBodyNone">มี  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">ตัวต้านทาน pull-up ของปุ่มบน P17.5/P17.7 (R43/R44)  </td><td class="markdownTableBodyNone">ใส่ไว้  </td><td class="markdownTableBodyNone">ไม่ใส่ ใช้ pull-up ภายในของ E84 แทน  </td></tr>
-</table>
-<p>วิธีแยกรุ่นด้วยตา: บอร์ด V3.1 มีสวิตช์เลื่อน SW12 ถึง SW14 บอร์ด B1 ไม่มี</p>
+<p>ปุ่มกดสองปุ่มบน E84 คือ SW6 (P17.5 ปุ่มบน) และ SW5 (P17.7 ปุ่มล่าง) ชื่อขาพิมพ์ไว้ข้างปุ่มแต่ละปุ่ม</p>
 <h1 class="doxsection"><a class="anchor" id="j7_inputs"></a>
 อินพุตที่ผู้ใช้กดหรือเลื่อนได้</h1>
 <table class="markdownTable">
@@ -173,9 +159,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">SW4  </td><td class="markdownTableBodyNone">SW8  </td><td class="markdownTableBodyNone">สวิตช์เลื่อน  </td><td class="markdownTableBodyNone">ขา P4.1 ของตัวควบคุม  </td><td class="markdownTableBodyNone">เหมือนข้างบน (ON/OFF)  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW5 (จาก drawing B1)  </td><td class="markdownTableBodyNone">SW10  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone"><b>P17.7</b> ของ E84  </td><td class="markdownTableBodyNone"><span class="tt">Cy_GPIO_Read()</span> ได้ 0 เมื่อกด  </td></tr>
+<td class="markdownTableBodyNone">SW5  </td><td class="markdownTableBodyNone">SW10  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone"><b>P17.7</b> ของ E84  </td><td class="markdownTableBodyNone"><span class="tt">Cy_GPIO_Read()</span> ได้ 0 เมื่อกด  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">SW6 (จาก drawing B1)  </td><td class="markdownTableBodyNone">SW9  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone"><b>P17.5</b> ของ E84  </td><td class="markdownTableBodyNone"><span class="tt">Cy_GPIO_Read()</span> ได้ 0 เมื่อกด — อ่าน <a class="el" href="#j7_p17" title="P17.5 และ P17.7: ขาที่ใช้ร่วมกัน และอันตรายหนึ่งข้อ">P17.5 และ P17.7: ขาที่ใช้ร่วมกัน และอันตรายหนึ่งข้อ</a> ก่อนใช้  </td></tr>
+<td class="markdownTableBodyNone">SW6  </td><td class="markdownTableBodyNone">SW9  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone"><b>P17.5</b> ของ E84  </td><td class="markdownTableBodyNone"><span class="tt">Cy_GPIO_Read()</span> ได้ 0 เมื่อกด — อ่าน <a class="el" href="#j7_p17" title="P17.5 และ P17.7: ขาที่ใช้ร่วมกัน และอันตรายหนึ่งข้อ">P17.5 และ P17.7: ขาที่ใช้ร่วมกัน และอันตรายหนึ่งข้อ</a> ก่อนใช้  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">BTN0, BTN1, slider  </td><td class="markdownTableBodyNone">—  </td><td class="markdownTableBodyNone">ปุ่มสัมผัสและแถบเลื่อนแบบสัมผัส  </td><td class="markdownTableBodyNone">ตัวควบคุม CapSense  </td><td class="markdownTableBodyNone">ผ่านตัวควบคุม ใช้ได้กับเฟิร์มแวร์ทุกแบบ  </td></tr>
 </table>
@@ -201,27 +187,27 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 <p>สวิตช์กลุ่มนี้เป็นสวิตช์เลื่อนทั้งหมด และ <b>เฟิร์มแวร์อ่านตำแหน่งของมันไม่ได้</b> (ชื่อในตารางเป็น refdes)</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">refdes  </th><th class="markdownTableHeadNone">หน้าที่  </th><th class="markdownTableHeadNone">รุ่น  </th></tr>
+<th class="markdownTableHeadNone">refdes  </th><th class="markdownTableHeadNone">หน้าที่  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW2  </td><td class="markdownTableBodyNone">ไฟ 3.3 V ของกล้อง  </td><td class="markdownTableBodyNone">ทั้งสองรุ่น  </td></tr>
+<td class="markdownTableBodyNone">SW2  </td><td class="markdownTableBodyNone">ไฟ 3.3 V ของกล้อง  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">SW3  </td><td class="markdownTableBodyNone">ไฟ 3.3 V และ 5 V ของช่อง mikroBUS ทั้งสามช่อง  </td><td class="markdownTableBodyNone">ทั้งสองรุ่น  </td></tr>
+<td class="markdownTableBodyNone">SW3  </td><td class="markdownTableBodyNone">ไฟ 3.3 V และ 5 V ของช่อง mikroBUS ทั้งสามช่อง  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW4  </td><td class="markdownTableBodyNone">ไฟ 3.3 V และ 5 V ของ header Arduino  </td><td class="markdownTableBodyNone">ทั้งสองรุ่น  </td></tr>
+<td class="markdownTableBodyNone">SW4  </td><td class="markdownTableBodyNone">ไฟ 3.3 V และ 5 V ของ header Arduino  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">SW11  </td><td class="markdownTableBodyNone">ไฟ 5 V ของ RGB matrix  </td><td class="markdownTableBodyNone">ทั้งสองรุ่น  </td></tr>
+<td class="markdownTableBodyNone">SW11  </td><td class="markdownTableBodyNone">ไฟ 5 V ของ RGB matrix  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW12  </td><td class="markdownTableBodyNone">ON: ต่อตัวควบคุม CapSense เข้าบัส I2C หลัก (P17.0/P17.1) OFF: แยกออก  </td><td class="markdownTableBodyNone">V3.1 เท่านั้น  </td></tr>
+<td class="markdownTableBodyNone">SW12  </td><td class="markdownTableBodyNone">ON: ต่อตัวควบคุม CapSense เข้าบัส I2C หลัก (P17.0/P17.1) OFF: แยกออก  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">SW13  </td><td class="markdownTableBodyNone">ON: ต่อ P16.2/P16.3 เข้าตัวรับส่ง CAN OFF: ปล่อยขาให้กล้องหรือ SPI  </td><td class="markdownTableBodyNone">V3.1 เท่านั้น  </td></tr>
+<td class="markdownTableBodyNone">SW13  </td><td class="markdownTableBodyNone">ON: ต่อ P16.2/P16.3 เข้าตัวรับส่ง CAN OFF: ปล่อยขาให้กล้องหรือ SPI  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW14  </td><td class="markdownTableBodyNone">ON: ต่อ P17.5 เข้าขา RE และ P17.7 เข้าขา DE ของตัวรับส่ง RS-485  </td><td class="markdownTableBodyNone">V3.1 เท่านั้น  </td></tr>
+<td class="markdownTableBodyNone">SW14  </td><td class="markdownTableBodyNone">ON: ต่อ P17.5 เข้าขา RE และ P17.7 เข้าขา DE ของตัวรับส่ง RS-485  </td></tr>
 </table>
 <p>สายข้อมูลของ RS-485 ต่ออยู่ตลอด ไม่ผ่านสวิตช์: RO ของตัวรับส่ง ISL3178 เข้า P13.1 (SCB7 UART RX) และ DI รับจาก P13.2 (SCB7 UART TX) SW14 สลับเฉพาะขา RE และ DE</p>
 <h1 class="doxsection"><a class="anchor" id="j7_capsense"></a>
 ตัวควบคุม CapSense</h1>
 <p><b>มันคือ MCU อีกตัวหนึ่ง</b> ตัวควบคุม CapSense คือ PSoC 4000T (U6) ที่อยู่บนบอร์ดฐาน มีเฟิร์มแวร์ของตัวเอง และใช้ไฟ 1.8 V การ flash E84 ผ่าน KitProg3 <b>ไม่เคย</b> เปลี่ยนเฟิร์มแวร์ของมัน ช่องทางเดียวที่โปรแกรมมันได้คือ header <b>P4</b> (SWD, 1.8 V เท่านั้น)</p>
-<p><b>E84 คุยกับมันอย่างไร</b> ที่ I2C address <b>0x08</b> บน P17.0/P17.1 — เฉพาะบอร์ด V3.1 ที่ SW12 อยู่ที่ ON บนบอร์ด B1 ไม่มีทางเชื่อมนี้ ตัวควบคุมออกได้ทาง header <b>P5</b> เท่านั้น ซึ่งเป็นบัส 1.8 V ห้ามต่ออุปกรณ์ 3.3 V เข้า P5</p>
+<p><b>E84 คุยกับมันอย่างไร</b> ที่ I2C address <b>0x08</b> บน P17.0/P17.1 เมื่อ SW12 อยู่ที่ ON ตัวควบคุมยังออกที่ header <b>P5</b> ซึ่งเป็นบัส 1.8 V ด้วย ห้ามต่ออุปกรณ์ 3.3 V เข้า P5</p>
 <p><b>ไฟ LED สีเขียว D4 ข้าง P4</b> ติดเฉพาะเมื่อมีอุปกรณ์ที่ต่อเข้า P4 หรือ P5 จ่ายไฟราว 1.8 V ที่ขา 1 เช่นเครื่องโปรแกรม ไม่มีวงจรบนบอร์ดใดจ่ายไฟให้ขานี้ D4 ที่ดับอยู่จึงเป็นเรื่องปกติ และไม่ได้บอกว่าตัวควบคุมไม่มีไฟ</p>
 <p><b>ข้อมูลที่มันส่งมา</b> ตัวควบคุมอาจรันเฟิร์มแวร์แบบใดแบบหนึ่งจากสองแบบ:</p>
 <ul>
@@ -255,7 +241,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 เมื่อ CapSense ไม่แสดงอะไร</h1>
 <p>บรรทัดสถานะของหน้า GPIO &amp; RGB Matrix บอกได้ว่าอยู่ในกรณีใด:</p>
 <ul>
-<li><b>"no answer at 0x08"</b> — ตัวควบคุมไม่ตอบตอนเริ่มระบบ ตรวจรุ่นของบอร์ดก่อน (B1 ไม่มีทางเชื่อม) แล้วเลื่อน SW12 ไปที่ ON และ <b>รีสตาร์ตบอร์ด</b> เพราะเฟิร์มแวร์ถามหาตัวควบคุมเพียงครั้งเดียวตอนเริ่มระบบ</li>
+<li><b>"no answer at 0x08"</b> — ตัวควบคุมไม่ตอบตอนเริ่มระบบ เลื่อน SW12 ไปที่ ON และ <b>รีสตาร์ตบอร์ด</b> เพราะเฟิร์มแวร์ถามหาตัวควบคุมเพียงครั้งเดียวตอนเริ่มระบบ</li>
 <li><b>"legacy 3-byte firmware"</b> — ปุ่มสัมผัสและ slider ใช้ได้ แต่ SW1 ถึง SW4 ต้องใช้เฟิร์มแวร์ของตัวควบคุมรุ่น 0x0D ขึ้นไป</li>
 <li><b>"protocol 0x0D" หรือ "protocol 0x0E"</b> — ใช้ได้ทุกอย่าง</li>
 </ul>
@@ -343,9 +329,9 @@ P17.5 และ P17.7: ขาที่ใช้ร่วมกัน และ�
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">ขา  </th><th class="markdownTableHeadNone">ใช้ร่วมกับ  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">P17.5  </td><td class="markdownTableBodyNone">ปุ่มกด (SW6 ตาม drawing B1) · สายกล้องบน J4 (net ของบอร์ดฐานชื่อ PEN ส่วน BSP ของ SoM เรียกว่า camera reset) · ขา RE ของ RS-485 ผ่าน SW14 (V3.1) · ขาเปิดไฟ VBUS ของ USB host  </td></tr>
+<td class="markdownTableBodyNone">P17.5  </td><td class="markdownTableBodyNone">ปุ่มกด SW6 · สายกล้องบน J4 (net ของบอร์ดฐานชื่อ PEN ส่วน BSP ของ SoM เรียกว่า camera reset) · ขา RE ของ RS-485 ผ่าน SW14 · ขาเปิดไฟ VBUS ของ USB host  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">P17.7  </td><td class="markdownTableBodyNone">ปุ่มกด (SW5 ตาม drawing B1) · สายกล้องบน J4 (net ชื่อ PDN, BSP เรียกว่า camera power-down) · ขา DE ของ RS-485 ผ่าน SW14 (V3.1)  </td></tr>
+<td class="markdownTableBodyNone">P17.7  </td><td class="markdownTableBodyNone">ปุ่มกด SW5 · สายกล้องบน J4 (net ชื่อ PDN, BSP เรียกว่า camera power-down) · ขา DE ของ RS-485 ผ่าน SW14  </td></tr>
 </table>
 <p>โมดูลกล้องและสวิตช์ไฟของมัน (SW2) อาจโหลดสายเหล่านี้ได้ ผลต่อการอ่านปุ่มยังไม่ได้วัด</p>
 <dl class="section warning"><dt>Warning</dt><dd><b>อย่ากดปุ่มบน P17.5 ก่อนเปิดหน้า GPIO &amp; RGB Matrix</b> ตอนบูต BSP ตั้ง P17.5 เป็นขาเอาต์พุตแบบ strong และขับเป็น high (ขานี้คือ camera reset และขาเปิด VBUS ของ USB host) ปุ่มบน P17.5 ต่อขานั้นลง GND ตรง ๆ โดยไม่มีตัวต้านทานอนุกรม การกดปุ่มก่อนที่เฟิร์มแวร์จะตั้งขาใหม่จึงเป็นการลัดวงจรเอาต์พุตที่ขับ high ลงกราวด์ตลอดเวลาที่กดค้าง หน้า GPIO &amp; RGB Matrix ตั้ง P17.5 ใหม่เป็นอินพุตพร้อม pull-up เมื่อเปิดหน้าครั้งแรก ยังไม่พบความเสียหาย แต่นี่ไม่ใช่ขีดจำกัดที่ได้วัดไว้ ปุ่มบน P17.7 ไม่มีความเสี่ยงนี้ เพราะ P17.7 ถูกขับเป็น low</dd></dl>
