@@ -35,7 +35,7 @@ kit-tesaiot-pse84-ai/
 
 ## Board notes / errata
 
-- **DEC-A camera persona:** CAN (P16.2/3) and buttons (P17.5/7) overlap the stock AI-Kit
+- **Camera persona:** CAN (P16.2/3) and buttons (P17.5/7) overlap the stock AI-Kit
   DVP camera pins (Port 16 = `DVP_CAM_D0..7`). This variant disables the DVP camera /
   Face-ID so those pins are free. Reversible by turning the flag off.
 - SPI **CS = P9.0** (PCB silkscreen "9.2" is wrong; P9.2 is MOSI).

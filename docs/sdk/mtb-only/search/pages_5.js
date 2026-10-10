@@ -9,7 +9,8 @@ var searchData=
   ['5_20—_20reboot_20and_20check_20both_20stores_6',['Step 5 — Reboot and check both stores',['../group__c2__wifi__ui__ipc.html#c2_step5',1,'']]],
   ['5_20—_20rebuild_20with_20clm_20on_7',['Step 5 — Rebuild with CLM on',['../group__d3__weak__symbols__clm.html#d3_step5',1,'']]],
   ['5_20—_20reconnect_20and_20watch_20the_20replay_20defence_8',['Step 5 — Reconnect and watch the replay defence',['../group__d2__enrolment__protected__update.html#d2_step5',1,'']]],
-  ['5_20never_20gate_20a_20model_20fallback_20on_20ai_5fengine_5factive_9',['5. Never gate a model fallback on ai_engine_active()',['../group__tut__x__traps__antipatterns.html#x5',1,'']]],
-  ['5_20reach_20the_20platform_20before_20touching_20the_20chip_10',['5. Reach the platform before touching the chip',['../group__d2__enrolment__protected__update.html#d2_seq_platform',1,'']]],
-  ['50_20hz_20model_20then_20put_20it_20back_11',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
+  ['5_20and_20p17_207_3a_20shared_20pins_20and_20one_20hazard_9',['P17.5 and P17.7: shared pins, and one hazard',['../group__j7__qwa309__baseboard.html#j7_p17',1,'']]],
+  ['5_20never_20gate_20a_20model_20fallback_20on_20ai_5fengine_5factive_10',['5. Never gate a model fallback on ai_engine_active()',['../group__tut__x__traps__antipatterns.html#x5',1,'']]],
+  ['5_20reach_20the_20platform_20before_20touching_20the_20chip_11',['5. Reach the platform before touching the chip',['../group__d2__enrolment__protected__update.html#d2_seq_platform',1,'']]],
+  ['50_20hz_20model_20then_20put_20it_20back_12',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]]
 ];

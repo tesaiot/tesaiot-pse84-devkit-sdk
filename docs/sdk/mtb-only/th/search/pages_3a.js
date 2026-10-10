@@ -33,12 +33,13 @@ var searchData=
   ['เพิ่มอุปกรณ์โดยไม่ทำให้อีก_204_20ตัวที่มีอยู่แล้วพัง_30',['ขั้นที่ 4 — เพิ่มอุปกรณ์โดยไม่ทำให้อีก 4 ตัวที่มีอยู่แล้วพัง',['../group__j1__sensor__bus.html#j1_step4',1,'']]],
   ['เพียงครั้งเดียวต่อหนึ่งรอบเรนเดอร์_20ฝั่ง_20c_31',['ขั้นที่ 5 — อ่าน &lt;span class=&quot;tt&quot;&gt;active()&lt;/span&gt; เพียงครั้งเดียวต่อหนึ่งรอบเรนเดอร์ (ฝั่ง C)',['../group__tut__e2__parallel__sets.html#e2_step5',1,'']]],
   ['เมื่อตัวเลขค้าง_20ทั้งสอง_20variant_32',['ขั้นที่ 4 — เมื่อตัวเลขค้าง (ทั้งสอง variant)',['../group__j6__radar.html#j6_step4',1,'']]],
-  ['เริ่มสคริปต์ใหม่อย่างสะอาด_33',['ขั้นที่ 4 — เริ่มสคริปต์ใหม่อย่างสะอาด',['../group__tut__f2__widgets__over__ipc.html#f2_step4',1,'']]],
-  ['เรียกร้องอะไรจากผู้ใช้ไลบรารี_34',['archive เรียกร้องอะไรจากผู้ใช้ไลบรารี',['../group__d3__weak__symbols__clm.html#d3_seq_cmp',1,'']]],
-  ['เลิกซ่อนเมื่อเชื่อมต่อสำเร็จ_35',['ขั้นที่ 1 — ดูไอคอน WiFi บน topbar เลิกซ่อนเมื่อเชื่อมต่อสำเร็จ',['../group__b3__ipc__backbone.html#b3_step1',1,'']]],
-  ['เลือกความสามารถหนึ่งอย่างจากตารางโมดูล_36',['ขั้นที่ 1 — เลือกความสามารถหนึ่งอย่างจากตารางโมดูล',['../group__a0__orientation.html#a0_step1',1,'']]],
-  ['เลือกทางไหน_37',['เลือกทางไหน',['../group__c5__cloud__https.html#c5_when',1,'']]],
-  ['เลือก_20set_20หนึ่งชุดแล้วดูช่วงตั้งตัว_38',['ขั้นที่ 2 — เลือก set หนึ่งชุดแล้วดูช่วงตั้งตัว',['../group__tut__e2__parallel__sets.html#e2_step2',1,'']]],
-  ['เส้นทางขากลับ_20a_20—_20ใบรับรองมาที่_20commands_20certificate_39',['9a. เส้นทางขากลับ A — ใบรับรองมาที่ &lt;span class=&quot;tt&quot;&gt;commands/certificate&lt;/span&gt;',['../group__d2__enrolment__protected__update.html#d2_seq_returnA',1,'']]],
-  ['เส้นทางขากลับ_20b_20—_20การ_20ingest_20bundle_20ของ_20protected_20update_40',['9b. เส้นทางขากลับ B — การ ingest bundle ของ Protected Update',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]]
+  ['เมื่อ_20capsense_20ไม่แสดงอะไร_33',['เมื่อ CapSense ไม่แสดงอะไร',['../group__j7__qwa309__baseboard.html#j7_capsense_check',1,'']]],
+  ['เริ่มสคริปต์ใหม่อย่างสะอาด_34',['ขั้นที่ 4 — เริ่มสคริปต์ใหม่อย่างสะอาด',['../group__tut__f2__widgets__over__ipc.html#f2_step4',1,'']]],
+  ['เรียกร้องอะไรจากผู้ใช้ไลบรารี_35',['archive เรียกร้องอะไรจากผู้ใช้ไลบรารี',['../group__d3__weak__symbols__clm.html#d3_seq_cmp',1,'']]],
+  ['เลิกซ่อนเมื่อเชื่อมต่อสำเร็จ_36',['ขั้นที่ 1 — ดูไอคอน WiFi บน topbar เลิกซ่อนเมื่อเชื่อมต่อสำเร็จ',['../group__b3__ipc__backbone.html#b3_step1',1,'']]],
+  ['เลือกความสามารถหนึ่งอย่างจากตารางโมดูล_37',['ขั้นที่ 1 — เลือกความสามารถหนึ่งอย่างจากตารางโมดูล',['../group__a0__orientation.html#a0_step1',1,'']]],
+  ['เลือกทางไหน_38',['เลือกทางไหน',['../group__c5__cloud__https.html#c5_when',1,'']]],
+  ['เลือก_20set_20หนึ่งชุดแล้วดูช่วงตั้งตัว_39',['ขั้นที่ 2 — เลือก set หนึ่งชุดแล้วดูช่วงตั้งตัว',['../group__tut__e2__parallel__sets.html#e2_step2',1,'']]],
+  ['เส้นทางขากลับ_20a_20—_20ใบรับรองมาที่_20commands_20certificate_40',['9a. เส้นทางขากลับ A — ใบรับรองมาที่ &lt;span class=&quot;tt&quot;&gt;commands/certificate&lt;/span&gt;',['../group__d2__enrolment__protected__update.html#d2_seq_returnA',1,'']]],
+  ['เส้นทางขากลับ_20b_20—_20การ_20ingest_20bundle_20ของ_20protected_20update_41',['9b. เส้นทางขากลับ B — การ ingest bundle ของ Protected Update',['../group__d2__enrolment__protected__update.html#d2_seq_returnB',1,'']]]
 ];

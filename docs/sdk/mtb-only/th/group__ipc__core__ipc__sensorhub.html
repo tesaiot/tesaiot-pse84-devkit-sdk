@@ -416,9 +416,14 @@ Functions</h2></td></tr>
 <dl class="section user"><dt>variant ที่ใช้ได้</dt><dd>mtb-mpy และ mtb-only</dd></dl>
 <div class="fragment"><div class="line">    <span class="comment">/* ...context: inside capsense_read_and_feed() - GFX task context ... */</span></div>
 <div class="line">    ipc_sensor_capsense_t d;</div>
-<div class="line">    d.btn0_pressed = (btn0_code != s_caps_idle_btn0) ? 1 : 0;</div>
-<div class="line">    d.btn1_pressed = (btn1_code != s_caps_idle_btn1) ? 1 : 0;</div>
-<div class="line">    d.slider = buf[2];</div>
+<div class="line">    <span class="keywordflow">if</span> (f.snapshot) {</div>
+<div class="line">        d.btn0_pressed = f.btn0;</div>
+<div class="line">        d.btn1_pressed = f.btn1;</div>
+<div class="line">    } <span class="keywordflow">else</span> {</div>
+<div class="line">        d.btn0_pressed = (capsense_normalize_btn(f.btn0) != s_caps_idle_btn0) ? 1 : 0;</div>
+<div class="line">        d.btn1_pressed = (capsense_normalize_btn(f.btn1) != s_caps_idle_btn1) ? 1 : 0;</div>
+<div class="line">    }</div>
+<div class="line">    d.slider = f.slider;      <span class="comment">/* 0 while a snapshot slider is untouched */</span></div>
 <div class="line">    d.reserved = 0;</div>
 <div class="line">    d.sequence = s_seq++;</div>
 <div class="line"> </div>
@@ -450,7 +455,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>ค่าของ pot ที่ปรับเป็นค่ามาตรฐานแล้ว ไม่ใช่ค่านับจาก ADC; ต้องตรวจ pot_channels_ready() ก่อน </p>
-<dl class="section user"><dt>ข้อกำหนดการเรียกใช้</dt><dd>API นี้ส่งค่าที่ <b>ปรับเป็นค่ามาตรฐานแล้ว</b> (normalised) ไม่ใช่ค่านับจาก ADC: <code>raw</code> ถูกปรับสเกลไปเต็มช่วงของ uint16 และ <code>percent_x10</code> อยู่ในหน่วยต่อพัน ทั้งคู่คำนวณจาก <code>POT_ADC_MAX</code> ทั้งฟังก์ชัน feed นี้อยู่ภายใน <code>BSP_HAS_POTENTIOMETER</code> ก่อนการป้อนข้อมูลทุกครั้ง โค้ดที่ส่งมอบจริงจะเรียก <code>pot_channels_ready()</code> (<code>cm55_sensor_poll.c:189-198</code>) : ผลการอ่าน SAR ที่เป็น 0 ไม่ใช่หลักฐานว่าช่องสัญญาณยังทำงานอยู่ จึงมีการตรวจบิตสถานะประจำช่องก่อน ใช้ตัวนับ <code>s_seq</code> ตัวเดียวกันร่วมกับ capsense </dd></dl>
+<dl class="section user"><dt>ข้อกำหนดการเรียกใช้</dt><dd>API นี้ส่งค่าที่ <b>ปรับเป็นค่ามาตรฐานแล้ว</b> (normalised) ไม่ใช่ค่านับจาก ADC: <code>raw</code> ถูกปรับสเกลไปเต็มช่วงของ uint16 และ <code>percent_x10</code> อยู่ในหน่วยต่อพัน ทั้งคู่คำนวณจาก <code>POT_ADC_MAX</code> ทั้งฟังก์ชัน feed นี้อยู่ภายใน <code>BSP_HAS_POTENTIOMETER</code> ก่อนการป้อนข้อมูลทุกครั้ง โค้ดที่ส่งมอบจริงจะเรียก <code>pot_channels_ready()</code> (<code>cm55_sensor_poll.c:221-230</code>) : ผลการอ่าน SAR ที่เป็น 0 ไม่ใช่หลักฐานว่าช่องสัญญาณยังทำงานอยู่ จึงมีการตรวจบิตสถานะประจำช่องก่อน ใช้ตัวนับ <code>s_seq</code> ตัวเดียวกันร่วมกับ capsense </dd></dl>
 <dl class="section user"><dt>variant ที่ใช้ได้</dt><dd>mtb-mpy และ mtb-only</dd></dl>
 <div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">bool</span> pot_read_and_feed(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>

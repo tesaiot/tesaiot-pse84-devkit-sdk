@@ -36,24 +36,15 @@ typedef struct jsmntok jsmntok_t;
 extern "C" {
 #endif
 
-/* Compile-time firmware version. Bumped via git tag on release.
- * 1.0.9 = May 2026 — landed Phase 3 close-out:
- *   * F2.5  — fw_hash now hashes a build-deterministic identity
- *             string (BENTO_BUDDY_FW_VERSION|__DATE__|__TIME__) so
- *             the digest is stable across power-cycles of the same
- *             binary. The previous VTOR-based 128 KB scan hashed
- *             SRAM and produced a different digest every boot.
- *   * F1+F2.5 diagnostic — bento.fw.query response now carries a
- *             `_diag` block with hash + ble counters + uptime_ms
- *             so support can root-cause connectivity reports in a
- *             single round-trip without serial console access.
- *   * the TX buffer grew 256 → 1024 to fit the new _diag payload.
- */
-/* A project that declares BENTO_FW_VERSION in its Makefile wins. The constant
- * below is the fallback for builds that declare nothing - and until 2026-09-02
- * that was every project in the workspace, so an HMI Kit running 0.2.0 told the
- * desktop it was 1.4.0 over both bento.info.board and bento.fw.query. Prefer
- * the project's own number wherever one is supplied. */
+/* Firmware version string reported to the desktop in the bento.fw.query
+ * reply and the boot-complete event. That reply also carries a `_diag`
+ * block (firmware hash, BLE counters, uptime) so a connectivity report can
+ * be diagnosed in one round trip. */
+/* A build that defines BENTO_FW_VERSION (for example with
+ * DEFINES+=BENTO_FW_VERSION=\"x.y.z\" in its makefile) gets that number here;
+ * the constant below applies only when the build supplies none. This changes
+ * only code compiled against this header: the prebuilt libbento_secure.a was
+ * built with its own value and is not affected. */
 #ifdef BENTO_FW_VERSION
 #undef  BENTO_BUDDY_FW_VERSION
 #define BENTO_BUDDY_FW_VERSION BENTO_FW_VERSION
@@ -63,14 +54,12 @@ extern "C" {
 #endif
 
 /* Handler for bento.fw.query. Emits the JSON ack on the NUS link. */
-void bento_fw_handle_query(const char *json,
-                           const jsmntok_t *toks, int n_toks);
+void bento_fw_handle_query(const char *json, const jsmntok_t *toks, int n_toks);
 
 /* Handler for bento.fw.update.begin. Launches the LCD Y/N prompt and emits
  * the final ack (approve → ok:true + sensor streams stopped; decline → error;
  * timeout → error). Rate-limits duplicate prompts within 5 seconds. */
-void bento_fw_handle_update_begin(const char *json,
-                                  const jsmntok_t *toks, int n_toks);
+void bento_fw_handle_update_begin(const char *json, const jsmntok_t *toks, int n_toks);
 
 /* Called from the BLE state-change hook the moment the link transitions to
  * CONNECTED. Emits bento.fw.update.complete ONCE per boot so the desktop can

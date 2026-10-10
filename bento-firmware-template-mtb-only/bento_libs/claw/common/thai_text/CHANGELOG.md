@@ -71,3 +71,4 @@ version numbers follow [Semantic Versioning](https://semver.org/).
   composite glyphs.
 - LVGL-compatible bitmap fonts at 14/16/20/24/28 px via `lv_font_conv`.
 - `thai_to_pua()` runtime substitution (no malloc, libc-only).
+

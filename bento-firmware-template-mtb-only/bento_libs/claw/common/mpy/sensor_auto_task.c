@@ -455,8 +455,8 @@ static bool wifi_ensure_ready(void)
 
 /*******************************************************************************
  * Robust WCM connect — rides out the marginal COLD first-join after boot.
- * See BENTO-TESAIoT-Game-libraries/docs/WIFI_NTP_COLD_JOIN_KNOWHOW.md for the full
- * root-cause writeup. In short: on a cold boot the CYW55500 RX buffer pool
+ *
+ * Root cause, in short: on a cold boot the CYW55500 RX buffer pool
  * (WHD_DEF_MAX_RXBUFPOST=14 x ~2KB) is malloc'd fresh from the ~81KB shared newlib
  * heap during the association burst; a momentary buffer shortfall drops the frame
  * that sets JOIN_SSID_SET (WLC_E_SET_SSID) and the join returns WHD_JOIN_IN_PROGRESS
@@ -1313,6 +1313,12 @@ static void auto_push_pot(void) {
 /*******************************************************************************
  * Auto-Sensor Task Body
  *******************************************************************************/
+/* Bring one I2C sensor up: 4 tries, 60 ms apart, once per boot in this task
+ * (a single failed try used to disable the row for the whole boot). Defined
+ * at the end of this file, with the full rationale. */
+static bool sensor_init_with_retry(bool (*init_fn)(void), const char *name);
+
+
 static void sensor_auto_task_body(void *arg) {
     (void)arg;
 
@@ -1339,26 +1345,20 @@ static void sensor_auto_task_body(void *arg) {
     /* Extra settle time for sensors after I2C init */
     vTaskDelay(pdMS_TO_TICKS(100));
 
-    sensor_i2c_lock(500);
-    ok = bmi270_init();
-    sensor_i2c_unlock();
+    ok = sensor_init_with_retry(bmi270_init, "bmi270");
     if (!ok) {
         s_enabled_mask &= ~SENSOR_AUTO_BMI270;
     }
 
 #if BSP_HAS_DPS368
-    sensor_i2c_lock(500);
-    ok = dps368_init();
-    sensor_i2c_unlock();
+    ok = sensor_init_with_retry(dps368_init, "dps368");
     if (!ok) {
         s_enabled_mask &= ~SENSOR_AUTO_DPS368;
     }
 #endif
 
 #if BSP_HAS_SHT40
-    sensor_i2c_lock(500);
-    ok = sht40_init();
-    sensor_i2c_unlock();
+    ok = sensor_init_with_retry(sht40_init, "sht40");
     if (!ok) {
         s_enabled_mask &= ~SENSOR_AUTO_SHT40;
     }
@@ -1688,3 +1688,48 @@ void sensor_auto_ntp_and_push_time(void)
         push_time_to_cm55();
     }
 }
+
+/*******************************************************************************
+ * Sensor init with retry (used by sensor_auto_task_body above)
+ *******************************************************************************/
+/* Bring one I2C sensor up, retrying before giving up on it.
+ *
+ * A single attempt used to decide the sensor's fate for the whole boot: on
+ * failure the caller cleared its bit out of s_enabled_mask and nothing ever
+ * tried again, so the Dashboard and Home showed "---" for that row until the
+ * next reset, while the sensor itself was fine (a later init on the same
+ * boot succeeded first time). The bus is busy during start-up: CM55 is
+ * touching the shared I2C bus in the same window, so the failure is a race
+ * and is intermittent.
+ *
+ * Retries are cheap and bounded, and they run once per boot inside this task,
+ * so nothing time-critical is waiting on them.
+ */
+#define SENSOR_INIT_TRIES      4
+#define SENSOR_INIT_BACKOFF_MS 60
+
+static bool sensor_init_with_retry(bool (*init_fn)(void), const char *name)
+{
+    for (int attempt = 1; attempt <= SENSOR_INIT_TRIES; attempt++) {
+        sensor_i2c_lock(500);
+        bool ok = init_fn();
+        sensor_i2c_unlock();
+
+        if (ok) {
+            if (attempt > 1) {
+                printf("SensorAuto: %s init OK on attempt %d\r\n", name, attempt);
+            }
+            return true;
+        }
+        if (attempt < SENSOR_INIT_TRIES) {
+            vTaskDelay(pdMS_TO_TICKS(SENSOR_INIT_BACKOFF_MS));
+        }
+    }
+
+    /* Always reported: this row reads "---" for the rest of the boot, and the
+     * reason must be findable from the UART log without a debugger. */
+    printf("SensorAuto: %s init FAILED after %d tries - row disabled\r\n",
+           name, SENSOR_INIT_TRIES);
+    return false;
+}
+

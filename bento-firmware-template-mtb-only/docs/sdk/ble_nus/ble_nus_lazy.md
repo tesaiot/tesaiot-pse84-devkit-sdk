@@ -1,6 +1,6 @@
 # ble_nus_lazy.h
 
-Public interface for the deferred Bento Buddy BLE bring-up. The behavioural contract.
+Public interface for the deferred Bento Buddy BLE bring-up. The behavioural contract is in the comments below.
 
 ## Functions (exported by the archive)
 
@@ -18,7 +18,7 @@ Spawn a one-shot FreeRTOS task that brings BLE up ~3 s after the scheduler start
 int bento_buddy_request_start(void);
 ```
 
-File Name: ble_nus_lazy.h Description: Public interface for the deferred Bento Buddy BLE bring-up. The behavioural contract. / #ifndef BLE_NUS_LAZY_H #define BLE_NUS_LAZY_H #ifdef __cplusplus extern "C" { #endif /* Bring up the AIROC BLE host stack + NUS advertising on demand. Returns: 0 = newly started, 1 = already running, -1 = init failed.
+File Name: ble_nus_lazy.h Description: Public interface for the deferred Bento Buddy BLE bring-up. The behavioural contract is in the comments below. / #ifndef BLE_NUS_LAZY_H #define BLE_NUS_LAZY_H #ifdef __cplusplus extern "C" { #endif /* Bring up the AIROC BLE host stack + NUS advertising on demand. Returns: 0 = newly started, 1 = already running, -1 = init failed.
 
 ### `bento_buddy_request_stop`
 

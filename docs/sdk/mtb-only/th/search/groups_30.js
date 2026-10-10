@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['ไฟล์_20กับความจริงเรื่อง_20makefile_0',['F1 — การเพิ่มหน้าจอ: 3 ไฟล์ กับความจริงเรื่อง Makefile',['../group__tut__f1__adding__a__screen.html',1,'']]],
-  ['ไฟล์_20config_20→_20mqtt_20task_20→_20broker_1',['C3 — TESAIoT cloud: ไฟล์ config → MQTT task → broker',['../group__c3__cloud__mqtt.html',1,'']]],
-  ['ไว้_2',['การจับ touch ไว้',['../group__tesaiot__hsm__touch.html',1,'']]]
+  ['ใครเรียกอะไรได้บ้าง_0',['การเข้าถึง 2 ชั้น — ใครเรียกอะไรได้บ้าง',['../group__edge__ai__callers.html',1,'']]],
+  ['ในของที่ส่งมอบจริง_1',['ฟังก์ชันที่ไม่มี call site ในของที่ส่งมอบจริง',['../group__ipc__core__index__authored.html',1,'']]],
+  ['ให้นิยามเอง_20ห้ามเรียก_2',['Weak hook (ให้นิยามเอง ห้ามเรียก)',['../group__ipc__core__hooks.html',1,'']]]
 ];

@@ -1,338 +1,296 @@
-# TESAIoT firmware template
+# TESAIoT Dev Kit — C-only firmware template (mtb-only)
 
-> ภาษาไทยอยู่ที่ [README.md](README.md) — Thai version: [README.md](README.md)
+> ภาษาไทย: [README.md](README.md)
 
-A complete, working firmware for the **TESAIoT Dev Kit** (PSoC Edge
-PSE846GPS2DBZC4A), meant to be copied and turned into your own product.
-
-It boots to a touch Home screen with eighteen menus, runs MicroPython, reads
-every sensor on the board, and talks to the TESAIoT cloud. All of that is here
-as source you can read and change — except six areas that arrive as prebuilt
-libraries. Which six, and why, is spelled out below.
-
-```bash
-./bento.sh            # start here
-```
+The firmware that runs on the **TESAIoT Dev Kit** (Infineon PSoC™ Edge E84 AI
+Kit on the TESAIoT QWA309 base board), as a ModusToolbox™ project you can read,
+change and ship. Plain C on FreeRTOS across three cores. No MicroPython, no
+virtual machine, no scripting layer: what you build is what runs.
 
 ---
 
-## 1. What you are looking at
+## 1. What this package is
 
-PSoC Edge has three processors, and this firmware uses all of them. It matters
-because it decides where your code goes.
+| | |
+|---|---|
+| Language | C, FreeRTOS, LVGL on CM55 |
+| Toolchain | ModusToolbox 3.6 and the GNU Arm toolchain it installs |
+| Cores | CM33 secure (boot only), CM33 non-secure (Wi-Fi, sensors, cloud, OPTIGA), CM55 (display, every UI page, Edge AI on the NPU, radar, USB host) |
+| Source | every UI page, every sensor driver, the BSP, the IPC transport, Wi-Fi, MQTT/TLS, storage |
+| Prebuilt | five archives in `lib/`, each with headers and `api.txt`; one signed manifest lists the SHA-256 of every file in `lib/` (§6) |
 
-| Core | Runs | Typical work |
-|---|---|---|
-| **CM33_S** | secure boot | you will not touch this |
-| **CM33_NS** | MicroPython, WiFi, sensors, cloud | Python API, drivers, connectivity |
-| **CM55** | LVGL display, all UI pages | screens, menus, graphics |
+Two things this variant does **not** have, on purpose:
 
-The two application cores talk over an IPC mailbox. A sensor is read on one
-core and drawn on the other, so a new sensor page usually means a small change
-on each side.
+- **No MicroPython.** There is no REPL, no `/main.py` and no Python module.
+  Your code is C: FreeRTOS tasks on CM33_NS and LVGL pages on CM55.
+- **No IDE console.** The BENTO IDE's console talks to the board through the
+  MicroPython link this variant does not contain. The IDE's Remote Flash can
+  still program the published C-only hex; your own build goes on with
+  `make program` over KitProg3 (§3).
 
-## 2. First run
+**How to tell it is alive.** With no REPL, the proof of life is a heartbeat on
+the KitProg3 USB serial port (115200 8N1): one line every 10 seconds giving
+the seconds since boot and the number of FreeRTOS tasks, for example
+
+```
+[HB] t=30s tasks=27
+```
+
+Config and saved Wi-Fi networks persist through the C storage layer
+(`bento_libs/claw/common/storage_c/`), in the same format the MicroPython
+variant writes, so a board can move between the two without losing them.
+
+## 2. Getting it: the release zip, or a clone plus `lib/`
+
+**The release zip is the complete package.** Download
+`bento-firmware-template-mtb-only.zip` from the `fw-c-only-v1.12.0` release of
+[tesaiot/tesaiot-pse84-devkit-sdk](https://github.com/tesaiot/tesaiot-pse84-devkit-sdk/releases),
+unzip it, and check the archives before anything else:
 
 ```bash
-./bento.sh doctor     # is everything present?
-
-# Dependencies are fetched PER PROJECT. There is no getlibs at the top level,
-# and each project declares its own deps/*.mtb — running it only in
-# proj_cm33_ns fetches 33 of the 41 assets and the build then stops inside
-# ninja on a missing optiga-trust-m file.
-for p in proj_cm33_s proj_cm33_ns proj_cm55; do (cd $p && make getlibs); done
-
-./bento.sh build      # ~10 minutes for a clean build of all three cores
-./bento.sh flash      # program the board over KitProg
+unzip bento-firmware-template-mtb-only.zip
+cd bento-firmware-template-mtb-only
+(cd lib && ./verify.sh)        # the manifest's ECDSA signature, then the SHA-256 of every file
 ```
 
-**Then power-cycle the board.** A debugger reset is not enough: the display
-backlight needs a cold 0→1 edge and stays dark otherwise, which looks exactly
-like a failed flash.
-
-**`getlibs` is not optional here, and the order matters.** Some source this
-firmware compiles is not in this package at all — it is fetched, then copied out
-of the fetched asset by the build. `make getlibs` in `proj_cm55` must therefore
-run *before* the first `build`, or the build stops and tells you so. See
-§7.1 for what is fetched and why.
-
-**Patched dependencies.** This firmware needs local changes to five assets under
-`mtb_shared` — eleven files — that `getlibs` does not provide. One stops the
-build, the rest fail silently, including the one that binds the OPTIGA key into
-the TLS session. The build refuses to start without them and names what is
-missing. The diffs travel with this package, in `third_party_patches/`.
-
-`doctor` checks the toolchain and the two trees this template deliberately does
-not carry (see §7). Fix whatever it reports before building; the errors you get
-otherwise are long and unhelpful.
-
-## 3. The CLI
-
-`bento.sh` with no arguments opens a menu. Every action is also a subcommand:
-
-| Command | What it does |
-|---|---|
-| `doctor` | toolchain, archives, and the trees you must supply |
-| `menus` | all eighteen menus, whether each is on, and its size on disk |
-| `enable <menu>` | turn a menu on |
-| `disable <menu>` | turn a menu off — the code stays, it is simply not built |
-| `remove <menu>` | delete a menu's sources, after telling you what else to edit |
-| `build` / `flash` / `clean` | the build cycle |
-| `verify` | check the prebuilt libraries against their signature |
-
-`menus` asks `make` for each flag rather than reading the Makefile, because
-several flags are assigned twice — once inside a board conditional and once in
-its else branch — and reading the text gives the wrong answer.
-
-## 4. Adding your own screen
-
-Menus live one directory each under `proj_cm55/modules/page-components/`:
-
-```
-_core       animation   bento_buddy  bentoclaw   controls    edge_ai
-environ     face_id     games        gpio_rgb    hsm         joystick
-motion      motor_ctrl  smart_card   smart_watch spectrum_analyzer
-tesaiot_connect         wifi_connect
-```
-
-Copy `edge_ai` — it is the one page that is wired in completely at every
-touch point below, so it is the safe thing to imitate. (`environ` and `motion`
-are smaller but are registered with no Home card, which is the broken state
-described under this table; do not copy them.) Rename it, and wire it in at
-these places:
-
-| File | Add |
-|---|---|
-| `proj_cm55/modules/page-components/_core/page_manager.h` | your `PAGE_ID_…` in the enum — an explicit value at the end, next free number, never re-numbered (the values are ABI, see the comment at the top of the enum) |
-| `proj_cm55/modules/page-components/_core/sensorhub_ui.c` | the `#include "page_<name>.h"` (with the others, ~lines 34-97) and a `pm_register(...)` call |
-| `proj_cm55/modules/page-components/_core/page_home.c` | an `s_card_defs[]` entry |
-| `proj_cm55/Makefile` — flag default | `ENABLE_PAGE_<NAME> ?= 1` with the others (lines 23-57) |
-| `proj_cm55/Makefile` — auto-guard + `CY_IGNORE` | the `$(wildcard …)` line that forces the flag to 0 when the directory is gone (lines 66-81) and the `CY_IGNORE+=modules/page-components/<name>` block (lines 636-700) |
-| `proj_cm55/Makefile` — `INCLUDES+=` and `DEFINES+=` | `INCLUDES+=modules/page-components/<name>` (lines 737-798) and `DEFINES+=ENABLE_PAGE_<NAME>=$(ENABLE_PAGE_<NAME>)` (from line 897) |
-
-There is no `./bento.sh add` — the wiring is by hand, and `./bento.sh menus`
-only reports flags for directories that already exist.
-
-**All of them, or none.** A page registered with no card exists but cannot be
-reached. A card with no registration is silently ignored when tapped —
-`pm_navigate()` returns when the page has no `create_cb` — so the symptom is a
-card that does nothing, not a crash. A missing `INCLUDES+=` fails the build
-with `fatal error: page_<name>.h: No such file or directory`. This is the
-single most common mistake when adding a screen.
-
-`_core` is not a menu — it holds the Home screen and the page manager, and
-nothing works without it.
-
-### Removing a menu
-
-`./bento.sh disable <menu>` is the safe move: the flag goes to 0, the code is
-not compiled, and nothing else has to change. Use `remove` only when you want
-the sources gone, and expect to edit the two files it names afterwards.
-
-## 5. Writing Python instead
-
-The board runs MicroPython on CM33_NS. Over the USB serial console:
-
-```python
-import sensors
-sensors.scan()          # I2C addresses that answered
-sensors.read_all()      # every sensor, as a dict
-
-import ui
-ui.Button(...)          # draw on the CM55 screen from Python, over IPC
-
-import wifi, tesaiot
-wifi.connect("ssid", "password")
-tesaiot.config()        # cloud settings
-```
-
-To make a script run at boot, write it to the board's filesystem as `/main.py`
-from the REPL, or use the TESAIoT tooling if you have it — this template does
-not bundle an uploader.
-
-## 6. What is prebuilt, and why
-
-Six areas ship as static libraries in `lib/` rather than as source. Their
-source is not in this tree at all — that is the point, and the fact that this
-template builds without it is the proof.
-
-| Area | Library | Core |
-|---|---|---|
-| Bento Buddy BLE agent | `libbento_secure.a` | CM33_NS, off by default |
-| HSM screen, Edge AI page, display bring-up | `libbento_cm55.a` | CM55 |
-| Edge AI inference: model registry, model sets, run-time model loading | `libbento_edge_ai.a` | CM55 |
-| Core IPC: service, LCD, UI, sensor hub | `libbento_ipc.a` | CM55 |
-| TACP protocol, WiFi credential storage | `libbento_mpy.a` | CM33_NS |
-| OPTIGA enrolment: CSR and Protected Update | `libbento_hsm.a` | CM33_NS |
-
-Each sits in `lib/<area>/` with its own `include/`, an `api.txt` listing every
-symbol it exports, a `consumer_must_provide.txt` listing what it expects from
-you, and a `PROVENANCE.txt` recording which project it was built against.
+**A git clone is not enough on its own.** The repository tracks the source
+but not the five `.a` archives (git ignores `*.a`), so a clone's `lib/` has the
+headers and `verify.sh` but none of the archives, and the link fails. If you work from a clone, take `lib/` from the
+release zip **of the same version** and verify it there:
 
 ```bash
-./bento.sh verify     # ECDSA signature + SHA-256 of every shipped file
+# from the unpacked zip, into your clone
+rsync -a bento-firmware-template-mtb-only/lib/ <your-clone>/bento-firmware-template-mtb-only/lib/
+(cd <your-clone>/bento-firmware-template-mtb-only/lib && ./verify.sh)
 ```
 
-Read `lib/ipc_core/PROVENANCE.txt` before reusing that one in a different
-project: it contains a page-order constant compiled in at build time, and a
-project whose menus are in a different order will link cleanly and behave
-wrongly.
+Do not mix a `lib/` from one version with the source of another.
 
-**The Edge AI *engine* is ours; the Edge AI *models* are not.**
-`libbento_edge_ai.a` is the model registry, model sets and the run-time
-loader, and that is TESAIoT's work. The models it runs are not.
-`proj_cm55/modules/ai_models/model_motion.{c,h}`, `model_audio.{c,h}` and
-`model_radar.{c,h}` are **DEEPCRAFT™ Studio** exports, generated by Infineon's
-Edge AI tool and copyright **Imagimob AB, an Infineon Technologies company** —
-the line in each file reads *"Copyright © 2023- Imagimob AB, All Rights
-Reserved."* That is a reservation with no grant of any kind written into the
-source, so this template credits them rather than licensing them on. Nobody here
-trained them or owns them, the Apache-2.0 grant on this template's own code does
-not reach inside them, and they are used here for research and teaching rather
-than commercial deployment. If you intend to ship a
-product containing them, or anything derived from them or from DEEPCRAFT™
-Studio, settle it with Infineon and Imagimob first. Start at
-https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio;
-the full entry is `THIRD_PARTY.md` and `THIRD_PARTY_NOTICES.md` §2.2, §2.4 and
-§4.3, and `proj_cm55/modules/ai_models/README.md` repeats it where the files are.
+## 3. Build and flash
 
-**What this does and does not give you.** The libraries hide implementation and
-internal symbol names. They do not hide the protocols — UUIDs, JSON commands
-and format strings are readable in any binary, and a disassembler reads
-machine code regardless.
-
-There is no technical control behind that. The OPTIGA-UID licence check
-described in §8 is not compiled into any of the three cores: both
-`proj_cm33_ns/Makefile:87` and `proj_cm55/Makefile:179-184` `CY_IGNORE` the
-directory that holds the licence check, no object file for it exists in any
-build tree, and `tesaiot_is_licensed` appears in none of the three Release ELFs
-(`arm-none-eabi-nm`, checked 2026-08-29). What restricts use is the licence
-agreement — a contractual boundary, not an enforced one. The obfuscation raises
-the cost of copying; it does not stop it.
-
-## 7. What you must supply
-
-The template carries the application and the board support package. It does not
-carry the platform, which is far too large to ship inside a template — the
-MicroPython port alone is 154 MB.
+You need ModusToolbox 3.6 (newer Configurators regenerate the BSP and break
+the build), bash 4 or newer (on macOS: Homebrew's bash), and about 2 GB for
+`mtb_shared`. The template expects this layout and finds the workspace one
+level above itself:
 
 ```
 <your workspace>/
-  micropython-psoc-edge-psoc-edge-main/   154 MB   MicroPython port
-  mtb_shared/                             1.9 GB   make getlibs
-  bento-firmware-template/                         this directory
+  mtb_shared/                         created by make getlibs
+  bento-firmware-template-mtb-only/   this directory
 ```
 
-By default the template finds the workspace one level above itself. (Inside the
-release repository it sits one directory deeper, and it detects that.) Point it
-elsewhere with:
+**1. Fetch the libraries, per project.** There is no top-level `getlibs`:
 
 ```bash
-make build BENTO_WORKSPACE=/path/to/workspace
+for p in proj_cm33_s proj_cm33_ns proj_cm55; do (cd $p && make getlibs); done
 ```
 
-That variable is read by `common.mk`, `proj_cm33_ns/Makefile.micropython` and
-`bento.sh`.
+**2. Apply the patched dependencies.** Five assets need eleven local changes
+that `getlibs` cannot provide; the diffs travel in `third_party_patches/`. The
+build refuses to start without them and names what is missing:
 
-### 7.1 Source that is fetched rather than shipped
+```bash
+cd ../mtb_shared
+( for p in $(cat ../bento-firmware-template-mtb-only/third_party_patches/series); do
+    patch -p1 -F0 --forward < "../bento-firmware-template-mtb-only/third_party_patches/$p" || exit 1
+  done && shasum -a 256 -c ../bento-firmware-template-mtb-only/third_party_patches/PATCHED.sha256 )
+cd ../bento-firmware-template-mtb-only
+```
 
-Some files this firmware compiles are deliberately **not** in this package. They
-belong to third parties whose licence permits us to ship binaries but not
-source, so the build fetches them from the vendor's own published asset and uses
-them from there. Nothing is lost — the asset is the authoritative copy, and it
-is one `getlibs` away.
+The parentheses keep a failure from closing your terminal. Run it once: on a
+second run `patch` reports the patches as previously applied and stops, which
+is expected; the `shasum` line on its own then confirms the tree.
 
-| What | Upstream | Pinned by |
+**3. Build and program.**
+
+```bash
+make build -j          # three cores; "Build complete" for each
+make program           # over KitProg3
+```
+
+Then **power-cycle the board** (unplug USB, plug it back). A debugger reset is
+not enough: the display backlight needs a cold start and stays dark otherwise,
+which looks like a failed flash and is not.
+
+`./setup.sh --check` reports what is missing; `./setup.sh --build` runs
+step 1 and step 3 for you (apply step 2 by hand first). `./bento.sh` lists
+the menus, turns them on and off, and runs `verify`.
+
+**Do not judge a running board through openocd.** Attaching a debugger to a
+running board parks it. Watch the heartbeat instead.
+
+## 4. What is on the screen
+
+The board boots to a touch Home screen. Each card opens one page; the source
+of every page is under `proj_cm55/modules/page-components/`. The cards, in
+order:
+
+1. Sensor Dashboard
+2. GPIO & RGB Matrix
+3. Edge AI
+4. HSM Security
+5. Smart Watch
+6. Animation
+7. BENTO Playground
+8. Joystick
+9. BENTO Claw
+10. Wi-Fi Setting
+
+The pictures below were taken from this release running on a TESAIoT Dev Kit
+(800x480). Thin horizontal lines in some of them come from the screen capture,
+which read the display memory while a frame was being drawn; the panel itself
+shows none. Two values are hidden with a grey block: the secure element's
+unique ID and the list of nearby Wi-Fi networks.
+
+**Home.** The card row scrolls sideways; the live sensor strip shows the IMU,
+compass heading, temperature, humidity, touch and pot readings.
+
+![Home](assets/readme/01_home.png)
+![Home, cards scrolled](assets/readme/14_home_cards_mid.png)
+![Home, last cards](assets/readme/15_home_cards_end.png)
+
+**Sensor Dashboard.** IMU charts, magnetometer heading, pressure,
+temperature and humidity, CapSense, radar presence and the USB joystick.
+
+![Sensor Dashboard](assets/readme/02_sensor_dashboard.png)
+
+**GPIO & RGB Matrix.** The QWA309 base board: each knob in mV and raw with its
+pin, the push-buttons by pin, the CapSense link state, SW1-SW4, and the 16x8
+RGB matrix. Scroll down for the notes on what the E84 can and cannot read.
+
+![GPIO & RGB Matrix](assets/readme/03_gpio_rgb.png)
+![GPIO & RGB Matrix, scrolled to the notes](assets/readme/03b_gpio_rgb_scrolled.png)
+
+**Edge AI.** Pick a model from the list, load it, and watch the class scores.
+The template includes the Siren, Cough and Factory Alarm ready models
+(Infineon DEEPCRAFT™ Ready Models by Imagimob AB, evaluation builds) for
+non-commercial education and evaluation use, beside the motion, audio and
+radar models (`proj_cm55/modules/ai_models/README.md`). The picture shows the
+Siren entry selected with the factory-alarm model's description and classes,
+a display mix-up to be fixed in the next release.
+
+![Edge AI](assets/readme/04_edge_ai.png)
+
+**HSM Security.** The OPTIGA™ Trust M secure element: chip identity,
+certificate and key slots, counters and health. The unique ID is hidden here.
+
+![HSM Security](assets/readme/05_hsm_security.png)
+
+**Smart Watch.** A round watch-face demo with fixed sample values.
+
+![Smart Watch](assets/readme/06_smart_watch.png)
+
+**Animation.** Lottie animations played with ThorVG.
+
+![Animation](assets/readme/07_animation.png)
+
+**BENTO Playground.** An empty screen for your own code to draw on.
+
+![BENTO Playground](assets/readme/08_playground.png)
+
+**Joystick.** A USB game controller on the host port; here waiting for one.
+
+![Joystick](assets/readme/09_joystick.png)
+
+**BENTO Claw.** The agent status screen. In this variant nothing sends it
+data, so it shows its idle state.
+
+![BENTO Claw](assets/readme/10_bento_claw.png)
+
+**Wi-Fi Setting.** Scan, join and saved networks. The scanned list is hidden
+here.
+
+![Wi-Fi Setting](assets/readme/11_wifi_setting.png)
+
+## 5. The QWA309 base board
+
+Every switch, knob and header on the base board, which pin it reaches, and what
+firmware can and cannot read is in the documentation chapter
+**J7 — The QWA309 base board: hardware reference**: in this package at
+`docs/html/group__j7__qwa309__baseboard.html` (Thai:
+`docs/html/th/group__j7__qwa309__baseboard.html`), and on the
+[documentation site](https://tesaiot.github.io/tesaiot-pse84-devkit-sdk/).
+
+Read it before you wire anything. Three points from it:
+
+- **Do not press the push-button on P17.5 before the GPIO & RGB Matrix page
+  has been opened.** At boot the BSP drives P17.5 high as an output (it is also
+  the camera reset line and the USB-host VBUS enable), and the button connects
+  it straight to ground. The page reconfigures the pin as an input with a
+  pull-up when it first opens.
+- **SW1 to SW4 are not wired to the E84.** The CapSense controller on the base
+  board reads them and reports them over I2C at address 0x08, and only its
+  firmware protocol 0x0D or 0x0E reports them. The link needs SW12 ON (V3.1)
+  and a restart; B1 boards have no link. The decoding was tested on the host
+  only, because no board with that firmware was available. The GPIO & RGB
+  Matrix page says which firmware it found (its on-screen text says "0x0D or
+  newer"; it accepts only 0x0D and 0x0E).
+- **Printed labels and schematic designators differ** for every user switch.
+  The chapter gives both.
+
+### QWA309 base board pinout
+
+Every header, switch and knob of the V3.1 base board in one picture: the
+Arduino and mikroBUS pin maps, the user inputs, the power and function
+switches, the shared I2C bus and the CapSense controller. The J7 chapter has
+the same diagram with a Thai legend, and an SVG version for zooming.
+
+![QWA309 base board pinout, V3.1](assets/readme/qwa309_pinout_v3_1.png)
+
+## 6. What is prebuilt
+
+Five areas ship as static libraries in `lib/` rather than as source:
+
+| Area | Library | Core |
 |---|---|---|
-| emUSB-Host configuration — `usbh_config.c`, `usbh_config_io.c` | [github.com/Infineon/emusb-host](https://github.com/Infineon/emusb-host) `release-v2.2.0`, files at `export/Config/` | `proj_cm55/deps/emusb-host.mtb` |
+| Edge AI inference: model registry, model sets, run-time model loading | `libbento_edge_ai.a` | CM55 |
+| HSM screen, Edge AI page, display bring-up | `libbento_cm55.a` | CM55 |
+| Core IPC: service, LCD, UI, sensor hub | `libbento_ipc.a` | CM55 |
+| OPTIGA enrolment: CSR and Protected Update | `libbento_hsm.a` | CM33_NS |
+| Bento Buddy BLE agent | `libbento_secure.a` | CM33_NS; no Makefile in this package links it |
 
-emUSB-Host is SEGGER's USB stack. SEGGER licensed it to Cypress for object-code
-redistribution only, so its source cannot travel in this package. Infineon ships
-the two configuration templates inside the asset for integrators to copy out —
-the asset's `.cyignore` excludes `export/Config` precisely so ModusToolbox will
-not compile them where they sit — and `materialize_emusb_config.sh` does that
-copy at the start of every `proj_cm55` build, then applies the three changes
-that are ours (a lower ISR priority, and two counters the joystick driver reads
-to tell "no device" from "device present but silent"). That script is the
-readable record of exactly what we changed and why.
+Each sits in `lib/<area>/` with its own `include/`, an `api.txt` listing every
+symbol it exports, a `consumer_must_provide.txt` listing what it expects from
+you, and a `PROVENANCE.txt`. The API reference for each is under `docs/sdk/`
+and in `docs/html/`.
 
-**Consequence for you:** run `make getlibs` in `proj_cm55` before the first
-build. If you do not, the build stops with a message naming the missing asset
-rather than a page of undefined references. Re-running it is harmless; the copy
-is idempotent and happens on every build, so the fetched asset and your tree
-cannot drift apart.
+## 7. Where your code goes
 
-If you are re-packaging this template, note that these files exist on disk after
-any build. They are excluded from the package by `bento-release.sh` and the
-result is verified there — do not commit them and do not ship them.
-
-You also need **ModusToolbox 3.6 specifically** and the ARM GCC that ships with
-it. Newer is not better here: a later Configurator regenerates the BSP
-configuration from `design.modus` and emits notices that `-Werror=cpp` turns
-into errors in files you never touched. `BENTO_MTB_VERSION` overrides the pin
-if you intend to re-validate.
-
-## 8. Licensing your board
-
-`bento_libs/claw/kit-pse84-ai/tesaiot/include/tesaiot_license_config.h` contains
-placeholders. To get real values:
-
-```python
-import optiga
-print(optiga.uid())     # 54 hex characters, unique to your board
-```
-
-Send that UID to TESAIoT and you receive a signature for it. Put both in the
-header and rebuild.
-
-**Be clear about what this does today.** Filling the header in changes nothing
-about how the firmware runs, because the code that would read it is not built.
-The licence check sits in a directory both core Makefiles `CY_IGNORE`
-(`proj_cm33_ns/Makefile:87`, `proj_cm55/Makefile:179-184`), the prebuilt
-`tesaiot/lib/libtesaiot_license.a` is linked by nothing, and
-`tesaiot_is_licensed` is absent from all three Release ELFs (checked with
-`arm-none-eabi-nm`, 2026-08-29). `tesaiot.license_verify()` exists in
-MicroPython but its handler is compiled out with `ENABLE_OPTIGA=0`
-(`proj_cm55/Makefile:109`) and answers "not available".
-
-Register the UID anyway: it is how your board is recorded as licensed, and it is
-what the check will read once it is wired in. Just do not treat it as something
-that currently stops unlicensed firmware from running.
-
-## 9. When something goes wrong
-
-| Symptom | Cause |
+| You want to | Start in |
 |---|---|
-| Linker cannot find a function from `lib/` | `LDLIBS` was set after `include start.mk`. ModusToolbox reads it while including that file; anything later never reaches the linker. |
-| Menu is missing from Home | its flag is 0, or `s_card_defs[]` has no entry. `./bento.sh menus` tells you which. |
-| Tapping a card does nothing | the card exists but `pm_register` does not — `pm_navigate()` ignores a page with no `create_cb`. See §4. |
-| `undefined reference` to something that exists in source | stale object files. `./bento.sh clean`, then build. |
-| Screen black, sensors return `[]` after repeated flashing | a device on the shared display I2C bus (P17.0/P17.1) was mid-transfer when the reset hit and is still holding SDA low. CM55 now clears the bus (nine SCL pulses and a STOP) before the panel init, which covers this case. If the screen still stays dark, unplug USB completely, wait ten seconds, plug back in. A reset button is not enough. |
-| MicroPython behaves oddly after removing library sources | the qstr pool moved. See `bento_archived_qstrs.c` — it exists to prevent exactly this. |
+| add a background task, a driver, a cloud message | `proj_cm33_ns/main.c` and `bento_libs/claw/common/` |
+| add or change a screen | `proj_cm55/modules/page-components/<page>/`, registered in `_core/sensorhub_ui.c` and carded in `_core/page_home.c` (both, always) |
+| read the base-board knobs, buttons and CapSense | `proj_cm55/modules/cm55_sensor_poll/` and the J7 chapter |
+| store a setting | `bento_libs/claw/common/storage_c/bento_storage.h` |
 
-## 10. Layout
+The documentation in `docs/html/` (English) and `docs/html/th/` (Thai) walks
+through each of these with code taken from this tree.
 
-```
-bento.sh                   the CLI
-Makefile common.mk         build entry points
-bsps/                      board support package
-configs/                   signing and boot configuration
-proj_cm33_s/               secure boot core
-proj_cm33_ns/              MicroPython, WiFi, sensors, cloud
-proj_cm55/
-  modules/
-    page-components/
-      _core/               Home screen, page manager, page_id_t  (not optional)
-      <menu>/              one directory per menu  <- your screens go here
-    lvgl_display/          display driver and LVGL port
-    ai_models/           DEEPCRAFT(TM) Studio models, (c) Imagimob AB — see
-                         its README.md; not TESAIoT's work
-    deepcraft_task/ ...
-bento_libs/                shared BENTO libraries, as source
-lib/                       the six prebuilt areas, with headers and signature
-```
+## 8. Licence
 
----
+- The TESAIoT source in this package is licensed under the **Apache License
+  2.0**: `LICENSE` (Thai translation: `LICENSE-TH.md`), with `NOTICE`.
+- The five archives in `lib/` are **not** covered by that grant. `NOTICE` says
+  what applies to them.
+- Third-party code keeps its own licence: the Infineon BSP and libraries,
+  LVGL, littlefs, fonts and the rest are listed in `THIRD_PARTY.md`, with the
+  notice texts in `THIRD_PARTY_NOTICES.md`.
+- The DEEPCRAFT™ Studio models in `proj_cm55/modules/ai_models/` are copyright
+  Imagimob AB, an Infineon Technologies company, all rights reserved. They are
+  credited here, not licensed on; settle any product use with Infineon first
+  (`proj_cm55/modules/ai_models/README.md`).
 
-Built and verified on a TESAIoT Dev Kit: three cores, `app_combined.hex`
-15,939,088 bytes, sensors answering at I2C `0x18`, `0x68`, `0x77`.
+## 9. New in 1.12.0
+
+- **GPIO & RGB Matrix page:** the pin beside every input, the knobs in mV
+  (0 to 1800) as well as raw, the CapSense link state, and SW1-SW4 when the
+  CapSense controller runs firmware protocol 0x0D or 0x0E (decoding tested on
+  the host only; needs SW12 ON and a restart; B1 boards have no link).
+- **Sensor Dashboard:** the CapSense line is redrawn only when it changes,
+  which removes a visible flicker.
+- **Start-up:** BMI270, DPS368 and SHT40 initialisation is tried up to four times
+  (four attempts in total) before a sensor row is given up for the boot.
+- **Documentation:** a new chapter, J7, on the QWA309 base board; this README,
+  with pictures of every page and the base-board pinout diagram; and the
+  clone-versus-zip instructions above.
+- The five archives in `lib/` are unchanged from 1.11.0.

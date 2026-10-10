@@ -155,7 +155,7 @@ Which module owns which capability</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">MicroPython Secure  </td><td class="markdownTableBodyNone"><span class="tt">libbento_mpy.a</span>  </td><td class="markdownTableBodyNone">CM33_NS  </td><td class="markdownTableBodyNone">46  </td><td class="markdownTableBodyNone">The TACP wire protocol and WiFi credential management, as used by the MicroPython layer (<b>mtb-mpy only</b>)  </td><td class="markdownTableBodyNone">the mtb-mpy set  </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd><b>Credit: the Edge AI models are Infineon's, not TESAIoT's.</b> The motion, audio and radar models this firmware ships (<span class="tt">proj_cm55/modules/ai_models/model_*.c</span>) are DEEPCRAFT™ Studio exports, copyright Imagimob AB, an Infineon Technologies company. The Siren, Cough and Factory Alarm models are DEEPCRAFT™ Ready Models by the same author, published by Infineon under the Imagimob AI Model Evaluation License Agreement, and are not redistributed here. TESAIoT trained none of them and owns none of them — what is ours is the engine around them. The shipped model sources carry a bare "All Rights Reserved" reservation and no grant of any kind, so they are credited here rather than licensed on. Our use is research and teaching, and not commercial; a reader who needs a grant must obtain it from Infineon and Imagimob. Train your own at <a href="https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio">https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio</a> Full credit and the clause citations: <span class="tt">THIRD_PARTY_NOTICES.md</span> §2.2, §2.4 and §4.3.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><b>Credit: the Edge AI models are Infineon's, not TESAIoT's.</b> The motion, audio and radar models this firmware ships (<span class="tt">proj_cm55/modules/ai_models/model_*.c</span>) are DEEPCRAFT™ Studio exports, copyright Imagimob AB, an Infineon Technologies company. The Siren, Cough and Factory Alarm models are DEEPCRAFT™ Ready Models by the same author, published by Infineon under the Imagimob AI Model Evaluation License Agreement, and are included in this package. TESAIoT trained none of them and owns none of them — what is ours is the engine around them. The shipped model sources carry a bare "All Rights Reserved" reservation and no grant of any kind, so they are credited here rather than licensed on. Our use is research and teaching, and not commercial; a reader who needs a grant must obtain it from Infineon and Imagimob. Train your own at <a href="https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio">https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio</a> Full credit and the clause citations: <span class="tt">THIRD_PARTY_NOTICES.md</span> §2.2, §2.4 and §4.3.</dd></dl>
 <p><b>What is not a library</b>, and is worth knowing before you go looking: the peripherals (sensors, LEDs, buttons, radar, the QWA309 base board) and connectivity (WiFi, MQTT, mTLS). Both ship as <b>template source</b>. There is no <span class="tt">libbento_peripherals.a</span> and no connectivity library anywhere. The map from API family to the section that homes it is <a class="el" href="group__feat__peripherals__apis.html" title="Where the peripheral APIs live">Where the peripheral APIs live</a> and <a class="el" href="group__feat__connectivity__apis.html" title="Where the APIs live">Where the APIs live</a>; storage and credentials are <a class="el" href="group__feat__storage.html" title="Storage &amp; Credentials">Storage &amp; Credentials</a>.</p>
 <h1 class="doxsection"><a class="anchor" id="a0_map"></a>
 "I want to do X" — which chapter</h1>
@@ -173,40 +173,42 @@ Which module owns which capability</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">use the radar  </td><td class="markdownTableBodyNone"><a class="el" href="group__j6__radar.html" title="J6 — Radar">J6 — Radar</a>  </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">find which pin a QWA309 switch, knob or header reaches  </td><td class="markdownTableBodyNone"><a class="el" href="group__j7__qwa309__baseboard.html" title="J7 — The QWA309 base board: hardware reference">J7 — The QWA309 base board: hardware reference</a>  </td><td class="markdownTableBodyNone">printed labels and refdes differ  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">run an Edge AI model  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__e1__select__confirm__start.html" title="E1 — Select, confirm, start: REQUESTED versus ACTIVE">E1 — Select, confirm, start: REQUESTED versus ACTIVE</a>  </td><td class="markdownTableBodyNone">REQUESTED is not ACTIVE  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">run several models at once  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__e2__parallel__sets.html" title="E2 — Parallel sets and result polling">E2 — Parallel sets and result polling</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">stop, unload or load a staged model  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__e3__stop__unload__staged.html" title="E3 — Stop, unload, and staged models">E3 — Stop, unload, and staged models</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">work out why inference looks wrong  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__e4__diagnostics.html" title="E4 — Reading the Edge AI diagnostics">E4 — Reading the Edge AI diagnostics</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">get onto WiFi  </td><td class="markdownTableBodyNone"><a class="el" href="group__c1__wifi__two__stores.html" title="C1 — WiFi: the two credential stores and boot auto-connect">C1 — WiFi: the two credential stores and boot auto-connect</a>  </td><td class="markdownTableBodyNone">there are two credential stores  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">scan and connect from the screen  </td><td class="markdownTableBodyNone"><a class="el" href="group__c2__wifi__ui__ipc.html" title="C2 — WiFi from the UI over IPC">C2 — WiFi from the UI over IPC</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">publish to the cloud  </td><td class="markdownTableBodyNone"><a class="el" href="group__c3__cloud__mqtt.html" title="C3 — TESAIoT cloud: config file → MQTT task → broker">C3 — TESAIoT cloud: config file → MQTT task → broker</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">use an mTLS identity held in the secure element  </td><td class="markdownTableBodyNone"><a class="el" href="group__c4__mtls__optiga.html" title="C4 — mTLS: the OPTIGA-backed TLS identity">C4 — mTLS: the OPTIGA-backed TLS identity</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">talk to the OPTIGA Trust M  </td><td class="markdownTableBodyNone"><a class="el" href="group__d1__chip__access__discipline.html" title="D1 — The chip-access discipline: gate, lock, touch-hold">D1 — The chip-access discipline: gate, lock, touch-hold</a>  </td><td class="markdownTableBodyNone">the access discipline precedes every call  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">enrol a device, issue a CSR, run a Protected Update  </td><td class="markdownTableBodyNone"><a class="el" href="group__d2__enrolment__protected__update.html" title="D2 — Enrolment and Protected Update end to end">D2 — Enrolment and Protected Update end to end</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">add a screen  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__f1__adding__a__screen.html" title="F1 — Adding a screen: three files, plus the Makefile truth">F1 — Adding a screen: three files, plus the Makefile truth</a>  </td><td class="markdownTableBodyNone">all three wirings or none  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">drive a widget from the other core  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__f2__widgets__over__ipc.html" title="F2 — Driving widgets from MicroPython over IPC">F2 — Driving widgets from MicroPython over IPC</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">keep files or settings across reboots  </td><td class="markdownTableBodyNone"><a class="el" href="group__g1__bento__storage.html" title="G1 — bento_storage and the C credential store">G1 — bento_storage and the C credential store</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">bring up BLE / pair with Bento Buddy  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__i1__ble__bringup__single__rf.html" title="I1 — BLE bring-up and the single-RF rule">I1 — BLE bring-up and the single-RF rule</a>  </td><td class="markdownTableBodyNone">one radio: WiFi and BLE are mutually exclusive  </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">understand how the firmware boots  </td><td class="markdownTableBodyNone"><a class="el" href="group__b1__cm33__boot.html" title="B1 — CM33_NS boot walk-through">B1 — CM33_NS boot walk-through</a>, then <a class="el" href="group__b2__cm55__boot.html" title="B2 — CM55 boot to first frame">B2 — CM55 boot to first frame</a>  </td><td class="markdownTableBodyNone"></td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">decode a console line or an LED code  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__w__signal__atlas.html" title="Appendix W — The signal atlas">Appendix W — The signal atlas</a>  </td><td class="markdownTableBodyNone">it is in the Appendices  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">find out what has already cost somebody a day  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__x__traps__antipatterns.html" title="Appendix X — Traps and anti-patterns">Appendix X — Traps and anti-patterns</a>  </td><td class="markdownTableBodyNone"></td></tr>
+<td class="markdownTableBodyNone">decode a console line or an LED code  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__w__signal__atlas.html" title="Appendix W — The signal atlas">Appendix W — The signal atlas</a>  </td><td class="markdownTableBodyNone">it is in the Appendices  </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">find out what has already cost somebody a day  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__x__traps__antipatterns.html" title="Appendix X — Traps and anti-patterns">Appendix X — Traps and anti-patterns</a>  </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">know which symbols you must supply to an archive  </td><td class="markdownTableBodyNone"><a class="el" href="group__tut__y__consumer__contracts.html" title="Appendix Y — Consumer-provided symbols and overridables">Appendix Y — Consumer-provided symbols and overridables</a>  </td><td class="markdownTableBodyNone">one section per module  </td></tr>
 </table>
 <h1 class="doxsection"><a class="anchor" id="a0_examples"></a>

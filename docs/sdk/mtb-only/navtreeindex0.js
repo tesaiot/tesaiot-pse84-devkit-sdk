@@ -41,6 +41,7 @@ var NAVTREEINDEX0 =
 "group__j1__sensor__bus.html":[3,0,0],
 "group__j3__sensor__auto.html":[3,0,1],
 "group__j6__radar.html":[3,0,2],
+"group__j7__qwa309__baseboard.html":[3,0,3],
 "group__peripherals__quickref.html":[3,1],
 "group__storage__creds__api.html":[9,1],
 "group__tesaiot__hsm__api.html":[5,1],

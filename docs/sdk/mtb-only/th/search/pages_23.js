@@ -131,13 +131,14 @@ var searchData=
   ['ขั้นที่_206_20—_20แฟลช_20เปิดคอนโซล_20แล้วตัดไฟจ่ายไฟใหม่_128',['ขั้นที่ 6 — แฟลช เปิดคอนโซล แล้วตัดไฟจ่ายไฟใหม่',['../group__a1__first__build.html#a1_step6',1,'']]],
   ['ขั้นที่_206_20—_20enrol_20เข้า_20slot_20ที่ล็อกไว้_129',['ขั้นที่ 6 — Enrol เข้า slot ที่ล็อกไว้',['../group__d2__enrolment__protected__update.html#d2_step6',1,'']]],
   ['ขั้นที่_207_20—_20โปรแกรมแรก_130',['ขั้นที่ 7 — โปรแกรมแรก',['../group__a1__first__build.html#a1_step7',1,'']]],
-  ['ขา_20pin_20บัส_20และแอดเดรส_131',['ขา (pin) บัส และแอดเดรส',['../group__peripherals__quickref.html#pq_pins',1,'']]],
-  ['ข้อกำหนดการตรวจ_20null_132',['symbol 6 ตัวที่ถูกใช้แบบ weak — ข้อกำหนดการตรวจ NULL',['../group__tesaiot__hsm__api.html#tesaiot_hsm_weak_six',1,'']]],
-  ['ข้อกำหนดที่_201_20—_20บทนำเรื่องลำดับ_133',['ข้อกำหนดที่ 1 — บทนำเรื่องลำดับ',['../group__b3__ipc__backbone.html#b3_seq_order',1,'']]],
-  ['ข้อกำหนดที่_202_20—_20deferred_20binding_20ของ_20container_134',['ข้อกำหนดที่ 2 — deferred binding ของ container',['../group__b3__ipc__backbone.html#b3_seq_bind',1,'']]],
-  ['ข้อกำหนดที่_203_20—_20snapshot_20แบบมีผู้อ่านรายเดียว_135',['ข้อกำหนดที่ 3 — snapshot แบบมีผู้อ่านรายเดียว',['../group__b3__ipc__backbone.html#b3_seq_snapshot',1,'']]],
-  ['ข้อกำหนดเรื่อง_20geometry_136',['ข้อกำหนดเรื่อง geometry',['../group__g1__bento__storage.html#g1_geometry',1,'']]],
-  ['ข้อที่ย้อนกลับมาในทุกหัวข้อ_137',['กฎ 3 ข้อที่ย้อนกลับมาในทุกหัวข้อ',['../group__tesaiot__hsm__api.html#tesaiot_hsm_three_rules',1,'']]],
-  ['ข้อห้ามส่ง_20ipc_5fcmd_5ftouch_5fresume_20ดิบ_138',['ข้อห้ามส่ง &lt;span class=&quot;tt&quot;&gt;IPC_CMD_TOUCH_RESUME&lt;/span&gt; ดิบ',['../group__d1__chip__access__discipline.html#d1_seq_ban',1,'']]],
-  ['ข้อเท็จจริงตั้งต้น_3a_20อะไรพิมพ์ออกมาได้บ้าง_139',['ข้อเท็จจริงตั้งต้น: อะไรพิมพ์ออกมาได้บ้าง',['../group__tut__w__signal__atlas.html#w_printf',1,'']]]
+  ['ขาที่ใช้ร่วมกัน_20และอันตรายหนึ่งข้อ_131',['P17.5 และ P17.7: ขาที่ใช้ร่วมกัน และอันตรายหนึ่งข้อ',['../group__j7__qwa309__baseboard.html#j7_p17',1,'']]],
+  ['ขา_20pin_20บัส_20และแอดเดรส_132',['ขา (pin) บัส และแอดเดรส',['../group__peripherals__quickref.html#pq_pins',1,'']]],
+  ['ข้อกำหนดการตรวจ_20null_133',['symbol 6 ตัวที่ถูกใช้แบบ weak — ข้อกำหนดการตรวจ NULL',['../group__tesaiot__hsm__api.html#tesaiot_hsm_weak_six',1,'']]],
+  ['ข้อกำหนดที่_201_20—_20บทนำเรื่องลำดับ_134',['ข้อกำหนดที่ 1 — บทนำเรื่องลำดับ',['../group__b3__ipc__backbone.html#b3_seq_order',1,'']]],
+  ['ข้อกำหนดที่_202_20—_20deferred_20binding_20ของ_20container_135',['ข้อกำหนดที่ 2 — deferred binding ของ container',['../group__b3__ipc__backbone.html#b3_seq_bind',1,'']]],
+  ['ข้อกำหนดที่_203_20—_20snapshot_20แบบมีผู้อ่านรายเดียว_136',['ข้อกำหนดที่ 3 — snapshot แบบมีผู้อ่านรายเดียว',['../group__b3__ipc__backbone.html#b3_seq_snapshot',1,'']]],
+  ['ข้อกำหนดเรื่อง_20geometry_137',['ข้อกำหนดเรื่อง geometry',['../group__g1__bento__storage.html#g1_geometry',1,'']]],
+  ['ข้อที่ย้อนกลับมาในทุกหัวข้อ_138',['กฎ 3 ข้อที่ย้อนกลับมาในทุกหัวข้อ',['../group__tesaiot__hsm__api.html#tesaiot_hsm_three_rules',1,'']]],
+  ['ข้อห้ามส่ง_20ipc_5fcmd_5ftouch_5fresume_20ดิบ_139',['ข้อห้ามส่ง &lt;span class=&quot;tt&quot;&gt;IPC_CMD_TOUCH_RESUME&lt;/span&gt; ดิบ',['../group__d1__chip__access__discipline.html#d1_seq_ban',1,'']]],
+  ['ข้อเท็จจริงตั้งต้น_3a_20อะไรพิมพ์ออกมาได้บ้าง_140',['ข้อเท็จจริงตั้งต้น: อะไรพิมพ์ออกมาได้บ้าง',['../group__tut__w__signal__atlas.html#w_printf',1,'']]]
 ];

@@ -5,7 +5,7 @@
  *                    control plane (see common/deepcraft + common/bento_link
  *                    in BENTO-TESAIoT-Claw-libraries).
  *
- *                    Per-project file (rule §2): each kit owns its model
+ *                    Per-project file: each kit owns its model
  *                    runtime; the wire contract lives in the shared header
  *                    ipc_model_link_defs.h.
  *******************************************************************************/

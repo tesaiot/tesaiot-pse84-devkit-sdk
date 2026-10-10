@@ -6,28 +6,27 @@
  * entry:   example_edge_ai_parallel_set_run
  */
 /*
- * A parallel set feeds the same sensor data to several models on every pass and
- * lets each publish its own verdict. You start it exactly like a model -- the
- * set numbers are pseudo-indices that ride in on ai_engine_start() -- and then
- * everything about reading it is different.
+ * A set runs several models at once and lets each publish its own verdict.
+ * You start it exactly like a model -- the set numbers are pseudo-indices
+ * passed to ai_engine_start() -- and then everything about reading it is
+ * different.
  *
  * THE MISTAKE THIS FILE EXISTS TO PREVENT
  *
  *   ai_engine_snapshot()          the most recent verdict from ANY model
  *   ai_engine_snapshot_model(i)   model i's own last verdict
  *
- * In a set, four models write that one shared slot, so snapshot() is
- * last-writer-wins. A cough detected at 94% is overwritten a millisecond later
- * by three quiet models each publishing "unlabelled 0.99", and a UI polling
- * snapshot() shows silence. The detection was never lost; it was never read.
+ * In a set, snapshot() answers with whichever member published last. A cough
+ * detected at 94% is followed a moment later by three quiet members each
+ * publishing "unlabelled 0.99", and a UI polling snapshot() shows silence.
+ * The detection was never lost; it was never read.
  * Iterate ai_engine_set_members() and call snapshot_model() per member.
  *
- * THE SETTLE WINDOW IS NOT A DELAY YOU CAN SKIP
+ * THE SETTLE PERIOD IS NOT A DELAY YOU CAN SKIP
  *
- * Every member needs a continuous run of samples before it can say anything --
- * a full window, which for the longest audio model is over three seconds. Until
- * then their outputs are computed over a partly empty buffer. The engine
- * withholds verdicts for that period and ai_engine_mic_settling() is true;
+ * Verdicts are withheld for a few seconds after a set starts, while its
+ * inputs settle -- for the longest audio model, over three seconds. During
+ * that period ai_engine_mic_settling() is true and
  * ai_engine_mic_settle_pct() moves 0..100 so the wait can read as progress
  * rather than as a hang. Show it. Four silent zero bars for four seconds is
  * long enough that people reach for the power switch.
@@ -40,9 +39,10 @@
  * desc->sensor before doing anything sensor-specific with an entry, because
  * ai_engine_set_members() hands back every member whatever it reads.
  *
- * PORTABILITY: the parallel path is compiled into images that carry microphone
+ * PORTABILITY: sets are available only in images that carry microphone
  * models. On a motion-only or radar-only build ai_engine_start(252) returns
- * false, and this example reports that rather than pretending.
+ * false, and this example reports that rather than pretending (see the start
+ * call below).
  */
 
 #include <stdbool.h>
@@ -84,7 +84,7 @@ static void session_end(void)
     s.running = false;
 }
 
-/* Read every member, not the shared slot. This is the whole point of the file. */
+/* Read every member, not the latest-from-any-model snapshot. The whole point. */
 static void report_members(void)
 {
     uint8_t        idx[MEMBERS_MAX];

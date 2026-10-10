@@ -76,7 +76,7 @@ To train your own model, or to license one for production, start at:
 
 The DEEPCRAFT(TM) Ready Models this kit can demonstrate - Siren, Cough and
 Factory Alarm - are Imagimob's too, are licensed for evaluation only, and are
-excluded from this package; see the next section.
+included in this package (THIRD_PARTY_NOTICES.md 2.4).
 
 Full entry: THIRD_PARTY_NOTICES.md 2.2, 2.4 and 4.3, and THIRD_PARTY.md.
 
@@ -92,8 +92,6 @@ unexplained:
 
   * SEGGER emUSB-Host configuration sources  (§2.1) - materialised at build
     time by materialize_emusb_config.sh, never shipped.
-  * DEEPCRAFT(TM) Ready Model archives, *_lib_eval.a  (§2.4) - evaluation
-    licence forbids distribution.
   * Infineon face-identification library, ifx_face_id  (see THIRD_PARTY.md) -
     the Cypress grant carries no distribution right.
   * Infineon face-identification application_code/  (see THIRD_PARTY.md) -

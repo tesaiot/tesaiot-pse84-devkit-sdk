@@ -1,7 +1,7 @@
 # OPTIGA Trust M + TESAIoT platform — how this actually works
 
 > **How to actually do this, step by step:**
-> [`docs/18-device-provisioning-csr-and-protected-update.md`](../../../../../TESAIoT_KIT_PSE84_AI-Micropython-BentoClaw/docs/18-device-provisioning-csr-and-protected-update.md)
+> `docs/18-device-provisioning-csr-and-protected-update.md`
 > in the Dev Kit project — configuration, CSR and Protected Update from
 > MicroPython, the same two from the HSM Security panel, and the life-cycle rule
 > that decides whether a lock can be undone. Thai: same name with `-th`.
@@ -14,7 +14,7 @@ Everything here was established by running it on a Dev Kit against
 hardware disagreed, the hardware is recorded and the document is cited so you can
 see the gap.
 
-`docs/` holds the platform's API contracts and the three Infineon slides. Read
+`docs/` holds a note on the three Infineon slides. Read
 [`docs/INFINEON_SLIDES.md`](docs/INFINEON_SLIDES.md) first if you are about to
 trust one of those slides for something — they are each authoritative for a
 different question and they disagree in one place.
@@ -44,7 +44,7 @@ A Trust M device has two identifiers and they are not interchangeable.
 | | example | used as |
 |---|---|---|
 | Trust M UID | `CD16xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...` | the MQTT **client id** |
-| device_id (UUID) | `905f31fa-92cb-4555-a8ae-f68a65e142fb` | the MQTT **username**, and **every topic** |
+| device_id (UUID) | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` | the MQTT **username**, and **every topic** |
 
 The broker's ACL builds permitted topic prefixes from the UUID only. A topic
 built from the UID passes the ownership check, matches no permitted pattern, and
@@ -368,7 +368,7 @@ seen.
 | `libbento_hsm.a` (tesaiot_hsm, prebuilt) | the mutex every chip operation serialises on, and the counted touch hold |
 | `tesaiot_pu_ingest.c` | bundle apply path + direct certificate installer, reached from `subscriber_task.c` through weak symbols |
 | `libbento_hsm.a` (same archive) | the MQTT side: request and status publishing |
-| `libbento_mpy.a` `tesaiot_protected_update_*.c` prebuilt) | the `optiga.*` MicroPython surface; every direct chip entry point runs under an `nlr_push` guard so a raise cannot leak the mutex |
+| `libbento_mpy.a` (mpy_secure, prebuilt) | the `optiga.*` MicroPython surface; every direct chip entry point runs under an `nlr_push` guard so a raise cannot leak the mutex |
 
 Build with `ENABLE_OPTIGA_CLM=1` to include the CSR and Protected Update sources.
 The default build links without them; the subscriber's weak symbols resolve to
@@ -391,3 +391,7 @@ null and it logs that it cannot install.
 - **Protected Update** has never run end to end over MQTT.
 - **`s_prefer_device_pair`** is off; the device still authenticates on the factory pair.
 - **The other two library families** still write certificates to `0xE0E2` (§1).
+
+
+
+

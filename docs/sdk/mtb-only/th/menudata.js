@@ -35,7 +35,8 @@ var menudata={children:[
 {text:"Tutorial",url:"group__feat__peripherals__tut.html",children:[
 {text:"J1 — บัสของเซนเซอร์และ lock ของมัน",url:"group__j1__sensor__bus.html"},
 {text:"J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub",url:"group__j3__sensor__auto.html"},
-{text:"J6 — เรดาร์",url:"group__j6__radar.html"}]},
+{text:"J6 — เรดาร์",url:"group__j6__radar.html"},
+{text:"J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์",url:"group__j7__qwa309__baseboard.html"}]},
 {text:"อุปกรณ์ต่อพ่วงโดยสรุป",url:"group__peripherals__quickref.html"},
 {text:"API ของอุปกรณ์ต่อพ่วงอยู่ที่ใด",url:"group__feat__peripherals__apis.html"}]},
 {text:"Edge AI",url:"group__feat__edge__ai.html",children:[

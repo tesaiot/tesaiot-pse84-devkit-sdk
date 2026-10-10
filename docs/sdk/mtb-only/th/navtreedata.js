@@ -39,7 +39,8 @@ var NAVTREE =
       [ "Tutorial", "group__feat__peripherals__tut.html", [
         [ "J1 — บัสของเซนเซอร์และ lock ของมัน", "group__j1__sensor__bus.html", null ],
         [ "J3 — task ดันข้อมูลอัตโนมัติกับ sensor hub", "group__j3__sensor__auto.html", null ],
-        [ "J6 — เรดาร์", "group__j6__radar.html", null ]
+        [ "J6 — เรดาร์", "group__j6__radar.html", null ],
+        [ "J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์", "group__j7__qwa309__baseboard.html", null ]
       ] ],
       [ "อุปกรณ์ต่อพ่วงโดยสรุป", "group__peripherals__quickref.html", null ],
       [ "API ของอุปกรณ์ต่อพ่วงอยู่ที่ใด", "group__feat__peripherals__apis.html", null ]

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['วงจรชีวิตของ_20buddy_0',['วงจรชีวิตของ Buddy',['../group__ble__nus__buddy__lifecycle.html',1,'']]],
-  ['วงจรชีวิตของ_20engine_1',['วงจรชีวิตของ engine',['../group__edge__ai__lifecycle.html',1,'']]],
-  ['วินัยการเข้าถึงชิป_3a_20gate_20lock_20touch_20hold_2',['D1 — วินัยการเข้าถึงชิป: gate, lock, touch-hold',['../group__d1__chip__access__discipline.html',1,'']]]
+  ['ภาคผนวก_0',['ภาคผนวก',['../group__feat__appendices.html',1,'']]],
+  ['ภาคผนวก_20w_20—_20แผนที่สัญญาณ_1',['ภาคผนวก W — แผนที่สัญญาณ',['../group__tut__w__signal__atlas.html',1,'']]],
+  ['ภาคผนวก_20x_20—_20กับดักและ_20anti_20pattern_2',['ภาคผนวก X — กับดักและ anti-pattern',['../group__tut__x__traps__antipatterns.html',1,'']]],
+  ['ภาคผนวก_20y_20—_20symbol_20ที่ผู้ใช้ไลบรารีต้องจัดหา_20และ_20symbol_20ที่เขียนทับได้_3',['ภาคผนวก Y — symbol ที่ผู้ใช้ไลบรารีต้องจัดหา และ symbol ที่เขียนทับได้',['../group__tut__y__consumer__contracts.html',1,'']]]
 ];

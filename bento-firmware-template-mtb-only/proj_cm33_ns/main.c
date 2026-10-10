@@ -55,8 +55,8 @@
  * Minimal fix: assert WL_REG_ON via raw PDL before BLE host init. This
  * uses zero FreeRTOS heap (initial app_wifi_init() attempt failed BLE
  * init with `Malloc failed` — WHD + AIROC together don't fit the 90 KB
- * heap on a single-radio build, exactly the trade-off Memory agent
- * flagged in PLAN.md §6). The BT controller transport is HCI-UART
+ * heap on a single-radio build, exactly the memory trade-off flagged
+ * during planning). The BT controller transport is HCI-UART
  * (separate from SDIO), so we don't need any of the WHD bring-up. */
 //! [ble_chip_power_then_ble_task]
 static void chip_power_then_ble_task(void *arg)

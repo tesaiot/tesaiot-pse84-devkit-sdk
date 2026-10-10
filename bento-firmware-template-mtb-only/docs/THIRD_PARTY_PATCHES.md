@@ -114,8 +114,9 @@ happened on the first attempt here, and seven of the eleven were written as
 
 **The professor ruled 2026-08-28: the patches ship with both packages.** The
 basis: Buildroot ships patches even for packages it marks non-redistributable
-and states they carry the patched work's licence; Infineon's own meta-freescale
-layer publishes patches against EULA'd NXP sources. The customer fetches the
+and states they carry the patched work's licence; the meta-freescale layer (the
+Freescale/NXP community layer for Yocto) publishes patches against EULA'd NXP
+sources. The customer fetches the
 pristine sources from Infineon via `getlibs`; these diffs are the delta that
 makes the firmware correct.
 

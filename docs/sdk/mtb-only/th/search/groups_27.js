@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ฟังก์ชันที่ไม่มี_20call_20site_20ในของที่ส่งมอบจริง_0',['ฟังก์ชันที่ไม่มี call site ในของที่ส่งมอบจริง',['../group__ipc__core__index__authored.html',1,'']]]
+  ['ผลลัพธ์_20registry_20และการ_20settle_0',['ผลลัพธ์ registry และการ settle',['../group__edge__ai__results.html',1,'']]],
+  ['ผ่าน_20ipc_1',['ผ่าน IPC',['../group__c2__wifi__ui__ipc.html',1,'C2 — WiFi จาก UI ผ่าน IPC'],['../group__tut__f2__widgets__over__ipc.html',1,'F2 — การขับ widget จาก MicroPython ผ่าน IPC']]]
 ];

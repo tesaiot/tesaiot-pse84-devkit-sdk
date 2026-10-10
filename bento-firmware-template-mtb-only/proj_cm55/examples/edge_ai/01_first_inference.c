@@ -29,13 +29,13 @@
  *     with the last verdict any model published, including one from a previous
  *     run of this example. Check result.model_index before believing it.
  *
- *  4. ai_engine_resume_sensor() IS NOT THE OPPOSITE OF set_sensor_rate(). Both
- *     are built in ONE shared IPC message buffer inside the engine and the send
- *     is asynchronous -- CM33 reads the buffer after the call returns. Issue a
- *     resume in the same breath as a rate request and the resume's memset wipes
- *     a message still in flight; CM33 then reads a zeroed command and pauses
- *     the sensor push instead. Use it standalone, seconds later, as this file
- *     does at teardown.
+ *  4. ai_engine_resume_sensor() IS NOT THE OPPOSITE OF set_sensor_rate(), and
+ *     the two must not be issued back to back. set_sensor_rate() already
+ *     resumes the sensor push. Both requests are asynchronous, and a resume
+ *     issued in the same breath as a rate request can cancel it: CM33 then
+ *     pauses the sensor push instead of speeding it up. Use resume standalone,
+ *     seconds later, as this file does at teardown, and never right after a
+ *     rate request.
  *
  * The wait is an lv_timer. run() is called from the GFX task and must return
  * promptly: a busy-wait here would freeze the display AND the busy overlay that

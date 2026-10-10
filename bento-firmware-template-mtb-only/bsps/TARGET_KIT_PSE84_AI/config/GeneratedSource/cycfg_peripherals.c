@@ -767,8 +767,8 @@ const cy_stc_scb_i2c_config_t CYBSP_I2C_CAM_CONTROLLER_config =
     .ackGeneralAddr = false,
     .enableWakeFromSleep = false,
     .enableDigitalFilter = false,
-    .lowPhaseDutyCycle = 0,
-    .highPhaseDutyCycle = 0,
+    .lowPhaseDutyCycle = 16,
+    .highPhaseDutyCycle = 16,
 };
 
 #if defined (COMPONENT_MTB_HAL)

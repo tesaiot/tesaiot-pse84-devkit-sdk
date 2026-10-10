@@ -63,6 +63,27 @@ bool ble_nus_init(const ble_nus_config_t *cfg);
  *  or -1 if disconnected / not initialized. */
 int ble_nus_send(const uint8_t *data, size_t len);
 
+/** Advertising interval in milliseconds, used once the fast-advertising
+ *  window below has ended. A longer interval saves power, a shorter one makes
+ *  the board quicker to find. Like the next two constants, a value set here
+ *  (e.g. DEFINES+=BLE_NUS_ADV_INTERVAL_MS=1000) reaches only code compiled
+ *  against this header; the prebuilt libbento_secure.a keeps the values it
+ *  was built with. */
+#ifndef BLE_NUS_ADV_INTERVAL_MS
+#define BLE_NUS_ADV_INTERVAL_MS 100
+#endif
+
+/** How many seconds the board advertises at the fast rate after the stack
+ *  starts, before it drops to BLE_NUS_ADV_INTERVAL_MS. */
+#ifndef BLE_NUS_ADV_FAST_SECONDS
+#define BLE_NUS_ADV_FAST_SECONDS 30
+#endif
+
+/** Bytes of manufacturer data that still fit in one advertisement next to
+ *  the flags: 31 in all, less 3 for the flags and 4 for the
+ *  manufacturer-data header with its company id. */
+#define BLE_NUS_METER_PAYLOAD_MAX 24
+
 /** Soft-stop: stop advertising + drop any active GATT link, but keep the
  *  AIROC host stack alive. Pair with `ble_nus_rearm_advertising` to
  *  toggle the link without re-running the heavy stack init/deinit cycle
@@ -97,21 +118,19 @@ const char *ble_nus_get_adv_name(void);
  *  ships. The default implementation is a no-op. */
 void ble_nus_passkey_cb(const char *passkey_6_digits);
 
-/** Diagnostic snapshot exposed via `bento.fw.query`'s `_diag.ble` block.
- *  Lets the desktop root-cause Issue #2 (after a BLE link drop the host
- *  cannot rediscover the board without a power-cycle) by reporting what
- *  the disconnect callback did, whether wiced_bt_start_advertisements
- *  succeeded, and the deinit-in-progress flag state at the moment of
- *  disconnect. Numeric `last_advert_restart_result` follows the
- *  `wiced_result_t` enum (0 = WICED_BT_SUCCESS). */
+/** Diagnostic snapshot reported in the `_diag.ble` block of the
+ *  `bento.fw.query` reply: disconnect and re-advertising counters, and the
+ *  result of the latest attempts, for diagnosing a board the desktop cannot
+ *  find again after a link drop. The result fields hold AIROC
+ *  `wiced_result_t` codes (0 = WICED_BT_SUCCESS). */
 typedef struct {
-    uint32_t disconnect_count;                       /* total disconnect events seen */
-    uint8_t  last_disconnect_reason;                 /* p->connection_status.reason */
-    uint32_t advert_restart_attempts;                /* total auto-readvertise attempts */
-    int      last_advert_restart_result;             /* return of last wiced_bt_start_advertisements */
-    uint8_t  deinit_in_progress_at_last_disconnect;  /* 0 or 1 — was the flag set when we disconnected? */
-    uint32_t boot_advert_attempts;                   /* total BTM_ENABLED-path start_advertisements calls */
-    int      last_boot_advert_result;                /* return of last boot-time advert start */
+    uint32_t disconnect_count;                       /* disconnects seen */
+    uint8_t  last_disconnect_reason;                 /* reason code of the latest disconnect */
+    uint32_t advert_restart_attempts;                /* automatic re-advertising attempts */
+    int      last_advert_restart_result;             /* result of the latest such attempt */
+    uint8_t  deinit_in_progress_at_last_disconnect;  /* 1 if the link dropped while BLE was shutting down */
+    uint32_t boot_advert_attempts;                   /* advertising starts when the stack came up */
+    int      last_boot_advert_result;                /* result of the latest of those */
 } ble_nus_diag_t;
 
 void ble_nus_get_diagnostics(ble_nus_diag_t *out);

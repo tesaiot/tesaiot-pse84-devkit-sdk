@@ -186,7 +186,7 @@ INC += -I$(BENTO_SDK)/include/micropython
 # Keep mod*.c as source (QSTR requirement)
 MOD_SRC_C += $(wildcard $(BENTO_SDK)/mpy/mod*.c)
 MOD_SRC_C += $(BENTO_SDK)/mpy/mpy_main.c
-MOD_SRC_C += mpy_secure implementation links from libbento_mpy.a)
+# (the mpy_secure implementation links from libbento_mpy.a)
 MOD_SRC_C += $(BENTO_SDK)/mpy/sensor_auto_task.c
 ```
 
@@ -409,3 +409,4 @@ Every integration step is reversible:
 | CMSIS | 6.1.0 | mtb_shared release |
 
 **SDK must document this version matrix.** Mismatched versions = undefined behavior.
+

@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['สถาปัตยกรรมและการบูต_0',['สถาปัตยกรรมและการบูต',['../group__feat__architecture.html',1,'']]],
-  ['สร้างอะไรได้บ้าง_20และแต่ละส่วนอยู่ที่ใด_1',['A0 — สร้างอะไรได้บ้าง และแต่ละส่วนอยู่ที่ใด',['../group__a0__orientation.html',1,'']]],
-  ['สอง_20implementation_20หนึ่งข้อกำหนดบนดิสก์_2',['สอง implementation หนึ่งข้อกำหนดบนดิสก์',['../group__storage__creds__two__impls.html',1,'']]],
-  ['สัญญาณชีพ_3a_20การอยู่ได้โดยไม่มี_20repl_3',['G2 — สัญญาณชีพ: การอยู่ได้โดยไม่มี REPL',['../group__g2__heartbeat.html',1,'']]],
-  ['สิ่งที่ผู้ใช้ไลบรารีต้องจัดหาให้_4',['สิ่งที่ผู้ใช้ไลบรารีต้องจัดหาให้',['../group__tesaiot__hsm__consumer__roster.html',1,'']]],
-  ['สิ่งที่ส่งมอบมาเป็นซอร์ส_5',['สิ่งที่ส่งมอบมาเป็นซอร์ส',['../group__ble__nus__what__ships.html',1,'']]],
-  ['ส่วนที่เรียกใช้ได้ของโปรโตคอล_20nus_6',['I2 — ส่วนที่เรียกใช้ได้ของโปรโตคอล NUS',['../group__tut__i2__nus__protocol__surface.html',1,'']]]
+  ['วงจรชีวิตของ_20buddy_0',['วงจรชีวิตของ Buddy',['../group__ble__nus__buddy__lifecycle.html',1,'']]],
+  ['วงจรชีวิตของ_20engine_1',['วงจรชีวิตของ engine',['../group__edge__ai__lifecycle.html',1,'']]],
+  ['วินัยการเข้าถึงชิป_3a_20gate_20lock_20touch_20hold_2',['D1 — วินัยการเข้าถึงชิป: gate, lock, touch-hold',['../group__d1__chip__access__discipline.html',1,'']]]
 ];

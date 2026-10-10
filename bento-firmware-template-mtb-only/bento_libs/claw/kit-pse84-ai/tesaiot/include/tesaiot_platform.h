@@ -39,9 +39,6 @@ bool tesaiot_mqtt_is_connected(void);
  *  not ship a definition of it. */
 bool tesaiot_sntp_get_time(time_t *now);
 
-/** True once the clock has been set from the network. */
-bool tesaiot_sntp_is_time_synced(void);
-
 #ifdef __cplusplus
 }
 #endif

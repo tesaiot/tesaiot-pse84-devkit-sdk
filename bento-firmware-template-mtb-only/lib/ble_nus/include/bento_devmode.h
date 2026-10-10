@@ -7,7 +7,7 @@
  *
  *              Lifecycle:
  *                1. Desktop sends bento.devmode.nonce → firmware returns a
- *                   fresh 16-byte nonce (64-ms TTL per SPEC).
+ *                   fresh 16-byte nonce (64-ms TTL).
  *                2. Desktop computes HMAC-SHA256(shared_secret, nonce) and
  *                   sends bento.devmode.unlock.
  *                3. Firmware verifies and sets the unlocked flag.

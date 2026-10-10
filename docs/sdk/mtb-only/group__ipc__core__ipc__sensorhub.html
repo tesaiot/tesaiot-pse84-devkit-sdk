@@ -417,9 +417,14 @@ Functions</h2></td></tr>
 <dl class="section user"><dt>Variant</dt><dd>mtb-mpy and mtb-only</dd></dl>
 <div class="fragment"><div class="line">    <span class="comment">/* ...context: inside capsense_read_and_feed() - GFX task context ... */</span></div>
 <div class="line">    ipc_sensor_capsense_t d;</div>
-<div class="line">    d.btn0_pressed = (btn0_code != s_caps_idle_btn0) ? 1 : 0;</div>
-<div class="line">    d.btn1_pressed = (btn1_code != s_caps_idle_btn1) ? 1 : 0;</div>
-<div class="line">    d.slider = buf[2];</div>
+<div class="line">    <span class="keywordflow">if</span> (f.snapshot) {</div>
+<div class="line">        d.btn0_pressed = f.btn0;</div>
+<div class="line">        d.btn1_pressed = f.btn1;</div>
+<div class="line">    } <span class="keywordflow">else</span> {</div>
+<div class="line">        d.btn0_pressed = (capsense_normalize_btn(f.btn0) != s_caps_idle_btn0) ? 1 : 0;</div>
+<div class="line">        d.btn1_pressed = (capsense_normalize_btn(f.btn1) != s_caps_idle_btn1) ? 1 : 0;</div>
+<div class="line">    }</div>
+<div class="line">    d.slider = f.slider;      <span class="comment">/* 0 while a snapshot slider is untouched */</span></div>
 <div class="line">    d.reserved = 0;</div>
 <div class="line">    d.sequence = s_seq++;</div>
 <div class="line"> </div>
@@ -451,7 +456,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Normalised pot values, not ADC counts; check pot_channels_ready() first. </p>
-<dl class="section user"><dt>Contract</dt><dd>The API carries <b>normalised</b> values, not ADC counts: <code>raw</code> rescaled to the full uint16 range and <code>percent_x10</code> in per-mille, both from <code>POT_ADC_MAX</code>. The whole feed function sits inside <code>BSP_HAS_POTENTIOMETER</code>. Before any feed the shipped code runs <code>pot_channels_ready()</code> (<code>cm55_sensor_poll.c:189-198</code>): a SAR read result of 0 is not proof the channel is live, so the per-channel status bit is checked first. Same shared <code>s_seq</code> counter as capsense. </dd></dl>
+<dl class="section user"><dt>Contract</dt><dd>The API carries <b>normalised</b> values, not ADC counts: <code>raw</code> rescaled to the full uint16 range and <code>percent_x10</code> in per-mille, both from <code>POT_ADC_MAX</code>. The whole feed function sits inside <code>BSP_HAS_POTENTIOMETER</code>. Before any feed the shipped code runs <code>pot_channels_ready()</code> (<code>cm55_sensor_poll.c:221-230</code>): a SAR read result of 0 is not proof the channel is live, so the per-channel status bit is checked first. Same shared <code>s_seq</code> counter as capsense. </dd></dl>
 <dl class="section user"><dt>Variant</dt><dd>mtb-mpy and mtb-only</dd></dl>
 <div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">bool</span> pot_read_and_feed(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>

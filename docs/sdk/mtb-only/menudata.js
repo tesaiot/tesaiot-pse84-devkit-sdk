@@ -35,7 +35,8 @@ var menudata={children:[
 {text:"Tutorials",url:"group__feat__peripherals__tut.html",children:[
 {text:"J1 — The sensor bus and its lock",url:"group__j1__sensor__bus.html"},
 {text:"J3 — The auto-push task and the sensor hub",url:"group__j3__sensor__auto.html"},
-{text:"J6 — Radar",url:"group__j6__radar.html"}]},
+{text:"J6 — Radar",url:"group__j6__radar.html"},
+{text:"J7 — The QWA309 base board: hardware reference",url:"group__j7__qwa309__baseboard.html"}]},
 {text:"Peripherals at a glance",url:"group__peripherals__quickref.html"},
 {text:"Where the peripheral APIs live",url:"group__feat__peripherals__apis.html"}]},
 {text:"Edge AI",url:"group__feat__edge__ai.html",children:[

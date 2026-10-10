@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+#
 """gen_fw_id_config.py — emit the build-time fw_id_config.h for a project.
 
-Derives BOARD from the build TARGET, composes + validates the SKU (contract §3), computes the
-UUIDv5 (contract §4), and prints a C header defining FW_ID_* macros consumed by fw_identity.c.
+Derives BOARD from the build TARGET, composes + validates the SKU, computes the
+UUIDv5, and prints a C header defining FW_ID_* macros consumed by fw_identity.c.
 Using a generated header (not -D string defines) avoids make/shell quote-escaping pitfalls and
 is inspectable.
 
@@ -17,7 +18,7 @@ import uuid
 
 TESAIOT_FW_NS = uuid.uuid5(uuid.NAMESPACE_DNS, "firmware-identity.tesaiot.io")
 
-# TARGET -> BOARD short token used in the SKU (contract §3)
+# TARGET -> BOARD short token used in the SKU
 BOARD_MAP = {
     "KIT_PSE84_AI": "AI",
     "KIT_PSE84_HMI": "HMI",
@@ -26,7 +27,7 @@ BOARD_MAP = {
     "KIT_PSE84_EVAL_EPC2": "EPC2",
 }
 
-# TARGET -> record `board` field (contract §2.2, must fit char board[16] incl. NUL, so <=15).
+# TARGET -> record `board` field (must fit char board[16] incl. NUL, so <=15).
 # NOTE (contract finding): the EPC2 kit name "KIT_PSE84_EVAL_EPC2" (19) does not fit board[16];
 # a fitting token is used and flagged for the contract owners.
 BOARD_FIELD_MAP = {
@@ -56,7 +57,7 @@ def compose_sku(family, board, app, variant):
     if variant:
         parts.append(variant)
     sku = "-".join(parts)
-    # validate (contract §3)
+    # validate
     for seg in (family, board, app) + ((variant,) if variant else ()):
         if not _SEG.match(seg):
             raise ValueError(f"SKU segment {seg!r} must be uppercase [A-Z0-9]+")
@@ -110,7 +111,7 @@ def main(argv):
 
 
 def board_token(target):
-    """The record `board` field (contract §2.2). Must fit char board[16] (<=15 chars + NUL)."""
+    """The record `board` field. Must fit char board[16] (<=15 chars + NUL)."""
     t = target.strip()
     tok = BOARD_FIELD_MAP.get(t)
     if tok is None:

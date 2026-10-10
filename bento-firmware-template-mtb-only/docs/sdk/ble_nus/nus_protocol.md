@@ -1,6 +1,6 @@
 # nus_protocol.h
 
-Public API of the Bento Desktop Buddy NUS wire protocol layer. Bento forked this protocol under its own branding; see is §3.1.1 Not Anthropic-compatible). The protocol layer sits between ble_nus (AIROC BLE transport) and the CM55 UI (via IPC). It does: - newline-framed assembler with 4 KB overflow + RESYNC - jsmn-based JSON parse with 256-token ceiling - dispatch table for heartbeat / turn event / cmd / time frames - IPC emit to CM55 for state/prompt/message/tokens - ack/permission TX back to desktop via ble_nus_send - passive 30-s keepalive watchdog
+Public API of the Bento Desktop Buddy NUS wire protocol layer. Bento forked this wire protocol under its own branding; it is not Anthropic-compatible. The protocol layer sits between ble_nus (AIROC BLE transport) and the CM55 UI (via IPC). It does: - newline-framed assembler with 4 KB overflow + RESYNC - jsmn-based JSON parse with 256-token ceiling - dispatch table for heartbeat / turn event / cmd / time frames - IPC emit to CM55 for state/prompt/message/tokens - ack/permission TX back to desktop via ble_nus_send - passive 30-s keepalive watchdog
 
 ## Functions (exported by the archive)
 
@@ -18,7 +18,7 @@ Feed RX bytes from the NUS RX characteristic. May deliver one full frame, a part
 void nus_protocol_init(void);
 ```
 
-File Name: nus_protocol.h Description: Public API of the Bento Desktop Buddy NUS wire protocol layer. Bento forked this protocol under its own branding; see is §3.1.1 Not Anthropic-compatible). The protocol layer sits between ble_nus (AIROC BLE transport) and the CM55 UI (via IPC). It does: - newline-framed assembler with 4 KB overflow + RESYNC - jsmn-based JSON parse with 256-token ceiling - dispatch table for heartbeat / turn event / cmd / time frames - IPC emit to CM55 for state/prompt/message/tokens - ack/permission TX back to desktop via ble_nus_send - passive 30-s keepalive watchdog / #ifndef NUS_PROTOCOL_H #define NUS_PROTOCOL_H #include <stddef.h> #include <stdint.h> #ifdef __cplusplus extern "C" { #endif /* Call once at ble_nus_init time (after BLE stack init).
+File Name: nus_protocol.h Description: Public API of the Bento Desktop Buddy NUS wire protocol layer. Bento forked this wire protocol under its own branding; it is not Anthropic-compatible. The protocol layer sits between ble_nus (AIROC BLE transport) and the CM55 UI (via IPC). It does: - newline-framed assembler with 4 KB overflow + RESYNC - jsmn-based JSON parse with 256-token ceiling - dispatch table for heartbeat / turn event / cmd / time frames - IPC emit to CM55 for state/prompt/message/tokens - ack/permission TX back to desktop via ble_nus_send - passive 30-s keepalive watchdog / #ifndef NUS_PROTOCOL_H #define NUS_PROTOCOL_H #include <stddef.h> #include <stdint.h> #ifdef __cplusplus extern "C" { #endif /* Call once at ble_nus_init time (after BLE stack init).
 
 ### `nus_protocol_send_permission`
 

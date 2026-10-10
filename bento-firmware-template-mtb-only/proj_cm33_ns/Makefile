@@ -459,7 +459,7 @@ CY_APP_PATH=
 # Derived from BENTO_WORKSPACE, not hardcoded.
 #
 # This was `../../..`, which is right for our tree — template/ sits inside
-# TESAIoT_Firmware_Development_and_Release/, so three levels up from a project
+# the release repository, so three levels up from a project
 # directory is the workspace. It is wrong for a customer, whose README tells
 # them to unpack bento-firmware-template/ as a direct child of their workspace:
 # one level shallower, so ../../.. overshoots.

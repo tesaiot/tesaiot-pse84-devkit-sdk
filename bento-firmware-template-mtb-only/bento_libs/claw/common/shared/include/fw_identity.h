@@ -14,13 +14,13 @@
 #include <stdint.h>
 #include <stddef.h>   /* offsetof */
 
-/* Contract §2.2 constants */
+/* Identity-record constants */
 #define FW_IDENTITY_MAGIC        0x49415354u   /* "TSAI" as uint32 LE (bytes 54 53 41 49) */
 #define FW_IDENTITY_STRUCT_VER   0x0001u       /* contract layout version */
 #define FW_IDENTITY_ADDR         0x60580400u   /* base(m55_nvm_sel) + MCUBOOT_HEADER_SIZE(0x400) */
 #define FW_IDENTITY_SIZE         256u
 
-/* flags (contract §2.3) */
+/* flags */
 #define FW_IDENTITY_FLAG_RELEASE 0x0001u        /* version equals a published GitHub release */
 #define FW_IDENTITY_FLAG_DEBUG   0x0002u        /* non-release / debug image */
 

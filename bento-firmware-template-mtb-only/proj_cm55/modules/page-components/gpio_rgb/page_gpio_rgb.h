@@ -5,11 +5,12 @@
  *              TESAIoT Dev Kit only (BSP_HAS_QWA309_BASEBOARD).
  *
  *              Merges the former Potentiometers and Touch & RGB pages into a
- *              single view: 4 potentiometers (VR1-4), CapSense-4000T touch
- *              (BTN0/BTN1 + slider), the two base-board push-buttons
- *              (SW5/SW6 on P17.5/P17.7) and a DFR0522 16x8 RGB-matrix
- *              preview + color swatches. Swatches and the SW buttons drive
- *              the physical matrix.
+ *              single view: 4 potentiometers (VR1-4, mV and raw),
+ *              CapSense-4000T touch (BTN0/BTN1 + slider, SW1-SW4 when its
+ *              firmware speaks protocol 0x0D/0x0E), the two base-board
+ *              push-buttons on P17.5/P17.7 and a DFR0522 16x8 RGB-matrix
+ *              preview + color swatches. Swatches and the push-buttons
+ *              drive the physical matrix.
  *
  *******************************************************************************/
 

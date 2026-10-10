@@ -38,8 +38,8 @@
  *   -5  axis convention absent or not the one this firmware applies
  *   -6  training sample rate is not the rate this firmware can feed
  *   -7  frame width is not the six floats this firmware supplies. A
- *       nine-channel export satisfies every other check and then reads past
- *       the caller's stack array on every frame
+ *       nine-channel export satisfies every other check, so this is the one
+ *       that refuses it rather than feeding it the wrong data
  *
  * These are the LOADER's codes, reported by diag()['staged_last_rc']. Signature
  * verdicts are a different namespace on a different field — stage_info()

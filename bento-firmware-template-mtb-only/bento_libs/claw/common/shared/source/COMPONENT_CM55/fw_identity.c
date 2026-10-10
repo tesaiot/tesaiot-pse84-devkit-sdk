@@ -2,7 +2,7 @@
  * fw_identity.c — the section-anchored firmware identity instance.
  *
  * Emitted into the ".fw_identity" section, which the CM55 non-secure linker script places at
- * FW_IDENTITY_ADDR (contract §2.1). Values come from a build-time generated header
+ * FW_IDENTITY_ADDR. Values come from a build-time generated header
  * "fw_id_config.h" (produced by fw_identity.mk from the project's firmware_identity.mk).
  *
  * Self-contained fallback: if a project has not opted in (no fw_id_config.h on the include
@@ -10,7 +10,7 @@
  * shared CM55 source tree never breaks a project that has not wired the mechanism yet.
  *
  * CRC/build_epoch are 0 here; a POSTBUILD step (patch_fw_identity.py) may fill them BEFORE the
- * MCUboot sign step. CRC == 0 means "unchecked" to readers (contract §4).
+ * MCUboot sign step. CRC == 0 means "unchecked" to readers.
  */
 #include "fw_identity.h"
 

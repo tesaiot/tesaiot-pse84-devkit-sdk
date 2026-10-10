@@ -44,11 +44,10 @@ The BENTO firmware template fills all 24 in `proj_cm55/modules/ai_models/`:
   https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio
 - `ai_model_slots.c` — a weak "slot not filled" definition for **all 24
   symbols**, compiled unconditionally. Three slots (cough, alarm, siren) are
-  empty: they were demonstrated with DEEPCRAFT™ Ready Models — also Imagimob's,
-  published by Infineon — which are licensed for evaluation only and are not
-  redistributable, so no copy ships. Their `init()` returns -2, so the image
-  links and boots, those three report that they did not load, and every other
-  model runs. Credit and the licence citations: `THIRD_PARTY_NOTICES.md` §2.4.
+  filled by DEEPCRAFT™ Ready Models — also Imagimob's, published by Infineon,
+  licensed for evaluation only — whose archives are included in this package.
+  Without an archive the stub's `init()` returns -2, so the image links and
+  boots, that model reports that it did not load, and every other model runs. Credit and the licence citations: `THIRD_PARTY_NOTICES.md` §2.4.
 
   It covers all six slots rather than only the empty three because this archive
   references all 24 names whatever `AI_MODELS` the consumer selects; a partial

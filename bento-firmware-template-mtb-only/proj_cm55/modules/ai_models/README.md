@@ -1,25 +1,26 @@
 # Edge AI models
 
-## The three empty audio slots
+## The three Ready Model slots
 
-This SDK ships **no** cough, alarm or siren model. Those three slots are covered
-by a weak "slot not filled" stub in `ai_model_slots.c`: the image links and
-boots, the three models appear in the Edge AI menu and report that they did not
-load, and every other model runs normally. "Filling a model slot" below is the
+This SDK includes the cough, alarm and siren Ready Model archives in this
+directory, and the default build links them. Every slot is also covered by a
+weak "slot not filled" stub in `ai_model_slots.c`: a build without an archive
+links and boots, that model appears in the Edge AI menu and reports that it did
+not load, and every other model runs normally. "Filling a model slot" below is the
 whole procedure for putting a real model in one.
 
 `ai_model_slots.c` carries a weak definition for **all six** slots, not just the
-three empty ones, and is compiled whatever `AI_MODELS` you select. The prebuilt
+three Ready Model ones, and is compiled whatever `AI_MODELS` you select. The prebuilt
 engine references all 24 slot symbols regardless, so a partial selection such as
 `AI_MODELS="motion radar"` would otherwise leave 16 undefined references.
 
-They are empty for a licence reason, and the reason is worth reading once.
+Their licence is worth reading once.
 
 ## Credit: every model in this directory is Infineon's, not ours
 
 Read this before anything else in this file. **TESAIoT trained no model, authored
 no model and owns no model.** Six generated files ship here and three archives
-were demonstrated here, and every one of them is the work of **Imagimob AB, an
+ship here, and every one of them is the work of **Imagimob AB, an
 Infineon Technologies company**. The six generated files are DEEPCRAFT™ Studio
 exports; the three archives are DEEPCRAFT™ Ready Models, delivered through
 DEEPCRAFT™ Studio — a different product, and not something this project can say
@@ -32,11 +33,11 @@ mtb-example-psoc-edge-ml-deepcraft-deploy-audio and its data path is Infineon's 
 the file says so at `audio_pdm.h:5-7` and `audio_pdm.c:10-14`. See "What is
 here" below and `THIRD_PARTY_NOTICES.md` §2.5.
 
-### The three archives that are not in this package
+### The three Ready Model archives
 
 `siren_lib_eval.a`, `cough_lib_eval.a` and `alarm_lib_eval.a` are the archives
-those three slots were demonstrated with. They are **not in this package**, and
-they are not ours to put there: they are **DEEPCRAFT™ Ready Models** (Siren
+that fill those three slots. They are **included in this package**. They are
+**DEEPCRAFT™ Ready Models** (Siren
 Detection, Cough Detection and Factory Alarm Detection), authored by **Imagimob
 AB, an Infineon Technologies company**, and published by Infineon for
 PSoC™ Edge. They arrive already trained, already quantised and
@@ -70,9 +71,8 @@ Route 2 is what "Filling a model slot" below describes. `model_audio.c`,
 `model_motion.c` and `model_radar.c` show what a Studio export looks like once it
 lands here — they are **not** something we trained; see the next section.
 
-**Our one alteration, disclosed.** The recipe in `../../Makefile` (the comment
-block above the ready-model link rules) runs `objcopy` over each archive to
-rename its global symbols and sections. All three Ready Models
+**Our one alteration, disclosed.** Each committed archive went through an
+`objcopy` pass that renames its global symbols and sections. All three Ready Models
 export the same Imagimob `IMAI_*` entry points, so without that no two of them
 link into one image. Nothing else changes — the byte difference from upstream is
 exactly the longer symbol strings. §2.2(d) prohibits altering the AI Model, so
@@ -216,9 +216,9 @@ filling its window. That is normal, not an error. Full definitions are in
 | `motion` | `AIM_MOTION_*` | BMI270 IMU | `model_motion.c` |
 | `audio` | `AIM_AUDIO_*` | PDM mic, 16 kHz f32 | `model_audio.c` |
 | `radar` | `AIM_RADAR_*` | 60 GHz radar frames | `model_radar.c` |
-| `cough` | `IMAI_COUGH_*` | PDM mic, 16 kHz f32 | *(empty — weak stub)* |
-| `alarm` | `IMAI_ALARM_*` | PDM mic, 16 kHz f32 | *(empty — weak stub)* |
-| `siren` | `IMAI_SIREN_*` | PDM mic, 16 kHz f32 | *(empty — weak stub)* |
+| `cough` | `IMAI_COUGH_*` | PDM mic, 16 kHz f32 | `cough_lib_eval.a` (Ready Model) |
+| `alarm` | `IMAI_ALARM_*` | PDM mic, 16 kHz f32 | `alarm_lib_eval.a` (Ready Model) |
+| `siren` | `IMAI_SIREN_*` | PDM mic, 16 kHz f32 | `siren_lib_eval.a` (Ready Model) |
 
 The `AIM_`/`IMAI_` split is history, not meaning: the registry row fixes the
 name and the engine imports exactly that. The authoritative list is read off
@@ -327,17 +327,15 @@ let that happen quietly.
 > **Licensing — read before you copy anything in.** A DEEPCRAFT™ Ready Model
 > archive is licensed to *you* for evaluation and is **not redistributable**.
 > Putting one in this directory puts it inside anything you build, zip or
-> publish from this tree. The release tooling refuses to package a file named
-> `*_lib_eval.a`, but that check keys on the name: an archive you have renamed
+> publish from this tree. The release tooling refuses to package any
+> `*_lib_eval.a` other than the three above, but that check keys on the name: an archive you have renamed
 > to `cough_lib.a` will not trip it. Renaming a file does not change its
 > licence. Do not commit or redistribute a model archive you did not author or
 > buy redistribution rights to.
 
 Two archives that both export the unprefixed `IMAI_init`/`_enqueue`/`_dequeue`/
-`_finalize` cannot co-reside. Give each a unique namespace with `objcopy
---redefine-syms` before linking more than one — the full recipe, including the
-section renames the `.fw_identity` wall requires, is in the comment block above
-the ready-model rules in `../../Makefile`.
+`_finalize` cannot co-reside. An archive fills a slot only when it exports that
+slot's own names — `IMAI_COUGH_*` and so on, as the table above lists them.
 
 ### Route 3 — any other runtime
 
@@ -348,15 +346,16 @@ are in the table above and in `ai_engine.h`.
 
 ### Checking your work
 
-Build the configuration a customer gets — every slot unfilled — even on a
-machine that has model archives sitting in this directory:
+Build the stub configuration — every archive slot unfilled — even with the
+model archives sitting in this directory:
 
 ```bash
 make build EDGE_AI_IGNORE_MODEL_LIBS=1
 ```
 
 Without that flag a tree holding `cough_lib_eval.a` and friends never compiles
-its own stub path, so a fault there would not show up until a customer hit it.
+its own stub path, so a fault there would not show up until a build without
+them hit it.
 
 ```bash
 # which slots are still empty, read off the built image

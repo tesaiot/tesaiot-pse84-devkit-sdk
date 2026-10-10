@@ -8,7 +8,7 @@
 bool deepcraft_task_init(void);
 ```
 
-File Name        : deepcraft_task.h Description      : CM55 model-link peer — v1 STUB runtime for the DEEPCraft control plane (see common/deepcraft + common/bento_link in BENTO-TESAIoT-Claw-libraries). Per-project file (rule §2): each kit owns its model runtime; the wire contract lives in the shared header ipc_model_link_defs.h. / #ifndef DEEPCRAFT_TASK_H #define DEEPCRAFT_TASK_H #include <stdbool.h> #include <stdint.h> #ifdef __cplusplus extern "C" { #endif /** Create the model-link task + register the pipe client. Call AFTER cm55_ipc_communication_setup().
+File Name        : deepcraft_task.h Description      : CM55 model-link peer — v1 STUB runtime for the DEEPCraft control plane (see common/deepcraft + common/bento_link in BENTO-TESAIoT-Claw-libraries). Per-project file: each kit owns its model runtime; the wire contract lives in the shared header ipc_model_link_defs.h. / #ifndef DEEPCRAFT_TASK_H #define DEEPCRAFT_TASK_H #include <stdbool.h> #include <stdint.h> #ifdef __cplusplus extern "C" { #endif /** Create the model-link task + register the pipe client. Call AFTER cm55_ipc_communication_setup().
 
 ### `deepcraft_task_request`
 

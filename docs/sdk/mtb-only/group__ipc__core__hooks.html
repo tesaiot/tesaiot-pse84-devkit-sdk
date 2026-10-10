@@ -164,7 +164,7 @@ Functions</h2></td></tr>
 <p>Implement, never call — fills the CONTROLS_STATE snapshot on boards where CM55 owns the controls bus. </p>
 <dl class="section user"><dt>Contract</dt><dd>Declared in <code>ipc_communication.h</code> (shared include), not in the archive's own headers. Called by the archived IPC service when CM33_NS asks for <code>IPC_CMD_CONTROLS_STATE</code> (0xC6); the weak default reports nothing. The strong override fills <code>out</code> from the CM55-side sensor poll's cached capsense/pot bytes — the single-writer GFX-task fields that the <code>ipc_sensorhub_feed_capsense</code> entry describes — and returns <code>false</code> on a <code>NULL</code> <code>out</code>. Implement it only on boards where CM55 owns the controls bus. </dd></dl>
 <dl class="section user"><dt>Variant</dt><dd>mtb-mpy and mtb-only</dd></dl>
-<dl class="section user"><dt>Example — strong override (template)</dt><dd><code>template/proj_cm55/modules/cm55_sensor_poll/cm55_sensor_poll.c</code>:349 — <code>bool</code> <code>cm55_controls_snapshot</code>(ipc_controls_state_t <code>*out</code>) opens with the <code>NULL</code> guard and copies the cached <code>s_caps_btn0</code> / <code>s_caps_btn1</code> / <code>s_caps_slider</code> / pot values into <code>*out</code>.  </dd></dl>
+<dl class="section user"><dt>Example — strong override (template)</dt><dd><code>template/proj_cm55/modules/cm55_sensor_poll/cm55_sensor_poll.c</code>:387 — <code>bool</code> <code>cm55_controls_snapshot</code>(ipc_controls_state_t <code>*out</code>) opens with the <code>NULL</code> guard and copies the cached <code>s_caps_btn0</code> / <code>s_caps_btn1</code> / <code>s_caps_slider</code> / pot values into <code>*out</code>.  </dd></dl>
 
 </div>
 </div>

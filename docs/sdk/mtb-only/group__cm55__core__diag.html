@@ -301,7 +301,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="comment"> * priority: with the old 0 (= block forever), a wedged/clock-stretching 4000T</span></div>
 <div class="line"><span class="comment"> * parked the GFX task on the bus and starved every lower-priority CM55 task —</span></div>
 <div class="line"><span class="comment"> * the prime suspect for the USB joystick HID stream stall (JOYSTICK_EVIDENCE).</span></div>
-<div class="line"><span class="comment"> * 2 ms x ~5 byte-calls caps the worst case at ~10 ms, once, then backoff. */</span></div>
+<div class="line"><span class="comment"> * 2 ms x ~8 byte-calls caps the worst case at ~16 ms, once, then backoff. */</span></div>
 <div class="line"><span class="preprocessor">#define I2C_TIMEOUT_MS      (2U)</span></div>
 </div><!-- fragment --></dd></dl>
 <dl class="section user"><dt>Example — touch driver init (template)</dt><dd><div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> touchpad_init(<span class="keywordtype">void</span>)</div>

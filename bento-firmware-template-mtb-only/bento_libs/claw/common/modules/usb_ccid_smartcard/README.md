@@ -12,8 +12,8 @@ to the UI through `smartcard_state_t`.
 
 This module is **shared**: it lives in `BENTO-TESAIoT-Claw-libraries` and is
 linked by every firmware project that has a Smart Card page (AI Kit, Eva Kit,
-…). A change here means **rebuild every project that uses it** (workspace
-rule §4).
+…). A change here means **rebuild every project that uses it**.
+
 
 ---
 
@@ -188,7 +188,7 @@ poll task takes display precedence over anything the page itself sets.
 ## 9. Build / rebuild scope
 
 This is a **shared library**. After editing this module, rebuild **every**
-project that links it (workspace rule §4):
+project that links it:
 
 ```bash
 ./clean_build.sh all        # or per target: ai / eva / game

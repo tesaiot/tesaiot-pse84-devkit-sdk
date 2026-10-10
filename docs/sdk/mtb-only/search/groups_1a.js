@@ -23,12 +23,13 @@ var searchData=
   ['—_20the_20heartbeat_3a_20living_20without_20a_20repl_20',['G2 — The heartbeat: living without a REPL',['../group__g2__heartbeat.html',1,'']]],
   ['—_20the_20ipc_20backbone_3a_20setup_20deferred_20binding_20snapshots_21',['B3 — The IPC backbone: setup, deferred binding, snapshots',['../group__b3__ipc__backbone.html',1,'']]],
   ['—_20the_20nus_20protocol_20surface_22',['I2 — The NUS protocol surface',['../group__tut__i2__nus__protocol__surface.html',1,'']]],
-  ['—_20the_20sensor_20bus_20and_20its_20lock_23',['J1 — The sensor bus and its lock',['../group__j1__sensor__bus.html',1,'']]],
-  ['—_20the_20signal_20atlas_24',['Appendix W — The signal atlas',['../group__tut__w__signal__atlas.html',1,'']]],
-  ['—_20traps_20and_20anti_20patterns_25',['Appendix X — Traps and anti-patterns',['../group__tut__x__traps__antipatterns.html',1,'']]],
-  ['—_20weak_20symbols_20enable_5foptiga_5fclm_20and_20the_20consumer_20contract_26',['D3 — Weak symbols, &lt;span class=&quot;tt&quot;&gt;ENABLE_OPTIGA_CLM&lt;/span&gt;, and the consumer contract',['../group__d3__weak__symbols__clm.html',1,'']]],
-  ['—_20what_20you_20can_20build_20and_20where_20each_20piece_20lives_27',['A0 — What you can build, and where each piece lives',['../group__a0__orientation.html',1,'']]],
-  ['—_20who_20can_20call_20what_28',['Two layers of access — who can call what',['../group__edge__ai__callers.html',1,'']]],
-  ['—_20wifi_20from_20the_20ui_20over_20ipc_29',['C2 — WiFi from the UI over IPC',['../group__c2__wifi__ui__ipc.html',1,'']]],
-  ['—_20wifi_3a_20the_20two_20credential_20stores_20and_20boot_20auto_20connect_30',['C1 — WiFi: the two credential stores and boot auto-connect',['../group__c1__wifi__two__stores.html',1,'']]]
+  ['—_20the_20qwa309_20base_20board_3a_20hardware_20reference_23',['J7 — The QWA309 base board: hardware reference',['../group__j7__qwa309__baseboard.html',1,'']]],
+  ['—_20the_20sensor_20bus_20and_20its_20lock_24',['J1 — The sensor bus and its lock',['../group__j1__sensor__bus.html',1,'']]],
+  ['—_20the_20signal_20atlas_25',['Appendix W — The signal atlas',['../group__tut__w__signal__atlas.html',1,'']]],
+  ['—_20traps_20and_20anti_20patterns_26',['Appendix X — Traps and anti-patterns',['../group__tut__x__traps__antipatterns.html',1,'']]],
+  ['—_20weak_20symbols_20enable_5foptiga_5fclm_20and_20the_20consumer_20contract_27',['D3 — Weak symbols, &lt;span class=&quot;tt&quot;&gt;ENABLE_OPTIGA_CLM&lt;/span&gt;, and the consumer contract',['../group__d3__weak__symbols__clm.html',1,'']]],
+  ['—_20what_20you_20can_20build_20and_20where_20each_20piece_20lives_28',['A0 — What you can build, and where each piece lives',['../group__a0__orientation.html',1,'']]],
+  ['—_20who_20can_20call_20what_29',['Two layers of access — who can call what',['../group__edge__ai__callers.html',1,'']]],
+  ['—_20wifi_20from_20the_20ui_20over_20ipc_30',['C2 — WiFi from the UI over IPC',['../group__c2__wifi__ui__ipc.html',1,'']]],
+  ['—_20wifi_3a_20the_20two_20credential_20stores_20and_20boot_20auto_20connect_31',['C1 — WiFi: the two credential stores and boot auto-connect',['../group__c1__wifi__two__stores.html',1,'']]]
 ];

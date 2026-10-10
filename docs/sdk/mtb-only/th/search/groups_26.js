@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['ผลลัพธ์_20registry_20และการ_20settle_0',['ผลลัพธ์ registry และการ settle',['../group__edge__ai__results.html',1,'']]],
-  ['ผ่าน_20ipc_1',['ผ่าน IPC',['../group__c2__wifi__ui__ipc.html',1,'C2 — WiFi จาก UI ผ่าน IPC'],['../group__tut__f2__widgets__over__ipc.html',1,'F2 — การขับ widget จาก MicroPython ผ่าน IPC']]]
+  ['บน_20cm55_0',['printf/puts บน CM55',['../group__edge__ai__link__hazard.html',1,'']]],
+  ['บอร์ดฐาน_20qwa309_3a_20คู่มือฮาร์ดแวร์_1',['J7 — บอร์ดฐาน QWA309: คู่มือฮาร์ดแวร์',['../group__j7__qwa309__baseboard.html',1,'']]],
+  ['บันทึกการใช้งาน_2',['บันทึกการใช้งาน',['../group__ipc__core__notes.html',1,'']]],
+  ['บัสของเซนเซอร์และ_20lock_20ของมัน_3',['J1 — บัสของเซนเซอร์และ lock ของมัน',['../group__j1__sensor__bus.html',1,'']]]
 ];

@@ -58,8 +58,8 @@
  * RULES EVERY EXAMPLE FOLLOWS
  * ---------------------------
  *  1. run() is called FROM THE GFX TASK, inside an LVGL event callback.
- *     Therefore: LVGL calls are legal here and ONLY here (workspace rule —
- *     all LVGL work in the GFX task). Never create an LVGL widget from any
+ *     Therefore: LVGL calls are legal here and ONLY here (rule: all LVGL
+ *     work in the GFX task). Never create an LVGL widget from any
  *     other task.
  *  2. run() MUST NOT BLOCK. The GFX task drives the display; a busy-wait here
  *     freezes the screen and simultaneously stops the busy overlay that would

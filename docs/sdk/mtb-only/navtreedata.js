@@ -39,7 +39,8 @@ var NAVTREE =
       [ "Tutorials", "group__feat__peripherals__tut.html", [
         [ "J1 — The sensor bus and its lock", "group__j1__sensor__bus.html", null ],
         [ "J3 — The auto-push task and the sensor hub", "group__j3__sensor__auto.html", null ],
-        [ "J6 — Radar", "group__j6__radar.html", null ]
+        [ "J6 — Radar", "group__j6__radar.html", null ],
+        [ "J7 — The QWA309 base board: hardware reference", "group__j7__qwa309__baseboard.html", null ]
       ] ],
       [ "Peripherals at a glance", "group__peripherals__quickref.html", null ],
       [ "Where the peripheral APIs live", "group__feat__peripherals__apis.html", null ]

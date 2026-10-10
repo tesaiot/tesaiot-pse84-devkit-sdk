@@ -11,4 +11,3 @@ found it in the corresponding binary.
 | [tesaiot_hsm](tesaiot_hsm/README.md) | cm33 | libbento_hsm.a | 6 |
 | [cm55_core](cm55_core/README.md) | cm55 | libbento_cm55.a | 6 |
 
-Regenerate with ./bento-release.sh docs

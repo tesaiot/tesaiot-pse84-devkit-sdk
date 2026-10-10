@@ -63,7 +63,7 @@ BENTO-TESAIoT-libraries/
 │   ├── tesaiot/                     #   21 files — TESAIoT licensing & security (v3.0.0)
 │   │   ├── include/                 #     Public API headers
 │   │   ├── src/                     #     License verification source
-│   │   └── lib/                     #     Prebuilt libtesaiot.a
+│   │   └── lib/                     #     Prebuilt licence check
 │   └── libraries/
 │       ├── tesaiot-radar/           #   3 files — IFX Radar sensor driver
 │       ├── camera-dvp-ov7675/       #   4 files — Camera DVP driver (CY_IGNORE'd)
@@ -76,17 +76,6 @@ BENTO-TESAIoT-libraries/
 ├── scripts/                         # Validation & build scripts
 │
 └── docs/                            # Planning & migration documentation (11 files)
-    ├── 00_EXECUTIVE_SUMMARY.md
-    ├── 01_CROSS_PROJECT_FILE_INVENTORY.md
-    ├── 02_CATEGORIZATION_MATRIX.md
-    ├── 03_PROPOSED_DIRECTORY_STRUCTURE.md
-    ├── 04_MAKEFILE_INTEGRATION_PLAN.md
-    ├── 05_MIGRATION_PHASES.md
-    ├── 06_RISK_ANALYSIS.md
-    ├── 07_STATIC_LIBRARY_FEASIBILITY.md
-    ├── 08_FINAL_ASSESSMENT.md
-    ├── PHASE0_BASELINE_REPORT.md
-    └── PROGRESS_REPORT.md
 ```
 
 ## How Projects Consume BENTO
@@ -216,7 +205,7 @@ Only consumed by AI-Core and AI-Game projects.
 | `libraries/camera-*` | 8 | Camera DVP + HAL (CY_IGNORE'd by default) |
 | `libraries/ifx_face_id` | 2 | Face ID ML library (CY_IGNORE'd by default) |
 
-### optiga — OPTIGA Trust M Security Module
+### optiga — OPTIGA Trust M Security Module (in libbento_mpy.a)
 
 Hardware-backed security via OPTIGA Trust M V3 chip (I2C address 0x30).
 Runs on CM33_NS with IPC-based touch pause/resume for SCB0 bus sharing.
@@ -357,6 +346,4 @@ have reported PASS forever without validating anything a project builds.
 
 (c) 2025-2026 BENTO & TESAIoT Foundation Platform
 
-## Engineering know-how
 
-- [GFXSS display know-how](docs/GFXSS_DISPLAY_KNOWHOW.md) — E84 graphics subsystem: the bottom band (SOCMEM contention), cold-boot dark backlight, DC interrupt registers, and the dead ends that are not worth re-walking

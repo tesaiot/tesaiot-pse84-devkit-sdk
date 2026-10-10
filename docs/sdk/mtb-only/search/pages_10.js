@@ -32,7 +32,7 @@ var searchData=
   ['flash_20write_20stops_20cm55_20unless_20it_20goes_20through_20bento_5fstorage_29',['30. A CM33 flash write stops CM55 unless it goes through bento_storage',['../group__tut__x__traps__antipatterns.html#x30',1,'']]],
   ['flowing_20mtb_20mpy_30',['Step 3 — Prove frames are flowing (mtb-mpy)',['../group__tut__f2__widgets__over__ipc.html#f2_step3',1,'']]],
   ['flush_20never_20runs_20under_20a_20looping_20main_20py_31',['11. The mtb-mpy credential flush never runs under a looping /main.py',['../group__tut__x__traps__antipatterns.html#x11',1,'']]],
-  ['for_32',['What this chapter is for',['../group__c5__cloud__https.html#c5_goal',1,'']]],
+  ['for_32',['for',['../group__j7__qwa309__baseboard.html#j7_goal',1,'What this chapter is for'],['../group__c5__cloud__https.html#c5_goal',1,'What this chapter is for']]],
   ['for_20a_2050_20hz_20model_20then_20put_20it_20back_33',['Step 2 — Re-rate it for a 50 Hz model, then put it back',['../group__j3__sensor__auto.html#j3_step2',1,'']]],
   ['for_20the_20whole_20conversation_34',['Counted holds, for the whole conversation',['../group__d1__chip__access__discipline.html#d1_seq_hold',1,'']]],
   ['forgetting_20set_5fcontainer_20null_20on_20page_20destroy_20is_20a_20use_20after_20free_35',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
@@ -46,12 +46,13 @@ var searchData=
   ['free_43',['8. Forgetting set_container(NULL) on page destroy is a use-after-free',['../group__tut__x__traps__antipatterns.html#x8',1,'']]],
   ['free_20—_20they_20hold_20the_20saved_20wifi_20networks_44',['29. OIDs 0xF1D5, 0xF1D6 and 0xF1D8–0xF1DB are not free — they hold the saved WiFi networks',['../group__tut__x__traps__antipatterns.html#x29',1,'']]],
   ['freeze_20both_20variants_45',['Step 4 — When the numbers freeze (both variants)',['../group__j6__radar.html#j6_step4',1,'']]],
-  ['from_20c_46',['Step 2 — Write a file and read it back from C',['../group__g1__bento__storage.html#g1_step2',1,'']]],
+  ['from_20c_46',['from C',['../group__j7__qwa309__baseboard.html#j7_c',1,'Reading the base board from C'],['../group__g1__bento__storage.html#g1_step2',1,'Step 2 — Write a file and read it back from C']]],
   ['from_20the_20module_20table_47',['Step 1 — Pick one capability from the module table',['../group__a0__orientation.html#a0_step1',1,'']]],
   ['from_20the_20page_48',['from the page',['../group__c2__wifi__ui__ipc.html#c2_step1',1,'Step 1 — Scan from the page'],['../group__c2__wifi__ui__ipc.html#c2_step2',1,'Step 2 — Connect from the page']]],
   ['from_20the_20panel_49',['Step 1 — Watch a hold from the panel',['../group__d1__chip__access__discipline.html#d1_step1',1,'']]],
   ['from_20the_20repl_20mtb_20mpy_50',['Step 2 — Create a widget from the REPL (mtb-mpy)',['../group__tut__f2__widgets__over__ipc.html#f2_step2',1,'']]],
   ['from_20the_20repl_20mtb_20mpy_20only_51',['Step 2 — The same question from the REPL (mtb-mpy only)',['../group__j1__sensor__bus.html#j1_step2',1,'']]],
   ['from_20you_52',['What the archive demands from you',['../group__d3__weak__symbols__clm.html#d3_seq_cmp',1,'']]],
-  ['function_53',['Three entry points, one function',['../group__c3__cloud__mqtt.html#c3_seq_trigger',1,'']]]
+  ['function_53',['Three entry points, one function',['../group__c3__cloud__mqtt.html#c3_seq_trigger',1,'']]],
+  ['function_20switches_54',['Power and function switches',['../group__j7__qwa309__baseboard.html#j7_switches',1,'']]]
 ];

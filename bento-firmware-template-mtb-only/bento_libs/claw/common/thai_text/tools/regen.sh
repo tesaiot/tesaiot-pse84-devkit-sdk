@@ -2,6 +2,7 @@
 # =============================================================================
 # regen.sh — one-shot regenerator for the Thai PUA font + cluster table.
 #
+#
 # Runs the full pipeline:
 #   1. gen_pua_font.py reads data/NotoSansThai.ttf + data/cluster_list.txt
 #      and writes build/NotoSansThai-pua.ttf + src/cluster_table.h
@@ -12,7 +13,8 @@
 #   pip3 install --user fonttools uharfbuzz
 #   npm install -g lv_font_conv   (or: brew install lv_font_conv)
 #
-# After running, REBUILD ALL DOWNSTREAM PROJECTS (shared lib regeneration invalidates every .o linked against the font/PUA table).
+# After running, REBUILD ALL DOWNSTREAM PROJECTS (shared lib regeneration
+# invalidates every .o linked against the font/PUA table).
 # A clean_build.sh full sweep is the safest path.
 # =============================================================================
 set -euo pipefail

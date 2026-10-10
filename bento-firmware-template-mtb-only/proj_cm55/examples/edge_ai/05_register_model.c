@@ -22,11 +22,11 @@
  *                               and zero here, not in the descriptor.
  *   int  enqueue(const float*)  0 = frame accepted. Non-zero = not accepted;
  *                               the engine treats that as "skip this sample"
- *                               and drains with dequeue on the same pass, so
- *                               it must never mean "error, retry".
+ *                               and still polls dequeue(), so it must never
+ *                               mean "error, retry".
  *   int  dequeue(float *out)    0 = a FRESH verdict is in out[0..class_count).
- *                               Non-zero = nothing new. This is called on
- *                               every pass; returning 0 with a stale buffer is
+ *                               Non-zero = nothing new. It is polled
+ *                               repeatedly; returning 0 with a stale buffer is
  *                               how a model appears to fire continuously.
  *   void finalize(void)         release everything. NOT optional if you ever
  *                               intend to unload: the engine refuses an unload
@@ -34,27 +34,27 @@
  *
  * THE FRAME. An IMU model is handed six floats per call: accel x, y, z in g,
  * then gyro x, y, z in dps, with the X and Y axes already negated to match the
- * training rig. Six is the whole array. Reading a seventh reads past the
- * caller's stack, in bounds of the frame and silently wrong, fifty times a
- * second.
+ * DEEPCRAFT reference orientation. Six is the whole frame: read no more than
+ * six floats, and size any model that expects more channels for six before
+ * registering it.
  *
  * THE RULES THAT BITE
  *
  *  1. THE DESCRIPTOR IS COPIED. THE POINTERS IN IT ARE NOT. name, description
- *     and every class_labels[] entry must outlive the boot, and they are read
- *     from an ISR -- the IPC callback answers registry queries. String literals
- *     and static buffers qualify. A stack buffer, or a name built into a local
- *     char[], is a dangling pointer read from interrupt context.
+ *     and every class_labels[] entry must outlive the boot, because they are
+ *     read long after the call returns. String literals and static buffers
+ *     qualify. A stack buffer, or a name built into a local char[], becomes a
+ *     dangling pointer.
  *  2. CLASS 0 IS THE NEGATIVE CLASS. Registry contract: index 0 means "nothing
  *     is happening". Every summary percentage in this SDK is a maximum over
  *     classes 1 and up, so a model whose classes are all positive renders as if
  *     its loudest class were permanently firing.
- *  3. NAMES ARE UNIQUE. They are the key for set membership and for the watch
- *     thresholds. A duplicate name is refused, which means a second run of this
- *     example must FIND its row rather than register it again -- exactly what
- *     the code below does.
- *  4. TASK CONTEXT ONLY. Registration runs inside a critical section because
- *     the registry is read from an ISR. Never call it from one.
+ *  3. NAMES ARE UNIQUE. A name identifies the model on the page, in
+ *     edge_ai.models() and in the thresholds. A duplicate is refused, so a
+ *     second run of this example must FIND its row rather than register it
+ *     again -- exactly what the code below does.
+ *  4. TASK CONTEXT ONLY. Never call ai_engine_register() from an ISR. To put
+ *     the registered model in a set, use ai_engine_set_define() with its index.
  *  5. ROWS ARE NEVER REMOVED. Unloading frees what the model owns; the row and
  *     its index stay valid, and dyn_count() does not go back down. Capacity is
  *     a per-BOOT budget.
@@ -299,10 +299,10 @@ static void tick_cb(lv_timer_t *t)
     }
 
     if (s.phase == PH_DRAIN) {
-        /* An unload is REFUSED unless the engine is idle: a parallel set
-         * dequeues every member on every pass, and releasing a live one would
-         * dequeue through freed memory on the next. stop() is a request --
-         * active() going to -1 is the confirmation. */
+        /* An unload is REFUSED unless the engine is idle, so stop first and
+         * wait: stop() is a request, and active() going to -1 is the
+         * confirmation. Only then does the unload below have a chance of
+         * being honoured. */
         if (ai_engine_active() >= 0) {
             if (s.ticks >= WAIT_TICKS) {
                 sdk_example_logf("engine still active after %lums; not"

@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['มันเขียนทับข้อผิดพลาดจริง_0',['25. 0x08060009 ไม่ใช่คำวินิจฉัย มันเขียนทับข้อผิดพลาดจริง',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
-  ['มีการ์ด_20แต่ไม่มี_20pm_5fregister_1',['สถานะที่ 3 — มีการ์ด แต่ไม่มี pm_register',['../group__tut__f1__adding__a__screen.html#f1_s3',1,'']]],
-  ['มีของใหม่มาแทนแล้ว_2',['20. bento_buddy_auto_start_install มีของใหม่มาแทนแล้ว',['../group__tut__x__traps__antipatterns.html#x20',1,'']]],
-  ['มีลำดับเลข_20ordinal_20เป็น_207_3',['อันตราย (hazard) ของ archive: PAGE_ID_PLAYGROUND มีลำดับเลข (ordinal) เป็น 7',['../group__ipc__core__api.html#ipc_core_index_hazard',1,'']]],
-  ['มีอยู่_4',['ขั้นที่ 1 — build โดยเปิด CLM (ค่าปริยาย) แล้วยืนยันว่า symbol มีอยู่',['../group__d3__weak__symbols__clm.html#d3_step1',1,'']]],
-  ['มีเฉพาะ_20enum_5',['สถานะที่ 1 — มีเฉพาะ enum',['../group__tut__f1__adding__a__screen.html#f1_s1',1,'']]],
-  ['มี_203_20ค่า_6',['tesaiot_display_ready มี 3 ค่า',['../group__cm55__core__tesaiot__display.html#cm55_core_index_ready',1,'']]]
+  ['ภาคผนวก_0',['ภาคผนวก',['../group__feat__appendices.html',1,'']]],
+  ['ภาคผนวก_20w_20—_20แผนที่สัญญาณ_1',['ภาคผนวก W — แผนที่สัญญาณ',['../group__tut__w__signal__atlas.html',1,'']]],
+  ['ภาคผนวก_20x_20—_20กับดักและ_20anti_20pattern_2',['ภาคผนวก X — กับดักและ anti-pattern',['../group__tut__x__traps__antipatterns.html',1,'']]],
+  ['ภาคผนวก_20y_20—_20symbol_20ที่ผู้ใช้ไลบรารีต้องจัดหา_20และ_20symbol_20ที่เขียนทับได้_3',['ภาคผนวก Y — symbol ที่ผู้ใช้ไลบรารีต้องจัดหา และ symbol ที่เขียนทับได้',['../group__tut__y__consumer__contracts.html',1,'']]],
+  ['ภาพรวม_4',['ภาพรวม',['../index.html',1,'']]],
+  ['ภาพ_20pinout_20ชุดเก่าไม่ใช่แหล่งข้อมูล_5',['ภาพ pinout ชุดเก่าไม่ใช่แหล่งข้อมูล',['../group__j7__qwa309__baseboard.html#j7_pinout',1,'']]],
+  ['ภายใน_20set_20ทำให้ผลตรวจจับหาย_6',['6. ai_engine_snapshot() ภายใน set ทำให้ผลตรวจจับหาย',['../group__tut__x__traps__antipatterns.html#x6',1,'']]]
 ];

@@ -13,8 +13,8 @@
  * separate them are cumulative — unlike the health counters, these are read
  * ONCE, not as deltas, because a load either happened or it did not.
  *
- * WHAT EACH COUNTER MEANS  (ai_engine.h:220-232, :256)
- * ----------------------------------------------------
+ * WHAT EACH COUNTER MEANS  (declared in ai_engine.h)
+ * --------------------------------------------------
  *   ai_engine_init_calls()    how many times a model's init() was ENTERED
  *   ai_engine_init_returns()  how many of those RETURNED
  *   ai_engine_inits()         how many completed the whole cold-load
@@ -31,7 +31,7 @@
 
 #include "ai_engine.h"
 
-/* ai_engine.h:256 — the value last_init_rc carries when init() never ran. */
+/* ai_engine.h (ai_engine_init_calls) — the value last_init_rc carries when init() never ran. */
 #define AI_INIT_RC_NEVER_CALLED  (0x7FFFFFFF)
 
 void example_edge_ai_model_load_diagnosis(void)

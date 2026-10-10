@@ -79,7 +79,7 @@ with `E8 01 12` marking it a device certificate.
 They never disagreed. They answer different questions, and reading one as an
 answer to the other is what cost this project two days.
 
-| | slides 02 and 03 | PROTECTED_UPDATE_CONTRACT.md |
+| | slides 02 and 03 | the Protected Update contract |
 |---|---|---|
 | what is updated | an **ECC key** | a **certificate** |
 | target | `E0F1`-`E0F3` (key slots) | `E0E1`-`E0E3` (certificate slots) |
@@ -131,7 +131,7 @@ These slides answer two different questions, and mixing them up cost real time:
   manifest signed against a trust anchor, plus a confidentiality secret in
   `0xF1D4`. Slides 02 and 03 govern this.
 
-So the `target_oid` default of `E0F1` in `PROTECTED_UPDATE_CONTRACT.md` is
+So the `target_oid` default of `E0F1` in the Protected Update contract is
 correct: Protected Update updates a key, not a certificate. An earlier reading of
 it here as a mistake was wrong.
 
@@ -141,3 +141,4 @@ that binds anything is the MUD linking a Protected Update target to its trust
 anchor. `Key N ↔ Cert N` is provisioning convention. That is why writing a
 certificate to the wrong slot succeeds silently and only surfaces later as a
 CertificateVerify failure that reads like a server rejection.
+

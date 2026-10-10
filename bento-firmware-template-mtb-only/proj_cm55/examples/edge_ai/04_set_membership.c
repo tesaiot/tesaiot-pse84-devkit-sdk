@@ -43,8 +43,8 @@
  * BEFORE it changes anything -- read first, then write, or the original is
  * gone.
  *
- * Task context, and quick: it validates, copies at most eight bytes under a
- * critical section, and returns. Nothing is started and no model is disturbed.
+ * Task context, and quick: it validates, stores at most eight indices, and
+ * returns. Nothing is started and no model is disturbed.
  */
 
 #include <stdbool.h>

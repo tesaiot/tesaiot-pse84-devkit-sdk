@@ -40,13 +40,13 @@
  *   axis_convention   the IMU feed negates X and Y to match the training rig.
  *                     A model trained on a differently mounted board runs,
  *                     produces confident output, and is wrong.
- *   frame_bytes       the IMU path builds SIX floats on its stack and passes
- *                     that. A nine-channel export satisfies every other check
+ *   frame_bytes       the IMU path supplies SIX floats per frame. A
+ *                     nine-channel export satisfies every other check
  *                     -- including window_depth * frame_bytes == in_elements
  *                     * 4, which is an identity between three declared numbers
- *                     and is satisfied by a consistent lie -- and then reads 36
- *                     bytes out of a 24-byte array, fifty times a second. It
- *                     does not crash. It is quietly wrong, which is worse.
+ *                     and is satisfied by a consistent lie -- so the loader
+ *                     refuses it (-7) rather than feed it data it was not
+ *                     trained on. Fed anyway, it would be quietly wrong.
  *
  * ONE PIPELINE SHAPE ONLY. The loader builds "slide a fixed window, quantize,
  * infer, dequantize". IMU models are that shape. Audio and radar models are

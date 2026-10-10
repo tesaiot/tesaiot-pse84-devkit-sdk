@@ -34,31 +34,20 @@
  *   logical VR2 -> SAR GPIO channel 4 (P15.4)
  *   logical VR3 -> channel 6, VR4 -> channel 7, both straight through
  *
- * The first two traces are swapped on the QWA309 PCB — verified on hardware
- * 2026-07-31, cm55_sensor_poll.c:74-78. The MicroPython `pots` module carries
- * the identical table for the identical reason, and says to keep the two in
- * lockstep (kit-tesaiot-pse84-ai/mpy/mod_qwa309_pots.c:48-55).
+ * The index is the knob's PRINTED label. The knob printed VR1 sits on P15.5
+ * (channel 5) and the one printed VR2 on P15.4 (channel 4): the printed
+ * VR1/VR2 numbers are swapped against the schematic designators, while the
+ * pin printed beside each knob is right. Verified on hardware 2026-07-31; the
+ * table is s_pot_adc_ch[] in cm55_sensor_poll.c.
  *
- * TWO SOURCES IN THIS WORKSPACE DISAGREE, AND ONLY ONE OF THEM COMPILES
- * ---------------------------------------------------------------------
- * The board errata note says the opposite:
- *
- *   docs/BentoClaw_Integration/en/04_capability_pinmap.md:52-56
- *     "The PCBA assembly silkscreen prints VR1 = P15.5, VR2 = P15.4 —
- *      swapped. The schematic (sheet 19) and the pin docs agree that
- *      VR1 = P15.4, VR2 = P15.5 ... The schematic is authoritative:
- *      firmware maps VR1 -> SAR ch4 -> P15.4."
- *
- *   qwa309-training-base/docs/PIN_MAP.md:37 lists P15.4 VR1, P15.5 VR2 —
- *   the same net-name order as the schematic.
- *
- * That last sentence is not what the firmware does. The compiled table maps
- * logical index 0 to channel 5. Both statements are on record here and this
- * example does not pretend they agree: the array is quoted verbatim from the
- * code, which is the version that was measured on a board, and the doc is
- * quoted so the next reader is not surprised by it. If a knob moves the wrong
- * bar on YOUR unit, that is the question to settle with a meter — not by
- * editing one of these two files to match the other.
+ * TWO NAMING SYSTEMS, ONE BOARD
+ * -----------------------------
+ * A note that says "VR1 = P15.4, VR2 = P15.5" is using the schematic
+ * designators, and so is a pin map in net-name order. Both describe the same
+ * board as the table above; they name the knobs differently. The firmware
+ * follows the printed labels, because those are what a user turns. The
+ * documentation chapter J7 (the QWA309 base board) lists both names for every
+ * knob and switch.
  *
  * cm55_pot_read_all() hands you LOGICAL order — the swap is already applied —
  * so a caller of this API never has to know any of this.

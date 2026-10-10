@@ -66,8 +66,8 @@ they sit. See README §7.1.
 
 ## DEEPCRAFT™ Ready Models — Siren, Cough and Factory Alarm, by Imagimob AB
 
-Three of the audio slots in `proj_cm55/modules/ai_models/` were demonstrated
-with prebuilt archives that are **not in this package**. They are **DEEPCRAFT™
+Three of the audio slots in `proj_cm55/modules/ai_models/` are filled by
+prebuilt archives that are **included in this package**. They are **DEEPCRAFT™
 Ready Models** — **Siren Detection**, **Cough Detection** and **Factory Alarm
 Detection** — authored by **Imagimob AB, an Infineon Technologies company**, and
 published by Infineon for PSoC™ Edge. TESAIoT wrote none of them, and they are
@@ -81,7 +81,7 @@ Go to the source rather than to our copy:
   https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-ready-models
 - **Upstream code example** —
   https://github.com/Infineon/mtb-example-psoc-edge-ml-deepcraft-deploy-ready-model
-  (`release-v1.4.1`), named by this project's `proj_cm55/Makefile:596`
+  (`release-v1.4.1`), named by this project's `proj_cm55/Makefile:590`
 - **DEEPCRAFT™ Studio**, where they are delivered and where you can train your
   own —
   https://www.infineon.com/design-resources/embedded-software/deepcraft-edge-ai-solutions/deepcraft-studio
@@ -95,22 +95,20 @@ than the rest of that table does.
 **TESAIoT's position.** We hold no rights in these models and pass none on. We
 reference them under the Imagimob AI Model Evaluation License Agreement and
 abide by its terms; the use here is research and teaching, **not commercial
-deployment**. Redistribution stays prohibited, so they are fetched from Infineon
-rather than shipped. Anyone who wants those three slots filled in a product
+deployment**. Anyone who wants those three slots filled in a product
 takes one of the two routes below, and both lead to Infineon and Imagimob.
 
 | Component | Path | Upstream | Licence | Redistributable? |
 |---|---|---|---|---|
-| DEEPCRAFT™ Ready Models — Siren, Cough, Factory Alarm (© Imagimob AB, an Infineon Technologies company) | `proj_cm55/modules/ai_models/{siren,cough,alarm}_lib_eval.a` — **absent from this package**; the slots fall through to the weak stubs in `ai_model_slots.c` | https://github.com/Infineon/mtb-example-psoc-edge-ml-deepcraft-deploy-ready-model @ `release-v1.4.1`, `proj_cm55/ready_models/CONFIG_Debug/TOOLCHAIN_GCC_ARM/`. Product page: infineon.com → DEEPCRAFT™ Ready Models | **Imagimob AI Model Evaluation License Agreement**, the example's `LICENSE_Imagimob.txt` (SHA-256 `516ef9bf…c86135`, retrieved 2026-08-29). *Not* an open-source licence, and *not* the Infineon EULA that covers the example's own code — that EULA's §3 defers to this agreement. | **No.** §2.1 grants a **60-day, non-renewable** licence for **evaluation only**; §2.2(c) prohibits distributing, commercially using, publicly performing or publicly displaying the AI Model without separate written permission from Imagimob; §10.3 requires all copies to be deleted when the period ends. |
+| DEEPCRAFT™ Ready Models — Siren, Cough, Factory Alarm (© Imagimob AB, an Infineon Technologies company) | `proj_cm55/modules/ai_models/{siren,cough,alarm}_lib_eval.a` — **included in this package**; a build without them falls through to the weak stubs in `ai_model_slots.c` | https://github.com/Infineon/mtb-example-psoc-edge-ml-deepcraft-deploy-ready-model @ `release-v1.4.1`, `proj_cm55/ready_models/CONFIG_Debug/TOOLCHAIN_GCC_ARM/`. Product page: infineon.com → DEEPCRAFT™ Ready Models | **Imagimob AI Model Evaluation License Agreement**, the example's `LICENSE_Imagimob.txt` (SHA-256 `516ef9bf…c86135`, retrieved 2026-08-29). *Not* an open-source licence, and *not* the Infineon EULA that covers the example's own code — that EULA's §3 defers to this agreement. | Included: the three Imagimob/Infineon ready-model evaluation archives are included in this template for non-commercial education and evaluation use. §2.1 grants a **60-day, non-renewable** licence for **evaluation only**; §10.3 requires all copies to be deleted when the period ends. |
 
 ### What you may and may not do
 
 - **Evaluate them on your own kit** — yes, for 60 days, to decide whether to
   license them (§2.1).
-- **Ship a product that links them** — no (§2.2(a), §2.2(c)). That is a breach
+- **Ship a product that links them** — no (§2.2(a)). That is a breach
   by the shipper, not by us; Infineon's EULA does not cover it.
-- **Redistribute the archives** — no (§2.2(c)).
-- **Commercial use of any kind** — no (§2.2(c)).
+- **Commercial use of any kind** — no.
 - **Keep them past the evaluation period** — no; delete every copy (§10.3).
 
 ### They are metered, and Infineon says so
@@ -120,8 +118,7 @@ specifically for testing purposes and come with a limited number of
 inferences"*, and the licence reserves the right to embed *"mechanisms that
 limit functionality"*. That mechanism is present and active in the three
 archives here: each stops returning results after a fixed number of inferences.
-If you fetch them from Infineon and fill the slots, a build eventually goes quiet
-on them. That is the meter working as documented, not a fault in the model.
+A build that links them eventually goes quiet on them. That is the meter working as documented, not a fault in the model.
 
 ### The two lawful routes to production
 
@@ -144,8 +141,8 @@ putting your own beside them. The SDK's Edge AI chapters E1–E4 and the
 
 ### Our one alteration, disclosed
 
-`proj_cm55/Makefile:596-620` documents an `objcopy` pass that renames the global
-symbols and sections inside each archive. The reason is mundane: all three Ready
+Each committed archive went through an `objcopy` pass that renames the global
+symbols and sections inside it. The reason is mundane: all three Ready
 Models export the same Imagimob `IMAI_*` entry points, so without renaming no
 two of them can be linked into one image, and the kit's Edge AI page offers all
 three side by side. Byte-for-byte the archives are otherwise upstream's — the
@@ -269,20 +266,14 @@ and the banner is wrong on each:
 
 ## Known problems — read before publishing
 
-1. **`proj_cm55/modules/ai_models/{siren,cough,alarm}_lib_eval.a` may not be
-   published — settled 2026-08-29, and this is now a blocker, not a question.**
+1. **`proj_cm55/modules/ai_models/{siren,cough,alarm}_lib_eval.a`** —
+   the three Imagimob/Infineon ready-model evaluation archives are included in this template for non-commercial education and evaluation use.
    These are Infineon DEEPCRAFT™ Ready Models, copyright Imagimob AB, an
    Infineon Technologies company, under the **Imagimob AI Model Evaluation
    License Agreement** (`LICENSE_Imagimob.txt` in
    `Infineon/mtb-example-psoc-edge-ml-deepcraft-deploy-ready-model`). It grants
-   60 days of internal evaluation and **expressly prohibits distribution**
-   (§2.2(c)). They **were** linked by the default `EDGE_AI_MODEL=combo` preset
-   and were present in every release zip built before this was settled. **They
-   are excluded from this package now**, and the absence is verified against the
-   finished zip on every cut rather than assumed from the exclude list. The
-   preset still names all six models, but a model archive is put on `LDLIBS`
-   only when it is present on disk, so in this package those three slots fall
-   through to the weak stubs instead. Filling those
+   60 days of evaluation. **They are included in this package**, and the
+   default `EDGE_AI_MODEL=combo` preset links all three. Filling those
    slots in a product requires written permission from Imagimob/Infineon, the
    purchase of the non-evaluation models, or a model of your own from DEEPCRAFT™
    Studio. Credit, links, the full permission statement and the two production

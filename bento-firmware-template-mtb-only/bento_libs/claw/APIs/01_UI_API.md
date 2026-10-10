@@ -923,4 +923,5 @@ void send_image_example(uint8_t handle, const uint8_t *data, size_t len) {
 | `modlcd.c` | `common/mpy/` | MicroPython `lcd` module (CM33_NS) |
 | `ipc_lcd.h` | `common/modules/ipc_lcd/` | CM55 LCD terminal receiver |
 | `ui_builtin_icons.h` | `common/modules/ipc_ui/` | Built-in 24x24 icon bitmaps |
-| `ui_widget_mgr.h` | `common/modules/ipc_ui/` | CM55 widget manager (LVGL creation) |
+| `ui_widget_mgr.h` | `common/modules/ipc_ui/` | CM55 widget manager (LVGL creation); implementation in `libbento_ipc.a` |
+

@@ -35,13 +35,13 @@
  *   4. deepcraft_task_request(true)    -- start; (false) to stop.
  *
  * THE WATCHDOG IS NOT OPTIONAL. deepcraft_task_watchdog() must be called at
- * about 1 Hz from a context that never blocks. The model-link task has been
- * seen asleep inside its own queue receive with a command outstanding and a
- * 100 ms timeout that never fired -- randomly, after 138, 239 and 335
- * switches. Left alone the Edge AI menu stops answering until the board is
- * unplugged. The watchdog does not fix the underlying fault; it detects the
- * backlog and unsticks the task. This example ticks it for the length of the
- * session; a real application hangs it off a permanent 1 Hz timer that lives
+ * about 1 Hz from a context that never blocks. The model-link task can, rarely
+ * and after many switches, stop draining its command queue with a command
+ * outstanding. Left alone the Edge AI menu then stops answering until the
+ * board is unplugged. The watchdog detects the backlog and unsticks the task.
+ * It does not remove the cause, so it has to keep running: this example ticks
+ * it for the length of the session; a real application hangs it off a
+ * permanent 1 Hz timer that lives
  * as long as the firmware does.
  */
 

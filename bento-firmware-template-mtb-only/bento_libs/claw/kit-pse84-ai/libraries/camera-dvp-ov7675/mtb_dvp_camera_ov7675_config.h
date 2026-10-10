@@ -11,7 +11,6 @@
  *       - Banding filter, edge enhancement, de-noise
  *
  *     Edit this file to adjust camera behavior.
- *     See DVP_Camera/OV7675_REGISTER_TUNING.md for detailed guide.
  *
  ********************************************************************************
  * SPDX-FileCopyrightText: 2025-2026 TESAIoT Foundation Platform

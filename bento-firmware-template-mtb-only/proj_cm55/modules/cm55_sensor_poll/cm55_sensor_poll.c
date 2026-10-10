@@ -2,13 +2,13 @@
  * cm55_sensor_poll.c — CM55-local base-board sensor reading for the
  *                       TESAIoT Dev Kit (AI Kit SoM + QWA309 base board).
  *
- * Reads the QWA309 CapSense (external PSoC 4000T @ I2C 0x08) and the four
- * potentiometers (VR1-4 on AutAnalog SAR GPIO ch 4-7 / P15.4-7) directly on
- * CM55, reusing the display I2C controller context. Feeds data into
- * ipc_sensorhub via the local feed API — no IPC from CM33_NS needed.
+ * Reads the QWA309 CapSense (external PSoC 4000T @ I2C 0x08, frames decoded
+ * by cm55_capsense_frame.h) and the four potentiometers (VR1-4 on AutAnalog
+ * SAR GPIO ch 4-7 / P15.4-7) directly on CM55, reusing the display I2C
+ * controller context. Feeds ipc_sensorhub via the local feed API.
  *
  * Knob-to-channel order is NOT identity — see s_pot_adc_ch[] below (the
- * VR1/VR2 traces are swapped on the QWA309 PCB).
+ * printed VR1/VR2 numbers are swapped against the schematic designators).
  *
  * Adapted from the Eva Kit cm55_sensor_poll driver. Differences:
  *   - BMI270 read REMOVED (AI Kit services the IMU on CM33_NS).
@@ -23,10 +23,10 @@
  * runs Cy_AutAnalog_Init + StartAutonomousControl at boot. s_pot_ok is
  * gated on Cy_AutAnalog_SAR_GetHSchanResultStatus() reporting live results
  * on all four channels — a 0 reading alone is NOT treated as proof of life.
- *
  ******************************************************************************/
 
 #include "cm55_sensor_poll.h"
+#include "cm55_capsense_frame.h"
 #include "ipc_sensorhub.h"
 #include "ipc_communication.h"
 #include "display_i2c_config.h"
@@ -52,7 +52,7 @@ extern cy_stc_scb_i2c_context_t disp_touch_i2c_controller_context;
  * priority: with the old 0 (= block forever), a wedged/clock-stretching 4000T
  * parked the GFX task on the bus and starved every lower-priority CM55 task —
  * the prime suspect for the USB joystick HID stream stall (JOYSTICK_EVIDENCE).
- * 2 ms x ~5 byte-calls caps the worst case at ~10 ms, once, then backoff. */
+ * 2 ms x ~8 byte-calls caps the worst case at ~16 ms, once, then backoff. */
 #define I2C_TIMEOUT_MS      (2U)
 //! [cm55_disp_touch_i2c_shared_extern]
 /* After a failed CapSense transaction, skip this many 50 ms ticks before
@@ -63,7 +63,7 @@ extern cy_stc_scb_i2c_context_t disp_touch_i2c_controller_context;
  * CapSense (external PSoC 4000T over EZI2C)
  ******************************************************************************/
 #define CAPSENSE_ADDR           (0x08U)
-#define CAPSENSE_READ_SIZE      (3U)
+#define CAPSENSE_READ_SIZE      CAPS_FRAME_READ_LEN
 
 /*******************************************************************************
  * Potentiometers — AutAnalog SAR ADC on the CM55 domain.
@@ -74,10 +74,10 @@ extern cy_stc_scb_i2c_context_t disp_touch_i2c_controller_context;
 #define POT_SAR_IDX         (0U)    /* SAR ADC index 0 */
 #define POT_ADC_MAX         (4095)  /* 12-bit SAR ADC */
 
-/* Logical pot index (0=VR1 .. 3=VR4) → SAR GPIO channel.
- * The QWA309 PCB routes P15.4 (ch 4) to the VR2 knob and P15.5 (ch 5) to
- * the VR1 knob — the first two traces are swapped on the board, verified
- * on hardware 2026-07-31. VR3/VR4 are wired straight. */
+/* Logical pot index (0=VR1 .. 3=VR4, as printed) → SAR GPIO channel.
+ * The knob printed VR1 is on P15.5 (ch 5) and the one printed VR2 on P15.4
+ * (ch 4): the printed numbers are swapped against the schematic designators,
+ * verified on hardware 2026-07-31. VR3/VR4 match. */
 static const uint8_t s_pot_adc_ch[QWA309_POT_COUNT] = { 5U, 4U, 6U, 7U };
 /* All four pot channels must have produced a result in the last scan. */
 #define POT_ADC_READY_MASK  ((uint8_t)(CY_AUTANALOG_SAR_CHAN_MASK_GPIO4 | \
@@ -114,8 +114,17 @@ static uint8_t s_caps_slider = 0;
 static bool    s_caps_live = false;
 static uint8_t s_caps_backoff = 0;
 
+/* What the last good read said about the controller, for
+ * cm55_capsense_info(): snapshot protocol (0 = legacy frame), SW1-SW4 bits
+ * (CAPS_SW_*), slider touched, controller error flag. Written only by the
+ * GFX task, read by the GFX task. */
+static uint8_t s_caps_proto = 0;
+static uint8_t s_caps_switches = 0;
+static bool    s_caps_slider_touched = false;
+static bool    s_caps_fw_error = false;
+
 /*******************************************************************************
- * CapSense read (direct 3-byte read, no register address)
+ * CapSense read (direct CAPS_FRAME_READ_LEN-byte read, no register address)
  ******************************************************************************/
 static uint8_t capsense_normalize_btn(uint8_t raw)
 {
@@ -149,27 +158,44 @@ static bool capsense_read_raw(uint8_t buf[CAPSENSE_READ_SIZE])
     return (st == CY_SCB_I2C_SUCCESS);
 }
 
+/* Legacy frame: remember the idle button bytes once, so a press is any
+ * byte that differs from them. A snapshot frame carries absolute bits and
+ * needs no baseline. */
+static void capsense_take_baseline(const caps_frame_t *f)
+{
+    if (!f->snapshot && !s_caps_have_baseline) {
+        s_caps_idle_btn0 = capsense_normalize_btn(f->btn0);
+        s_caps_idle_btn1 = capsense_normalize_btn(f->btn1);
+        s_caps_have_baseline = true;
+    }
+}
+
 static bool capsense_read_and_feed(void)
 {
     uint8_t buf[CAPSENSE_READ_SIZE] = {0};
+    caps_frame_t f;
 
     if (!capsense_read_raw(buf)) return false;
 
-    if (!s_caps_have_baseline) {
-        s_caps_idle_btn0 = capsense_normalize_btn(buf[0]);
-        s_caps_idle_btn1 = capsense_normalize_btn(buf[1]);
-        s_caps_have_baseline = true;
-    }
+    caps_frame_decode(buf, &f);
+    capsense_take_baseline(&f);
 
-    uint8_t btn0_code = capsense_normalize_btn(buf[0]);
-    uint8_t btn1_code = capsense_normalize_btn(buf[1]);
+    s_caps_proto          = f.proto;
+    s_caps_switches       = f.switches;
+    s_caps_slider_touched = f.slider_touched;
+    s_caps_fw_error       = f.error;
 
     //! [ipc_sensorhub_feed_capsense_fields]
     /* ...context: inside capsense_read_and_feed() - GFX task context ... */
     ipc_sensor_capsense_t d;
-    d.btn0_pressed = (btn0_code != s_caps_idle_btn0) ? 1 : 0;
-    d.btn1_pressed = (btn1_code != s_caps_idle_btn1) ? 1 : 0;
-    d.slider = buf[2];
+    if (f.snapshot) {
+        d.btn0_pressed = f.btn0;
+        d.btn1_pressed = f.btn1;
+    } else {
+        d.btn0_pressed = (capsense_normalize_btn(f.btn0) != s_caps_idle_btn0) ? 1 : 0;
+        d.btn1_pressed = (capsense_normalize_btn(f.btn1) != s_caps_idle_btn1) ? 1 : 0;
+    }
+    d.slider = f.slider;      /* 0 while a snapshot slider is untouched */
     d.reserved = 0;
     d.sequence = s_seq++;
 
@@ -258,12 +284,13 @@ bool cm55_sensor_poll_init(void)
 
 #if BSP_HAS_CAPSENSE
     {
-        uint8_t caps_buf[CAPSENSE_READ_SIZE];
+        uint8_t caps_buf[CAPSENSE_READ_SIZE] = {0};
         if (capsense_read_raw(caps_buf)) {
+            caps_frame_t f;
+            caps_frame_decode(caps_buf, &f);
             s_capsense_ok = true;
-            s_caps_idle_btn0 = capsense_normalize_btn(caps_buf[0]);
-            s_caps_idle_btn1 = capsense_normalize_btn(caps_buf[1]);
-            s_caps_have_baseline = true;
+            s_caps_proto  = f.proto;
+            capsense_take_baseline(&f);
         }
     }
 #endif
@@ -376,6 +403,24 @@ bool cm55_controls_snapshot(ipc_controls_state_t *out)
     memset(out->pot_raw, 0, sizeof(out->pot_raw));
 #endif
     out->reserved = 0;
+    return true;
+}
+
+bool cm55_capsense_info(cm55_capsense_info_t *out)
+{
+    if (out == NULL) {
+        return false;
+    }
+    memset(out, 0, sizeof(*out));
+#if BSP_HAS_CAPSENSE
+    out->answered       = s_capsense_ok;
+    out->live           = s_capsense_ok && s_caps_live;
+    out->proto          = s_caps_proto;
+    out->switches_valid = (s_caps_proto != 0U);
+    out->switches       = s_caps_switches;
+    out->slider_touched = s_caps_slider_touched;
+    out->fw_error       = s_caps_fw_error;
+#endif
     return true;
 }
 

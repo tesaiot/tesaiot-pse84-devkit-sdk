@@ -7,21 +7,36 @@
  *              Single page that merges the former Potentiometers and
  *              Touch & RGB pages:
  *
+ *                TOP   - pot ADC state and the CapSense link state
+ *                          (answer at I2C 0x08, protocol version).
+ *
  *                LEFT  — "GPIO Inputs"
- *                          - 4 vertical bars, VR1-4 (raw 0-4095), read
- *                            CM55-locally via cm55_pot_read_all() (no IPC hop).
+ *                          - 4 vertical bars, VR1-4 with their pins, each
+ *                            shown in mV (raw x 1800 / 4095, 1.8 V full
+ *                            scale) and raw 0-4095, read CM55-locally via
+ *                            cm55_pot_read_all() (no IPC hop).
  *                          - 4 button indicators: CapSense BTN0/BTN1 (from the
- *                            IPC snapshot) + base-board SW5/SW6 (P17.5/P17.7,
- *                            read here on CM55 by PDL, active-low pull-up).
+ *                            IPC snapshot) + the two base-board push-buttons
+ *                            on P17.5/P17.7 (read here on CM55 by PDL,
+ *                            active-low pull-up), labelled with their pins.
+ *                          - SW1-SW4 (two push-buttons, two slide switches)
+ *                            via the CapSense controller, shown only when its
+ *                            firmware speaks the 0x0D/0x0E snapshot protocol
+ *                            (cm55_capsense_info()).
  *                          - CapSense slider bar (0-100 %).
+ *
+ *                BOTTOM - static notes on what the E84 can and cannot read
+ *                          (scroll down).
  *
  *                RIGHT — "RGB Matrix 16x8" (DFR0522 @ I2C 0x10)
  *                          - Large on-screen preview of the current fill color.
  *                          - 8 color swatches; tapping one fills the physical
  *                            panel via the DFR0522 driver (GFX-task context, so
  *                            no IPC hop).
- *                          - Interaction: SW5 cycles to the next color and
- *                            fills the matrix; SW6 clears it.
+ *                          - Interaction: the P17.5 button cycles to the
+ *                            next color and fills the matrix; the P17.7
+ *                            button clears it. Their printed labels come
+ *                            from QWA309_BTN_LABEL_P17_5 / _P17_7.
  *
  *              All draw + I2C happens in the GFX/LVGL task, which owns the
  *              display I2C bus the DFR0522 shares.
@@ -36,6 +51,7 @@
 #include "tesaiot_ui_theme.h"
 #include "tesaiot_ui_helpers.h"
 #include "cm55_sensor_poll.h"
+#include "cm55_capsense_frame.h"
 #include "dfr0522_rgb.h"
 #include "lvgl.h"
 
@@ -49,14 +65,29 @@
  * Constants
  *******************************************************************************/
 #define POT_RAW_MAX        (4095)
+/* The pot wipers swing between GND and the 1.8 V analog rail (QWA309
+ * schematic V3.1, sheet 19), and the SAR reads that range as 0-4095. */
+#define POT_FULL_SCALE_MV  (1800)
 
-/* Base-board push-buttons (from the tested button_monitor reference):
- * SW5 = P17.5, SW6 = P17.7 — active-low tactile switches with internal
- * pull-ups. Cy_GPIO_Read() == 0 means pressed. */
+/* Printed labels of the two base-board push-buttons, by the pin each one
+ * pulls low. Source: the QWA309 B1 assembly drawing, which prints SW6 above
+ * P17.5 (upper button) and SW5 above P17.7 (lower button). There is no V3.1
+ * assembly drawing; the V3.1 pinout picture shows the same order (SW6 above
+ * SW5), but that picture is wrong in other places, and no V3.1 board has been
+ * read for these labels. The pins are certain; if a V3.1 silkscreen differs,
+ * change this pair only. */
+#define QWA309_BTN_LABEL_P17_5   "SW6"
+#define QWA309_BTN_LABEL_P17_7   "SW5"
+
+/* Base-board push-buttons: active-low tactile switches; the page sets
+ * internal pull-ups. Cy_GPIO_Read() == 0 means pressed.
+ * Index 0 = P17.5 (next color), index 1 = P17.7 (clear). */
 #define SW_COUNT           (2U)
 
+/* Printed knob label and the pin its wiper is on, in printed order; the
+ * SAR channel for each is s_pot_adc_ch[] in cm55_sensor_poll.c. */
 static const char    *s_pot_names[QWA309_POT_COUNT]  = {
-    "VR1", "VR2", "VR3", "VR4"
+    "VR1 P15.5", "VR2 P15.4", "VR3 P15.6", "VR4 P15.7"
 };
 static const uint32_t s_pot_colors[QWA309_POT_COUNT] = {
     UI_COLOR_ACCENT_GREEN,
@@ -65,9 +96,22 @@ static const uint32_t s_pot_colors[QWA309_POT_COUNT] = {
     UI_COLOR_SENSOR_TOUCH,
 };
 
-/* Four button indicators: [0]=BTN0 [1]=BTN1 (CapSense) [2]=SW5 [3]=SW6 (GPIO) */
+/* Four button indicators: [0]=BTN0 [1]=BTN1 (CapSense)
+ * [2]=P17.5 button [3]=P17.7 button (GPIO) */
 #define IND_COUNT          (4U)
-static const char *s_ind_names[IND_COUNT] = { "BTN0", "BTN1", "SW5", "SW6" };
+static const char *s_ind_names[IND_COUNT] = {
+    "BTN0", "BTN1",
+    QWA309_BTN_LABEL_P17_5 " P17.5", QWA309_BTN_LABEL_P17_7 " P17.7"
+};
+
+/* Shown below the panels; the content area scrolls to reach it. */
+static const char s_notes_text[] =
+    "SW1-SW4 are read by the CapSense controller (PSoC 4000T), not the E84; "
+    "the E84 sees them only through its I2C answer at 0x08, protocol 0x0D or "
+    "newer. The power and function slide switches cannot be read by "
+    "firmware. This page reconfigures P17.5 as an input with a pull-up; the "
+    "USB-host VBUS enable shares that pin. The CapSense controller is probed "
+    "once at start-up: after switching SW12 ON, restart the board.";
 
 /*******************************************************************************
  * Color swatch table (DFR0522 palette 0..7)
@@ -98,9 +142,11 @@ typedef struct {
     lv_obj_t *pot_bar[QWA309_POT_COUNT];
     lv_obj_t *pot_value[QWA309_POT_COUNT];
     lv_obj_t *status_label;
-    /* Left — button indicators + slider */
+    lv_obj_t *caps_link_label;
+    /* Left — button indicators + SW1-SW4 + slider */
     lv_obj_t *ind[IND_COUNT];
     lv_obj_t *ind_label[IND_COUNT];
+    lv_obj_t *sw14_label;
     lv_obj_t *slider_bar;
     lv_obj_t *slider_label;
     /* Right — RGB matrix */
@@ -117,8 +163,29 @@ typedef struct {
     uint16_t  shown_pot[QWA309_POT_COUNT];   /* 0xFFFF = never drawn */
     int8_t    shown_live;                    /* -1 unknown, 0 settling, 1 live */
     uint8_t   shown_ind;                     /* bit i = ind[i] lit; 0xFF unknown */
-    uint8_t   shown_slider;                  /* 0xFF = never drawn */
+    uint8_t   shown_slider;                  /* 0xFF never drawn, or a SLIDER_SHOWN_* */
+    uint8_t   shown_link;                    /* link state drawn; 0xFF unknown */
+    uint8_t   shown_proto;                   /* protocol in that text */
+    uint8_t   shown_sw14;                    /* SW1-SW4 bits drawn; 0xFF unknown,
+                                              * or a SW14_SHOWN_* text */
 } page_gpio_rgb_ctx_t;
+
+/* shown_slider values while a text is drawn instead of a position. */
+#define SLIDER_SHOWN_UNTOUCHED  (0xFEU)   /* 0x0D/0x0E slider, nobody touching */
+#define SLIDER_SHOWN_NO_LINK    (0xFDU)   /* no CapSense answer: no value at all */
+
+/* CapSense link states drawn in caps_link_label. */
+enum {
+    LINK_NO_ANSWER = 0U,  /* no answer to the start-up probe */
+    LINK_READ_FAIL,       /* answered once; the last read failed */
+    LINK_OK_LEGACY,       /* reads succeed; legacy 3-byte firmware */
+    LINK_OK_SNAPSHOT,     /* reads succeed; protocol 0x0D/0x0E */
+    LINK_OK_FW_ERROR,     /* protocol 0x0D/0x0E, controller error flag set */
+};
+
+/* shown_sw14 values while a text is drawn instead of switch states. */
+#define SW14_SHOWN_NEEDS_0D     (0xFEU)   /* legacy firmware answers */
+#define SW14_SHOWN_NO_LINK      (0xFDU)   /* no answer / last read failed */
 
 /* Pot ADC jitter deadband (counts). The 120-px bar shows ~34 counts per
  * pixel, so +/-5 counts of SAR noise is invisible — don't repaint for it. */
@@ -127,10 +194,14 @@ typedef struct {
 static page_gpio_rgb_ctx_t s_ctx;
 
 static char s_value_buf[QWA309_POT_COUNT][16];
-static char s_slider_buf[16];
+static char s_raw_buf[QWA309_POT_COUNT][16];
+static char s_slider_buf[32];
+static char s_link_buf[80];
+static char s_sw14_buf[64];
+static char s_hint_buf[64];
 
 /*******************************************************************************
- * SW5/SW6 GPIO — CM55-local PDL read (active-low, internal pull-up)
+ * P17.5/P17.7 push-buttons — CM55-local PDL read (active-low, internal pull-up)
  *******************************************************************************/
 static void sw_gpio_init(void)
 {
@@ -141,7 +212,7 @@ static void sw_gpio_init(void)
     s_ctx.hw_ready = true;
 }
 
-/* Return true when the given SW index (0=SW5, 1=SW6) is pressed. */
+/* Return true when the given button index (0=P17.5, 1=P17.7) is pressed. */
 static bool sw_read(uint8_t idx)
 {
     if (idx == 0U) {
@@ -230,7 +301,7 @@ static void effect_click_cb(lv_event_t *e)
     if (ok) {
         /* The panel is animating — the solid-color preview no longer
          * describes it. Show the effect name in its accent color, and park
-         * color_idx on Off so the next SW5 press starts the palette over. */
+         * color_idx on Off so the next P17.5 press starts the palette over. */
         s_ctx.color_idx = 0U;
         if (s_ctx.preview) {
             lv_obj_set_style_bg_color(s_ctx.preview,
@@ -296,6 +367,9 @@ lv_obj_t *page_gpio_rgb_create(void)
     s_ctx.shown_live   = -1;
     s_ctx.shown_ind    = 0xFF;
     s_ctx.shown_slider = 0xFF;
+    s_ctx.shown_link   = 0xFF;
+    s_ctx.shown_proto  = 0U;
+    s_ctx.shown_sw14   = 0xFF;
 
     lv_obj_t *scr = lv_obj_create(NULL);
     page_manager_t *pm = pm_get_instance();
@@ -307,18 +381,33 @@ lv_obj_t *page_gpio_rgb_create(void)
     lv_obj_set_flex_flow(content, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_style_pad_all(content, UI_SPACE_LG, LV_PART_MAIN);
     lv_obj_set_style_pad_row(content, UI_SPACE_SM, LV_PART_MAIN);
+    /* The notes below the panels do not fit on one screen: let the content
+     * scroll vertically to reach them. */
+    lv_obj_add_flag(content, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_scroll_dir(content, LV_DIR_VER);
 
-    /* Header status ("Live" / "ADC settling") */
-    s_ctx.status_label = lv_label_create(content);
-    lv_label_set_text(s_ctx.status_label, "ADC settling");
+    /* Header status row: pot ADC ("Pots: live" / "Pots: ADC settling") and
+     * the CapSense link state. */
+    lv_obj_t *status_row = tesaiot_row_create(content, UI_SPACE_LG);
+    s_ctx.status_label = lv_label_create(status_row);
+    lv_label_set_text(s_ctx.status_label, "Pots: ADC settling");
     lv_obj_set_style_text_color(s_ctx.status_label,
                                 lv_color_hex(UI_COLOR_ACCENT_ORANGE),
                                 LV_PART_MAIN);
     lv_obj_set_style_text_font(s_ctx.status_label, UI_FONT_CAPTION,
                                LV_PART_MAIN);
 
+    s_ctx.caps_link_label = lv_label_create(status_row);
+    lv_obj_set_flex_grow(s_ctx.caps_link_label, 1);
+    lv_label_set_long_mode(s_ctx.caps_link_label, LV_LABEL_LONG_WRAP);
+    lv_label_set_text(s_ctx.caps_link_label, "CapSense 0x08: ...");
+    lv_obj_set_style_text_color(s_ctx.caps_link_label,
+                                lv_color_hex(UI_COLOR_TEXT_SECONDARY),
+                                LV_PART_MAIN);
+    lv_obj_set_style_text_font(s_ctx.caps_link_label, UI_FONT_CAPTION,
+                               LV_PART_MAIN);
+
     lv_obj_t *main_row = tesaiot_row_create(content, UI_SPACE_LG);
-    lv_obj_set_flex_grow(main_row, 1);
 
     /***************************************************************************
      * LEFT panel — GPIO Inputs (pots + buttons + slider)
@@ -348,7 +437,7 @@ lv_obj_t *page_gpio_rgb_create(void)
             lv_obj_set_style_text_font(name, UI_FONT_CAPTION, LV_PART_MAIN);
 
             s_ctx.pot_bar[i] = lv_bar_create(col);
-            lv_obj_set_size(s_ctx.pot_bar[i], 34, 120);   /* vertical bar */
+            lv_obj_set_size(s_ctx.pot_bar[i], 34, 96);    /* vertical bar */
             lv_bar_set_range(s_ctx.pot_bar[i], 0, POT_RAW_MAX);
             lv_bar_set_value(s_ctx.pot_bar[i], 0, LV_ANIM_OFF);
             lv_obj_set_style_radius(s_ctx.pot_bar[i], UI_RADIUS_SM,
@@ -360,8 +449,11 @@ lv_obj_t *page_gpio_rgb_create(void)
                                       lv_color_hex(s_pot_colors[i]),
                                       LV_PART_INDICATOR);
 
+            /* Two lines: millivolts, then the raw 12-bit count. */
             s_ctx.pot_value[i] = lv_label_create(col);
-            lv_label_set_text(s_ctx.pot_value[i], "----");
+            lv_label_set_text(s_ctx.pot_value[i], "---- mV\nraw ----");
+            lv_obj_set_style_text_align(s_ctx.pot_value[i],
+                                        LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
             lv_obj_set_style_text_color(s_ctx.pot_value[i],
                                         lv_color_hex(UI_COLOR_TEXT_SECONDARY),
                                         LV_PART_MAIN);
@@ -369,19 +461,21 @@ lv_obj_t *page_gpio_rgb_create(void)
                                        LV_PART_MAIN);
         }
 
-        /* --- Four button indicators: BTN0 BTN1 SW5 SW6 --- */
+        /* --- Four button indicators: BTN0 BTN1 + the P17.5/P17.7 buttons --- */
         lv_obj_t *ind_row = tesaiot_row_create(left, UI_SPACE_SM);
         for (uint8_t i = 0; i < IND_COUNT; i++) {
             indicator_create(ind_row, i);
         }
 
-        /* --- CapSense slider --- */
-        lv_obj_t *slider_title = lv_label_create(left);
-        lv_label_set_text(slider_title, "CapSense Slider");
-        lv_obj_set_style_text_color(slider_title,
+        /* --- SW1-SW4 via the CapSense controller --- */
+        s_ctx.sw14_label = lv_label_create(left);
+        lv_obj_set_width(s_ctx.sw14_label, LV_PCT(100));
+        lv_label_set_long_mode(s_ctx.sw14_label, LV_LABEL_LONG_WRAP);
+        lv_label_set_text(s_ctx.sw14_label, "SW1-SW4: ...");
+        lv_obj_set_style_text_color(s_ctx.sw14_label,
                                     lv_color_hex(UI_COLOR_TEXT_SECONDARY),
                                     LV_PART_MAIN);
-        lv_obj_set_style_text_font(slider_title, UI_FONT_CAPTION,
+        lv_obj_set_style_text_font(s_ctx.sw14_label, UI_FONT_CAPTION,
                                    LV_PART_MAIN);
 
         s_ctx.slider_bar = lv_bar_create(left);
@@ -395,7 +489,7 @@ lv_obj_t *page_gpio_rgb_create(void)
                                   LV_PART_INDICATOR);
 
         s_ctx.slider_label = lv_label_create(left);
-        lv_label_set_text(s_ctx.slider_label, "-- %");
+        lv_label_set_text(s_ctx.slider_label, "CapSense slider: -- %");
         lv_obj_set_style_text_color(s_ctx.slider_label,
                                     lv_color_hex(UI_COLOR_TEXT_SECONDARY),
                                     LV_PART_MAIN);
@@ -498,13 +592,27 @@ lv_obj_t *page_gpio_rgb_create(void)
         }
 
         s_ctx.rgb_status = lv_label_create(right);
-        lv_label_set_text(s_ctx.rgb_status,
-                          "Tap a color  -  SW5 next  -  SW6 clear");
+        snprintf(s_hint_buf, sizeof(s_hint_buf),
+                 "Tap a color  -  %s next  -  %s clear",
+                 QWA309_BTN_LABEL_P17_5, QWA309_BTN_LABEL_P17_7);
+        lv_label_set_text(s_ctx.rgb_status, s_hint_buf);
         lv_obj_set_style_text_color(s_ctx.rgb_status,
                                     lv_color_hex(UI_COLOR_TEXT_SECONDARY),
                                     LV_PART_MAIN);
         lv_obj_set_style_text_font(s_ctx.rgb_status, UI_FONT_CAPTION,
                                    LV_PART_MAIN);
+    }
+
+    /* Notes, below the panels (scroll down) */
+    {
+        lv_obj_t *notes = lv_label_create(content);
+        lv_obj_set_width(notes, LV_PCT(100));
+        lv_label_set_long_mode(notes, LV_LABEL_LONG_WRAP);
+        lv_label_set_text_static(notes, s_notes_text);
+        lv_obj_set_style_text_color(notes,
+                                    lv_color_hex(UI_COLOR_TEXT_SECONDARY),
+                                    LV_PART_MAIN);
+        lv_obj_set_style_text_font(notes, UI_FONT_CAPTION, LV_PART_MAIN);
     }
 
     /* Bring the base-board push-buttons up (idempotent, GFX-task context) */
@@ -534,6 +642,97 @@ static void ind_apply(uint8_t i, bool lit)
         LV_PART_MAIN);
 }
 
+/* CapSense link line: redrawn only when the state (or protocol) changes. */
+static void render_caps_link(const cm55_capsense_info_t *caps)
+{
+    if (s_ctx.caps_link_label == NULL) return;
+
+    uint8_t state;
+    if (!caps->answered) {
+        state = LINK_NO_ANSWER;
+    } else if (!caps->live) {
+        state = LINK_READ_FAIL;
+    } else if (!caps->switches_valid) {
+        state = LINK_OK_LEGACY;
+    } else if (caps->fw_error) {
+        state = LINK_OK_FW_ERROR;
+    } else {
+        state = LINK_OK_SNAPSHOT;
+    }
+    if (state == s_ctx.shown_link && caps->proto == s_ctx.shown_proto) return;
+    s_ctx.shown_link  = state;
+    s_ctx.shown_proto = caps->proto;
+
+    uint32_t color = UI_COLOR_ACCENT_GREEN;
+    switch (state) {
+    case LINK_NO_ANSWER:
+        snprintf(s_link_buf, sizeof(s_link_buf),
+                 "CapSense: no answer at 0x08 - check SW12 (V3.1); "
+                 "B1 boards have no link");
+        color = UI_COLOR_ACCENT_ORANGE;
+        break;
+    case LINK_READ_FAIL:
+        snprintf(s_link_buf, sizeof(s_link_buf),
+                 "CapSense 0x08: no reply on the last read, retrying");
+        color = UI_COLOR_ACCENT_ORANGE;
+        break;
+    case LINK_OK_LEGACY:
+        snprintf(s_link_buf, sizeof(s_link_buf),
+                 "CapSense 0x08: OK, legacy 3-byte firmware");
+        break;
+    case LINK_OK_FW_ERROR:
+        snprintf(s_link_buf, sizeof(s_link_buf),
+                 "CapSense 0x08: protocol 0x%02X, controller reports an error",
+                 (unsigned)caps->proto);
+        color = UI_COLOR_ACCENT_ORANGE;
+        break;
+    default:
+        snprintf(s_link_buf, sizeof(s_link_buf),
+                 "CapSense 0x08: OK, protocol 0x%02X", (unsigned)caps->proto);
+        break;
+    }
+    lv_label_set_text(s_ctx.caps_link_label, s_link_buf);
+    lv_obj_set_style_text_color(s_ctx.caps_link_label, lv_color_hex(color),
+                                LV_PART_MAIN);
+}
+
+/* SW1-SW4 line: states only from a 0x0D/0x0E controller, otherwise why not. */
+static void render_sw14(const cm55_capsense_info_t *caps)
+{
+    if (s_ctx.sw14_label == NULL) return;
+
+    bool    valid = caps->live && caps->switches_valid;
+    uint8_t now;
+    if (valid) {
+        now = (uint8_t)(caps->switches & 0x0FU);
+    } else if (caps->live) {
+        now = SW14_SHOWN_NEEDS_0D;
+    } else {
+        now = SW14_SHOWN_NO_LINK;
+    }
+    if (now == s_ctx.shown_sw14) return;
+    s_ctx.shown_sw14 = now;
+
+    if (now == SW14_SHOWN_NEEDS_0D) {
+        snprintf(s_sw14_buf, sizeof(s_sw14_buf),
+                 "SW1-SW4: needs CapSense firmware 0x0D or newer");
+    } else if (now == SW14_SHOWN_NO_LINK) {
+        snprintf(s_sw14_buf, sizeof(s_sw14_buf),
+                 "SW1-SW4: no CapSense link");
+    } else {
+        snprintf(s_sw14_buf, sizeof(s_sw14_buf),
+                 "SW1 %s  SW2 %s  SW3 %s  SW4 %s",
+                 (now & CAPS_SW_SW1)    ? "pressed" : "released",
+                 (now & CAPS_SW_SW2)    ? "pressed" : "released",
+                 (now & CAPS_SW_SW3_ON) ? "ON" : "OFF",
+                 (now & CAPS_SW_SW4_ON) ? "ON" : "OFF");
+    }
+    lv_label_set_text(s_ctx.sw14_label, s_sw14_buf);
+    lv_obj_set_style_text_color(s_ctx.sw14_label,
+        lv_color_hex(valid ? UI_COLOR_TEXT_PRIMARY : UI_COLOR_TEXT_SECONDARY),
+        LV_PART_MAIN);
+}
+
 void page_gpio_rgb_render(sensorhub_snapshot_t *snap)
 {
     /* Every widget below updates ONLY when its value really changed —
@@ -547,7 +746,8 @@ void page_gpio_rgb_render(sensorhub_snapshot_t *snap)
 
     if (s_ctx.status_label && live != s_ctx.shown_live) {
         s_ctx.shown_live = live;
-        lv_label_set_text(s_ctx.status_label, live ? "Live" : "ADC settling");
+        lv_label_set_text(s_ctx.status_label,
+                          live ? "Pots: live" : "Pots: ADC settling");
         lv_obj_set_style_text_color(s_ctx.status_label,
             lv_color_hex(live ? UI_COLOR_ACCENT_GREEN : UI_COLOR_ACCENT_ORANGE),
             LV_PART_MAIN);
@@ -568,16 +768,31 @@ void page_gpio_rgb_render(sensorhub_snapshot_t *snap)
 
             s_ctx.shown_pot[i] = raw[i];
             lv_bar_set_value(s_ctx.pot_bar[i], raw[i], LV_ANIM_OFF);
-            snprintf(s_value_buf[i], sizeof(s_value_buf[i]), "%u",
+            /* Rounded to the nearest millivolt. */
+            uint32_t mv = ((uint32_t)raw[i] * POT_FULL_SCALE_MV +
+                           (POT_RAW_MAX / 2U)) / POT_RAW_MAX;
+            snprintf(s_value_buf[i], sizeof(s_value_buf[i]), "%u mV",
+                     (unsigned)mv);
+            snprintf(s_raw_buf[i], sizeof(s_raw_buf[i]), "raw %u",
                      (unsigned)raw[i]);
-            lv_label_set_text(s_ctx.pot_value[i], s_value_buf[i]);
+            lv_label_set_text_fmt(s_ctx.pot_value[i], "%s\n%s",
+                                  s_value_buf[i], s_raw_buf[i]);
         }
     }
 
-    /* --- Indicator pills: BTN0/BTN1 (CapSense) + SW5/SW6 (GPIO) --- */
+    /* --- CapSense link state and SW1-SW4 (CM55-local) --- */
+    cm55_capsense_info_t caps;
+    (void)cm55_capsense_info(&caps);
+    render_caps_link(&caps);
+    render_sw14(&caps);
+
+    /* --- Indicator pills: BTN0/BTN1 (CapSense) + P17.5/P17.7 (GPIO) --- */
     uint8_t ind_now = (s_ctx.shown_ind == 0xFFU) ? 0U : s_ctx.shown_ind;
 
-    if (snap != NULL && snap->has_capsense) {
+    /* CapSense values only while the controller answers. Without a link the
+     * hub snapshot may still hold the last sample, and showing it would be a
+     * stale value, so the pills are released and the slider shows no value. */
+    if (snap != NULL && snap->has_capsense && caps.live) {
         bool cap[2] = { snap->capsense.btn0_pressed != 0,
                         snap->capsense.btn1_pressed != 0 };
         for (uint8_t i = 0; i < 2U; i++) {
@@ -589,28 +804,44 @@ void page_gpio_rgb_render(sensorhub_snapshot_t *snap)
         if (s_ctx.slider_bar) {
             uint8_t slider = snap->capsense.slider;
             if (slider > 100U) slider = 100U;
-            if (slider != s_ctx.shown_slider) {
-                s_ctx.shown_slider = slider;
-                lv_bar_set_value(s_ctx.slider_bar, slider, LV_ANIM_OFF);
-                snprintf(s_slider_buf, sizeof(s_slider_buf), "%u %%",
-                         (unsigned)slider);
+            /* A 0x0D/0x0E controller says when nobody touches the slider;
+             * show that instead of a position. */
+            uint8_t shown = (caps.switches_valid && !caps.slider_touched)
+                                ? SLIDER_SHOWN_UNTOUCHED : slider;
+            if (shown != s_ctx.shown_slider) {
+                s_ctx.shown_slider = shown;
+                lv_bar_set_value(s_ctx.slider_bar,
+                                 (shown == SLIDER_SHOWN_UNTOUCHED) ? 0 : slider,
+                                 LV_ANIM_OFF);
+                if (shown == SLIDER_SHOWN_UNTOUCHED) {
+                    snprintf(s_slider_buf, sizeof(s_slider_buf),
+                             "CapSense slider: not touched");
+                } else {
+                    snprintf(s_slider_buf, sizeof(s_slider_buf),
+                             "CapSense slider: %u %%", (unsigned)slider);
+                }
                 lv_label_set_text(s_ctx.slider_label, s_slider_buf);
             }
         }
     } else {
         /* Feed gone — release the CapSense pills instead of latching the
-         * last state green forever. */
+         * last state green forever, and clear the slider. */
         for (uint8_t i = 0; i < 2U; i++) {
             ind_apply(i, false);
             ind_now = (uint8_t)(ind_now & ~(1U << i));
         }
+        if (s_ctx.slider_bar && s_ctx.shown_slider != SLIDER_SHOWN_NO_LINK) {
+            s_ctx.shown_slider = SLIDER_SHOWN_NO_LINK;
+            lv_bar_set_value(s_ctx.slider_bar, 0, LV_ANIM_OFF);
+            lv_label_set_text(s_ctx.slider_label, "CapSense slider: --");
+        }
     }
 
-    /* --- Base-board SW5/SW6 (CM55-local GPIO) + matrix interaction --- */
+    /* --- Base-board P17.5/P17.7 buttons (CM55-local GPIO) + matrix --- */
     if (s_ctx.hw_ready) {
         for (uint8_t i = 0; i < SW_COUNT; i++) {
             bool pressed = sw_read(i);
-            uint8_t slot = (uint8_t)(2U + i);   /* ind[2]=SW5, ind[3]=SW6 */
+            uint8_t slot = (uint8_t)(2U + i);   /* ind[2]=P17.5, ind[3]=P17.7 */
 
             ind_apply(slot, pressed);
             ind_now = (uint8_t)(pressed ? (ind_now | (1U << slot))
@@ -619,10 +850,10 @@ void page_gpio_rgb_render(sensorhub_snapshot_t *snap)
             /* Rising edge → drive the matrix */
             if (pressed && !s_ctx.sw_prev[i]) {
                 if (i == 0U) {
-                    /* SW5 → cycle to the next palette color and fill */
+                    /* P17.5 button → cycle to the next palette color and fill */
                     apply_color((uint8_t)((s_ctx.color_idx + 1U) % NUM_SWATCHES));
                 } else {
-                    /* SW6 → clear the matrix (palette index 0 = Off) */
+                    /* P17.7 button → clear the matrix (palette index 0 = Off) */
                     apply_color(0U);
                 }
             }

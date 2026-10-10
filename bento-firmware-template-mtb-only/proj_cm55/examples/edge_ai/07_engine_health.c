@@ -33,10 +33,10 @@
  *                     Verdicts were WITHHELD because the dequeue ran past the
  *                     Ethos-U wait bound. Read it as "how often a verdict was
  *                     withheld", NOT as an NPU health meter: the measurement is
- *                     wall clock, and the inference task sits below the GFX
- *                     task, so a long render frame or an XIP stall on the
- *                     shared flash pushes a perfectly good dequeue past the
- *                     threshold. It also stops counting once a stall wedges the
+ *                     wall clock, so a busy display, a long render frame or
+ *                     an XIP stall on the shared flash can push a perfectly
+ *                     good dequeue past the threshold. It also stops counting
+ *                     once a stall wedges the
  *                     driver, because dequeue then fails before reaching the
  *                     check. Unlike the others it is cumulative for the BOOT
  *                     and survives a model switch.
@@ -50,9 +50,9 @@
  *
  * THE STACK PAIR IS NOT A DELTA
  *
- *   stack_words       what the inference task actually got, in words. The
- *                     engine asks for a generous stack and steps DOWN until one
- *                     fits rather than failing outright, so this is a measured
+ *   stack_words       what the inference task actually got, in words, or 0
+ *                     if it was never created. It can come out smaller than
+ *                     the default when memory is short, so this is a measured
  *                     value, not a constant -- a smaller number than you expect
  *                     means the CM55 heap was squeezed at boot.
  *   stack_free_words  unused words remaining, as an ALL-TIME MINIMUM. It only

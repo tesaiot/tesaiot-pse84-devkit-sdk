@@ -162,7 +162,8 @@ enable handshake — currently blocked. Use the gated Xbox/GIP code as the templ
 
 ## 7. Two copies — keep in sync
 
-This driver exists in **two standalone git repos** (workspace rule §2):
+
+This driver exists in **two standalone git repos**:
 
 | Repo | Path | Shape |
 |---|---|---|
@@ -183,3 +184,4 @@ every consumer (`./clean_build.sh eva-game` / `all`; nuke stale `.o` +
 gcc -Wall -Iapi tests/test_hid_f310_parser.c src/hid_f310_parser.c -o /tmp/t && /tmp/t
 ```
 Run manually before commits that touch L1 decode logic.
+

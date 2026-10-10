@@ -57,7 +57,8 @@
 * Extensions developed jointly by Infineon Technologies AG and TESAIoT Team
 *
 * This file is part of the TESAIoT AIoT Foundation Platform, developed in
-* collaboration with Infineon Technologies AG for PSoC Edge E84 + OPTIGA Trust M.
+* collaboration with Infineon Technologies AG for PSoC Edge E84 +
+* OPTIGA Trust M.
 *
 *******************************************************************************/
 
@@ -206,7 +207,6 @@ bool optiga_generate_device_keypair(uint16_t key_oid, uint8_t *public_key_der, u
  * - optiga_get_cert_days_until_expiry()
  * - optiga_generate_csr_pem()
  *
- * See: IMPROVEMENTS/2026.01/01_header_organization_analysis.md
  ******************************************************************************/
 
 /**

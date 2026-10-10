@@ -472,10 +472,9 @@ ifeq ($(EDGE_AI_MODEL),combo)
 # prebuilt eval library (modules/ai_models/*_lib_eval.a) — no source. cough +
 # alarm are int8, siren is float32; all three carry a self-contained float IMAI_*
 # API and their own FFT/log-mel front end, and reuse the audio PDM path, so they
-# co-reside with motion/audio/radar in the combo. Every ready-model .a exports
-# the SAME unprefixed IMAI_* symbols, so each committed .a is objcopy-prefixed to
-# a unique per-model namespace (recipe under "ready-model" below) and linked via
-# LDLIBS (each guarded on its model being in AI_MODELS).
+# co-reside with motion/audio/radar in the combo. Each committed .a exports its
+# own per-model IMAI_<MODEL>_* entry points (see "ready-model" below) and is
+# linked via LDLIBS (each guarded on its model being in AI_MODELS).
 AI_MODELS := motion audio radar cough alarm siren
 else
 AI_MODELS := $(EDGE_AI_MODEL)
@@ -588,45 +587,15 @@ endif
 # int8-typed combo — no extra ML_FLOAT32 COMPONENT is needed for a self-contained
 # ready-model .a.
 #
-# SYMBOL-COLLISION PROBLEM + FIX (the reason each committed .a is post-processed):
-# EVERY pristine ready-model .a exports the SAME unprefixed public API
-# (IMAI_init/_enqueue/_dequeue/_finalize) AND the same internal defined globals
-# (mtb_init, runs, adjust_sensitivity, number_of_runs, conf_config, conf_exit,
-# IMAI_AED_*, IMAI_mtb_models[_count][_profile_log]). Linking two pristine .a's
-# fails with "multiple definition of IMAI_init". To co-reside THREE, each .a is
-# objcopy-processed into a UNIQUE per-model namespace so `nm` shows all three
-# disjoint (verified: zero shared defined globals). The .a's mtb_init rename also
-# clears its old clash with model_radar.c's leaked global mtb_init.
+# Origin: the ready-model archives of Infineon's deploy-ready-model code example
+# (CONFIG_Debug/TOOLCHAIN_GCC_ARM). Each committed archive exports its own
+# IMAI_<MODEL>_* entry points, so the three can be linked into one image; the
+# alteration that required is disclosed in THIRD_PARTY.md, "Our one alteration,
+# disclosed". The rules below link whichever archives are present.
 #
-# Recipe — regenerate a committed <model>_lib_eval.a from the pristine
-# ready-model .a (Infineon deploy-ready-model, CONFIG_Debug/TOOLCHAIN_GCC_ARM):
-#  1. Build a redefine-syms map <suffix>.map. For the 4 public entries:
-#        IMAI_init IMAI_<MODEL>_init   (+ enqueue/dequeue/finalize)
-#     For EVERY other defined global S in the .a (nm '[TDBRGCSW]'), append the
-#     model suffix:  S  S_<suffix>   e.g.  mtb_init mtb_init_cough
-#  2. objcopy MUST run on the EXTRACTED objects, not the archive: archive-mode
-#     objcopy silently refuses to rename a section to a name that already exists
-#     (so a 2nd/3rd .rodata._Kxx -> .ml_weights is dropped). Extract, process each
-#     member, re-archive:
-#        arm-none-eabi-ar x <pristine>.a                       # -> library.o model.o
-#        for o in library.o model.o; do
-#          arm-none-eabi-objcopy --redefine-syms=<suffix>.map \
-#            --rename-section .cy_socmem_data=.ml_weights \
-#            --rename-section .rodata._K11=.ml_weights \
-#            --rename-section .rodata._K24=.ml_weights \   # alarm: _K23 ; siren: none
-#            $o $o.new && mv $o.new $o
-#        done
-#        arm-none-eabi-ar rcs <model>_lib_eval.a library.o model.o
-#  3. Weights (.cy_socmem_data: cough ~117 KB, alarm ~74 KB, siren ~136 KB) and the
-#     FFT const tables (.rodata._K11/_K24/_K23) default BELOW the .fw_identity wall
-#     at 0x60900000 and overran it in the combo, so ALL are renamed to .ml_weights
-#     — the CM55 .ld loads that into the free m55_nvm tail ABOVE the wall and
-#     copies it to SOCMEM at boot (same mechanism model_audio.c uses via
-#     CY_ML_MODEL_MEM=.ml_weights). Verify: `objdump -h` shows ONLY .ml_weights
-#     (no .cy_socmem_data / .rodata._K*), and the three .a's share no defined global.
-# NO READY-MODEL ARCHIVE SHIPS WITH THIS SDK. The three named above are
-# Imagimob evaluation binaries and are not redistributable, so cough/alarm/siren
-# are EMPTY SLOTS in a released package: modules/ai_models/ai_model_slots.c
+# The three named above are Imagimob evaluation binaries and ship in this
+# package's modules/ai_models/, so the default build links cough/alarm/siren.
+# Without an archive the slot is EMPTY: modules/ai_models/ai_model_slots.c
 # holds a weak "slot not filled" stub for every slot, the image links and boots,
 # and an unfilled model reports that it did not load while every other model
 # runs. See modules/ai_models/README.md, "Filling a model slot".
@@ -640,8 +609,8 @@ AI_MODEL_LIB_MODELS := $(strip $(foreach m,$(AI_MODELS),\
 AI_MODEL_LIBS       := $(foreach m,$(AI_MODEL_LIB_MODELS),\
                          $(wildcard ./modules/ai_models/$(m)_lib*.a))
 
-# EDGE_AI_IGNORE_MODEL_LIBS=1 builds the configuration a CUSTOMER gets — every
-# slot unfilled — even on a bench where the evaluation archives are present.
+# EDGE_AI_IGNORE_MODEL_LIBS=1 builds the stub configuration — every archive
+# slot unfilled — even where the evaluation archives are present.
 # Without it this tree can never compile its own stub path (the three .a files
 # are committed here, so the wildcard always matches and always drops the
 # stubs), and an error in that path would ship unbuilt. Use it in CI:
@@ -1043,7 +1012,7 @@ CY_APP_PATH=
 # Derived from BENTO_WORKSPACE, not hardcoded.
 #
 # This was `../../..`, which is right for our tree — template/ sits inside
-# TESAIoT_Firmware_Development_and_Release/, so three levels up from a project
+# the release repository, so three levels up from a project
 # directory is the workspace. It is wrong for a customer, whose README tells
 # them to unpack bento-firmware-template/ as a direct child of their workspace:
 # one level shallower, so ../../.. overshoots.

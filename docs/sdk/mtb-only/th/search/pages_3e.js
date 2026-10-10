@@ -13,11 +13,12 @@ var searchData=
   ['ไม่มี_20llu_20zu_20jd_20hhu_10',['28. printf บน CM33 และ CM55 เป็น newlib-nano — ไม่มี llu, zu, jd, hhu',['../group__tut__x__traps__antipatterns.html#x28',1,'']]],
   ['ไม่ว่าง_20—_20เป็นที่เก็บ_20wifi_20ที่บันทึกไว้_11',['29. OID 0xF1D5, 0xF1D6 และ 0xF1D8–0xF1DB ไม่ว่าง — เป็นที่เก็บ WiFi ที่บันทึกไว้',['../group__tut__x__traps__antipatterns.html#x29',1,'']]],
   ['ไม่เคยทำงานเมื่อ_20main_20py_20วนลูปไม่จบ_12',['11. การเขียนข้อมูลรับรองลงจริง (flush) ของ mtb-mpy ไม่เคยทำงานเมื่อ /main.py วนลูปไม่จบ',['../group__tut__x__traps__antipatterns.html#x11',1,'']]],
-  ['ไม่ใช่การตรวจว่า_20init_20แล้วหรือยัง_13',['3. optiga_chip_enter() ไม่ใช่การตรวจว่า init แล้วหรือยัง',['../group__tut__x__traps__antipatterns.html#x3',1,'']]],
-  ['ไม่ใช่คำวินิจฉัย_20มันเขียนทับข้อผิดพลาดจริง_14',['25. 0x08060009 ไม่ใช่คำวินิจฉัย มันเขียนทับข้อผิดพลาดจริง',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
-  ['ไม่ใช่ดัชนี_20slot_20ของ_20optiga_15',['10. ดัชนีในรายการบน UI ไม่ใช่ดัชนี slot ของ OPTIGA',['../group__tut__x__traps__antipatterns.html#x10',1,'']]],
-  ['ไม่ใช่เครือข่าย_16',['27. MQTTS เงียบสนิทขณะที่ HTTPS ยังทำงาน = ชิปค้าง ไม่ใช่เครือข่าย',['../group__tut__x__traps__antipatterns.html#x27',1,'']]],
-  ['ไม่ได้กล่าวถึง_17',['จุดแก้ไข 5 จุดใน Makefile ที่ README ไม่ได้กล่าวถึง',['../group__tut__f1__adding__a__screen.html#f1_makefile',1,'']]],
-  ['ไม่ได้แปลว่าเขียนได้โดยไม่กระทบ_20cm55_18',['&quot;above every XIP region&quot; ไม่ได้แปลว่าเขียนได้โดยไม่กระทบ CM55',['../group__g1__bento__storage.html#g1_xip_guard',1,'']]],
-  ['ไว้_20แล้วส่งต่อให้_20worker_19',['3. CM33_NS: ล็อกค่า OID ไว้ แล้วส่งต่อให้ worker',['../group__d2__enrolment__protected__update.html#d2_seq_worker',1,'']]]
+  ['ไม่แสดงอะไร_13',['เมื่อ CapSense ไม่แสดงอะไร',['../group__j7__qwa309__baseboard.html#j7_capsense_check',1,'']]],
+  ['ไม่ใช่การตรวจว่า_20init_20แล้วหรือยัง_14',['3. optiga_chip_enter() ไม่ใช่การตรวจว่า init แล้วหรือยัง',['../group__tut__x__traps__antipatterns.html#x3',1,'']]],
+  ['ไม่ใช่คำวินิจฉัย_20มันเขียนทับข้อผิดพลาดจริง_15',['25. 0x08060009 ไม่ใช่คำวินิจฉัย มันเขียนทับข้อผิดพลาดจริง',['../group__tut__x__traps__antipatterns.html#x25',1,'']]],
+  ['ไม่ใช่ดัชนี_20slot_20ของ_20optiga_16',['10. ดัชนีในรายการบน UI ไม่ใช่ดัชนี slot ของ OPTIGA',['../group__tut__x__traps__antipatterns.html#x10',1,'']]],
+  ['ไม่ใช่เครือข่าย_17',['27. MQTTS เงียบสนิทขณะที่ HTTPS ยังทำงาน = ชิปค้าง ไม่ใช่เครือข่าย',['../group__tut__x__traps__antipatterns.html#x27',1,'']]],
+  ['ไม่ได้กล่าวถึง_18',['จุดแก้ไข 5 จุดใน Makefile ที่ README ไม่ได้กล่าวถึง',['../group__tut__f1__adding__a__screen.html#f1_makefile',1,'']]],
+  ['ไม่ได้แปลว่าเขียนได้โดยไม่กระทบ_20cm55_19',['&quot;above every XIP region&quot; ไม่ได้แปลว่าเขียนได้โดยไม่กระทบ CM55',['../group__g1__bento__storage.html#g1_xip_guard',1,'']]],
+  ['ไว้_20แล้วส่งต่อให้_20worker_20',['3. CM33_NS: ล็อกค่า OID ไว้ แล้วส่งต่อให้ worker',['../group__d2__enrolment__protected__update.html#d2_seq_worker',1,'']]]
 ];

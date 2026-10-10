@@ -176,8 +176,8 @@ cmd_doctor() {
   fi
   # The MicroPython port is a requirement of the mtb-mpy variant only. The
   # mtb-only package builds without it — doctor hard-failing a customer who
-  # correctly supplied exactly what their variant needs was a red-team
-  # finding, 2026-08-28.
+  # correctly supplied exactly what their variant needs was a bug,
+  # found 2026-08-28.
   local variant; variant=$(grep -m1 -E '^BENTO_VARIANT\?=' "$ROOT/common.mk" | cut -d= -f2)
   if [ "$variant" = "mtb-only" ]; then
     ok "variant mtb-only — the MicroPython port is not required"

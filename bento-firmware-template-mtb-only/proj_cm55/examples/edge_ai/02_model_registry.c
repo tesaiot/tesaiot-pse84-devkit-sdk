@@ -14,8 +14,8 @@
  * THE REGISTRY HAS TWO HALVES AND ONE NUMBERING
  *
  *   [0 .. count-dyn)      compiled in. Linked into the image, no flash cost at
- *                         run time to activate -- switching model is a pointer
- *                         swap, not a reload.
+ *                         run time to activate -- switching model needs no
+ *                         flash copy and no reload.
  *   [count-dyn .. count)  added at run time by ai_engine_register() or by the
  *                         staged loader. See 05_register_model and 06_staged_load.
  *
@@ -25,8 +25,8 @@
  * dyn_capacity() answer a different question, "how much room is left", not
  * "where do I look".
  *
- * ROWS ARE NEVER REMOVED. Every reader in the engine is lockless because an
- * index that was once valid stays valid for the life of the boot. Releasing a
+ * ROWS ARE NEVER REMOVED. An index that was once valid stays valid for the
+ * life of the boot, so it is safe to keep and pass around. Releasing a
  * run-time model (ai_engine_unload) frees what the model owns and leaves the
  * row; dyn_count() does not go back down. Budget capacity per BOOT, not per use.
  *

@@ -73,6 +73,7 @@ static char s_env_buf[96];
 #endif
 #if BSP_HAS_CAPSENSE
 static char s_controls_buf[96];
+static char s_controls_prev[96];
 #endif
 static char s_joy_buf[96];
 #if BSP_HAS_RADAR
@@ -180,6 +181,9 @@ lv_obj_t *page_dashboard_create(void)
 {
     memset(&s_ctx, 0, sizeof(s_ctx));
     s_joy_prev[0] = '\0';
+#if BSP_HAS_CAPSENSE
+    s_controls_prev[0] = '\0';   /* a re-created label repaints on the first sample */
+#endif
 #if BSP_HAS_RADAR
     s_radar_prev[0] = '\0';
 #endif
@@ -447,8 +451,13 @@ void page_dashboard_render(sensorhub_snapshot_t *snap)
                  snap->capsense.btn0_pressed ? "ON" : "OFF",
                  snap->capsense.btn1_pressed ? "ON" : "OFF",
                  (unsigned)snap->capsense.slider);
-        lv_label_set_text(s_ctx.controls_label, s_controls_buf);
-        any_update = true;
+        /* capsense_changed is a sequence flag (true on every 200 ms sample),
+         * not a value flag: compare the text, as the joystick label does. */
+        if (strcmp(s_controls_buf, s_controls_prev) != 0) {
+            lv_label_set_text(s_ctx.controls_label, s_controls_buf);
+            memcpy(s_controls_prev, s_controls_buf, sizeof(s_controls_prev));
+            any_update = true;
+        }
     }
 #endif
 
