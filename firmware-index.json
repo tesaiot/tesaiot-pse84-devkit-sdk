@@ -95,7 +95,7 @@
       "file": "bento-c-only-devkit__KIT_PSE84_AI__v1.13.0.hex",
       "sha256": "4740ca2405f6df7257e7f43634f4e4bdca5b0420195fc8bec3fd82459b2ff9d6",
       "status": "OK",
-      "description": "C-only (ModusToolbox) build — same drivers and UI, no Python VM. For students building the C template.",
+      "description": "Superseded by 1.13.1: C-only (ModusToolbox) build — same drivers and UI, no Python VM. For students building the C template.",
       "release_tag": "fw-c-only-v1.13.0",
       "board_source": "fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400), 2026-10-10 21:24 and 23:02, immediately before flashing build 2a10a942; the published build differs from that build by the Siren, Cough and Factory Alarm models and one on-screen text, and was not itself flashed",
       "board_verified": true
