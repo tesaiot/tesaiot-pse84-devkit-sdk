@@ -70,12 +70,7 @@
 #define POT_FULL_SCALE_MV  (1800)
 
 /* Printed labels of the two base-board push-buttons, by the pin each one
- * pulls low. Source: the QWA309 B1 assembly drawing, which prints SW6 above
- * P17.5 (upper button) and SW5 above P17.7 (lower button). There is no V3.1
- * assembly drawing; the V3.1 pinout picture shows the same order (SW6 above
- * SW5), but that picture is wrong in other places, and no V3.1 board has been
- * read for these labels. The pins are certain; if a V3.1 silkscreen differs,
- * change this pair only. */
+ * pulls low: SW6 on P17.5 (upper button) and SW5 on P17.7 (lower button). */
 #define QWA309_BTN_LABEL_P17_5   "SW6"
 #define QWA309_BTN_LABEL_P17_7   "SW5"
 
@@ -108,7 +103,7 @@ static const char *s_ind_names[IND_COUNT] = {
 static const char s_notes_text[] =
     "SW1-SW4 are read by the CapSense controller (PSoC 4000T), not the E84; "
     "the E84 sees them only through its I2C answer at 0x08, protocol 0x0D or "
-    "newer. The power and function slide switches cannot be read by "
+    "0x0E. The power and function slide switches cannot be read by "
     "firmware. This page reconfigures P17.5 as an input with a pull-up; the "
     "USB-host VBUS enable shares that pin. The CapSense controller is probed "
     "once at start-up: after switching SW12 ON, restart the board.";
@@ -714,7 +709,7 @@ static void render_sw14(const cm55_capsense_info_t *caps)
 
     if (now == SW14_SHOWN_NEEDS_0D) {
         snprintf(s_sw14_buf, sizeof(s_sw14_buf),
-                 "SW1-SW4: needs CapSense firmware 0x0D or newer");
+                 "SW1-SW4: needs CapSense firmware 0x0D or 0x0E");
     } else if (now == SW14_SHOWN_NO_LINK) {
         snprintf(s_sw14_buf, sizeof(s_sw14_buf),
                  "SW1-SW4: no CapSense link");

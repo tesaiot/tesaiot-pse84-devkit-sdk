@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">ชื่อที่พิมพ์  </th><th class="markdownTableHeadNone">refdes  </th><th class="markdownTableHeadNone">ชนิด  </th><th class="markdownTableHeadNone">ต่อเข้า  </th><th class="markdownTableHeadNone">เฟิร์มแวร์อ่านอย่างไร  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW1  </td><td class="markdownTableBodyNone">SW5  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone">ขา P2.5 ของตัวควบคุม CapSense  </td><td class="markdownTableBodyNone">ผ่านตัวควบคุมเท่านั้น และเฉพาะเมื่อเฟิร์มแวร์ของมันใช้ protocol 0x0D ขึ้นไป  </td></tr>
+<td class="markdownTableBodyNone">SW1  </td><td class="markdownTableBodyNone">SW5  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone">ขา P2.5 ของตัวควบคุม CapSense  </td><td class="markdownTableBodyNone">ผ่านตัวควบคุมเท่านั้น และเฉพาะเมื่อเฟิร์มแวร์ของมันใช้ protocol 0x0D หรือ 0x0E  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">SW2  </td><td class="markdownTableBodyNone">SW6  </td><td class="markdownTableBodyNone">ปุ่มกด  </td><td class="markdownTableBodyNone">ขา P3.0 ของตัวควบคุม  </td><td class="markdownTableBodyNone">เหมือนข้างบน  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__j7__qwa
 <p>บรรทัดสถานะของหน้า GPIO &amp; RGB Matrix บอกได้ว่าอยู่ในกรณีใด:</p>
 <ul>
 <li><b>"no answer at 0x08"</b> — ตัวควบคุมไม่ตอบตอนเริ่มระบบ เลื่อน SW12 ไปที่ ON และ <b>รีสตาร์ตบอร์ด</b> เพราะเฟิร์มแวร์ถามหาตัวควบคุมเพียงครั้งเดียวตอนเริ่มระบบ</li>
-<li><b>"legacy 3-byte firmware"</b> — ปุ่มสัมผัสและ slider ใช้ได้ แต่ SW1 ถึง SW4 ต้องใช้เฟิร์มแวร์ของตัวควบคุมรุ่น 0x0D ขึ้นไป</li>
+<li><b>"legacy 3-byte firmware"</b> — ปุ่มสัมผัสและ slider ใช้ได้ แต่ SW1 ถึง SW4 ต้องใช้เฟิร์มแวร์ของตัวควบคุมที่ใช้ protocol 0x0D หรือ 0x0E</li>
 <li><b>"protocol 0x0D" หรือ "protocol 0x0E"</b> — ใช้ได้ทุกอย่าง</li>
 </ul>
 <p>การ flash E84 ใหม่แก้ปัญหาที่ตัวควบคุมไม่ได้ และในทางกลับกัน การเปลี่ยนเฟิร์มแวร์ของตัวควบคุมก็เปลี่ยนสิ่งที่หน้าจอแสดงได้ แม้ E84 จะยังรันอิมเมจเดิม</p>

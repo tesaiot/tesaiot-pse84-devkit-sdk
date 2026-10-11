@@ -73,7 +73,7 @@ typedef struct {
 /** Fill *out from the last CapSense read. CM55 only; call from the GFX task,
  *  the task that performs the reads. Returns false only when out is NULL.
  *  The probe runs once at start-up: a controller that did not answer then
- *  (SW12 OFF, or a B1 board with no link) stays unanswered until reset. */
+ *  (SW12 OFF) stays unanswered until reset. */
 bool cm55_capsense_info(cm55_capsense_info_t *out);
 
 #endif /* CM55_SENSOR_POLL_H */

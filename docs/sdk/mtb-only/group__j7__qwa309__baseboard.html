@@ -147,7 +147,7 @@ Inputs a user presses or slides</h1>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Printed  </th><th class="markdownTableHeadNone">Refdes  </th><th class="markdownTableHeadNone">Kind  </th><th class="markdownTableHeadNone">Wired to  </th><th class="markdownTableHeadNone">How firmware reads it  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SW1  </td><td class="markdownTableBodyNone">SW5  </td><td class="markdownTableBodyNone">push-button  </td><td class="markdownTableBodyNone">CapSense controller pin P2.5  </td><td class="markdownTableBodyNone">only through the controller, and only when its firmware speaks protocol 0x0D or newer  </td></tr>
+<td class="markdownTableBodyNone">SW1  </td><td class="markdownTableBodyNone">SW5  </td><td class="markdownTableBodyNone">push-button  </td><td class="markdownTableBodyNone">CapSense controller pin P2.5  </td><td class="markdownTableBodyNone">only through the controller, and only when its firmware speaks protocol 0x0D or 0x0E  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">SW2  </td><td class="markdownTableBodyNone">SW6  </td><td class="markdownTableBodyNone">push-button  </td><td class="markdownTableBodyNone">controller pin P3.0  </td><td class="markdownTableBodyNone">as above  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -238,7 +238,7 @@ When CapSense shows nothing</h1>
 <p>The status line of the GPIO &amp; RGB Matrix page tells you which case you are in:</p>
 <ul>
 <li><b>"no answer at 0x08"</b> — the controller did not answer at start-up. Slide SW12 to ON and <b>restart the board</b>: firmware probes for the controller once, at start-up.</li>
-<li><b>"legacy 3-byte firmware"</b> — touch buttons and slider work, but SW1 to SW4 need controller firmware 0x0D or newer.</li>
+<li><b>"legacy 3-byte firmware"</b> — touch buttons and slider work, but SW1 to SW4 need controller firmware protocol 0x0D or 0x0E.</li>
 <li><b>"protocol 0x0D" or "protocol 0x0E"</b> — everything is available.</li>
 </ul>
 <p>Reflashing the E84 cannot fix a problem in the controller. The other way round, changing the controller's firmware changes what the page shows even when the E84 still runs the same image.</p>

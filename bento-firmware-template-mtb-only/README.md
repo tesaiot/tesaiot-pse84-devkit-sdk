@@ -42,7 +42,7 @@ heartbeat บนพอร์ต USB serial ของ KitProg3 (115200 8N1) ห�
 ## 2. การได้มา: ไฟล์ zip ของ release หรือ clone แล้วเติม `lib/`
 
 **ไฟล์ zip ของ release คือแพ็กเกจที่ครบ** ดาวน์โหลด
-`bento-firmware-template-mtb-only.zip` จาก release `fw-c-only-v1.13.0` ของ
+`bento-firmware-template-mtb-only.zip` จาก release `fw-c-only-v1.13.1` ของ
 [tesaiot/tesaiot-pse84-devkit-sdk](https://github.com/tesaiot/tesaiot-pse84-devkit-sdk/releases)
 แตกไฟล์ แล้วตรวจไลบรารีก่อนทำอย่างอื่น:
 
@@ -213,8 +213,7 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
   รายงานผ่าน I2C ที่ address 0x08 และรายงานได้เฉพาะเฟิร์มแวร์ของมันที่ใช้ protocol 0x0D
   หรือ 0x0E การเชื่อมต่อต้องเปิด SW12 แล้วเริ่มระบบใหม่
   การถอดรหัสทดสอบบนเครื่องคอมพิวเตอร์เท่านั้น เพราะไม่มีบอร์ดที่มี
-  เฟิร์มแวร์นั้น หน้า GPIO & RGB Matrix บอกว่าพบเฟิร์มแวร์แบบใด (ข้อความบนจอเขียนว่า
-  "0x0D or newer" แต่รับเฉพาะ 0x0D และ 0x0E)
+  เฟิร์มแวร์นั้น หน้า GPIO & RGB Matrix บอกว่าพบเฟิร์มแวร์แบบใด
 - **ชื่อที่พิมพ์บนบอร์ดกับชื่อใน schematic ไม่ตรงกัน** สำหรับสวิตช์ทุกตัวที่ผู้ใช้กด
   บทนั้นให้ทั้งสองชื่อ
 
@@ -267,7 +266,9 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
   ไว้ ไม่ได้อนุญาตต่อ หากจะใช้ในสินค้าให้ตกลงกับ Infineon ก่อน
   (`proj_cm55/modules/ai_models/README.md`)
 
-## 9. สิ่งใหม่ในรุ่น 1.12.0
+## 9. สิ่งใหม่ในรุ่น 1.13.1
+
+การเปลี่ยนแปลงนับจากรุ่น 1.11.0 ในรุ่น 1.12.0, 1.13.0 และ 1.13.1:
 
 - **หน้า GPIO & RGB Matrix:** ชื่อขากำกับทุกอินพุต ลูกบิดแสดงเป็น mV (0 ถึง 1800)
   และค่า raw สถานะการเชื่อมต่อ CapSense และ SW1-SW4 เมื่อตัวควบคุม CapSense ใช้
@@ -278,4 +279,6 @@ template นี้มี ready model ของ Siren, Cough และ Factory Al
   เซนเซอร์นั้นไปตลอดการบูต
 - **เอกสาร:** บทใหม่ J7 เรื่องบอร์ดฐาน QWA309, README ฉบับนี้พร้อมภาพทุกหน้าและแผนผังขาของบอร์ดฐาน และวิธีใช้ clone กับ
   zip ข้างต้น
+- **ข้อความบนจอ:** คำแนะนำเรื่อง CapSense ในหน้า GPIO & RGB Matrix ระบุ SW12 และเฟิร์มแวร์
+  CapSense ที่ใช้ protocol 0x0D หรือ 0x0E
 - archive ทั้ง 5 ไฟล์ใน `lib/` ไม่เปลี่ยนจากรุ่น 1.11.0

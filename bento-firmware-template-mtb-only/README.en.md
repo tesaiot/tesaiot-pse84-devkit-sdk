@@ -43,7 +43,7 @@ variant writes, so a board can move between the two without losing them.
 ## 2. Getting it: the release zip, or a clone plus `lib/`
 
 **The release zip is the complete package.** Download
-`bento-firmware-template-mtb-only.zip` from the `fw-c-only-v1.13.0` release of
+`bento-firmware-template-mtb-only.zip` from the `fw-c-only-v1.13.1` release of
 [tesaiot/tesaiot-pse84-devkit-sdk](https://github.com/tesaiot/tesaiot-pse84-devkit-sdk/releases),
 unzip it, and check the archives before anything else:
 
@@ -223,8 +223,7 @@ Read it before you wire anything. Three points from it:
   firmware protocol 0x0D or 0x0E reports them. The link needs SW12 ON and a
   restart. The decoding was tested on the host
   only, because no board with that firmware was available. The GPIO & RGB
-  Matrix page says which firmware it found (its on-screen text says "0x0D or
-  newer"; it accepts only 0x0D and 0x0E).
+  Matrix page says which firmware it found.
 - **Printed labels and schematic designators differ** for every user switch.
   The chapter gives both.
 
@@ -279,7 +278,9 @@ through each of these with code taken from this tree.
   credited here, not licensed on; settle any product use with Infineon first
   (`proj_cm55/modules/ai_models/README.md`).
 
-## 9. New in 1.12.0
+## 9. New in 1.13.1
+
+Changes since 1.11.0, across 1.12.0, 1.13.0 and 1.13.1:
 
 - **GPIO & RGB Matrix page:** the pin beside every input, the knobs in mV
   (0 to 1800) as well as raw, the CapSense link state, and SW1-SW4 when the
@@ -292,4 +293,6 @@ through each of these with code taken from this tree.
 - **Documentation:** a new chapter, J7, on the QWA309 base board; this README,
   with pictures of every page and the base-board pinout diagram; and the
   clone-versus-zip instructions above.
+- **On-screen text:** the CapSense hints on the GPIO & RGB Matrix page name
+  SW12 and CapSense firmware 0x0D or 0x0E.
 - The five archives in `lib/` are unchanged from 1.11.0.

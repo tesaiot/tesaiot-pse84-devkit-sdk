@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-10T23:49:32Z",
+  "generated_at": "2026-10-11T00:35:30Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -98,6 +98,20 @@
       "description": "C-only (ModusToolbox) build — same drivers and UI, no Python VM. For students building the C template.",
       "release_tag": "fw-c-only-v1.13.0",
       "board_source": "fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400), 2026-10-10 21:24 and 23:02, immediately before flashing build 2a10a942; the published build differs from that build by the Siren, Cough and Factory Alarm models and one on-screen text, and was not itself flashed",
+      "board_verified": true
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MTB-DEVKIT",
+      "firmware_uuid": "334a0945-046a-5cde-8d0c-af5340af63c2",
+      "firmware_version": "1.13.1",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-c-only-devkit__KIT_PSE84_AI__v1.13.1.hex",
+      "sha256": "035e4f286d980e9bd06f57aaa7e370ef568cb2e52ad8fbef606773fda6c70f27",
+      "status": "OK",
+      "description": "C-only (ModusToolbox) build — same drivers and UI, no Python VM. For students building the C template.",
+      "release_tag": "fw-c-only-v1.13.1",
+      "board_source": "fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400), 2026-10-10 21:24 and 23:02, immediately before flashing build 2a10a942; the published build differs from that build by the Siren, Cough and Factory Alarm models and two on-screen texts, and was not itself flashed",
       "board_verified": true
     },
     {
