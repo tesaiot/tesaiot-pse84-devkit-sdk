@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-14T13:32:49Z",
+  "generated_at": "2026-10-15T06:33:20Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -276,10 +276,24 @@
       "firmware_version": "2.5.4",
       "release": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-14; KitProg3 0D0F1398012D2400 on a TESAIoT Dev Kit reports KIT_PSE84_AI (read 2026-10-14); this exact hex was flashed and tested on that board 2026-10-14 20:28-20:33",
-      "description": "MicroPython on the board - use this one. Pictures drawn by a program (ui.Image) can be up to 128 x 128 (was 48) and can be sent in pieces from a file with set_image(buf, offset); ui.IMAGE_MAX tells the limit. Pictures whose width is not a multiple of 16 no longer come out slanted, and large pictures no longer lose stripes. The Playground Delete also stops a program that hangs. Everything else is the same as 2.5.2.",
+      "description": "Superseded by 2.5.6. Everything in 2.5.4 (128 x 128 pictures, set_image in pieces, the Playground Delete button) is carried into 2.5.6.",
       "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.5.4.hex",
       "sha256": "60287a668109291104830da5f937ee37b7507ed8f0d558a63df7280e95f3d1fc",
       "release_tag": "fw-mpy-v2.5.4",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "2.5.6",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-15; KitProg3 0D0F1398012D2400 on a TESAIoT Dev Kit reports KIT_PSE84_AI (read 2026-09-27); this exact hex was flashed and gate-tested on that board 2026-10-15",
+      "description": "MicroPython on the board - use this one. The board no longer freezes when MicroPython runs out of memory at a moment it cannot recover from: it restarts by itself and skips /main.py once, so BENTO IDE can send a new program with no button and no replug. Programs upload about four times faster, and a failed upload leaves the old files intact. 160 KB for MicroPython (was 64 KB), so picture-heavy Smart HMI screens no longer run out of memory. Also carries the 2.5.5 changes: the screen draws only what changed, and Thai text defaults to 20 px.",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.5.6.hex",
+      "sha256": "975beade359f08992a4cbba6192c7ff98eabfcb585aa4786ee1c453a5fc5864a",
+      "release_tag": "fw-mpy-v2.5.6",
       "status": "OK"
     }
   ]
