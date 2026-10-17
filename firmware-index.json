@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-15T07:54:35Z",
+  "generated_at": "2026-10-17T01:11:51Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -304,10 +304,24 @@
       "firmware_version": "2.5.7",
       "release": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-15; KitProg3 0D0F1398012D2400 on a TESAIoT Dev Kit reports KIT_PSE84_AI (read 2026-09-27); this exact hex was flashed and gate-tested on that board 2026-10-15",
-      "description": "MicroPython on the board - use this one. A damaged model file in /models no longer stops every saved Edge AI model from coming back after a restart: the board skips that one file. Model files from the Edge AI Store are saved under a temporary name and renamed when complete again, so a power cut cannot leave half a model. Everything else is the same as 2.5.6 (no freeze when MicroPython runs out of memory, faster program upload, 160 KB for MicroPython).",
+      "description": "Superseded by 2.5.8. Everything in 2.5.7 is carried into 2.5.8.",
       "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.5.7.hex",
       "sha256": "9dd9da8ddc1a246c110ef03d6e994312984028817e25d2c9937d5b8c1ecc3d74",
       "release_tag": "fw-mpy-v2.5.7",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "2.5.8",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-17; KitProg3 0D0F1398012D2400 on a TESAIoT Dev Kit reports KIT_PSE84_AI (read 2026-09-27); this exact hex was flashed (openocd verified) and boot-checked on that board 2026-10-17",
+      "description": "MicroPython on the board - use this one. Saving files is faster and safer: a 4 KB write takes about 20 ms instead of 90 ms, renaming a file in a full folder takes under a second instead of 12 s, and a flash write the display core does not answer is retried instead of becoming a broken file. The first start after the update reorganises the file system once (about 10 s); every file is kept. A full-screen program shows the start splash until it is ready, so a screen with many pictures appears whole. Large files go to the board in 4 KB chunks. Everything else is the same as 2.5.7.",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.5.8.hex",
+      "sha256": "2f66f64eb28d431f0f44bb97ef0b2445e784a03d803f97e554e3acd47aeea769",
+      "release_tag": "fw-mpy-v2.5.8",
       "status": "OK"
     }
   ]
