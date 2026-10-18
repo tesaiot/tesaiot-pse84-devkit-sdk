@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-17T12:25:30Z",
+  "generated_at": "2026-10-18T12:15:20Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -332,11 +332,26 @@
       "firmware_version": "2.5.9",
       "release": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-17; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27, and 2026-10-10 21:24 and 23:02); this exact hex was flashed (openocd verified) and boot-checked on that board 2026-10-17 19:21",
-      "description": "MicroPython on the board - use this one. Touch is more reliable: a press that slides off a button is cancelled, a swipe is no longer a click, and a lost touch ends the press instead of clicking. The screen answers at once (an idle ui.poll() takes about 1 ms instead of about 200 ms) and refreshes every 33 ms, line charts draw without dots, and the temperature sensor is corrected for the board's own heat (11.0 C), so a room no longer reads 44 C. Everything else is the same as 2.5.8.",
+      "description": "Superseded by 2.6.0. Everything in 2.5.9 is carried into 2.6.0.",
       "board_verified": true,
       "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.5.9.hex",
       "sha256": "58fbc352c3a48c3e9550a3c3def751ab187d63ce2824a82418bf31c6ca91915c",
       "release_tag": "fw-mpy-v2.5.9",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "2.6.0",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-18; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27, and 2026-10-10 21:24 and 23:02); this exact hex was flashed (openocd verified) and boot-checked on that board 2026-10-18 19:11",
+      "description": "MicroPython on the board - use this one. New: ui.background(path) shows one full-screen 800x480 JPEG photo behind every widget, decoded once, so a clock or label on top updates without redrawing the photo. Use a baseline JPEG of exactly 800x480, up to 128 KB; a wrong file raises an error before anything is drawn. Everything else is the same as 2.5.9.",
+      "board_verified": true,
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.6.0.hex",
+      "sha256": "0e5c362f85f2ee22541c6097953f967d43a5ac6de675de44c874aac646c3a2c5",
+      "release_tag": "fw-mpy-v2.6.0",
       "status": "OK"
     }
   ]
