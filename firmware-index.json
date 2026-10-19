@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-19T02:10:36Z",
+  "generated_at": "2026-10-19T03:00:25Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -362,11 +362,26 @@
       "firmware_version": "2.6.1",
       "release": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-19; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27, and 2026-10-10 21:24 and 23:02); this exact hex was flashed (openocd verified) and boot-checked on that board 2026-10-19 09:08",
-      "description": "MicroPython on the board - use this one. Fixed: with Auto Start on, a /main.py that is empty, or ends before it draws anything, now lands on Home instead of showing \"The program did not start\" until tapped. Everything else is the same as 2.6.0.",
+      "description": "Superseded by 2.6.2. Everything in 2.6.1 is carried into 2.6.2.",
       "board_verified": true,
       "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.6.1.hex",
       "sha256": "bcd53c519f4a16e33ec4c9f7a2ac204bb730444dc4bd2120c0b8852ad1f6c837",
       "release_tag": "fw-mpy-v2.6.1",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "2.6.2",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-19; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27, and 2026-10-10 21:24 and 23:02); this exact hex was flashed (openocd verified) and boot-checked on that board 2026-10-19 09:58",
+      "description": "MicroPython on the board - use this one. The SHT40 room temperature is recalibrated: 2.6.1 read about 2.7 C above the room, 2.6.2 subtracts 13.7 C instead of 11.0 C. Everything else is the same as 2.6.1.",
+      "board_verified": true,
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.6.2.hex",
+      "sha256": "8d2700eac8ba477849e05df5fd70a1fbdcf7df1e5bee0baa0883c1f8f75e2097",
+      "release_tag": "fw-mpy-v2.6.2",
       "status": "OK"
     }
   ]
