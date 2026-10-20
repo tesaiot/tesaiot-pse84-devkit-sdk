@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-19T03:00:25Z",
+  "generated_at": "2026-10-20T11:12:52Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -377,11 +377,26 @@
       "firmware_version": "2.6.2",
       "release": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-19; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27, and 2026-10-10 21:24 and 23:02); this exact hex was flashed (openocd verified) and boot-checked on that board 2026-10-19 09:58",
-      "description": "MicroPython on the board - use this one. The SHT40 room temperature is recalibrated: 2.6.1 read about 2.7 C above the room, 2.6.2 subtracts 13.7 C instead of 11.0 C. Everything else is the same as 2.6.1.",
+      "description": "Superseded by 2.6.3. Everything in 2.6.2 is carried into 2.6.3.",
       "board_verified": true,
       "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.6.2.hex",
       "sha256": "8d2700eac8ba477849e05df5fd70a1fbdcf7df1e5bee0baa0883c1f8f75e2097",
       "release_tag": "fw-mpy-v2.6.2",
+      "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "family": "CLAW",
+      "board": "KIT_PSE84_AI",
+      "firmware_version": "2.6.3",
+      "release": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True; read with read_fw_identity.py 2026-10-20; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27, and 2026-10-10 21:24 and 23:02); a bench build of the same sources was flashed (openocd verified, boot image read back) and tested through the live IDE on that board 2026-10-20 17:37-18:12",
+      "description": "MicroPython on the board - use this one. The board no longer stays on a black screen after a debugger has been attached: 2.6.2 could stop at the next reset (Program, machine.reset()) until it was unplugged. Everything else is the same as 2.6.2.",
+      "board_verified": true,
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.6.3.hex",
+      "sha256": "adbaacf9125aaa596c5c202cc661f509e6bc0032ca06c13d6a16547e3bb1db66",
+      "release_tag": "fw-mpy-v2.6.3",
       "status": "OK"
     }
   ]
