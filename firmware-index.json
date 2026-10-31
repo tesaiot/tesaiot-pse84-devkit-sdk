@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-31T09:56:43Z",
+  "generated_at": "2026-10-31T10:01:31Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -411,7 +411,7 @@
       "release": true,
       "board_verified": true,
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True, read with read_fw_identity.py 2026-10-30; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27); this exact image was on that board and tested through the live IDE 2026-10-31 06:32-16:53",
-      "description": "MicroPython on the board - use this one. Runs C programs from the BENTO IDE as well as Python, and the on-screen Delete and the IDE Stop button always work. Known: the board can take about 40 s to answer an IDE command; to be fixed in 2.7.1.",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Build touch-screen apps, games, Smart HMI and Edge AI, connect over Wi-Fi and MQTT, with 60 GHz radar and OPTIGA Trust M security on board.",
       "release_tag": "fw-mpy-v2.7.0"
     }
   ]
