@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-31T11:31:50Z",
+  "generated_at": "2026-10-31T13:13:31Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -428,6 +428,21 @@
       "board_source": "firmware identity record (0x60900000), CRC-stamped release=True, verified by release_fw.sh 2026-10-31; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27); this exact image was flashed on that board and tested through the live IDE 2026-10-31 18:20-18:30",
       "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Build touch-screen apps, games, Smart HMI and Edge AI, connect over Wi-Fi and MQTT, with 60 GHz radar and OPTIGA Trust M security on board.",
       "release_tag": "fw-mpy-v2.7.1"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.7.2",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.7.2.hex",
+      "sha256": "e53fc7c30f1776dac7d150761c2ed069c9112dca2214a19df794e57e0bb9fc5a",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True, verified by release_fw.sh 2026-10-31; fw-loader --info on the bench Dev Kit (KitProg3 0D0F1398012D2400) reports KIT_PSE84_AI (read 2026-09-27); this exact image was flashed on that board and tested through the live IDE 2026-10-31 19:26-20:12",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both, now with pictures and files in C too. Build touch-screen apps, games, Smart HMI and Edge AI, connect over Wi-Fi and MQTT, with 60 GHz radar and OPTIGA Trust M security on board.",
+      "release_tag": "fw-mpy-v2.7.2"
     }
   ]
 }
