@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-02T04:30:49Z",
+  "generated_at": "2026-11-05T14:22:08Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -458,6 +458,21 @@
       "sha256": "5c01b92cad020a1b09f99184a93a336f9a47b9cc5a3e395562b580472dbe9a03",
       "release_tag": "fw-mpy-v2.7.3",
       "status": "OK"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.7.4",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.7.4.hex",
+      "sha256": "429ff71020250017b23e076410ad376c5e341e996a6f8869d06ef3f4ff32f5fd",
+      "status": "OK",
+      "release": true,
+      "board_verified": false,
+      "board_source": "firmware identity record (0x60900000), CRC-stamped release=True, verified by release_fw.sh 2026-11-05; this exact image was flashed on a TESAIoT Dev Kit (KitProg3 1D091999012D2400) and programmed through the live IDE 2026-11-05 13:30-13:54; fw-loader --info was not read on that board",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both, now with an on-screen volume slider and smooth animations from a single call. Build touch-screen apps, games, Smart HMI and Edge AI, connect over Wi-Fi and MQTT, with 60 GHz radar on board.",
+      "release_tag": "fw-mpy-v2.7.4"
     }
   ]
 }
