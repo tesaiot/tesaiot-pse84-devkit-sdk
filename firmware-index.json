@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-05T16:31:21Z",
+  "generated_at": "2026-11-05T18:22:05Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -488,6 +488,21 @@
       "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read 2026-11-05 23:30; this exact image flashed on that board and programmed through the live IDE 2026-11-05 23:24-23:29",
       "description": "Code in MicroPython or C - one BENTO API, the same examples in both, with faster Python, an on-screen volume slider and smooth animations from a single call. Build touch-screen apps, games, Smart HMI and Edge AI, connect over Wi-Fi and MQTT, with 60 GHz radar on board.",
       "release_tag": "fw-mpy-v2.7.5"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.7.6",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.7.6.hex",
+      "sha256": "082e739b5d5f10b957c75e4b7a9db0671fa6105c63fa1e5bda03db7cd2a8a968",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read 2026-11-05 23:30; this exact image flashed on that board and programmed through the live IDE 2026-11-06 01:17-01:21",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both, with faster Python, an on-screen volume slider and smooth animations from a single call. Build touch-screen apps, games, Smart HMI and Edge AI, connect over Wi-Fi and MQTT, with 60 GHz radar on board.",
+      "release_tag": "fw-mpy-v2.7.6"
     }
   ]
 }
