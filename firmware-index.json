@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-06T02:50:06Z",
+  "generated_at": "2026-11-08T06:57:27Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -518,6 +518,21 @@
       "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read 2026-11-05 23:30; this exact image flashed on that board and gated 2026-11-06 09:16-09:47, including Program through the live IDE",
       "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Send data to TESAIoT the moment you connect, push whole pictures to the screen in one step, and build touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
       "release_tag": "fw-mpy-v2.7.7"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.7.8",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.7.8.hex",
+      "sha256": "e331df5fd841cebc9cdbbac8be8ea67031c6a185fb737e097b47c887685b2b4b",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read 2026-11-05 23:30; this exact image flashed on that board and gated 2026-11-08 13:20-13:55, including Program through the live IDE",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Now talks Modbus TCP over Wi-Fi to PLCs and industrial devices, plus touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
+      "release_tag": "fw-mpy-v2.7.8"
     }
   ]
 }
