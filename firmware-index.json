@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-09T05:12:04Z",
+  "generated_at": "2026-11-09T10:49:28Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -563,6 +563,21 @@
       "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read 2026-11-05 23:30 and again 2026-11-09 12:0x; this exact image flashed on that board and gated 2026-11-09 11:51-12:11, including Program through the IDE",
       "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Clean gauges with knob-free arcs, MQTT messages up to 512 bytes, smooth one-frame screens, Modbus TCP to PLCs, plus touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
       "release_tag": "fw-mpy-v2.7.10"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.11.0",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.11.0.hex",
+      "sha256": "2f80307ed312ff9abe2584d8cc6095fb2f3b678649a108032b2502b9276b05d7",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "KitProg3 0D18033C03272400 fw-loader --info reports KIT_PSE84_EVAL, read by bento-runtime 2026-11-09 17:47:59 +07 on the bench Eva that gated this exact image (GATE_1110, flashed with a 4 KB readback match); the firmware's own identity record declares KIT_EVAL_EPC2",
+      "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Send a new program even while one is running, publish to TESAIoT over TLS, MQTT messages up to 512 bytes and clean gauges with knob-free arcs, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
+      "release_tag": "fw-eva-mpy-v1.11.0"
     }
   ]
 }
