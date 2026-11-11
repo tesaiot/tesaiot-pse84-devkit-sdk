@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-09T10:49:28Z",
+  "generated_at": "2026-11-11T08:29:51Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
@@ -565,6 +565,21 @@
       "release_tag": "fw-mpy-v2.7.10"
     },
     {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.7.11",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.7.11.hex",
+      "sha256": "7e3ccc286350baff26874773df33d275a0f4089df8a251b507882f514199c7be",
+      "status": "OK",
+      "board_verified": true,
+      "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read by bento-runtime 2026-11-11 15:26:05 +07 on the Dev Kit that smoke-tested this exact image (SMOKE_7e3ccc28: flashed with a 4 KB readback match, booted 2.7.11, Program through the IDE)",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Read and write JSON and send a security report from C, degree and other symbols on screen, saved Wi-Fi kept and MQTT that reconnects after a broker restart, plus Modbus TCP to PLCs, microphone apps in C, touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
+      "release": true,
+      "release_tag": "fw-mpy-v2.7.11"
+    },
+    {
       "sku": "TESAIOT-CLAW-EPC2-MPY",
       "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
       "firmware_version": "1.11.0",
@@ -578,6 +593,21 @@
       "board_source": "KitProg3 0D18033C03272400 fw-loader --info reports KIT_PSE84_EVAL, read by bento-runtime 2026-11-09 17:47:59 +07 on the bench Eva that gated this exact image (GATE_1110, flashed with a 4 KB readback match); the firmware's own identity record declares KIT_EVAL_EPC2",
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Send a new program even while one is running, publish to TESAIoT over TLS, MQTT messages up to 512 bytes and clean gauges with knob-free arcs, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
       "release_tag": "fw-eva-mpy-v1.11.0"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.11.1",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.11.1.hex",
+      "sha256": "d821bf54837e205ca56f6085bdc053f04fa9f92712d392fe1e5c2705a27d65b2",
+      "status": "OK",
+      "board_verified": true,
+      "board_source": "KitProg3 0F1C187D031C2400 fw-loader --info reports KIT_PSE84_EVAL, read by bento-runtime 2026-11-11 15:26:06 +07 on the Eval Kit that smoke-tested this exact image (SMOKE_d821bf54: flashed with a 4 KB readback match, booted 1.11.1, one IDE upload); the firmware's own identity record declares KIT_EVAL_EPC2",
+      "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Talk to PLCs over Modbus TCP, record sound from C programs, read and write JSON and send a security report from C, degree and other symbols on screen, saved Wi-Fi kept and MQTT that reconnects after a broker restart, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
+      "release": true,
+      "release_tag": "fw-eva-mpy-v1.11.1"
     }
   ]
 }
