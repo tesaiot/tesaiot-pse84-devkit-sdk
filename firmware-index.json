@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-20T10:56:16Z",
+  "generated_at": "2026-11-20T17:01:33Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -595,6 +595,21 @@
       "release_tag": "fw-mpy-v2.7.11"
     },
     {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.7.12",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.7.12.hex",
+      "sha256": "f4fb25e2ffe568c752c6d246c0b344baa839267eb62d8bf7e26558d7e8360b0f",
+      "status": "OK",
+      "board_verified": true,
+      "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read by bento-runtime 2026-11-20 22:2x +07 on the TESAIoT Dev Kit that ran Gate 4 with this exact image (flashed with verified bytes, cold power-on 3 of 3)",
+      "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Read and write JSON and send a security report from C, degree and other symbols on screen, Wi-Fi entered on the screen is kept after power-off, plus Modbus TCP to PLCs, microphone apps in C, touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
+      "release": true,
+      "release_tag": "fw-mpy-v2.7.12"
+    },
+    {
       "sku": "TESAIOT-CLAW-EPC2-MPY",
       "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
       "family": "CLAW",
@@ -938,6 +953,21 @@
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Talk to PLCs over Modbus TCP, record sound from C programs, read and write JSON and send a security report from C, degree and other symbols on screen, saved Wi-Fi kept and MQTT that reconnects after a broker restart, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
       "release": true,
       "release_tag": "fw-eva-mpy-v1.11.1"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.11.2",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.11.2.hex",
+      "sha256": "3cbebd2ca4d6fc4ed41c226d75d85619f3223a287ef59b7e2a56673b4a15a7af",
+      "status": "OK",
+      "board_verified": true,
+      "board_source": "KitProg3 201610F9001E2400 fw-loader --info reports KIT_PSE84_EVAL, read by bento-runtime 2026-11-20 22:2x +07 on the Eval Kit that ran Gate 4 with this exact image (flashed with verified bytes, cold power-on 3 of 3)",
+      "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Talk to PLCs over Modbus TCP, record sound from C programs, read and write JSON and send a security report from C, degree and other symbols on screen, Wi-Fi entered on the screen is kept after power-off, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
+      "release": true,
+      "release_tag": "fw-eva-mpy-v1.11.2"
     }
   ]
 }
