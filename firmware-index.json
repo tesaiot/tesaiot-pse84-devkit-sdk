@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-22T04:54:45Z",
+  "generated_at": "2026-11-22T04:56:51Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -983,6 +983,21 @@
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Talk to PLCs over Modbus TCP, record sound from C programs, read and write JSON and send a security report from C, degree and other symbols on screen, Wi-Fi entered on the screen is kept after power-off, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
       "release": true,
       "release_tag": "fw-eva-mpy-v1.11.2"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.12.0",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.12.0.hex",
+      "sha256": "115ae1fca36be23464c5757150675e16b99a2f63c04ee374e8c45610c47df6ac",
+      "status": "OK",
+      "board_verified": false,
+      "board_source": "the same probe (KitProg3 201610F9001E2400) of the Eval Kit reported KIT_PSE84_EVAL on 2026-11-20 for the previous row; not read again for this release; the firmware's own identity record declares KIT_EVAL_EPC2",
+      "description": "Code in MicroPython or C on the PSoC Edge Eval Kit. New: the board's key lives in the CM33 secure core, pair with a BENTO Scene over TLS, enrol the key, and send Edge AI results signed by the secure core (needs the board clock set by NTP); a Security page on the Home screen; a script can no longer sign with the factory key. Includes the Wi-Fi fixes of the previous release.",
+      "release": true,
+      "release_tag": "fw-eva-mpy-v1.12.0"
     }
   ]
 }
