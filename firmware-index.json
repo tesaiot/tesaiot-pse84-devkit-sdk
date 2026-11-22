@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-20T17:01:33Z",
+  "generated_at": "2026-11-22T04:54:45Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -608,6 +608,21 @@
       "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Read and write JSON and send a security report from C, degree and other symbols on screen, Wi-Fi entered on the screen is kept after power-off, plus Modbus TCP to PLCs, microphone apps in C, touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
       "release": true,
       "release_tag": "fw-mpy-v2.7.12"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.8.0",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.8.0.hex",
+      "sha256": "844f5dbba8569526bdb46252a649c755dd7cef5e11a82a0e47261c49a4e0095b",
+      "status": "OK",
+      "board_verified": false,
+      "board_source": "firmware identity record (0x60900000) declares KIT_PSE84_AI; the probe of this Dev Kit (KitProg3 0D0F1398012D2400) reported KIT_PSE84_AI on 2026-11-20 for the previous row; not read again for this release",
+      "description": "Code in MicroPython or C on the TESAIoT Dev Kit. New: pair with a BENTO Scene over TLS, enrol a key made inside the chip, and send Edge AI results signed by the chip (needs the board clock set by NTP); a script can no longer sign with the factory key. Includes the Wi-Fi fixes of the previous release.",
+      "release": true,
+      "release_tag": "fw-mpy-v2.8.0"
     },
     {
       "sku": "TESAIOT-CLAW-EPC2-MPY",
