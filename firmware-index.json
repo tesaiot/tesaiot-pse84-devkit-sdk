@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-22T04:56:51Z",
+  "generated_at": "2026-11-23T06:40:08Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -625,6 +625,21 @@
       "release_tag": "fw-mpy-v2.8.0"
     },
     {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.8.1",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.8.1.hex",
+      "sha256": "6d6a3ecb6fb24fb69534f141553094067a0faaa740845788295a549ccfff9b49",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "fw-loader --info on KitProg3 0D0F1398012D2400 (the TESAIoT Dev Kit flashed with this exact hex, sha256 6d6a3ecb...) reported KIT_PSE84_AI on 2026-11-23 13:39 +07",
+      "description": "Code in MicroPython or C on the TESAIoT Dev Kit. New: a board paired with BENTO Scene over TLS can take its time from Scene, so it knows the time without the internet (needs BENTO Scene 0.5.2). After flashing, remove all cables for 10 seconds before judging the boot.",
+      "release_tag": "fw-mpy-v2.8.1"
+    },
+    {
       "sku": "TESAIOT-CLAW-EPC2-MPY",
       "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
       "family": "CLAW",
@@ -998,6 +1013,21 @@
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit. New: the board's key lives in the CM33 secure core, pair with a BENTO Scene over TLS, enrol the key, and send Edge AI results signed by the secure core (needs the board clock set by NTP); a Security page on the Home screen; a script can no longer sign with the factory key. Includes the Wi-Fi fixes of the previous release.",
       "release": true,
       "release_tag": "fw-eva-mpy-v1.12.0"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.12.1",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.12.1.hex",
+      "sha256": "65a45f9b29e3ea7ca57cb89be404bca056035b6cc81929045a34b79e6914fbd7",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "fw-loader --info on KitProg3 201610F9001E2400 (the Eval Kit flashed with this exact hex, sha256 65a45f9b...) reported KIT_PSE84_EVAL on 2026-11-23 13:39 +07; the firmware's own identity record declares KIT_EVAL_EPC2",
+      "description": "Code in MicroPython or C on the PSoC Edge Eval Kit. New: a board paired with BENTO Scene over TLS can take its time from Scene, so it knows the time without the internet (needs BENTO Scene 0.5.2). After flashing, remove all cables for 10 seconds before judging the boot.",
+      "release_tag": "fw-eva-mpy-v1.12.1"
     }
   ]
 }
