@@ -604,7 +604,7 @@
       "sha256": "f4fb25e2ffe568c752c6d246c0b344baa839267eb62d8bf7e26558d7e8360b0f",
       "status": "OK",
       "board_verified": true,
-      "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read by bento-runtime 2026-11-20 22:2x +07 on the TESAIoT Dev Kit that ran Gate 4 with this exact image (flashed with verified bytes, cold power-on 3 of 3)",
+      "board_source": "KitProg3 0D0F1398012D2400 fw-loader --info reports KIT_PSE84_AI, read 2026-11-20 22:2x +07 on the TESAIoT Dev Kit flashed with this exact image (flashed with verified bytes, cold power-on 3 of 3)",
       "description": "Code in MicroPython or C - one BENTO API, the same examples in both. Read and write JSON and send a security report from C, degree and other symbols on screen, Wi-Fi entered on the screen is kept after power-off, plus Modbus TCP to PLCs, microphone apps in C, touch-screen apps, games, Smart HMI and Edge AI over Wi-Fi and MQTT, with 60 GHz radar on board.",
       "release": true,
       "release_tag": "fw-mpy-v2.7.12"
@@ -994,7 +994,7 @@
       "sha256": "3cbebd2ca4d6fc4ed41c226d75d85619f3223a287ef59b7e2a56673b4a15a7af",
       "status": "OK",
       "board_verified": true,
-      "board_source": "KitProg3 201610F9001E2400 fw-loader --info reports KIT_PSE84_EVAL, read by bento-runtime 2026-11-20 22:2x +07 on the Eval Kit that ran Gate 4 with this exact image (flashed with verified bytes, cold power-on 3 of 3)",
+      "board_source": "KitProg3 201610F9001E2400 fw-loader --info reports KIT_PSE84_EVAL, read 2026-11-20 22:2x +07 on the Eval Kit flashed with this exact image (flashed with verified bytes, cold power-on 3 of 3)",
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit - one BENTO API, the same examples in both. Talk to PLCs over Modbus TCP, record sound from C programs, read and write JSON and send a security report from C, degree and other symbols on screen, Wi-Fi entered on the screen is kept after power-off, plus full-screen Smart HMI touch apps over Wi-Fi and MQTT.",
       "release": true,
       "release_tag": "fw-eva-mpy-v1.11.2"
