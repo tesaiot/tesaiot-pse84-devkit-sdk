@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-23T06:40:08Z",
+  "generated_at": "2026-11-24T08:48:24Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -1028,6 +1028,21 @@
       "board_source": "fw-loader --info on KitProg3 201610F9001E2400 (the Eval Kit flashed with this exact hex, sha256 65a45f9b...) reported KIT_PSE84_EVAL on 2026-11-23 13:39 +07; the firmware's own identity record declares KIT_EVAL_EPC2",
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit. New: a board paired with BENTO Scene over TLS can take its time from Scene, so it knows the time without the internet (needs BENTO Scene 0.5.2). After flashing, remove all cables for 10 seconds before judging the boot.",
       "release_tag": "fw-eva-mpy-v1.12.1"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.12.2",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.12.2.hex",
+      "sha256": "5c080c1bae4f30848c8ba47f1c74df6e6e8a3bccf9c5dc6c7752848b35478b44",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "fw-loader --info on KitProg3 201610F9001E2400 (the Eval Kit flashed with this exact hex, sha256 5c080c1b...) reported KIT_PSE84_EVAL on 2026-11-24 15:48 +07; the firmware's own identity record declares KIT_EVAL_EPC2",
+      "description": "Code in MicroPython or C on the PSoC Edge Eval Kit. Fixes the screen freeze after leaving the Smart Watch page, and releases a touch contact that stays stuck so tap and swipe recover without unplugging. After flashing, remove all cables for 10 seconds before judging the boot.",
+      "release_tag": "fw-eva-mpy-v1.12.2"
     }
   ]
 }
