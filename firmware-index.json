@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-24T13:50:34Z",
+  "generated_at": "2026-11-24T14:13:41Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -653,6 +653,21 @@
       "board_source": "fw-loader --info on KitProg3 0D0F1398012D2400 (the TESAIoT Dev Kit) reported KIT_PSE84_AI on 2026-11-24 17:33 +07; the board was flashed with this exact hex, sha256 ba44ef2d...",
       "description": "Code in MicroPython or C on the TESAIoT Dev Kit. Fixes the screen freeze when memory runs short on the Smart Watch page, and releases a touch contact that stays stuck so tap and swipe recover without unplugging. After flashing, remove all cables for 10 seconds before judging the boot.",
       "release_tag": "fw-mpy-v2.8.2"
+    },
+    {
+      "sku": "TESAIOT-CLAW-AI-MPY-DEVKIT",
+      "firmware_uuid": "39db58bd-f159-522d-8d48-377512c21df3",
+      "firmware_version": "2.8.3",
+      "board": "KIT_PSE84_AI",
+      "family": "CLAW",
+      "file": "bento-micropython-devkit__KIT_PSE84_AI__v2.8.3.hex",
+      "sha256": "f7089ab5256071285f92a00d7f69cdd6e18b1de12109afc262d3fbe2b8c70e9f",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "fw-loader --info on KitProg3 0D0F1398012D2400 (the board flashed with this exact hex, sha256 f7089ab5...) reported KIT_PSE84_AI on 2026-11-24 21:13 +07",
+      "description": "Dev Kit เฟิร์มแวร์ 2.8.3: แก้การสแกน Wi-Fi ครั้งแรกและการลบเครือข่ายที่บันทึกไว้",
+      "release_tag": "fw-mpy-v2.8.3"
     },
     {
       "sku": "TESAIOT-CLAW-EPC2-MPY",
