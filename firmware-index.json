@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-11-24T10:34:36Z",
+  "generated_at": "2026-11-24T13:50:34Z",
   "firmware": [
     {
       "sku": "TESAIOT-CLAW-AI-GAME",
@@ -1058,6 +1058,21 @@
       "board_source": "fw-loader --info on KitProg3 201610F9001E2400 (the Eval Kit flashed with this exact hex, sha256 5c080c1b...) reported KIT_PSE84_EVAL on 2026-11-24 15:48 +07; the firmware's own identity record declares KIT_EVAL_EPC2",
       "description": "Code in MicroPython or C on the PSoC Edge Eval Kit. Fixes the screen freeze after leaving the Smart Watch page, and releases a touch contact that stays stuck so tap and swipe recover without unplugging. After flashing, remove all cables for 10 seconds before judging the boot.",
       "release_tag": "fw-eva-mpy-v1.12.2"
+    },
+    {
+      "sku": "TESAIOT-CLAW-EPC2-MPY",
+      "firmware_uuid": "1b899225-533d-54c4-acae-d56188edb591",
+      "firmware_version": "1.12.3",
+      "board": "KIT_PSE84_EVAL",
+      "family": "CLAW",
+      "file": "tesaiot-claw-epc2-mpy__KIT_EVAL_EPC2__v1.12.3.hex",
+      "sha256": "84cfc9b4b4883686fab6c435ee88baaed7326432eb4c45b42e7e4dfc35b22893",
+      "status": "OK",
+      "release": true,
+      "board_verified": true,
+      "board_source": "fw-loader --info on KitProg3 201610F9001E2400 (the board flashed with this exact hex, sha256 84cfc9b4...) reported KIT_PSE84_EVAL on 2026-11-24 20:50 +07",
+      "description": "Eva Kit เฟิร์มแวร์ 1.12.3: แก้การสแกน Wi-Fi ครั้งแรกและการลบเครือข่ายที่บันทึกไว้",
+      "release_tag": "fw-eva-mpy-v1.12.3"
     }
   ]
 }
